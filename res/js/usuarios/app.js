@@ -1,0 +1,1 @@
+var administracion = angular.module("administracion",[]);
