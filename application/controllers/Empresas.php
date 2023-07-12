@@ -45,10 +45,11 @@ class Empresas extends CI_Controller
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
 			if(getPrivilegios()[0]['ver'] == 1)
 			{ 	
+				//var_dump($_SESSION['project']['info']);die();
 				//info Módulo
 				$infoModulo	      	   	= $this->logica->infoModulo($idModulo);
 				//informacion solo para el oficial de cumplimiento
-				if($_SESSION['project']['info']['idPerfil'] == 8){
+				if($_SESSION['project']['info']['idPerfil'] == 8 && $_SESSION['project']['info']['idEmpresa'] == 0){
 					$infoUsuario		   	= $_SESSION['project']['info']['nombre'];
 					$infoEmpresas		  	= $this->lgEmpresas->misEmpresas();
 					$opc 				   	= "home";
@@ -59,7 +60,19 @@ class Empresas extends CI_Controller
 					$salida['infoEmpresas'] = $infoEmpresas;
 					$this->load->view("app/index",$salida);
 				}
-				else{
+				if($_SESSION['project']['info']['idPerfil'] == 8 && $_SESSION['project']['info']['idEmpresa'] > 0){
+					$idEmpresa = $_SESSION['project']['info']['idEmpresa'];
+					$infoUsuario		   	= $_SESSION['project']['info']['nombre'];
+					$infoEmpresas		  	= $this->lgEmpresas->infoEmpresa($idEmpresa);
+					$opc 				   	= "home";
+					$salida['titulo']      	= "Empresas Creadas";
+					$salida['centro'] 	   	= "empresas/home";
+					$salida['infoModulo']  	= $infoModulo[0];
+					$salida['infoUsuario'] 	= $infoUsuario[0];
+					$salida['infoEmpresas'] = $infoEmpresas;
+					$this->load->view("app/index",$salida);
+				}
+				if($_SESSION['project']['info']['idPerfil'] < 4){
 					$infoUsuario		   	= $_SESSION['project']['info']['nombre'];
 					$infoEmpresas		  	= $this->lgEmpresas->infoEmpresas();
 					$opc 				   	= "home";
@@ -165,6 +178,46 @@ class Empresas extends CI_Controller
 		}
 		else{
             echo json_encode($crea); 
+		}
+	}
+	public function matrices($idModulo,$parametro)	
+	{
+		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
+		if(validaIngreso())
+		{
+			/*******************************************************************************************/
+			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
+			/*******************************************************************************************/
+			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
+			$_SESSION['moduloVisitado']		=	$idModulo;
+			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
+			if(getPrivilegios()[0]['ver'] == 1)
+			{ 
+				//info Módulo
+				$id =$parametro;
+				$infoModulo	      	   			= $this->logica->infoModulo($idModulo);
+				$MatricesCompradas		  		= $this->lgEmpresas->infoMatricesCompradas($id);
+				// var_dump($MatricesCompradas["datos"]);die();
+				$opc 				   			= "home";
+				$salida['titulo']      			= lang("titulo")." - ".$infoModulo[0]['nombreModulo'];
+				$salida['centro'] 	   			= "misMatrices/home";
+				$salida['infoModulo']  			= $infoModulo[0];
+				$salida['inforMiMatriz']    	= $MatricesCompradas;
+				$salida['infor']				= $MatricesCompradas["datos"];
+				$salida['infoEmpresa']    		= "";
+				$this->load->view("app/index",$salida);
+			}
+			else
+			{
+				$opc 				   = "home";
+				$salida['titulo']      = lang("titulo")." - Área Restringida";
+				$salida['centro'] 	   = "error/areaRestringida";
+				$this->load->view("app/index",$salida);
+			}
+		}
+		else
+		{
+			header('Location:'.base_url()."login");
 		}
 	}
 

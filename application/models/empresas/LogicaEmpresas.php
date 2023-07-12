@@ -127,5 +127,21 @@ class LogicaEmpresas  {
         }
         return $respuesta;
     }
+    //consulta Matrices Compradas.
+    public function infoMatricesCompradas($idEmpresa){
+        $where["c.idEmpresa"]   = $idEmpresa;
+        $infoMatriz                 = $this->ci->dbEmpresas->infoMatricesCompradas($where);
+        if(count($infoMatriz) > 0){
+            $respuesta = array("mensaje"=>"las matrices fueron consultadas.",
+                        "continuar"=>1,
+                        "datos"=>$infoMatriz);
+        }
+        else{
+            $respuesta = array("mensaje"=>"las matrices no fueron consultadas.",
+                        "continuar"=>0,
+                        "datos"=>"");
+        }
+        return $respuesta;
+    }
     
 }

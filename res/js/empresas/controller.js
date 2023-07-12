@@ -18,6 +18,9 @@ project.controller('empresas', function($scope,$http,$q,constantes)
 	$scope.buscaEmpresa =function(){
 		window.location = $scope.config.apiUrl+"BuscarEmpresas/consultaEmpresas";
 	}
+	$scope.matrices = function($id){
+		window.location = $scope.config.apiUrl+"Empresas/matrices/37/"+$id;
+	}
 
 	//crea modal formulario de relacion de empresa con oficial de cumplimiento.
 	$scope.relacionarEmpresa =function(){

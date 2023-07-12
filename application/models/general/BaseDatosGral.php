@@ -467,6 +467,39 @@ class BaseDatosGral extends CI_Model {
         //print_r($this->db->last_query());die();
         return $this->db->insert_id();
     }
+    //se obtienen las sugerencias
+    public function misSugerencias($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tablesugiereMatriz);//pedido temporal
+        $id = $this->db->get();
+        //print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //sugerencias por id
+    public function sugerenciaID($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tablesugiereMatriz." s");//pedido temporal
+        $this->db->join($this->tablePersonas." p","p.idPersona=s.idUsuario","INNER");
+        $id = $this->db->get();
+        //print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    public function sugerencias(){
+        $this->db->select("*");
+        $this->db->from($this->tablesugiereMatriz);//pedido temporal
+        $id = $this->db->get();
+        //print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    public function guardaRespuesta($data,$where){
+        $this->db->where($where);
+        $this->db->update($this->tablesugiereMatriz,$data);
+        //print_r($this->db->last_query());die();
+        return $this->db->affected_rows();
+    }
+    
 }
 
 

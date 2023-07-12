@@ -21,6 +21,8 @@ class BaseDatosEmpresas extends CI_Model {
     private $tipoEmpresa                        = "";
     private $tablePaises                        = "";
     private $tableRelCumplimiento               = "";
+    private $tablematrizComprada                = "";
+    private $tableMatrices                      = "";
 
     public function __construct() {
 
@@ -32,7 +34,9 @@ class BaseDatosEmpresas extends CI_Model {
         $this->tableCiudades                    = "app_ciudades"; 
         $this->tipoEmpresa                      = "app_tipo_empresa"; 
         $this->tablePaises                      = "app_paises"; 
-        $this->tableRelCumplimiento             = "app_rel_cumplimiento_empresa"; 
+        $this->tableRelCumplimiento             = "app_rel_cumplimiento_empresa";
+        $this->tablematrizComprada              = "app_matriz_comprada";
+        $this->tableMatrices                    = "app_nueva_matriz";   
     }
     //se obtienen imformacion de todas las empresas
     public function infoEmpresas($where){
@@ -120,6 +124,16 @@ class BaseDatosEmpresas extends CI_Model {
         $this->db->insert($this->tableRelCumplimiento,$dataInserta);
         //print_r($this->db->last_query());die();
         return $this->db->insert_id();
+    }
+    //se obtienen las matrices compradas
+    public function infoMatricesCompradas($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tablematrizComprada." c");
+        $this->db->join($this->tableMatrices." n", "n.idNuevaMatriz = c.idMatriz", "INNER");
+        $id = $this->db->get();
+        //print_r($this->db->last_query());die();
+        return $id->result_array();
     }
     
     

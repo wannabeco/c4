@@ -1,5 +1,10 @@
 <div class="container-fluid" ng-controller="crearMatriz" ng-init="initcreaMatriz()">
-    <!-- modal estandar-->
+    <div class="row ml-2">
+        <h5 class="modal-title"><?php echo $titulo ?></h5>
+    </div>    
+
+
+<!-- modal estandar-->
     <div id="modalParametros" class="modal fade" role="dialog"  data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content" id="modalCrea">

@@ -41,7 +41,17 @@ class LogicaMisMatrices  {
         $where["r.idResponsable"]   = $dato;
         $where["a.idTipoEmpresa"]   = $tipoEmpresa;
         $infoMatriz                 = $this->ci->dbmisMatriz->consultaMatriz($where);
-        return $infoMatriz;
+        if(count($infoMatriz) > 0){
+            $respuesta = array("mensaje"=>"las matrices fueron consultadas.",
+                        "continuar"=>1,
+                        "datos"=>$infoMatriz);
+        }
+        else{
+            $respuesta = array("mensaje"=>"las matrices no fueron consultadas.",
+                        "continuar"=>0,
+                        "datos"=>"");
+        }
+        return $respuesta;
     }
     public function consultaMatricescompradas($idPersona,$idEmpresa){
         $where["c.idPersona"]   = $idPersona;

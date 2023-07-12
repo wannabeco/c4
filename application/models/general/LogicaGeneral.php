@@ -378,6 +378,7 @@ class LogicaGeneral  {
     //sugiere matrices
     public function sugiereMatriz($datos){
         $dataInserta["idUsuario"]       = $_SESSION['project']['info']['idPersona'];
+        $dataInserta["idEmpresa"]       = $_SESSION['project']['info']['idEmpresa'];
         $dataInserta["emailUsuario"]    = $datos["email"];
         $dataInserta["descripcion"]     = $datos["descripcion"];
         $dataInserta["fechaSugerencia"] = date('Y-m-d H:m:s');
@@ -393,6 +394,42 @@ class LogicaGeneral  {
                     "continuar"=>0,
                     "datos"=>"");
         }
+        return $respuesta;
+    }
+    //se obtiene todas las sugerencias por id de empresa
+    public function misSugerencias($idPersona){
+        $where['idUsuario'] = $idPersona;
+        $resultado         = $this->ci->dbGeneral->misSugerencias($where); 
+        return $resultado;
+    }
+    //sugerencia por id sugerencia
+    public function sugerenciaID($idSugerencia){
+        $where['idSugiere'] = $idSugerencia;
+        $resultado         = $this->ci->dbGeneral->sugerenciaID($where); 
+        return $resultado;
+    }
+    // se obtiene todas las sugerencias para los administradores
+    public function sugerencias(){
+        $resultado         = $this->ci->dbGeneral->sugerencias(); 
+        return $resultado;
+    }
+    //actualiza sugerencia con la respuesta
+    public function guardaRespuesta($datos){
+        $dataActualiza["respuesta"]         = $datos["respuesta"];
+        $dataActualiza["fechaRespuesta"]    = date('Y-m-d H:m:s');
+        $dataActualiza["estaRespuesta"]     = 1;
+        $dataActualiza["emailRespuesta"]    = $_SESSION['project']['info']['email'];
+        $where['idSugiere']                 = $datos["idSugiere"];
+        $empresas                           = $this->ci->dbGeneral->guardaRespuesta($dataActualiza, $where);
+            if($empresas > 0){
+                $respuesta = array("mensaje"=>"la respuesta se actualizo correctamente.",
+                "continuar"=>1,
+                "datos"=>"");
+            }else{
+                $respuesta = array("mensaje"=>"No fue posible agregar la respuesta.",
+                "continuar"=>1,
+                "datos"=>"");
+            }
         return $respuesta;
     }
  }

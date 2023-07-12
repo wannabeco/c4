@@ -49,7 +49,7 @@ class MisMatrices extends CI_Controller
 					$idPerfil = $_SESSION["project"]["info"]["idPerfil"];
 					$idPersona = $_SESSION["project"]["info"]["idPersona"];
 					$idEmpresa =$_SESSION["project"]["info"]["idEmpresa"];
-
+					//valido perfil para enviar a mostrar datos y hacer consultas
 					if($idPerfil == 11){
 						//info Módulo
 						$infoModulo	      	   		= $this->logica->infoModulo($idModulo);
@@ -57,14 +57,22 @@ class MisMatrices extends CI_Controller
 						$inforMiMatriz				= $this->logicaMis->consultaMatricescompradas($idPersona,$idEmpresa);
 						$salida['inforMiMatriz']	= $inforMiMatriz;
 						$salida['infor']			= $inforMiMatriz["datos"];
-					}
-					else if($idPerfil < 4 || $idPerfil != 11){
+					}else if($idPerfil == 8){
 						//info Módulo
 						$infoModulo	      	   		= $this->logica->infoModulo($idModulo);
 						$relacion					= $this->logicaMis->consultaRelacion($idEmpresa);
-						$tipoEmpresa = $relacion[0]["tipoEmpresa"];
+						$inforMiMatriz				= $this->logicaMis->consultaMatricescompradas($idPersona,$idEmpresa);
+						$salida['inforMiMatriz']	= $inforMiMatriz;
+						$salida['infor']			= $inforMiMatriz["datos"];
+					}
+					else if($idPerfil > 3 || $idPerfil != 11){
+						//info Módulo
+						$infoModulo	      	   		= $this->logica->infoModulo($idModulo);
+						$relacion					= $this->logicaMis->consultaRelacion($idEmpresa);
+						$tipoEmpresa 				= $relacion[0]["tipoEmpresa"];
 						$inforMiMatriz				= $this->logicaMis->consultaMatriz($idPerfil,$tipoEmpresa);
 						$salida['inforMiMatriz']	= $inforMiMatriz;
+						$salida['infor']			= $inforMiMatriz["datos"];
 					}
 						$opc 				   		= "home";
 						$salida['titulo']      		= "Matrices";
@@ -125,7 +133,34 @@ class MisMatrices extends CI_Controller
 					$idrecurrente					= $infoMatrizRecurrentes[0]["idMatrizRecurrente"];
 					$infoComentarios				= $this->logMatriz->infoComentarios($idrecurrente,$idPersona);
 					$opc 				   			= "home";
-					$salida['titulo']      			= lang("titulo")." - ".$infoModulo[0]['nombreModulo'];
+					$salida['titulo']      			= "Información de Matriz";
+					$salida['centro'] 	   			= "MatricesCreadas/infoMatriz";
+					$salida['infoModulo']  			= $infoModulo[0];
+					$salida['infoUsuario'] 			= $infoUsuario[0];
+					$salida['infoMatrices'] 		= $infoMatrices[0];
+					$salida['infoMatrizRecurrentes']= $infoMatrizRecurrentes;
+					//$salida["infoComentarios"] 		= $infoComentarios;
+					
+				 	if($infoComentarios["continuar"] == 1){
+				 		$salida["infoComentarios"] 		= $infoComentarios;
+				    }else{
+				 	   $salida["infoComentarios"] 		= $infoComentarios;
+				    }
+					$salida["idNuevaMatriz"] 		= $id;
+					$this->load->view("app/index",$salida);
+				}
+				else if($idPerfil == 8){
+					//info Módulo
+					$id =$parametro;
+					$infoModulo	      	   			= $this->logica->infoModulo($idModulo);
+					$infoUsuario		   			= $_SESSION['project']['info']['nombre'];
+					$idPersona						= $_SESSION['project']['info']['idPersona'];
+					$infoMatrizRecurrentes			= $this->logMatriz->infoMatrizRecurrentes($id);
+					$infoMatrices		  			= $this->logMatriz->infoGeneralMatriz();
+					$idrecurrente					= $infoMatrizRecurrentes[0]["idMatrizRecurrente"];
+					$infoComentarios				= $this->logMatriz->infoComentarios($idrecurrente,$idPersona);
+					$opc 				   			= "home";
+					$salida['titulo']      			= "Información de Matriz";
 					$salida['centro'] 	   			= "MatricesCreadas/infoMatriz";
 					$salida['infoModulo']  			= $infoModulo[0];
 					$salida['infoUsuario'] 			= $infoUsuario[0];
@@ -149,10 +184,11 @@ class MisMatrices extends CI_Controller
 					$idPersona						= $_SESSION['project']['info']['idPersona'];
 					$infoMatrizRecurrentes			= $this->logMatriz->infoMatrizRecurrentesDos($id,$idPerfil);
 					$infoMatrices		  			= $this->logMatriz->infoGeneralMatriz();
+					// var_dump($infoMatrizRecurrentes);die;
 					$idrecurrente					=$infoMatrizRecurrentes[0]["idMatrizRecurrente"];
 					$infoComentarios				= $this->logMatriz->infoComentarios($idrecurrente,$idPersona);
 					$opc 				   			= "home";
-					$salida['titulo']      			= lang("titulo")." - ".$infoModulo[0]['nombreModulo'];
+					$salida['titulo']      			= "Información de Matriz";
 					$salida['infoModulo']  			= $infoModulo[0];
 					$salida['infoUsuario'] 			= $infoUsuario[0];
 					$salida['infoMatrices'] 		= $infoMatrices;

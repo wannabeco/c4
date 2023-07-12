@@ -510,6 +510,7 @@ function insertaArchivosControlesAngularJS()
     $script .=   '<script type="text/javascript" src="'.base_url().'res/js/buscar/controller.js?'.rand(0,1000).'"></script>';//js Buscar matrices
     $script .=   '<script type="text/javascript" src="'.base_url().'res/js/buscarEmpresas/controller.js?'.rand(0,1000).'"></script>';//js Buscar empresas
     $script .=   '<script type="text/javascript" src="'.base_url().'res/js/pagos/controller.js?'.rand(0,1000).'"></script>';//js pagos
+    $script .=   '<script type="text/javascript" src="'.base_url().'res/js/sugerencias/controller.js?'.rand(0,1000).'"></script>';//js pagos
 
     return $script;
 }
