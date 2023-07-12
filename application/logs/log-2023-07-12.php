@@ -556,3 +556,4 @@ ERROR - 2023-07-12 17:58:14 --> Severity: Warning --> Undefined array key 0 /App
 ERROR - 2023-07-12 17:58:14 --> Severity: Warning --> Trying to access array offset on value of type null /Applications/MAMP/htdocs/c4/application/views/MatricesCreadas/formCheck.php 186
 ERROR - 2023-07-12 17:58:14 --> Severity: Warning --> Trying to access array offset on value of type null /Applications/MAMP/htdocs/c4/application/views/MatricesCreadas/formCheck.php 188
 ERROR - 2023-07-12 17:58:14 --> Severity: Warning --> Trying to access array offset on value of type null /Applications/MAMP/htdocs/c4/application/views/MatricesCreadas/formCheck.php 189
+ERROR - 2023-07-12 18:32:34 --> 404 Page Not Found: Img/undraw_posting_photo.svg
