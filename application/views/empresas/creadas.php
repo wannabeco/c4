@@ -18,7 +18,7 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800 text-dark"><?php echo $titulo;?></h1>
     </div>
-    <div ng-if="infoMisEmpresas.continuar === 0">
+    <!-- <div ng-if="infoMisEmpresas.continuar === 0">
         <div class="col-md-7">
             <div class="alert alert-success" role="alert">
             <i class="fas fa-info-circle"></i> Recuerde que las empresas adicionales a <strong> 1 </strong> que incluye el plan serán cobradas.
@@ -31,7 +31,7 @@
             <i class="fas fa-exclamation-triangle"></i> Recuerde que las empresas adicionales a <strong> 1 </strong> que incluye el plan, <strong> serán cobradas.</strong>
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="">
         <!-- buscador -->
         <div class="col-md-12 p-4">
@@ -53,18 +53,18 @@
                         <h5 class="card-title">{{ empresas.nombre }}</h5>
                         <p class="card-text text-justify">{{ empresas.nombreEncargado }} <strong>Teléfono:</strong> {{ empresas.telefono }}</p>
                         <p class="card-text text-justify">{{ empresas.email }}</p>
-                        <div ng-if="infoMisEmpresas.continuar === 0">
+                        <!-- <div ng-if="infoMisEmpresas.continuar === 0">
                             <p class="card-text col-md-4 float-left"><small class="text-muted" style="text-decoration: line-through;">$ {{ precioEmpresa | number }}</small></p>
                             <form ng-submit="agregaGratis(empresas.nombre, empresas.idEmpresa)" class="flat-left">
                                 <button class="btn btn-primary float-right" type="submit"><i class="fas fa-plus"></i> Agregar</button>
                             </form>
-                        </div>
-                        <div ng-if="infoMisEmpresas.continuar == 1">
+                        </div> -->
+                        <!-- <div ng-if="infoMisEmpresas.continuar == 1"> -->
                             <p class="card-text col-md-4 float-left"><small class="text-muted">$ {{ precioEmpresa | number }} </small></p>
                             <form ng-submit="agrega(empresas.nombre, empresas.idEmpresa, precioEmpresa)" class="flat-left">
                                 <button class="btn btn-primary float-right" type="submit"><i class="fas fa-plus"></i> Agregar</button>
                             </form>
-                        </div> 
+                        <!-- </div>  -->
                     </div>
                 </div>
             </div>

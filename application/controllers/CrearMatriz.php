@@ -1083,11 +1083,12 @@ class crearMatriz extends CI_Controller
 		$fecha 						= date("F j, Y");
 		$infoUsuario				= $this->logMatriz->infoUsuario($idPerdona);
 		$infoMatrizRecurrentes		= $this->logMatriz->infoMatrizRecurrentesDos($id,$idPerfil);
+		//var_dump($infoMatrizRecurrentes);die();
 		$salida["titulo"] 	 		= "Formulario de checkeo";
 		$salida['infoUsuario']		= $infoUsuario;
 		$salida['fecha']			= $fecha;
 		$salida['idNuevaMatriz']	= $idNuevaMatriz;
-		$salida['informacion']= $infoMatrizRecurrentes[0];
+		$salida['informacion']		= $infoMatrizRecurrentes[0];
 		echo $this->load->view("MatricesCreadas/formCheck",$salida,true);
 	}
 	//tipo de matrices

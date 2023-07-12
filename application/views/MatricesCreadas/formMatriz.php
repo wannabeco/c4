@@ -1,9 +1,9 @@
 <form role="form"  ng-controller="crearParametrosMatriz" id="formMatriz" ng-init="initformMatriz()"  ng-submit="actualizarMatriz(<?php echo $informacionMatriz[0]["idNuevaMatriz"] ?>)">    
   <div class="modal-header">
       <h5 class="modal-title"><?php echo $titulo ?></h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-      </button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
   </div>
   <div class="modal-body" id="cajaNombreEmpresa">
         <?php   

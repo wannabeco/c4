@@ -16,27 +16,8 @@
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800"><?php echo $titulo;?> <!--<small><?php echo $_SESSION['project']['info']['nombre']." ".$_SESSION['project']['info']['apellido']; ?></small>--></h1>
-        <!-- <?php if(getPrivilegios()[0]['crear'] == 1){ ?>
-            <div class="dropdown">
-                <a class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-cog"></i> <?php echo lang("lblAcciones") ?> <span class="caret"></span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <h6 class="dropdown-header"><?php echo lang("lblSeleccioneOpc") ?></h6>
-                    <a class="dropdown-item" ng-click="irCreaMatriz()" style="cursor:pointer"><i class="fa fa-fw fa-plus"></i> Empresas creadas</a>
-                </div>
-            </div>
-        <?php } ?> -->
-        <?php if($_SESSION['project']['info']['idPerfil'] == 8){?>
-            <div class="dropdown">
-                <a class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-cog"></i> <?php echo lang("lblRelacion") ?> <span class="caret"></span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <h6 class="dropdown-header"><?php echo lang("lblSeleccioneOpc") ?></h6>
-                    <a class="dropdown-item" ng-click="buscaEmpresa()" style="cursor:pointer"><i class="fa fa-fw fa-plus"></i> Agregar empresa</a>
-                </div>
-            </div>
+        <?php if($_SESSION['project']['info']['idPerfil'] == 8 && $_SESSION['project']['info']['idEmpresa'] == 0){?>
+            <button type="button" class="btn btn-primary" ng-click="buscaEmpresa()"><i class="fa fa-fw fa-plus"></i> Agregar empresa</button>
         <?php }?>
     </div>
     <div class="card shadow mb-4">
@@ -51,7 +32,7 @@
                     <th scope="col">Telefono</th>
                     <?php if($_SESSION['project']['info']['idPerfil'] != 8){?>
                     <th scope="col">estado</th>
-                    <?php } if($_SESSION['project']['info']['idPerfil'] == 8){?>
+                    <?php } if($_SESSION['project']['info']['idPerfil'] == 8 && $_SESSION['project']['info']['idEmpresa'] == 0){?>
                     <th scope="col">Fecha</th>
                     <?php } ?>
                     <th scope="col">Acciones</th>
@@ -74,10 +55,14 @@
                             <span class="badge badge-secondary" value="0" >INACTIVO</span>
                             <?php } ?>
                         </td>
-                        <?php } if($_SESSION['project']['info']['idPerfil'] == 8){?>
+                        <?php } if($_SESSION['project']['info']['idPerfil'] == 8 && $_SESSION['project']['info']['idEmpresa'] == 0){?>
                             <td scope="col"><?php echo formatoFechaEspanolHora($info["fecha"]);?></td>
                         <?php } ?>
                         <td>
+                            <?php if($_SESSION['project']['info']['idPerfil'] == 8){ ?>
+                                <!-- eliminar la relacion de empresas con oficial de cumplimiento -->
+                                <a ng-click="matrices(<?php echo $info['idEmpresa'];?>)" title="Ver Matrices"  class="btn btn-success btn-fab btn-fab-mini btn-xs"><i class="fa fa-list-ol"></i></a>
+                            <?php }?>
                             <?php if(getPrivilegios()[0]['ver'] == 1){ ?>
                                 <a ng-click="verEmpresa('<?php echo $info['idEmpresa'];?>',0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn btn-primary btn-fab btn-fab-mini btn-xs"><i class="fas fa-eye"></i></a>
                             <?php } if(getPrivilegios()[0]['crear'] == 1){?>
