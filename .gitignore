@@ -1,2 +1,9 @@
-application/config/config.php
-application/config/database.php
+application/cache/**
+application/logs/**
+res/pdf/**
+res/cargasExcel/**
+application/config/**
+*.DS_STORE
+*.csv
+res/CajaMenuda/**
+res/archivosTemp/**
