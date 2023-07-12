@@ -3,7 +3,8 @@ application/logs/**
 res/pdf/**
 res/cargasExcel/**
 application/config/**
-*.DS_STORE
+*.DS_Store
+*application/.DS_Store
 *.csv
 res/CajaMenuda/**
 res/archivosTemp/**
