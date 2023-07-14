@@ -314,13 +314,14 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 		var descripcion = $("#descripcion").val();
 		var nombre 		= $("#nombre").val();
 		var email 		= $("#email").val();
+		var matriz 		= "";
 		if(descripcion == ""){
 			constantes.alerta("Atención","Es necesario escribir una descipcion para sugerir una matriz.",'info',function(){});
 		}
 		else{
 			constantes.confirmacion("Atención","Esta apunto de sugerir una matriz, ¿Desea continuar?.",'info',function(){
 				var controlador = 	$scope.config.apiUrl+"Buscar/sugiereMatriz";
-				var parametros  = "nombre="+nombre+"&email="+email+"&descripcion="+descripcion;
+				var parametros  = "nombre="+nombre+"&email="+email+"&descripcion="+descripcion+"&matriz="+matriz;
 				constantes.consultaApi(controlador,parametros,function(json){
 					if(json.continuar == 1){
 						constantes.alerta("Atención",json.mensaje,"success",function(){
