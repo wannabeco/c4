@@ -8,7 +8,9 @@
         </div>
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800 text-dark">MATRÍZ DE OBLIGACIONES</h1>
+    <div class="row ml-2">
+        <h5 class="modal-title">Matriz de obligaciones</h5>
+    </div>  
         <?php if($_SESSION['project']['info']['idPerfil'] == 11){ ?>
             <div class="dropdown">
                 <a class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -21,6 +23,15 @@
             </div>
         <?php }?>
     </div>
+    <?php if($_SESSION["project"]["info"]["idPerfil"] == 8){ ?>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb"  style="background-color:transparent !important">
+                <li class="breadcrumb-item"><a href="<?php echo base_url()?>">Home</a></li>
+                <li class="breadcrumb-item"><?php echo $infoEmpresas['nombre']; ?></li>
+            </ol>
+        </nav>
+        
+    <?php $infoEmpresa = json_encode($infoEmpresas); }  ?>
     <div class="card shadow mb-4">
         <!-- <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">MATRÍZ DE OBLIGACIONES</h6>
@@ -51,8 +62,11 @@
                             <?php } ?>
                             <td>
                                 <?php if(getPrivilegios()[0]['ver'] == 1){ ?>
-                                    <a ng-click="verMatriz('<?php echo $info['idNuevaMatriz'];?>',0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-success float-left"><i class="fas fa-eye" style="font-size: 30px; cursor:pointer;"></i></a>
-                                <?php }?>
+                                    <?php if($_SESSION["project"]["info"]["idPerfil"] == 8){?>
+                                        <a ng-click="verMatriz('<?php echo $info['idNuevaMatriz'];?>',<?php echo htmlspecialchars($infoEmpresa);?>,0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-success float-left"><i class="fas fa-eye" style="font-size: 30px; cursor:pointer;"></i></a>
+                                    <?php } if($_SESSION["project"]["info"]["idPerfil"] != 8){?>    
+                                            <a ng-click="verMatriz('<?php echo $info['idNuevaMatriz'];?>',0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-success float-left"><i class="fas fa-eye" style="font-size: 30px; cursor:pointer;"></i></a>
+                                    <?php }}?>
                                     <div class="form-group form-check float-left ml-4 ">
                                         <input type="checkbox" class="form-check-input text-secondary" id="exampleCheck1" style="height: 22px; width:22px;">
                                     </div>

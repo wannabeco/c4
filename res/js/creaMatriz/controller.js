@@ -10,7 +10,9 @@ project.controller('crearMatriz', function($scope,$http,$q,constantes)
     }
 	$scope.tipoP = "";
 	$scope.check ="";
-	$scope.Precio = 25000;	
+	$scope.Precio = 25000;
+	$scope.idEmpresa =""
+	
 	$scope.irCreaMatriz =function(){
 		window.location = $scope.config.apiUrl+"CrearMatriz/creaNuevaMatriz/40";
 	}
@@ -185,6 +187,50 @@ project.controller('crearMatriz', function($scope,$http,$q,constantes)
 			});
 		});
 	}
+	$scope.volver = function(){
+		var parametro = 37;
+		var idEmpresa = $scope.idEmpresa;
+		window.location = $scope.config.apiUrl+"Empresas/matrices/"+parametro+"/"+idEmpresa;
+	}
+	$scope.crearnuevaItem =function($id){
+		$('#sugerirIteme').modal("show");
+	 	var controlador = $scope.config.apiUrl+"MisMatrices/sugerirItem";
+	 	var parametros  = "idMatriz="+$id;
+	 	constantes.consultaApi(controlador,parametros,function(json){
+	 		$("#modalCreaNuevoItem").html(json);
+	 		// actualiza el DOM
+	 		$scope.compileAngularElement("#sugerirItem");
+	 	},'');
+	}
+
+	//siguere item interno de matriz
+	$scope.sugerirItema = function(){
+		var descripcion = $("#descripcion").val();
+		var nombre 		= $("#nombre").val();
+		var email 		= $("#email").val();
+		var matriz 		= $("#matriz").val();
+		if(descripcion == ""){
+			constantes.alerta("Atención","Es necesario escribir una descipcion para sugerir una matriz.",'info',function(){});
+		}
+		else{
+			constantes.confirmacion("Atención","Esta apunto de sugerir una matriz, ¿Desea continuar?.",'info',function(){
+				var controlador = 	$scope.config.apiUrl+"Buscar/sugiereMatriz";
+				var parametros  = "nombre="+nombre+"&email="+email+"&descripcion="+descripcion+"&matriz="+matriz;
+				constantes.consultaApi(controlador,parametros,function(json){
+					if(json.continuar == 1){
+						constantes.alerta("Atención",json.mensaje,"success",function(){
+							window.location.assign($scope.config.apiUrl+"MisMatrices/matrices/43"); 
+						});
+					}
+					else{
+						constantes.alerta("Atención",json.mensaje,"warning",function(){});
+					}
+				});
+			});	
+		} 
+	}
+
+
 
 	$scope.compileAngularElement = function(elSelector) {
 

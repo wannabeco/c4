@@ -129,6 +129,7 @@ class MisMatrices extends CI_Controller
 					$infoUsuario		   			= $_SESSION['project']['info']['nombre'];
 					$idPersona						= $_SESSION['project']['info']['idPersona'];
 					$infoMatrizRecurrentes			= $this->logMatriz->infoMatrizRecurrentes($id);
+					//var_dump($infoMatrizRecurrentes);die();
 					$infoMatrices		  			= $this->logMatriz->infoGeneralMatriz();
 					$idrecurrente					= $infoMatrizRecurrentes[0]["idMatrizRecurrente"];
 					$infoComentarios				= $this->logMatriz->infoComentarios($idrecurrente,$idPersona);
@@ -151,6 +152,9 @@ class MisMatrices extends CI_Controller
 				}
 				else if($idPerfil == 8){
 					//info Módulo
+					// $infoEncoded = $_GET['info'];
+					// $info = json_decode(($infoEncoded), true);
+					// var_dump($info);die();
 					$id =$parametro;
 					$infoModulo	      	   			= $this->logica->infoModulo($idModulo);
 					$infoUsuario		   			= $_SESSION['project']['info']['nombre'];
@@ -303,6 +307,16 @@ class MisMatrices extends CI_Controller
 			$salida['titulo']      		= "Sugerir nueva matriz";
 			echo $this->load->view("misMatrices/sugerir",$salida,true);
 	}
+	//sugerir matriz
+	public function sugerirItem(){
+		$idMatriz 					= $_POST["idMatriz"];
+		$infoMatriz 				= $this->logicaMis->infoMatrize($idMatriz);
+		$opc 				   		= "home";
+		$salida['titulo']      		= "Sugerir Item";
+		// var_dump($infoMatriz);die();
+		$salida['infoMatriz']      	= $infoMatriz;
+		echo $this->load->view("misMatrices/sugerirItem",$salida,true);
+}
 }
 ?>
 

@@ -381,6 +381,10 @@ class LogicaGeneral  {
         $dataInserta["idEmpresa"]       = $_SESSION['project']['info']['idEmpresa'];
         $dataInserta["emailUsuario"]    = $datos["email"];
         $dataInserta["descripcion"]     = $datos["descripcion"];
+        // var_dump($datos);die();
+        if($datos["matriz"] != ""){
+            $dataInserta["nombredeMatriz"]  = $datos["matriz"];
+        }
         $dataInserta["fechaSugerencia"] = date('Y-m-d H:m:s');
         $resultado          = $this->ci->dbGeneral->sugiereMatriz($dataInserta);
         //var_dump($resultado);

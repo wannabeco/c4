@@ -1082,7 +1082,7 @@ class crearMatriz extends CI_Controller
 		$idPerdona 					= $_SESSION['project']['info']['idPersona'];
 		$fecha 						= date("F j, Y");
 		$infoUsuario				= $this->logMatriz->infoUsuario($idPerdona);
-		$infoMatrizRecurrentes		= $this->logMatriz->infoMatrizRecurrentesDos($id,$idPerfil);
+		$infoMatrizRecurrentes		= $this->logMatriz->infoMatrizRecurrentes($id);
 		//var_dump($infoMatrizRecurrentes);die();
 		$salida["titulo"] 	 		= "Formulario de checkeo";
 		$salida['infoUsuario']		= $infoUsuario;

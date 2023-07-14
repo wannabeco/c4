@@ -157,6 +157,15 @@ class BaseDatosMisMatrices extends CI_Model {
         //print_r($this->db->last_query());die();
         return $id->result_array();
     }
+    //consulta matriz por id 
+    public function infoMatrize($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tableMatrices);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
     
 }
 

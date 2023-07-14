@@ -11,7 +11,8 @@ project.controller('misMatrices', function($scope,$http,$q,constantes)
 	$scope.infoMatrices= "";
 	$scope.inforMiMatriz = "";
 		
-	$scope.verMatriz = function($id){
+	$scope.verMatriz = function($id,$infoMatriz){
+		var info = $infoMatriz;
 		window.location = $scope.config.apiUrl+"MisMatrices/informacion/42/"+$id;
 	}
 

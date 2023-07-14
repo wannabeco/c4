@@ -12,6 +12,15 @@
             </div>
         </div>
     </div>
+    <!-- modal sugerir nueva matriz -->
+    <div id="sugerirIteme" class="modal fade" role="dialog"  data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content" id="modalCreaNuevoItem">
+                <!--Form de creación -->
+            </div>
+        </div>
+    </div>
+
     <div id="modalCheck" class="modal fade" role="dialog"  data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-lg">
             <div class="modal-content" id="modalformCheck">
@@ -21,7 +30,9 @@
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800"> <!--<small><?php echo $_SESSION['project']['info']['nombre']." ".$_SESSION['project']['info']['apellido']; ?></small>--></h1>
-        <?php if(getPrivilegios()[0]['crear'] == 1){ ?>
+        <?php if($_SESSION["project"]["info"]["idPerfil"] == 11){?>
+            <button type="button" class="btn btn-primary float-right" ng-click="crearnuevaItem(<?php echo $infoMatrizRecurrentes[0]['idNuevaMatriz']; ?>)"><i class="fas fa-lightbulb"></i> Sugerir item</button>
+        <?php }if(getPrivilegios()[0]['crear'] == 1){ ?>
             <div class="dropdown">
                 <a class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-plus"></i> Crear <span class="caret"></span>
@@ -34,12 +45,21 @@
         <?php } ?>
     </div>
     <!-- nav  -->
+    <?php if($_SESSION["project"]["info"]["idPerfil"] != 8){?>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb"  style="background-color:transparent !important">
             <li class="breadcrumb-item"><a href="<?php echo base_url()?>">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page"><?php echo $infoModulo['nombreModulo']; ?></li>
+            <li class="breadcrumb-item"><a href="<?php echo base_url()."/MisMatrices/matrices/43";?>"><?php echo $infoMatrizRecurrentes[0]['nombreNuevaMatriz']; ?></a></li>
         </ol>
     </nav>
+    <?php } if($_SESSION["project"]["info"]["idPerfil"] == 8){ ?>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb"  style="background-color:transparent !important">
+                <li class="breadcrumb-item"><a href="<?php echo base_url()?>">Home</a></li>
+                <li class="breadcrumb-item"><?php echo $infoMatrizRecurrentes[0]['nombreNuevaMatriz']; ?></li>
+            </ol>
+        </nav>
+    <?php }?>
     <!-- fin nav -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">

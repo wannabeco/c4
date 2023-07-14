@@ -224,6 +224,12 @@ class LogicaMisMatrices  {
         
         return $respuesta;
     }
+    //informacion de matriz por id
+    public function infoMatrize($idMatriz){
+        $where['idNuevaMatriz'] = $idMatriz;
+        $infoMatrices               = $this->ci->dbmisMatriz->infoMatrize($where);
+        return $infoMatrices;
+    }
 
     
 }

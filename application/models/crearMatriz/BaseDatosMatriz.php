@@ -347,6 +347,7 @@ class BaseDatosMatriz extends CI_Model {
         $this->db->join($this->tableMetodoControl." M"," M.idMetodoControl=r.idMetodoControl","INNER");
         $this->db->join($this->tablePeriodicidad." l"," l.idperiodicidad=r.idperiodicidad","INNER");
         $this->db->join($this->tableEstados." k"," k.idEstado=r.estado","INNER");
+        $this->db->join($this->tableNuevaMatriz." n"," n.idNuevaMatriz=r.idNuevaMatriz","INNER");
         //$this->db->join($this->tableRespuestasComentario." g"," g.idPerfil=p.idPerfil","INNER");
         $id = $this->db->get();
         //print_r($this->db->last_query());die();

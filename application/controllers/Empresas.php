@@ -197,14 +197,16 @@ class Empresas extends CI_Controller
 				$id =$parametro;
 				$infoModulo	      	   			= $this->logica->infoModulo($idModulo);
 				$MatricesCompradas		  		= $this->lgEmpresas->infoMatricesCompradas($id);
-				// var_dump($MatricesCompradas["datos"]);die();
+				$infoEmpresas		  			= $this->lgEmpresas->infoEmpresa($id);
+				// var_dump($infoEmpresas[0]);die();
 				$opc 				   			= "home";
 				$salida['titulo']      			= lang("titulo")." - ".$infoModulo[0]['nombreModulo'];
 				$salida['centro'] 	   			= "misMatrices/home";
 				$salida['infoModulo']  			= $infoModulo[0];
 				$salida['inforMiMatriz']    	= $MatricesCompradas;
 				$salida['infor']				= $MatricesCompradas["datos"];
-				$salida['infoEmpresa']    		= "";
+				$salida['infoEmpresas']    		= $infoEmpresas[0];
+				$salida["id"]					= $id;
 				$this->load->view("app/index",$salida);
 			}
 			else
