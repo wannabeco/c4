@@ -127,10 +127,20 @@ project.controller('crearMatriz', function($scope,$http,$q,constantes)
 
 	}
 	//modal de check
-	$scope.check = function(idMatriz){
+	$scope.check = function(idMatriz,idRecurrente,edita){
 		$('#modalCheck').modal("show");
 		var controlador = 	$scope.config.apiUrl+"CrearMatriz/formCheck";
-		var parametros  = 	"idNuevaMatriz="+idMatriz;
+		var parametros  = 	"edita="+edita+"&idNuevaMatriz="+idMatriz+"&idRecurrente="+idRecurrente;
+		constantes.consultaApi(controlador,parametros,function(json){
+			$("#modalformCheck").html(json);
+			$scope.compileAngularElement("#formulario");
+		},'');
+	}
+	//checkeo 
+	$scope.checkCompleto = function(idRecurrente,idMatriz,idEmpresa,idResponsable,edita){
+		$('#modalCheck').modal("show");
+		var controlador = 	$scope.config.apiUrl+"CrearMatriz/formCheck";
+		var parametros  = 	"edita="+edita+"&idNuevaMatriz="+idMatriz+"&idRecurrente="+idRecurrente+"&idEmpresa="+idEmpresa+"&idResponsable="+idResponsable;
 		constantes.consultaApi(controlador,parametros,function(json){
 			$("#modalformCheck").html(json);
 			$scope.compileAngularElement("#formulario");

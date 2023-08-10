@@ -44,7 +44,24 @@ class Sugerencias extends CI_Controller
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1){ 		
+			if(getPrivilegios()[0]['ver'] == 1){
+					if($_SESSION["project"]["info"]["idPerfil"] == 11){
+						$idEmpresa =$_SESSION["project"]["info"]["idEmpresa"];
+						$infoEmprsa = $this->logicaMis->infoEmpresa($idEmpresa);
+						$fechaCaduca = $infoEmprsa[0]["fechaCaducidad"];
+						$hoy = date('Y-m-d H:i:s');
+						if($hoy > $fechaCaduca ){
+							if($idEmpresa > 0){
+								redirect("PagoMatriz/PagoEmpresas");
+							}
+							if($idEmpresa == 0 ){
+								$opc 				   = "home";
+								$salida['titulo']      = "Pago Empresa";
+								$salida['centro'] 	   = "error/areaRestringida";
+								$this->load->view("app/index",$salida);
+							}
+						} 		
+					}
 					$idPerfil = $_SESSION["project"]["info"]["idPerfil"];
 					//valido perfil para enviar a mostrar datos y hacer consultas
 					if($idPerfil == 11){

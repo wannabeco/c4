@@ -13,7 +13,7 @@
    Este archivo es el controlador que realizara al cuál se harán los llamados desde las url en la página o en los procesos AJAX que se utilicen.
 */
 defined('BASEPATH') OR exit('No direct script access allowed');
-class BuscarEmpresas extends CI_Controller 
+class Planes extends CI_Controller 
 {
 	function __construct() 
     {
@@ -33,79 +33,69 @@ class BuscarEmpresas extends CI_Controller
     * y a continuación siempre se debe llamar la función del helper llamada getPrivilegios, la función está en el archivo helpers/funciones_helper.php
     * Tenga en cuenta que cada llamado ajax que haga a una plantilla gráfica que incluya botones de ver,editar, crear, borrar debe siempre llamar la función getPrivilegios.
     */
-	public function consultaEmpresas(){
-		$idPersona = $_SESSION["project"]["info"]["idPersona"];
-		$infoMisEmpresas = $this->logicaMis->ConsultaEmpresasCompradas($idPersona);
-		$infoEmpresas = $this->logicaMis->infoEmpresas();
+	public function planes(){
+		$infoPlanes = $this->logica->infoPlanes();
+		// var_dump($infoPlanes);die();
 		$opc = "home";
-		$salida['titulo'] = "Empresas Registradas";
-		$salida['infoMisEmpresas'] = $infoMisEmpresas;
-		$salida['infoEmpresas'] = $infoEmpresas;
-		// $salida['precio'] = _PRECIO_EMPRESA;
-		$salida['centro'] = "empresas/creadas";
-		//$this->load->view("app/index",$salida);
+		$salida['titulo'] = "Planes Creados";
+		$salida['centro'] = "planes/home";
+		$salida['infoPlanes'] = $infoPlanes;
 		echo $this->load->view("app/index",$salida,true);
 	}
-	//consulta matrices creadas
-	public function empresasCreadas(){
-		$infoEmpresasLike = "";
-		if (isset($_POST["buscar"])) {
-				$buscar = $_POST["buscar"];
-				$infoEmpresasLike = $this->logicaMis->infoEmpresasLike($buscar);
-			}
-			$idPersona = $_SESSION["project"]["info"]["idPersona"];
-			$infoMisEmpresas = $this->logicaMis->ConsultaEmpresasCompradas($idPersona);
-			$infoEmpresas = [];
-			if ($infoEmpresasLike > 0){
-				$infoEmpresas = $infoEmpresasLike;
-				$response =array(
-					"infoEmpresas" =>$infoEmpresas,
-					"infoMisEmpresas" =>$infoMisEmpresas,
-				);
-				//var_dump($response);die();
-			} else {
-				$infoEmpresas = $this->logicaMis->infoEmpresas();
-				$response =array(
-					"infoEmpresas" =>$infoEmpresas,
-					"infoMisEmpresas" =>$infoMisEmpresas,
-				);
-			}
-			//var_dump($response);die();
-			echo json_encode($response); 
+	//modal crea plan
+	public function creaPlan(){
+		extract($_POST);
+		// var_dump($_POST);die();
+		if($_POST["idPlan"] == "0"){
+			$salida["titulo"] 	 		= "Crear nuevo plan";
+			$salida["labelBtn"]  		= "Crear plan";
+			$salida["edita"]  		= 0;
+			$salida["idPlan"]		= 0;
+			echo $this->load->view("planes/formCrearPlanes",$salida,true);
+		}
+		if($_POST["idPlan"] > 0){
+			$infoPlanes = $this->logica->infoPlanesid($_POST);
+			$salida['titulo'] = "Editar plan";
+			$salida['infoPlanes'] = $infoPlanes[0];
+			$salida["edita"]  		= 1;
+			$salida["idPlan"]		= $infoPlanes[0]["idPlan"];
+			// var_dump($infoPlanes);die();
+			echo $this->load->view("planes/formCrearPlanes",$salida,true);
+		}
+		
 	}
-	//crea relacion de las empresas con el oficial de cumplimiento
-	public function creaGratisrel() {
+	//funcion para crear el plan
+	public function creaPlanes(){
 		if(validaInApp("web")){//esta validación me hará consultas más seguras
-			$proceso = $this->logicaMis->creaGratisrel($_POST);
-			echo json_encode($proceso); 
+			$crearPlanes = $this->logica->creaPlanes($_POST);
+			echo json_encode($crearPlanes); 
 		}
 		else{
-			$proceso ="nada";
-			echo json_encode($proceso); 
+			$crearPlanes ="nada";
 		}
+			
 	}
-	//verificar que la empresa no este agregada
-	public function getrelEmpresa(){
+	//Actualiza plan
+	public function actualizaPlan(){
 		if(validaInApp("web")){//esta validación me hará consultas más seguras
-			$proceso = $this->logicaMis->getrelEmpresa($_POST);
-			echo json_encode($proceso); 
+			$actualizaPlan = $this->logica->actualizaPlan($_POST);
+			echo json_encode($actualizaPlan); 
 		}
 		else{
-			$proceso ="nada";
-			echo json_encode($proceso); 
+			$eliminaPlan ="nada";
 		}
 	}
-	//verifico que la empresa no cuente con oficial de cumplimiento
-	public function relEmpresaPerfiles(){
+	//eliminaPlan
+	public function eliminaPLan(){
 		if(validaInApp("web")){//esta validación me hará consultas más seguras
-			$proceso = $this->logicaMis->relEmpresaPerfiles($_POST);
-			echo json_encode($proceso); 
+			$eliminaPlan = $this->logica->eliminaPlanes($_POST);
+			echo json_encode($eliminaPlan); 
 		}
 		else{
-			$proceso ="nada";
-			echo json_encode($proceso); 
+			$eliminaPlan ="nada";
 		}
 	}
+
 }
 ?>
 

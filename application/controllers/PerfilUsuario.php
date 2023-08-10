@@ -22,8 +22,7 @@ class PerfilUsuario extends CI_Controller
     	$this->lang->load('spanish');
     }
     
-	public function datosUsuario()	
-	{
+	public function datosUsuario()	{
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
 		if(validaIngreso())
 		{	
@@ -149,6 +148,53 @@ class PerfilUsuario extends CI_Controller
 	{
 		$proceso = $this->logicaUsuarios->procesoCambioClave($_POST);
 		echo json_encode($proceso);
+	}
+	//actualización datos de empresa
+	public function datosEmpresa(){
+		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
+		if(validaIngreso()){
+
+			$infoEmpresa	     = $this->logicaUsuarios->infoEmpresa($_SESSION['project']['info']['idEmpresa']);
+			$idEmpresa = $infoEmpresa["datos"][0]["idEmpresa"];
+			$id= json_decode($idEmpresa);
+			// var_dump($id);die();
+			$ifDepartamento 	 = $infoEmpresa["datos"]["0"]["departamento"];	
+			$tiposDoc		  	 = $this->logica->consultatiposDoc(); 
+			$sexo		  	 	 = $this->logica->consultaSexo(); 
+			$profesiones  	 	 = $this->logica->consultaProfesiones(); 
+			$cargos  	 	 	 = $this->logica->consultaCargos(); 
+			$perfiles  	 	 	 = $this->logica->consultaPerfiles(); 
+			$areas  	 	 	 = $this->logica->consultaAreas(); 
+			$departamento  	     = $this->logica->consultaDepartamentos(); 
+			$ciudades  	 	 	 = $this->logica->consultaCiudadesEm($ifDepartamento); 
+			$eps 	 	 	 	 = $this->logica->consultaEPS(); 
+			$afp 	 	 	 	 = $this->logica->consultaAFP(); 
+			$cesantias 	 	 	 = $this->logica->consultaCesantias(); 
+
+			// var_dump($infoEmpresa);die();
+			$salida["selects"]   = array("tiposDoc"=>$tiposDoc,
+										  "sexo"=>$sexo,
+										  "profesiones"=>$profesiones,
+										  "perfiles"=>$perfiles,
+										  "areas"=>$areas,
+										  "cargos"=>$cargos,
+										  "departamento"=>$departamento,
+										  "ciudades"=>$ciudades,
+										  "eps"=>$eps,
+										  "afp"=>$afp,
+										  "cesantias"=>$cesantias);
+
+			$opc 				   = "home";
+			$salida['titulo']      = lang("titulo")." - datos de empresa";
+			$salida['datos']	   = $infoEmpresa["datos"]["0"];
+			$salida['idEmpresa']	= $id;
+			$salida['centro'] 	   = "admin/perfilUsuario/empresa";
+			$this->load->view("app/index",$salida);
+		}
+		else
+		{
+			header('Location:'.base_url()."login");
+		}
 	}
 }
 ?>

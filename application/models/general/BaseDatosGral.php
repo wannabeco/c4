@@ -49,6 +49,13 @@ class BaseDatosGral extends CI_Model {
     private $tablePagoEmpresa            =   "";
     private $tablePagoEmpresalm          =   "";
     private $tablesugiereMatriz          =   "";
+    private $tablePlanes                 =   "";
+    private $tableMatricesCompradas      =   "";
+    private $tableNuevaMatriz            =   "";
+    private $tableRelCumplimiento        =   "";
+    private $tablePagoMesEmpresas        =   "";
+    private $tablePagoMesOficial         =   "";
+    private $tableMembresiaOficial       =   "";
     
     public function __construct() 
     {
@@ -89,6 +96,13 @@ class BaseDatosGral extends CI_Model {
         $this->tablePagoEmpresa          = "app_pago_empresas";
         $this->tablePagoEmpresalm        = "app_cEmpresas_temporal";
         $this->tablesugiereMatriz        = "app_sugiere_matriz";
+        $this->tablePlanes               = "app_planes";
+        $this->tableMatricesCompradas    = "app_matriz_comprada";
+        $this->tableNuevaMatriz          = "app_nueva_matriz";
+        $this->tableRelCumplimiento      = "app_rel_cumplimiento_empresa";
+        $this->tablePagoMesEmpresas      = "app_pago_mensualidad_empresa";
+        $this->tablePagoMesOficial       = "app_pago_mensualidad_oficial";
+        $this->tableMembresiaOficial     = "app_membresia_oficial";
     }
     public function getVariablesGlobales(){
         $this->db->select("*");
@@ -499,8 +513,182 @@ class BaseDatosGral extends CI_Model {
         //print_r($this->db->last_query());die();
         return $this->db->affected_rows();
     }
-    
-}
+    //consulto todos los planes
+    public function infoPlanes($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tablePlanes);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //inserta plan
+    public function creaPlanes($dataInserta){
+        $this->db->insert($this->tablePlanes,$dataInserta);
+        //print_r($this->db->last_query());die();
+        return $this->db->insert_id();
+    }
+    //elimina planes
+    public function actualizaPlan($data,$where){
+        $this->db->where($where);
+        $this->db->update($this->tablePlanes,$data);
+        //print_r($this->db->last_query());die();
+        return $this->db->affected_rows();
+    }
+    //información de matrices por id empresa
+    public function getMatricesEmpresas($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tableMatricesCompradas." c");
+        $this->db->join($this->tableNuevaMatriz." n","n.idNuevaMatriz=c.idMatriz","INNER");
+        $id = $this->db->get();
+        $result = $id->result_array();
+        $count = $id->num_rows();
+        // print_r($this->db->last_query());die();
+        //print_r($count);die();
+        return array(
+            'data' => $result,
+            'count' => $count
+        );
+    }
+    //información de personas por id empresa
+    public function getUsuarioEmpresa($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tablePersonas." p");
+        $this->db->join($this->tablePerfiles." f","f.idPerfil=p.idPerfil","INNER");
+        $id = $this->db->get();
+        $result = $id->result_array();
+        $count = $id->num_rows();
+        // print_r($this->db->last_query());die();
+        //print_r($count);die();
+        return array(
+            'data' => $result,
+            'count' => $count
+        );
+    }
+    //actualizo pedido pago de matriz por empresa
+    public function pagoMatriz($data,$where){
+        $this->db->where($where);
+        $this->db->update($this->tablePagoMatrices,$data);
+        //print_r($this->db->last_query());die();
+        return $this->db->affected_rows();
+    }
+    //consulto pago de matrices
+    public function PagodeMatriz($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tablePagoMatrices);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
 
+    }
+    //consulto idPago en temporales
+    public function mTemporal($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tablePagotemporalm);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+
+    }
+    //inserto a tabla matrices compradas
+    public function MatricesCompradas($dataInserta){
+        $this->db->insert($this->tableMatricesCompradas,$dataInserta);
+        //print_r($this->db->last_query());die();
+        return $this->db->insert_id();
+    }
+    //pago de empresas por oficila de cumplimiento
+    public function pagoEmpresaO($data,$where){
+        $this->db->where($where);
+        $this->db->update($this->tablePagoEmpresa,$data);
+        //print_r($this->db->last_query());die();
+        return $this->db->affected_rows();
+    }
+    //consulto pago temporales de empresas oficial de cumplimiento
+    public function emTemporal($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tablePagoEmpresalm);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //consulto el id del pago de empresa
+    public function pagoEmpresa($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tablePagoEmpresa);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //inserto a tabla de relacion empresas con oficila de cumplimiento
+    public function reslEmpresasOf($dataInserta){
+        $this->db->insert($this->tableRelCumplimiento,$dataInserta);
+        //print_r($this->db->last_query());die();
+        return $this->db->insert_id();
+    }
+    //inserto pago empresa primera vez
+    public function pagoMensualidadEmpresa($dataInserta){
+        $this->db->insert($this->tablePagoMesEmpresas,$dataInserta);
+        //print_r($this->db->last_query());die();
+        return $this->db->insert_id();
+    }
+    //consulto pago insertado
+    public function pagoEmpresaMesC($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tablePagoMesEmpresas);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //actualizo pago registrado a mensualidad empresa
+    public function pagoMempresa($data,$where){
+        $this->db->where($where);
+        $this->db->update($this->tablePagoMesEmpresas,$data);
+        // print_r($this->db->last_query());die();
+        return $this->db->affected_rows();
+    }
+    //actualizo estado actual de la empresa
+    public function actualizoEmpresa($data,$where){
+        $this->db->where($where);
+        $this->db->update($this->tableEmpresas,$data);
+        //print_r($this->db->last_query());die();
+        return $this->db->affected_rows();
+    }
+    //inseto pago de oficial de cumplimiento mes 
+    public function pagoMensualidadOficial($dataInserta){
+        $this->db->insert($this->tablePagoMesOficial,$dataInserta);
+        //print_r($this->db->last_query());die();
+        return $this->db->insert_id();
+    }  
+    //consulto pago insertado por oficial de cumplimiento
+    public function infoPagoMesOficial($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tablePagoMesOficial);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //actualizo respuesta de pago para mes oficial de cumplimiento
+    public function pagoMoficial($data,$where){
+        $this->db->where($where);
+        $this->db->update($this->tablePagoMesOficial,$data);
+        // print_r($this->db->last_query());die();
+        return $this->db->affected_rows();
+    }
+    //actualizo membresia oficial de cumplimiento   
+    public function actualizoMembresiaOficial($data,$where){
+        $this->db->where($where);
+        $this->db->update($this->tableMembresiaOficial,$data);
+        // print_r($this->db->last_query());die();
+        return $this->db->affected_rows();
+    }   
+}
 
 ?>

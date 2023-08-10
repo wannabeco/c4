@@ -193,4 +193,61 @@ class LogicaUsuarios  {
         }
         return $respuesta;
     }
+    //info departamentos
+    public function infodepartamentos($idpais){
+        $where['estado'] = 1;
+        $where['ID_PAIS'] = $idpais;
+        $departamentos=$this->ci->dbUsuarios->infodepartamentos($where);
+        return $departamentos;
+    }
+    //info ciudades
+    public function infociudades($idpais, $idDepartamentos){
+        $where['estado'] = 1;
+        $where['ID_PAIS'] = $idpais;
+        $where['ID_DPTO'] = $idDepartamentos;
+        $ciudades=$this->ci->dbUsuarios->infociudades($where);
+        return $ciudades;
+    }
+    //consulto informacion de empresa
+    public function infoEmpresa($idEmpresa=""){
+        $where = array();
+        if($idEmpresa != ""){
+            $where['idEmpresa']    = $idEmpresa;
+        }
+        $where['eliminado'] = 0;
+
+        $dataUsuario                  = $this->ci->dbUsuarios->infoEmpresa($where);
+        if(count($dataUsuario) > 0){
+            $respuesta = array("mensaje"=>"Información del usuarios consultada.",
+                          "continuar"=>1,
+                          "datos"=>$dataUsuario); 
+        }
+        else{
+            $respuesta = array("mensaje"=>"No se ha podido consultar la información del usuario, por favor intente de nuevo más tarde.",
+                          "continuar"=>0,
+                          "datos"=>""); 
+        }
+        return $respuesta;
+    }
+    //procesa informacion de empresa
+    public function procesaEmpresa($datos){
+        extract($datos);
+        if($datos['edita'] == 1){//proceso de edición   
+            $where['idEmpresa'] = $datos['idEmpresa'];
+            unset($datos['edita']);
+            unset($datos['idEmpresa']);
+            $proceso            = $this->ci->dbUsuarios->procesaEmpresa($where,$datos);
+            if($proceso > 0){
+                $respuesta = array("mensaje"=>"La información de la empresa se ha actualizado correctamente.",
+                              "continuar"=>1,
+                              "datos"=>$proceso); 
+            }
+            else{
+                $respuesta = array("mensaje"=>"No se ha podido editar la información de la empresa, por favor intente de nuevo más tarde.",
+                              "continuar"=>0,
+                              "datos"=>""); 
+            }
+            return $respuesta;
+        }
+    }
  }

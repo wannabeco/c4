@@ -109,4 +109,55 @@ $lang['lblEliminar']				= "Eliminar";
 $lang['lblRelacion']				= "Agregar";
 
 
+//pasarela
+//$lang['text30']				       = "PROCCED TO PAY";
+$lang['text30']				       = "PROCEDA A PAGAR";
+//$lang['text31']				       = "Do not close this window until the transaction is finished, otherwise the order will be incomplete";
+$lang['text31']				       = "No cierre esta ventana hasta que finalice la transacción, de lo contrario, el pago estará incompleto";
+//$lang['text32']				       = "TOTAL TO PAY";
+$lang['text32']				       = "TOTAL A PAGAR";
+//$lang['text33']				       = "PRODUCT";
+$lang['text33']				       = "PRODUCTO";
+//$lang['text34']				       = "PRICE";
+$lang['text34']				       = "PRECIO";
+//$lang['text35']				       = "Order summary";
+$lang['text35']				       = "Resumen del pago";
+//$lang['text36']				       = "NOW YOU CAN CLOSE THIS WINDOW";
+$lang['text36']				       = "AHORA PUEDES CERRAR ESTA VENTANA";
+//$lang['text37']				       = "Transaction status";
+$lang['text37']				       = "Estado de la transacción";
+//$lang['text38']				       = "Transaction ID";
+$lang['text38']				       = "ID de transacción";
+//$lang['text39']				       = "Order code";
+$lang['text39']				       = "Código de orden";
+//$lang['text40']				       = "Payment method";
+$lang['text40']				       = "Método de pago";
+$lang['text41']				       = "Total";
+//$lang['text42']				       = "You will be able to choose from your computer the necessary photographs to accompany your product. These photos must be in PNG, JPG or GIF format, must not exceed 5 MB and must keep the size ratio of 1920 X 400 exact.";
+$lang['text42']				       = "Podrás elegir desde tu ordenador la fotografía necesaria para acompañar tu banner. Estas fotos deben estar en formato PNG, JPG o GIF, no deben exceder los 2 MB.";
+$lang['text43']				       = "Podrás elegir desde tu ordenador la fotografía necesaria para acompañar tu categoría. Estas fotos deben estar en formato PNG, JPG o GIF, no deben exceder los 2 MB.";
+
+
+
+//mensajes de transacciones de las pasarelas de pago
+
+//$lang['trans_aprobada']				= "Approved transaction";
+$lang['trans_aprobada']				= "Transacción aprobada";
+//$lang['trans_rechazada']		    = "Transaction declined";
+$lang['trans_rechazada']		    = "Transaccion rechazada";
+//$lang['trans_pendiente']		    = "Pending transaction";
+$lang['trans_pendiente']		    = "Transacción pendiente";
+//$lang['resp_pago']		            = "Payment response";
+$lang['resp_pago']		            = "Respuesta de pago";
+//$lang['cod_pago_label']		        = "Payment code PAYU";
+$lang['cod_pago_label']		        = "Código de pago PAYU";
+//$lang['cod_pedido_label']		    = "Order code";
+$lang['cod_pedido_label']		    = "Código de orden";
+//$lang['lbl_bank']		            = "Bank";
+$lang['lbl_bank']		            = "Banco";
+//$lang['lbl_pedidoReg']		        = "The order has been registered successfully. Your order number is";
+$lang['lbl_pedidoReg']		        = "El pedido ha sido registrado con éxito. tu numero de orden es";
+//$lang['lbl_pedidoNoReg']		    = "The order could not be registered successfully, please try again later.";
+$lang['lbl_pedidoNoReg']		    = "El pedido no se pudo registrar con éxito, inténtelo de nuevo más tarde..";
+
 ?>

@@ -114,10 +114,11 @@ project.controller('creaEmpresa', function($scope,$http,$q,constantes)
 				var parametros  = 	$("#dataOficial").serialize();
 					constantes.consultaApi(controlador,parametros,function(json){
 						if(json.continuar == 1){
-							var usuario = json.datos[0]["usuario"];
-							var clave 	= atob(json.datos[0]["clave64"]);
+							// var usuario = json.datos[0]["usuario"];
+							// var clave 	= atob(json.datos[0]["clave64"]);
 							constantes.alerta("Atención",json.mensaje,"success",function(){
-								window.location = $scope.config.apiUrl+"Login/verificaIngresoDos/"+encodeURIComponent(usuario)+"/"+encodeURIComponent(clave);
+								// window.location = $scope.config.apiUrl+"Login/verificaIngresoDos/"+encodeURIComponent(usuario)+"/"+encodeURIComponent(clave);
+								window.location = $scope.config.apiUrl+"Login";
 							});
 						}
 						else{

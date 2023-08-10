@@ -83,17 +83,8 @@ class Registro extends CI_Controller
 	}
 	//crea usuario de oficial de cumplimiento
 	public function creaOficial(){
-		if(validaInApp("web")){
-			//var_dump($_POST);die();
 			$procesoEmpresa = $this->logicaReg->creaOficial($_POST);
 			echo json_encode($procesoEmpresa);
-		}
-		else{
-			$respuesta = array("mensaje"=>"Acceso no admitido.",
-                              "continuar"=>0,
-                              "datos"=>""); 
-            echo json_encode($respuesta); 
-		}
 	}
 }
 ?>

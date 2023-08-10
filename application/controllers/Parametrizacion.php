@@ -689,11 +689,13 @@ class Parametrizacion extends CI_Controller
 						$crud->set_table('app_perfiles');
 						$crud->set_subject('perfil');
 						//$crud->set_subject('Office');
-						$crud->required_fields('nombrePerfil','estado');
+						$crud->required_fields('nombrePerfil','precioPerfil','estado');
 						$crud->display_as('nombrePerfil','Nombre');
+						$crud->display_as('precioPerfil','Precio');
 						$crud->set_relation('estado','app_estados','nombreEstado');
-						$crud->columns('idPerfil','nombrePerfil','estado');
-						$crud->fields('nombrePerfil','estado');
+						$crud->columns('idPerfil','nombrePerfil','precioPerfil','estado');
+						$crud->fields('nombrePerfil','precioPerfil','estado');
+						$crud->unset_texteditor('precioPerfil','Precio');
 						$crud->unset_texteditor('nombrePerfil');
 						$crud->unset_clone();
 						

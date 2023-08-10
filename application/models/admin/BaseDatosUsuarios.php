@@ -10,6 +10,10 @@ class BaseDatosUsuarios extends CI_Model {
     private $tableEmpresas               =   "";
     private $tablePersonas               =   "";
     private $tableAreas                  =   "";
+    private $tablePerfiles               =   "";
+    private $tableLogin                  =   "";
+    private $tableModulos                =   "";
+    private $tableRelPerfilModulo        =   "";
     public function __construct() 
     {
         parent::__construct();
@@ -84,7 +88,43 @@ class BaseDatosUsuarios extends CI_Model {
         $id = $this->db->get();
         //print_r($this->db->last_query());die();
         return $id->result_array();
-    }  
+    }
+    //info departamentos
+    public function infodepartamentos($where="")
+    {
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tableDeptos);
+        $id = $this->db->get();
+        //print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //info ciudades
+    public function infociudades($where="")
+    {
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tableCiudad);
+        $id = $this->db->get();
+        //print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //consulto informacion de empresa
+    public function infoEmpresa($where=""){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tableEmpresas);
+        $id = $this->db->get();
+        //print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //actualizo informacion de la empresa
+    public function procesaEmpresa($where,$dataInserta){
+        $this->db->where($where);
+        $this->db->update($this->tableEmpresas,$dataInserta);
+        //print_r($this->db->last_query());die();
+        return $this->db->affected_rows();
+    } 
 }
 
 ?>

@@ -51,6 +51,22 @@ class MisMatrices extends CI_Controller
 					$idEmpresa =$_SESSION["project"]["info"]["idEmpresa"];
 					//valido perfil para enviar a mostrar datos y hacer consultas
 					if($idPerfil == 11){
+						$idEmpresa =$_SESSION["project"]["info"]["idEmpresa"];
+						$infoEmprsa = $this->logicaMis->infoEmpresa($idEmpresa);
+						$fechaCaduca = $infoEmprsa[0]["fechaCaducidad"];
+						$hoy = date('Y-m-d H:i:s');
+						// verifico que la empresa este al dia
+						if($hoy > $fechaCaduca ){
+							if($idEmpresa > 0){
+								redirect("PagoMatriz/PagoEmpresas");
+							}
+							if($idEmpresa == 0 ){
+								$opc 				   = "home";
+								$salida['titulo']      = "Pago Empresa";
+								$salida['centro'] 	   = "error/areaRestringida";
+								$this->load->view("app/index",$salida);
+							}
+						}
 						//info Módulo
 						$infoModulo	      	   		= $this->logica->infoModulo($idModulo);
 						$relacion					= $this->logicaMis->consultaRelacion($idEmpresa);
@@ -107,8 +123,7 @@ class MisMatrices extends CI_Controller
 		echo $this->load->view("misMatrices/index",$salida,true);
 	}
 	//informacion interna de la matriz
-	public function informacion($idModulo,$parametro)	
-	{
+	public function informacion($idModulo,$parametro,$idEmpresa){
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
 		if(validaIngreso())
 		{
@@ -118,18 +133,17 @@ class MisMatrices extends CI_Controller
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{	
+			if(getPrivilegios()[0]['ver'] == 1){
+
 				$idPerfil = $_SESSION["project"]["info"]["idPerfil"];
 				if( $idPerfil == 11){
-					
 					//info Módulo
 					$id =$parametro;
+					$idEmpresas = $idEmpresa;
 					$infoModulo	      	   			= $this->logica->infoModulo($idModulo);
 					$infoUsuario		   			= $_SESSION['project']['info']['nombre'];
 					$idPersona						= $_SESSION['project']['info']['idPersona'];
 					$infoMatrizRecurrentes			= $this->logMatriz->infoMatrizRecurrentes($id);
-					//var_dump($infoMatrizRecurrentes);die();
 					$infoMatrices		  			= $this->logMatriz->infoGeneralMatriz();
 					$idrecurrente					= $infoMatrizRecurrentes[0]["idMatrizRecurrente"];
 					$infoComentarios				= $this->logMatriz->infoComentarios($idrecurrente,$idPersona);
@@ -139,8 +153,9 @@ class MisMatrices extends CI_Controller
 					$salida['infoModulo']  			= $infoModulo[0];
 					$salida['infoUsuario'] 			= $infoUsuario[0];
 					$salida['infoMatrices'] 		= $infoMatrices[0];
+					$salida['$idEmpresas'] 			= $idEmpresas;
 					$salida['infoMatrizRecurrentes']= $infoMatrizRecurrentes;
-					//$salida["infoComentarios"] 		= $infoComentarios;
+					$salida["infoComentarios"] 		= $infoComentarios;
 					
 				 	if($infoComentarios["continuar"] == 1){
 				 		$salida["infoComentarios"] 		= $infoComentarios;
@@ -151,36 +166,44 @@ class MisMatrices extends CI_Controller
 					$this->load->view("app/index",$salida);
 				}
 				else if($idPerfil == 8){
-					//info Módulo
-					// $infoEncoded = $_GET['info'];
-					// $info = json_decode(($infoEncoded), true);
-					// var_dump($info);die();
-					$id =$parametro;
+					$nuevaMatriz = $parametro;
+					$idEmpresas = $idEmpresa;
 					$infoModulo	      	   			= $this->logica->infoModulo($idModulo);
 					$infoUsuario		   			= $_SESSION['project']['info']['nombre'];
 					$idPersona						= $_SESSION['project']['info']['idPersona'];
-					$infoMatrizRecurrentes			= $this->logMatriz->infoMatrizRecurrentes($id);
+					$infoMatrizRecurrentes			= $this->logMatriz->infoMatrizRecurrentes($nuevaMatriz);
+					$idResponsable 					= $infoMatrizRecurrentes[0]["idResponsable"];
+					$informacionCheck				= $this->logMatriz->informacionCheck($idResponsable,$nuevaMatriz,$idEmpresas);
+					if($informacionCheck["continuar"] == 1){
+						$idPersonaCheck 				= $informacionCheck["datos"][0]["idPersona"];
+						$informacionPersona				= $this->logMatriz->infoPersona($idPersonaCheck);
+						$infoComentarios				= $this->logMatriz->infoComentarios($nuevaMatriz,$idPersonaCheck);
+						$salida['informacionCheck'] 	= $informacionCheck;
+						$salida['informacionPersona'] 	= $informacionPersona[0];
+						$salida["infoComentarios"] 		= $infoComentarios;
+					}else{
+						$infoComentarios["datos"] = "";
+						$informacionCheck ="";
+				 	   $salida["infoComentarios"] 		= $infoComentarios;
+						$salida['informacionCheck'] 	= $informacionCheck;
+				    }
+					
 					$infoMatrices		  			= $this->logMatriz->infoGeneralMatriz();
-					$idrecurrente					= $infoMatrizRecurrentes[0]["idMatrizRecurrente"];
-					$infoComentarios				= $this->logMatriz->infoComentarios($idrecurrente,$idPersona);
 					$opc 				   			= "home";
 					$salida['titulo']      			= "Información de Matriz";
 					$salida['centro'] 	   			= "MatricesCreadas/infoMatriz";
 					$salida['infoModulo']  			= $infoModulo[0];
 					$salida['infoUsuario'] 			= $infoUsuario[0];
 					$salida['infoMatrices'] 		= $infoMatrices[0];
-					$salida['infoMatrizRecurrentes']= $infoMatrizRecurrentes;
-					//$salida["infoComentarios"] 		= $infoComentarios;
 					
-				 	if($infoComentarios["continuar"] == 1){
-				 		$salida["infoComentarios"] 		= $infoComentarios;
-				    }else{
-				 	   $salida["infoComentarios"] 		= $infoComentarios;
-				    }
-					$salida["idNuevaMatriz"] 		= $id;
+					$salida['idEmpresas'] 			= $idEmpresas;
+					$salida['idResponsable'] 		= $idResponsable;
+					$salida['infoMatrizRecurrentes']= $infoMatrizRecurrentes;
+					
+					$salida["idNuevaMatriz"] 		= $nuevaMatriz;
 					$this->load->view("app/index",$salida);
 				}
-				else if($idPerfil > 3 && $idPerfil != 11){
+				else if($idPerfil > 3 && $idPerfil != 11 && $idPerfil != 8){
 					
 					$id =$parametro;
 					$infoModulo	      	   			= $this->logica->infoModulo($idModulo);
@@ -188,9 +211,9 @@ class MisMatrices extends CI_Controller
 					$idPersona						= $_SESSION['project']['info']['idPersona'];
 					$infoMatrizRecurrentes			= $this->logMatriz->infoMatrizRecurrentesDos($id,$idPerfil);
 					$infoMatrices		  			= $this->logMatriz->infoGeneralMatriz();
-					// var_dump($infoMatrizRecurrentes);die;
 					$idrecurrente					=$infoMatrizRecurrentes[0]["idMatrizRecurrente"];
 					$infoComentarios				= $this->logMatriz->infoComentarios($idrecurrente,$idPersona);
+					// var_dump($infoComentarios);die();
 					$opc 				   			= "home";
 					$salida['titulo']      			= "Información de Matriz";
 					$salida['infoModulo']  			= $infoModulo[0];
@@ -225,6 +248,7 @@ class MisMatrices extends CI_Controller
 	//agrega nuevo checkeo
 	public function nuevocheck(){
 		if(validaInApp("web")){//esta validación me hará consultas más seguras
+			// var_dump($_POST);die();
 			$procesoCrea = $this->logMatriz->creaCheckeo($_POST);
 			echo json_encode($procesoCrea);
 		}
@@ -316,7 +340,76 @@ class MisMatrices extends CI_Controller
 		// var_dump($infoMatriz);die();
 		$salida['infoMatriz']      	= $infoMatriz;
 		echo $this->load->view("misMatrices/sugerirItem",$salida,true);
-}
+	}
+	public function eliminaMatrizComprada(){
+		if(validaInApp("web")){//esta validación me hará consultas más seguras
+			$proceso = $this->logicaMis->eliminaMatrizComprada($_POST);
+			echo json_encode($proceso); 
+		}
+		else{
+			$proceso ="nada";
+			echo json_encode($proceso); 
+		}
+	}
+	//cargador de archivos
+	public function cargaFoto(){	
+		$idEmpresa= "";
+		extract($_POST);
+		if(isset($_FILES) && $_FILES[$caja]['name'] != ""){
+			// @mkdir('assets/uploads/files/'.$idTienda,0777);
+			$idEmpresa 			 = $_SESSION['project']['info']['idEmpresa'];
+			$config['upload_path'] 	 = 'assets/uploads/files/'.$idEmpresa.'/';
+	        $config['allowed_types'] = 'jpg|png|pdf|jpeg|doc|docx|xls|xlsx';
+	        $config['max_size'] 	 = '10000';
+            // $config['max_width']     = 800;
+            // $config['max_height']    = 800;
+	        $config['encrypt_name']  = TRUE;
+	        $file_element_name 		 = $caja;
+	        $this->load->library('upload', $config);
+
+	        if(!$this->upload->do_upload($file_element_name)){//si no carga{
+				$salida = array("mensaje"=>lang("text19.6"),
+								"continuar"=>0,
+								"idTienda"=>$idEmpresa,
+								"urlCompleta"=>"",
+								"foto"=>"",
+								"datos"=>"");  
+	        } else {//si carga
+				
+	            $data 					= $this->upload->data();
+				//inserto la foto en la tabla de fotos temporales porque es probable que el usuario se arrepienta y no termine de crar el producto, entonces la foto quedara en el server ocupando espacio
+				//al ponerla en esta tabla se puede correr un cron revisando que fotos en esta tablano fueron amarradas al producto y borrarlas.
+				$fotoTemp		 = $this->logicaMis->insertaFotoTemp(array("foto"=>$data['file_name'],"rutaFoto"=>"assets/uploads/files/".$idEmpresa."/".$data['file_name']));  
+	            $salida = array("mensaje"=>lang("text19.7"),
+            				    "continuar"=>1,
+								"idEmpresa"=>$idEmpresa,
+								"urlCompleta"=>base_url()."assets/uploads/files/".$idEmpresa."/".$data['file_name'],
+								"foto"=>$data['file_name'],
+            				    "datos"=>$data['file_name']);
+				echo json_encode($salida);
+	        }
+	    } else {
+			$salida = array("mensaje"=>lang("text19.8"),
+							"continuar"=>0,
+							"idEmpresa"=>$idEmpresa,
+							"urlCompleta"=>"",
+							"foto"=>"",
+							"datos"=>"");
+			echo json_encode($salida);
+		}
+        // var_dump($salida);die();
+	}
+	//actualiza checkeo para usuarios
+	public function actualizaCheck(){
+		if(validaInApp("web")){//esta validación me hará consultas más seguras
+			$proceso = $this->logicaMis->actualizaCheck($_POST);
+			echo json_encode($proceso); 
+		}
+		else{
+			$proceso ="nada";
+			echo json_encode($proceso); 
+		}
+	}
 }
 ?>
 

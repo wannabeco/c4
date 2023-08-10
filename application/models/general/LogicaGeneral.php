@@ -309,6 +309,7 @@ class LogicaGeneral  {
             $dataInserta["nombreMatriz"]    = $tipos["nombre"];
             $dataInserta["precioMatriz"]    = $tipos["precio"];
             $dataInserta["idPersona"]       = $_SESSION['project']['info']['idPersona'];
+            $dataInserta["idEmpresa"]       = $_SESSION['project']['info']['idEmpresa'];
             $resultado = $this->ci->dbGeneral->insertCmatriz($dataInserta);
         }
         if($resultado > 0){
@@ -436,4 +437,336 @@ class LogicaGeneral  {
             }
         return $respuesta;
     }
- }
+    //consulta planes
+    public function infoPlanes(){
+        $where["elimina"] = 0;
+        $resultado         = $this->ci->dbGeneral->infoPlanes($where); 
+        return $resultado;
+    }
+    //consultoPlanes id
+    public function infoPlanesid($idPlan){
+        $where["idPlan"] = $idPlan["idPlan"];
+        $resultado         = $this->ci->dbGeneral->infoPlanes($where); 
+        return $resultado;
+    }
+    //crea palnes
+    public function creaPlanes($datos){
+        $resultado         = $this->ci->dbGeneral->creaPlanes($datos);
+        if($resultado > 0 ){
+            $respuesta = array("mensaje"=>"El plan se ha creado correctamente.",
+                "continuar"=>1,
+                "datos"=>"");
+        }
+        else{
+            $respuesta = array("mensaje"=>"El plan no ha creado.",
+                "continuar"=>0,
+                "datos"=>"");
+
+        } 
+        return $respuesta;
+    }
+    //actualiza plan
+    public function actualizaPlan($datos){
+        // var_dump($datos);die();
+        $dataActualiza["nombrePlan"]  = $datos["nombrePlan"];
+        $dataActualiza["tituloPlan"]  = $datos["tituloPlan"];
+        $dataActualiza["descripcion"]  = $datos["descripcion"];
+        $dataActualiza["precio"]  = $datos["precio"];
+        $dataActualiza["dirigido"]  = $datos["dirigido"];
+        $dataActualiza["promocion"]  = $datos["promocion"];
+        $dataActualiza["fechaInicio"]  = $datos["fechaInicio"];
+        $dataActualiza["fechaFinaliza"]  = $datos["fechaFinaliza"];
+        $dataActualiza["estado"]  = $datos["estado"];
+        $where['idPlan']           = $datos["idPlan"];
+        $empresas                  = $this->ci->dbGeneral->actualizaPlan($dataActualiza, $where);
+        if($empresas > 0){
+            $respuesta = array("mensaje"=>"El plan se actualizo correctamente.",
+            "continuar"=>1,
+            "datos"=>"");
+        }else{
+            $respuesta = array("mensaje"=>"No fue posible actualizar el plan, por favor intentolo Nuevamente.",
+            "continuar"=>1,
+            "datos"=>"");
+        }
+    return $respuesta;
+    }
+    //elimina planes
+    public function eliminaPlanes($idPlan){
+        $dataActualiza["elimina"]  = 1;
+        $where['idPlan']           = $idPlan["idPlan"];
+        $empresas                  = $this->ci->dbGeneral->actualizaPlan($dataActualiza, $where);
+        if($empresas > 0){
+            $respuesta = array("mensaje"=>"El plan se elimino correctamente.",
+            "continuar"=>1,
+            "datos"=>"");
+        }else{
+            $respuesta = array("mensaje"=>"No fue posible eliminar el plan.",
+            "continuar"=>1,
+            "datos"=>"");
+        }
+    return $respuesta;
+    }
+    // informacion de cantidad de matrices por empresa
+    public function getMatricesEmpresas($idEmpresa){
+        $where["c.idEmpresa"]        = $idEmpresa;
+        $where["c.estado"]            = 1;
+        $where["c.eliminado"]        = 0;
+        $matrices                  = $this->ci->dbGeneral->getMatricesEmpresas($where);
+        // var_dump($matrices["count"]);die();
+        return $matrices;
+    }
+    // informacion de cantidad de usuarios por empresa
+    public function getUsuarioEmpresa($idEmpresa){
+        $where["idEmpresa"]        = $idEmpresa;
+        $where["p.eliminado"]        = 0;
+        $personas                  = $this->ci->dbGeneral->getUsuarioEmpresa($where);
+        if($personas > 0){
+            $respuesta = $personas;
+        }else{
+            $respuesta = array("mensaje"=>"No hay informacion.",
+            "continuar"=>0,
+            "datos"=>"");
+        }
+    return $respuesta;
+    }
+    //informacion de empresa.
+    public function infoEmpresa($idEmpresa){
+        $where["idEmpresa"] = $idEmpresa;
+        $resultado         = $this->ci->dbGeneral->getInfoEmpresa($where); 
+        return $resultado;
+    }
+    //pago de matrices
+    public function pagoMatriz($datos){
+        $where['codigoPago']              = $datos["codigoPago"];
+        $dataActualiza['email']           = $datos['email'];
+        $dataActualiza['estadoPago']      = $datos['estadoPago'];
+        $dataActualiza['formaPago']       = $datos['formaPago'];
+        $dataActualiza['transactionid']   = $datos['transactionid'];
+        $dataActualiza['referencia_pol']  = $datos['referencia_pol'];
+        $dataActualiza['valor']           = $datos['valor'];
+        $dataActualiza['moneda']          = $datos['moneda'];
+        $dataActualiza['entidad']         = $datos['entidad'];
+        $dataActualiza['fechaPago']       = date("Y-m-d H:i:s");
+        $dataActualiza['ip']              = getIP();
+        $pagoMatriz                       = $this->ci->dbGeneral->pagoMatriz($dataActualiza, $where);
+            if($pagoMatriz > 0){
+                $where['codigoPago'] = $datos["codigoPago"];
+                $PagodeMatriz = $this->ci->dbGeneral->PagodeMatriz($where);
+                if($PagodeMatriz[0]["estadoPago"] == 4 || $PagodeMatriz[0]["estadoPago"] == 998){
+                    $idPago["idPago"] = $PagodeMatriz[0]["idPago"];
+                    $mTemporal = $this->ci->dbGeneral->mTemporal($idPago);
+                    foreach($mTemporal as $matrices){
+                        $dataInserta["idMatriz"]    = $matrices["idMatriz"];
+                        $dataInserta["idEmpresa"]   = $matrices["idEmpresa"];
+                        $dataInserta["idPersona"]   = $matrices["idPersona"];
+                        $dataInserta["pago"]        = "SI";
+                        $dataInserta["fechaPago"]   = $PagodeMatriz[0]["fechaPago"];
+                        $MatricesCompradas          = $this->ci->dbGeneral->MatricesCompradas($dataInserta);
+                    }
+                    if($MatricesCompradas > 0){
+                        $respuesta = array("mensaje"=>"Matriz agregada correctamente.",
+                                "continuar"=>1,
+                                "datos"=>$MatricesCompradas);
+                    }
+                }
+                else if($PagodeMatriz[0]["estadoPago"] == 6 || $PagodeMatriz[0]["estadoPago"] == 104 || $PagodeMatriz[0]["estadoPago"] == 999){
+                    $respuesta = array("mensaje"=>"pago rechazado.",
+                                "continuar"=>0,
+                                "datos"=>"");
+                }
+                return $respuesta;
+            }
+    }
+    //pago empresas por oficial de cumplimiento
+    public function pagoEmpresaO($datos){
+        $where['codigoPago']              = $datos["codigoPago"];
+        $dataActualiza['email']           = $datos['email'];
+        $dataActualiza['estadoPago']      = $datos['estadoPago'];
+        $dataActualiza['formaPago']       = $datos['formaPago'];
+        $dataActualiza['transactionid']   = $datos['transactionid'];
+        $dataActualiza['referencia_pol']  = $datos['referencia_pol'];
+        $dataActualiza['valor']           = $datos['valor'];
+        $dataActualiza['moneda']          = $datos['moneda'];
+        $dataActualiza['entidad']         = $datos['entidad'];
+        $dataActualiza['fechaPago']       = date("Y-m-d H:i:s");
+        $dataActualiza['ip']              = getIP();
+        $pagoEmpresa                       = $this->ci->dbGeneral->pagoEmpresaO($dataActualiza,$where);
+            if($pagoEmpresa > 0){
+                $where['codigoPago'] = $datos["codigoPago"];
+                $pagoEmpresa = $this->ci->dbGeneral->pagoEmpresa($where);
+                if($pagoEmpresa[0]["estadoPago"] == 4 || $pagoEmpresa[0]["estadoPago"] == 998){
+                    $idPago["idPago"] = $pagoEmpresa[0]["idPagoEmpresa"];
+                    $emTemporal = $this->ci->dbGeneral->emTemporal($idPago);
+                    // var_dump($emTemporal);die();
+                    foreach($emTemporal as $empresa){
+                        $dataInserta["idEmpresa"]   = $empresa["idEmpresa"];
+                        $dataInserta["idPersona"]   = $empresa["idPersona"];
+                        $dataInserta["idPagoEmpresa"] = $empresa["idPago"];
+                        $dataInserta["precioEmpresa"] = $empresa["precioEmpresa"];
+                        $dataInserta["fecha"]       = $pagoEmpresa[0]["fechaPago"];
+                        $EmpresasCompradas          = $this->ci->dbGeneral->reslEmpresasOf($dataInserta);
+                    }
+                    if($EmpresasCompradas > 0){
+                        $respuesta = array("mensaje"=>"la empresa fue agregada correctamente.",
+                                "continuar"=>1,
+                                "datos"=>$EmpresasCompradas);
+                    }
+                    $respuesta = array("mensaje"=>"Por favor comuniquese con el administrador.",
+                                "continuar"=>1,
+                                "datos"=>$EmpresasCompradas);
+                }else if($pagoEmpresa[0]["estadoPago"] == 6 || $pagoEmpresa[0]["estadoPago"] == 104 || $pagoEmpresa[0]["estadoPago"] == 999){
+                    $respuesta = array("mensaje"=>"pago rechazado.",
+                                "continuar"=>0,
+                                "datos"=>"");
+                }
+                return $respuesta;
+            }
+    }
+    //consultaciudades empresa
+    public function consultaCiudadesEm($departamento)
+    {
+        $where['ID_DPTO']    = $departamento;
+        $where['ID_PAIS']    = '057';
+        $ciudades          = $this->ci->dbGeneral->getCiudades($where);
+        return $ciudades;   
+    }
+    //consulto departamentos
+    public function consultaDepartamentos()
+    {
+        $where['ID_PAIS']    = '057';
+        $ciudades          = $this->ci->dbGeneral->getDepartamentos($where);
+        return $ciudades;   
+    }
+    //agrego pago de mensualidad empresa
+    public function pagoMensualidadEmpresa($data){
+        $dataInserta['idEmpresa']       = $data["dataEmpresa"];
+        $dataInserta['idPersona']       = $_SESSION['project']['info']['idPersona'];
+        $dataInserta['proveedor']       = $data["proveedor"];
+        $dataInserta['ip']              = getIP();
+        $dataInserta['estadoPago']      = 0;
+        $dataInserta['codigoPago']      = substr(md5(uniqid()), 0, 16);
+        $dataInserta['fechaPago']       = date('Y-m-d H:m:s');
+        $resultado = $this->ci->dbGeneral->pagoMensualidadEmpresa($dataInserta);
+        $respuesta = array("mensaje"=>"data insert",
+                            "continuar"=>1,
+                            "datos"=>$resultado);   
+        return $respuesta;
+    }
+    //consulto pago mensualidad empresa a realizar
+    public function pagoEmpresaMesC($dato){
+        $where["idPagoMesEmpresas"] = $dato;
+        $resultado         = $this->ci->dbGeneral->pagoEmpresaMesC($where); 
+        return $resultado;
+    }
+    //registro pago empresa
+    public function pagoMempersa($datos){
+        //var_dump($datos);die();
+        $where['codigoPago']              = $datos["codigoPago"];
+        $dataActualiza['email']           = $datos['email'];
+        $dataActualiza['estadoPago']      = $datos['estadoPago'];
+        $dataActualiza['formaPago']       = $datos['formaPago'];
+        $dataActualiza['transactionid']   = $datos['transactionid'];
+        $dataActualiza['referencia_pol']  = $datos['referencia_pol'];
+        $dataActualiza['valor']           = $datos['valor'];
+        $dataActualiza['moneda']          = $datos['moneda'];
+        $dataActualiza['entidad']         = $datos['entidad'];
+        $dataActualiza['fechaPago']       = date("Y-m-d H:i:s");
+        $dataActualiza['ip']              = getIP();
+        $pagoEmpresa                      = $this->ci->dbGeneral->pagoMempresa($dataActualiza,$where);
+        //var_dump($pagoEmpresa);die();
+        if($pagoEmpresa > 0){
+            $where['codigoPago'] = $datos["codigoPago"];
+            $verificoPago = $this->ci->dbGeneral->pagoEmpresaMesC($where);
+            // var_dump($verificoPago[0]);die();
+            if($verificoPago[0]["estadoPago"] == 4 || $verificoPago[0]["estadoPago"] == 998){
+                // var_dump("aca");die();
+                $donde['idEmpresa']                 = $verificoPago[0]["idEmpresa"];
+                $dataActualizar['fechaInicioPlan']   = date("Y-m-d H:i:s");
+                $hoy                                = date('Y-m-d');
+                $mes                                = date('Y-m-d', strtotime('+1 month', strtotime($hoy)));
+                $dataActualizar['fechaCaducidad']    = $mes;
+                $actualizoEmpresa = $this->ci->dbGeneral->actualizoEmpresa($dataActualizar,$donde);
+                if($actualizoEmpresa > 0){
+                    $respuesta = array("mensaje"=>"se agregaron datos de la empresa.",
+                            "continuar"=>1,
+                            "datos"=>$actualizoEmpresa);
+                }
+                $respuesta = array("mensaje"=>"Por favor comuniquese con el administrador.",
+                            "continuar"=>0,
+                            "datos"=>$actualizoEmpresa);
+            }
+            if($verificoPago[0]["estadoPago"] == 6 || $verificoPago[0]["estadoPago"] == 104 || $verificoPago[0]["estadoPago"] == 999){
+                $respuesta = array("mensaje"=>"pago rechazado.",
+                            "continuar"=>0,
+                            "datos"=>"");
+            }
+            return $respuesta;
+        }
+    }
+    //agrego pago de mensualidad oficial de cumplimiento
+    public function pagoMensualidadOficial($data){
+        $dataInserta['idPersona']       = $_SESSION['project']['info']['idPersona'];
+        $dataInserta['email']           = $_SESSION['project']['info']['email'];
+        $dataInserta['proveedor']       = $data["proveedor"];
+        $dataInserta['ip']              = getIP();
+        $dataInserta['estadoPago']      = 0;
+        $dataInserta['codigoPago']      = substr(md5(uniqid()), 0, 16);
+        $dataInserta['fechaPago']       = date('Y-m-d H:m:s');
+        $resultado = $this->ci->dbGeneral->pagoMensualidadOficial($dataInserta);
+        $respuesta = array("mensaje"=>"data insert",
+                            "continuar"=>1,
+                            "datos"=>$resultado);   
+        return $respuesta;
+    }
+    //consulto los datos de pago que el oficial va a realizar
+    public function infoPagoMesOficial($dato){
+        $where["idPagoMesOficial"]= $dato;
+        $resultado          = $this->ci->dbGeneral->infoPagoMesOficial($where); 
+        return $resultado;
+    }
+    //repuesta pago oficial de cumplimiento
+    public function pagoMoficial($datos){
+        //var_dump($datos);die();
+        $where['codigoPago']              = $datos["codigoPago"];
+        $dataActualiza['email']           = $datos['email'];
+        $dataActualiza['estadoPago']      = $datos['estadoPago'];
+        $dataActualiza['formaPago']       = $datos['formaPago'];
+        $dataActualiza['transactionid']   = $datos['transactionid'];
+        $dataActualiza['referencia_pol']  = $datos['referencia_pol'];
+        $dataActualiza['valor']           = $datos['valor'];
+        $dataActualiza['moneda']          = $datos['moneda'];
+        $dataActualiza['entidad']         = $datos['entidad'];
+        $dataActualiza['fechaPago']       = date("Y-m-d H:i:s");
+        $dataActualiza['ip']              = getIP();
+        $pagoOficial                      = $this->ci->dbGeneral->pagoMoficial($dataActualiza,$where);
+        //var_dump($pagoOficial);die();
+        if($pagoOficial > 0){
+            $where['codigoPago'] = $datos["codigoPago"];
+            $verificoPago = $this->ci->dbGeneral->infoPagoMesOficial($where);
+            // var_dump($verificoPago[0]);die();
+            if($verificoPago[0]["estadoPago"] == 4 || $verificoPago[0]["estadoPago"] == 998){
+                $donde['idPersona']                 = $verificoPago[0]["idPersona"];
+                $dataActualizar['fechaInicioMes']   = date("Y-m-d H:i:s");
+                $hoy                                = date('Y-m-d');
+                $mes                                = date('Y-m-d', strtotime('+1 month', strtotime($hoy)));
+                $dataActualizar['fechaCaducidad']   = $mes;
+                $dataActualizar['codigoPago']       = $datos["codigoPago"];
+                $actualizoEmpresa = $this->ci->dbGeneral->actualizoMembresiaOficial($dataActualizar,$donde);
+                if($actualizoEmpresa > 0){
+                    $respuesta = array("mensaje"=>"se agregaron datos de la empresa.",
+                            "continuar"=>1,
+                            "datos"=>$actualizoEmpresa);
+                }
+                $respuesta = array("mensaje"=>"Por favor comuniquese con el administrador.",
+                            "continuar"=>0,
+                            "datos"=>$actualizoEmpresa);
+            }
+            if($verificoPago[0]["estadoPago"] == 6 || $verificoPago[0]["estadoPago"] == 104 || $verificoPago[0]["estadoPago"] == 999){
+                $respuesta = array("mensaje"=>"pago rechazado.",
+                            "continuar"=>0,
+                            "datos"=>"");
+            }
+            return $respuesta;
+        }
+    }
+}

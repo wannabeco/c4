@@ -70,7 +70,8 @@ class LogicaRegistro  {
                    //die($idEmpresa);
                     //si la inserción es correcta debo notificar para hacer el resto de inserciones
                     if(trim($idEmpresa) > 0)
-                    {
+                    {   
+                        @mkdir('assets/uploads/files/'.$idEmpresa,0777);
                         //después de haber insertado la empresa debo insertar el usuario y la clave para esta empresa
                         $dataInsertClave['idGeneral']   =   $idEmpresa;
                         $dataInsertClave['tipoLogin']   =   1;//tipo Empresa
@@ -370,7 +371,7 @@ class LogicaRegistro  {
     //crea oficial de cumplimiento
     public function creaOficial($data){
         extract($data);
-        //var_dump($data);die();
+        // var_dump($data);die();
         $email          = $data["email"];
         $rclave         = $data["rclave"];
         $nombreUsuario  = $data["nombreUsuarios"];
@@ -407,6 +408,19 @@ class LogicaRegistro  {
                 $consultaLogin                  = $this->ci->dbRegistro->consultaLogin($where);
                 //inserto los datos básicos de la persona
                 $idPersona = $this->ci->dbRegistro->insertaPersona($dataPerson);
+                //se crea relacion de oficial de cumplimiento con pago app_mmebresia:oficial para controlar si esta o no aldia con suspagos
+                $dataM["idPersona"] = $idPersona;
+                $dataM["email"]     = $email;
+                $hoy = date("Y-m-d H:i:s");
+                $dataM["fechaIngreso"] = $hoy;
+                $dataM["fechaInicioMes"] = $hoy;
+                $dataM["fechaCaducidad"] = date('Y-m-d H:i:s', strtotime('-1 day', strtotime($hoy)));
+                $dataM["paquete"] = "mensual";
+                $dataM["estadoFunciona"] = "normal";
+
+                $emembresiaOficial = $this->ci->dbRegistro->insertaMembresiaMes($dataM);
+
+
                 // $dataRel['idPersona']     =$idPersona;
                 // $dataRel['idPerfil']      =8;
                 // $dataRel["idEmpresa"]     =$idEmpresa;

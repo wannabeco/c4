@@ -431,43 +431,51 @@ class LogicaMatriz  {
     }
     //crea nuevo chekeo
     public function creaCheckeo($data){
+        $archivo = "";
         extract($data);
-        // var_dump($data);die();
+        if( $data["archivos"] != ""){
+            $archivo        = $data["archivos"];
+            $archivoArray   = explode(",", $archivo);
+        }
         $idPersona          = $data["idPersona"];
-        $idPerfil           = $data["idPerfil"];
         $idEmpresa          = $data["idEmpresa"];
         $matriz             = $data["idNuevaMatriz"];
         $recurrente         = $data["idMatrizRecurrente"];
         $res                = $data["respuestas"];
-        $array                                        = explode(",", $res);
+        $array              = explode(",", $res);
         $datacreaComentario["idNuevaMatriz"]          = $matriz;
         $datacreaComentario["idPersona"]              = $idPersona;
-        $datacreaComentario["idPerfil"]               = $idPerfil;
+        $datacreaComentario["idPerfil"]               = $_SESSION['project']['info']['idPerfil'];
         $datacreaComentario["idMatrizRecurrente"]     = $recurrente;
         $datacreaComentario["comentario"]             = $data["comentario"];
         $datacreaComentario["idEmpresa"]              = $idEmpresa;
         $datacreaComentario["fechaRespuesta"]         = date("Y-m-d H:i:s");
         $this->ci->dbMatriz->creaComentario($datacreaComentario);
-            //se recorren las posiciones si $array esta lleno
-            if($array != ""){
-                $respuesta = 1;
-                foreach ($array as $valores) {
-                    $datacrea["idPersona"]              = $idPersona;
-                    $datacrea["idPerfil"]               = $idPerfil;
-                    $datacrea["idEmpresa"]              = $idEmpresa;
-                    $datacrea["idNuevaMatriz"]          = $matriz;
-                    $datacrea["idMatrizRecurrente"]     = $recurrente;
-                    $datacrea["idRespuesta"]            = $respuesta;
-                    $datacrea["valor"]                  = $valores;
-                    $this->ci->dbMatriz->creaCheckeo($datacrea);
-                    $respuesta++;
+        if (!empty($array) && !empty($archivoArray)) {
+            $pregunta = 1;
+            foreach ($array as $valores) {
+                $datacrea["valor"] = $valores;
+                $datacrea["nombreArchivo"] = "";
+                if ($datacrea["valor"] == "SI" && isset($archivoArray[$pregunta - 1])){
+                    $datacrea["nombreArchivo"] = $archivoArray[$pregunta - 1];
                 }
-                $respuesta = array("mensaje"=>"El formulario se ha regsitrado exitosamente.",
-                        "continuar"=>1,
-                        "datos"=>"");
+                $datacrea["idPersona"]              = $idPersona;
+                $datacrea["idPerfil"]               = $_SESSION['project']['info']['idPerfil'];
+                $datacrea["idEmpresa"]              = $idEmpresa;
+                $datacrea["idNuevaMatriz"]          = $matriz;
+                $datacrea["idMatrizRecurrente"]     = $recurrente;
+                $datacrea["idRespuesta"]            = $pregunta;
+                
+                $guardado = $this->ci->dbMatriz->creaCheckeo($datacrea);
+                $pregunta++;
             }
+            $respuesta = array("mensaje"=>"El formulario se ha regsitrado exitosamente.",
+                    "continuar"=>1,
+                    "datos"=>"");
+        }
         return $respuesta;
     }
+    //informacion de comentarios
     public function infoComentarios($idrecurrente,$idPersona){
         $where["idPersona"]          = $idPersona;
         $where["idMatrizRecurrente"] = $idrecurrente;
@@ -489,6 +497,47 @@ class LogicaMatriz  {
         }
         
         return $respuesta;
+    }
+    //informacion de respuestas chekeador
+    public function informacionCheck($idPersona,$nuevaMatriz,$idEmpresa){
+        $where["idPerfil"]          = $idPersona;
+        $where["idNuevaMatriz"] = $nuevaMatriz;
+        $where["idEmpresa"] = $idEmpresa;
+        $informacion            = $this->ci->dbMatriz->informacionCheck($where);
+        $idNuevaMatriz = "";
+        if(isset($informacion[0]["idNuevaMatriz"])){
+            $idNuevaMatriz = $informacion[0]['idNuevaMatriz'];
+        }
+        // var_dump($nuevaMatriz, $idMatrizRecurrente);die();
+        $id1 = intval(trim($nuevaMatriz));
+        $id2 = intval(trim($idNuevaMatriz));
+
+        if($id1 == $id2){
+            $respuesta = array("mensaje"=>"los comentarios se han consultado correctamente.",
+                        "continuar"=>1,
+                        "datos"=>$informacion);
+        }
+        else{
+            $respuesta = array("mensaje"=>"los comentarios no se han consultado correctamente.",
+                        "continuar"=>0,
+                        "datos"=>"");
+        }
+        
+        return $respuesta;
+    }
+    public function informacionCheckDos($idrecurrente,$idPrefil,$idEmpresa){
+        $where["idPerfil"]          = $idPrefil;
+        $where["idMatrizRecurrente"] = $idrecurrente;
+        $where["idEmpresa"] = $idEmpresa;
+        $informacion            = $this->ci->dbMatriz->informacionCheckDos($where);
+        // var_dump($informacion);die();
+        return $informacion;
+    }
+    //informacion de persona por id
+    public function infoPersona($idPersona){
+        $where["idPersona"] = $idPersona;
+        $actualiza            = $this->ci->dbMatriz->infoUsuario($where);
+        return $actualiza;
     }
     
 }

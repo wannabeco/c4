@@ -11,9 +11,25 @@ project.controller('misMatrices', function($scope,$http,$q,constantes)
 	$scope.infoMatrices= "";
 	$scope.inforMiMatriz = "";
 		
-	$scope.verMatriz = function($id,$infoMatriz){
-		var info = $infoMatriz;
-		window.location = $scope.config.apiUrl+"MisMatrices/informacion/42/"+$id;
+	$scope.verMatriz = function($id,$idEmpresa){
+		var idEmpresa = $idEmpresa;
+		var controlador = $scope.config.apiUrl+"InfomarcionMatriz/consultoR?idmatriz="+$id;
+		var parametros = "";
+		$.ajax({
+			url: controlador,
+			type: "POST",
+			data: parametros,
+			dataType: "json",
+			success: function(response) {
+				if(response == ""){
+					constantes.alerta("Atención","La matriz se encuentra en construcción.","info",function(){});
+				}
+				else{
+					window.location = $scope.config.apiUrl+"MisMatrices/informacion/42/"+$id+"/"+idEmpresa;
+				}
+			$scope.$apply();
+			}
+		});
 	}
 
 	$scope.agregarMatriz =function(){
@@ -24,8 +40,6 @@ project.controller('misMatrices', function($scope,$http,$q,constantes)
 		var nombreNuevaMatriz = $('#nombreNuevaMatriz').val();
 		var dirigida       	  = $('#dirigida').val();
 		var tipoEmpresa       = ids;
-		
-		
 		//empiezo la validación de campos que será la misma si es editar que si es crear
 		
 		if(nombreNuevaMatriz == ""){
@@ -65,7 +79,6 @@ project.controller('misMatrices', function($scope,$http,$q,constantes)
 		var controlador = 	$scope.config.apiUrl+"MisMatrices/miMatriz";
 		var parametros  = 	"edita="+edita+"&idNuevaMatriz="+idNuevaMatriz;
 		constantes.consultaApi(controlador,parametros,function(json){
-				
 			$("#modalCrea").html(json);
 			//actualiza el DOM
 			$scope.compileAngularElement("#formAgregaParametros");
@@ -78,18 +91,27 @@ project.controller('misMatrices', function($scope,$http,$q,constantes)
 	 	var controlador = $scope.config.apiUrl+"MisMatrices/sugerirMatriz";
 	 	var parametros  = "";
 	 	constantes.consultaApi(controlador,parametros,function(json){
-				
 	 		$("#modalCreaNueva").html(json);
 	 		// actualiza el DOM
 	 		$scope.compileAngularElement("#formMatriz");
 	 	},'');
 	}
 
-
-
-
-
-
+	$scope.borraMatriz = function($idNuevaMatriz, $idEmpresa){
+		constantes.confirmacion("Confirmación","Esta apunto de eliminar una matriz, ¿desea continuar?",'info',function(){
+			var controlador = $scope.config.apiUrl+"MisMatrices/eliminaMatrizComprada";
+			var parametros  = "idMatriz="+$idNuevaMatriz+"&idEmpresa="+$idEmpresa;
+			constantes.consultaApi(controlador,parametros,function(json){
+				if(json.continuar == 1){
+					constantes.alerta("Atención",json.mensaje,"success",function(){
+						window.location = $scope.config.apiUrl+"MisMatrices/matrices/43";
+					});
+				} else {
+					constantes.alerta("Atención",json.mensaje,"warning",function(){});
+				}
+			});
+		});
+	}
 
 	// plantilla crea parametros a matriz
 	  $scope.cargaPlantillaMatriz = function(idNuevaMatriz){	
@@ -106,24 +128,17 @@ project.controller('misMatrices', function($scope,$http,$q,constantes)
 	
 
 	$scope.compileAngularElement = function(elSelector) {
-
         var elSelector = (typeof elSelector == 'string') ? elSelector : null ;  
-             // The new element to be added
-         if (elSelector != null ) {
+        if (elSelector != null ) {
              var $div = $( elSelector );
-
                  // The parent of the new element
                  var $target = $("[ng-app]");
-
-               angular.element($target).injector().invoke(['$compile', function ($compile) {
-                         var $scope = angular.element($target).scope();
-                         $compile($div)($scope);
-                         // Finally, refresh the watch expressions in the new element
-                         $scope.$apply();
-                     }]);
+               	angular.element($target).injector().invoke(['$compile', function ($compile) {
+					var $scope = angular.element($target).scope();
+					$compile($div)($scope);
+					// Finally, refresh the watch expressions in the new element
+					$scope.$apply();
+				}]);
              }
-
         }
-
-
 });

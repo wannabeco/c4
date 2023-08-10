@@ -258,6 +258,11 @@
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                     aria-labelledby="userDropdown">
+                    <?php if($_SESSION['project']['info']['idPerfil'] == 11){?>
+                    <a class="dropdown-item" href="<?php echo base_url()?>PerfilUsuario/datosEmpresa">
+                        <i class="fas fa-building fa-sm fa-fw mr-2 text-gray-400"></i>Empresa
+                    </a>
+                    <?php }?>
                     <a class="dropdown-item" href="<?php echo base_url()?>PerfilUsuario/datosUsuario">
                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                         Perfil

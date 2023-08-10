@@ -19,7 +19,27 @@ project.controller('empresas', function($scope,$http,$q,constantes)
 		window.location = $scope.config.apiUrl+"BuscarEmpresas/consultaEmpresas";
 	}
 	$scope.matrices = function($id){
-		window.location = $scope.config.apiUrl+"Empresas/matrices/37/"+$id;
+		//consulto primero si la empresa tiene matrices compradas.
+		var controlador = $scope.config.apiUrl+"Empresas/matricesEmpresa";
+		var parametros  = "idEmpresa="+$id;
+		constantes.consultaApi(controlador,parametros,function(json){
+			if(json.continuar == 1){
+				//consulto que la empresa tenga la emebresia al dia
+				var controlador = $scope.config.apiUrl+"Empresas/infoEmpresa";
+				var parametros  = "idEmpresa="+$id;
+				constantes.consultaApi(controlador,parametros,function(json){
+					if(json.continuar == 1){
+						window.location = $scope.config.apiUrl+"Empresas/matrices/37/"+$id;
+					}
+					else{
+						constantes.alerta("Atención",json.mensaje,"warning",function(){});
+					}
+				});
+			}
+			else{
+				constantes.alerta("Atención",json.mensaje,"warning",function(){});
+			}
+		});
 	}
 
 	//crea modal formulario de relacion de empresa con oficial de cumplimiento.
@@ -38,18 +58,18 @@ project.controller('empresas', function($scope,$http,$q,constantes)
 	$scope.borraEmpresas = function($id){
 		var idEmpresa =$id
 		constantes.confirmacion("Confirmación","Esta apunto de eliminar la empresa, ¿desea continuar?",'info',function(){
-			var controlador = $scope.config.apiUrl+"Empresas/eliminaEmpresa";
-				var parametros  = {idEmpresa:$id}
-				constantes.consultaApi(controlador,parametros,function(json){
-					if(json.continuar == 1){
-						constantes.alerta("Atención",json.mensaje,"success",function(){
-							location.reload();
-						});
-					}
-					else{
-						constantes.alerta("Atención",json.mensaje,"warning",function(){});
-					}
-				});
+		var controlador = $scope.config.apiUrl+"Empresas/eliminaEmpresa";
+			var parametros  = {idEmpresa:$id}
+			constantes.consultaApi(controlador,parametros,function(json){
+				if(json.continuar == 1){
+					constantes.alerta("Atención",json.mensaje,"success",function(){
+						location.reload();
+					});
+				}
+				else{
+					constantes.alerta("Atención",json.mensaje,"warning",function(){});
+				}
+			});
 		});
 	}
 	

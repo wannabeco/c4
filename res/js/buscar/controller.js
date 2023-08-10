@@ -243,7 +243,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 					var controlador = $scope.config.apiUrl+"MisMatrices/getMatricesEmpresa";
 					var parametros  = "id="+idss;
 					constantes.consultaApi(controlador,parametros,function(json){
-						if(json.continuar ==1 ){
+						if(json.continuar == 1 ){
 							constantes.alerta("Atención",json.mensaje,"warning",function(){});
 						}
 						else{
@@ -255,35 +255,20 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 									var controlador = $scope.config.apiUrl+"PagoMatriz/insetCmatrizTemporal";
 									var parametros  = "proveedor="+proveedor+"&idPago="+json.datos+"&tipo="+JSON.stringify(tipos);
 									constantes.consultaApi(controlador,parametros,function(json){
-										//eliminar cuando se tengo pasarela de pago
-										var controlador = $scope.config.apiUrl+"MisMatrices/creaGratis";
-										var parametros  = 	"id="+idss;
-										constantes.consultaApi(controlador,parametros,function(json){
-											if(json.continuar == 1){
-												constantes.alerta("Atención",json.mensaje,"success",function(){
-													window.location = $scope.config.apiUrl+"MisMatrices/matrices/43";
-												});
-											}
-											else{
-												constantes.alerta("Atención",json.mensaje,"warning",function(){});
-											}
-										});
-
-
 										var ventana ="";
 										var pago ="matrices";								
 										var parametro = "idPago="+ idPago+"&pago="+pago;
 										var ruta = $scope.config.apiUrl+"Pagos/procesoPagoOnline/?"+parametro;
 										var ventana = window.open(ruta, "pago_payu" , "width=600,height=880,left = 420");
 										var tiempo= 0;
-											var interval = setInterval(function(){
-												if(ventana.closed !== false) {
-													window.clearInterval(interval);
-													window.location.assign($scope.config.apiUrl+"MisMatrices/matrices/43"); 
-												} else {
-													tiempo +=1;
-												}
-										},1000)
+										var interval = setInterval(function(){
+											if(ventana.closed !== false) {
+												window.clearInterval(interval);
+												window.location.assign($scope.config.apiUrl+"MisMatrices/matrices/43"); 
+											} else {
+												tiempo +=1;
+											}
+										},1000);
 									});
 								}
 								else

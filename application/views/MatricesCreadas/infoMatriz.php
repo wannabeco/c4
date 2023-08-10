@@ -20,14 +20,19 @@
             </div>
         </div>
     </div>
-
+    
     <div id="modalCheck" class="modal fade" role="dialog"  data-keyboard="false" data-backdrop="static">
+        <?php if($_SESSION['project']['info']["idPerfil"] != 8){?>
         <div class="modal-dialog modal-lg">
+        <?php } if($_SESSION['project']['info']["idPerfil"] == 8){?>
+            <div class="modal-dialog modal-xl">
+        <?php }?>
             <div class="modal-content" id="modalformCheck">
                 <!--Form de creación -->
             </div>
         </div>
     </div>
+    
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800"> <!--<small><?php echo $_SESSION['project']['info']['nombre']." ".$_SESSION['project']['info']['apellido']; ?></small>--></h1>
         <?php if($_SESSION["project"]["info"]["idPerfil"] == 11){?>
@@ -49,7 +54,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb"  style="background-color:transparent !important">
             <li class="breadcrumb-item"><a href="<?php echo base_url()?>">Home</a></li>
-            <li class="breadcrumb-item"><a href="<?php echo base_url()."/MisMatrices/matrices/43";?>"><?php echo $infoMatrizRecurrentes[0]['nombreNuevaMatriz']; ?></a></li>
+            <li class="breadcrumb-item"><a href="<?php echo base_url()."MisMatrices/matrices/43";?>"><?php echo $infoMatrizRecurrentes[0]['nombreNuevaMatriz']; ?></a></li>
         </ol>
     </nav>
     <?php } if($_SESSION["project"]["info"]["idPerfil"] == 8){ ?>
@@ -113,11 +118,13 @@
                                         <a ng-click="verMatriz('<?php echo $info['idNuevaMatriz'];?>',0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-success float-left"><i class="fas fa-eye" style="font-size: 30px; cursor:pointer;"></i></a>
                                     <?php } ?>
                                     <?php if( $_SESSION['project']['info']['idPerfil'] != 11 && $_SESSION['project']['info']['idPerfil'] > 3){
-                                                if($infoComentarios["continuar"] == 1){ ?>
-                                                    <a ng-click="check('<?php echo $info['idNuevaMatriz'];?>',0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-primary float-left"><i class="far fa-edit" style="font-size: 30px; cursor:pointer;"></i></a>        
-                                                <?php } elseif($infoComentarios["continuar"] == 0){?>
-                                                    <a ng-click="check('<?php echo $info['idNuevaMatriz'];?>',0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-success float-left"><i class="fas fa-list" style="font-size: 30px; cursor:pointer;"></i></a>
-                                                <?php } } ?>
+                                        if($infoComentarios["datos"] != "" && $_SESSION['project']['info']['idPerfil'] != 8 ){ ?>
+                                            <a ng-click="check('<?php echo $info['idNuevaMatriz'];?>',<?php echo $info['idMatrizRecurrente'];?>,1)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-primary float-left"><i class="far fa-edit" style="font-size: 30px; cursor:pointer;"></i></a>        
+                                        <?php } else if($infoComentarios["datos"] == "" && $_SESSION['project']['info']['idPerfil'] != 8){?>
+                                            <a ng-click="check('<?php echo $info['idNuevaMatriz'];?>',<?php echo $info['idMatrizRecurrente'];?>,0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-success float-left"><i class="fas fa-list" style="font-size: 30px; cursor:pointer;"></i></a>
+                                    <?php } } if($_SESSION['project']['info']['idPerfil'] == 8 && $informacionCheck > 0){?>
+                                        <a ng-click="checkCompleto('<?php echo $info["idMatrizRecurrente"];?>',<?php echo $idNuevaMatriz;?>,<?php echo $idEmpresas;?>,<?php echo $idResponsable;?>,1)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-success float-left"><i class="fas fa-check-square" style="font-size: 30px; cursor:pointer;"></i></a>
+                                    <?php }?>    
                                 </td>
                             </tr>
                         <?php } ?>

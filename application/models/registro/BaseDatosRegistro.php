@@ -8,6 +8,7 @@ class BaseDatosRegistro extends CI_Model {
     private $tableClaveEmpresa             =   "";
     private $tablePagosEmpresa             =   "";
     private $tableRel                      =   "";
+    private $tableMembresiaOficial         =   "";
 
     public function __construct(){
         parent::__construct();
@@ -17,6 +18,7 @@ class BaseDatosRegistro extends CI_Model {
         $this->tableClaveEmpresa           = "app_login"; 
         $this->tablePagosEmpresa           = "app_estadopago"; 
         $this->tableRel                    = "app_rel_cumplimiento_empresa"; 
+        $this->tableMembresiaOficial       = "app_membresia_oficial"; 
     }
     public function verificaEmpresa($where,$tabla){
         $this->db->select("*");
@@ -84,6 +86,12 @@ class BaseDatosRegistro extends CI_Model {
     //registro relacion de persona con empresa oficial de cumplimiento
     public function creaRel($dataInserta){
         $this->db->insert($this->tableRel,$dataInserta);
+        //print_r($this->db->last_query());die();
+        return $this->db->insert_id();
+    }
+    //se guarda memebresa mes
+    public function insertaMembresiaMes($dataInserta){
+        $this->db->insert($this->tableMembresiaOficial,$dataInserta);
         //print_r($this->db->last_query());die();
         return $this->db->insert_id();
     }

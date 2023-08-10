@@ -23,6 +23,9 @@ class BaseDatosMisMatrices extends CI_Model {
     private $tableRecurrentes               =   "";
     private $tablematrizComprada            =   "";
     private $tableempresasCompradas         =   "";
+    private $tableArchivoTemporal           =   "";
+    private $tableRcomentarios              =   "";
+    private $tableRcheck                    =   "";
 
 
     public function __construct() {
@@ -38,6 +41,9 @@ class BaseDatosMisMatrices extends CI_Model {
         $this->tableRecurrentes             = "app_matriz_recurrente"; 
         $this->tablematrizComprada          = "app_matriz_comprada"; 
         $this->tableempresasCompradas       = "app_rel_cumplimiento_empresa"; 
+        $this->tableArchivoTemporal         = "app_archivos_temporales"; 
+        $this->tableRcomentarios            = "app_respuesta_comentarios"; 
+        $this->tableRcheck                  = "app_respuestas_check"; 
     }
     //se obtienen todos los procesos
     public function consultaMiMatriz($where){
@@ -154,7 +160,7 @@ class BaseDatosMisMatrices extends CI_Model {
         $this->db->where($where);
         $this->db->from($this->tableempresasCompradas);
         $id = $this->db->get();
-        //print_r($this->db->last_query());die();
+        // print_r($this->db->last_query());die();
         return $id->result_array();
     }
     //consulta matriz por id 
@@ -162,6 +168,77 @@ class BaseDatosMisMatrices extends CI_Model {
         $this->db->select("*");
         $this->db->where($where);
         $this->db->from($this->tableMatrices);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //consulta empresa por id
+    public function infoEmpresa($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tableEmpresas);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //elimina matriz comprada
+    public function eliminaMatrizComprada($data,$where){
+        $this->db->where($where);
+        $this->db->update($this->tablematrizComprada,$data);
+        //print_r($this->db->last_query());die();
+        return $this->db->affected_rows();
+    }
+    public function relEmpresaPerfiles($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tablePersonas);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    public function relOficialEmpresa($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tableempresasCompradas);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //inserto archivo temporales
+    public function insertaFotoTemp($datos){
+        $this->db->insert($this->tableArchivoTemporal,$datos);
+        //print_r($this->db->last_query());die();
+        return $this->db->affected_rows();
+    }
+    //consulto comentarios realizados para la matriz
+    public function consultaRcomentario($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tableRcomentarios);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //consulto item checkeados
+    public function consultacheck($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tableRcheck);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //actualiza check
+    public function actualizaCheck($where,$data){
+        $this->db->where($where);
+        $this->db->update($this->tableRcheck,$data);
+        //print_r($this->db->last_query());die();
+        return $this->db->affected_rows();
+    }
+    public function consultacheckRealizado($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tableRcheck);
         $id = $this->db->get();
         // print_r($this->db->last_query());die();
         return $id->result_array();

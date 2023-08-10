@@ -23,6 +23,8 @@ class BaseDatosEmpresas extends CI_Model {
     private $tableRelCumplimiento               = "";
     private $tablematrizComprada                = "";
     private $tableMatrices                      = "";
+    private $tableMembresiaOficial              = "";
+    private $tablePersonas             = "";
 
     public function __construct() {
 
@@ -37,6 +39,8 @@ class BaseDatosEmpresas extends CI_Model {
         $this->tableRelCumplimiento             = "app_rel_cumplimiento_empresa";
         $this->tablematrizComprada              = "app_matriz_comprada";
         $this->tableMatrices                    = "app_nueva_matriz";   
+        $this->tableMembresiaOficial            = "app_membresia_oficial";   
+        $this->tablePersonas                    = "app_personas";   
     }
     //se obtienen imformacion de todas las empresas
     public function infoEmpresas($where){
@@ -100,13 +104,13 @@ class BaseDatosEmpresas extends CI_Model {
         $this->db->from($this->tableRelCumplimiento." c");
         $this->db->join($this->tableEmpresas." e"," e.idEmpresa=c.idEmpresa","INNER");
         $id = $this->db->get();
-        //print_r($this->db->last_query());die();
+        // print_r($this->db->last_query());die();
         return $id->result_array();
     }
     //elimina relacion de empresa con oficila de cumplimiento
-    public function eliminaRel($where){
+    public function eliminaRel($data,$where){
         $this->db->where($where);
-        $this->db->delete($this->tableRelCumplimiento);
+        $this->db->update($this->tableRelCumplimiento,$data);
         //print_r($this->db->last_query());die();
         return $this->db->affected_rows();
     }
@@ -135,7 +139,33 @@ class BaseDatosEmpresas extends CI_Model {
         //print_r($this->db->last_query());die();
         return $id->result_array();
     }
-    
+    //consulto matrices compradas por empresa
+    public function matricesEmpresa($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tablematrizComprada);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //informacion de membresia oficila de cumplimiento
+    public function infoMembresiaOficial($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tableMembresiaOficial);
+        $id = $this->db->get();
+        //print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //informacion de personas por id
+    public function infoUsuarioid($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tablePersonas);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
     
 }
 

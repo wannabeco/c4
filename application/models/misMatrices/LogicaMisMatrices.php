@@ -54,6 +54,8 @@ class LogicaMisMatrices  {
         return $respuesta;
     }
     public function consultaMatricescompradas($idPersona,$idEmpresa){
+        $where["c.estado"]      = 1;
+        $where["c.eliminado"]   = 0;
         $where["c.idPersona"]   = $idPersona;
         $where["c.idEmpresa"]   = $idEmpresa;
         $infoMatriz                 = $this->ci->dbmisMatriz->consultaMatricescompradas($where);
@@ -112,6 +114,7 @@ class LogicaMisMatrices  {
         foreach ($array as $id) {
             $where["idEmpresa"] = $_SESSION["project"]["info"]["idEmpresa"];
             $where["idMatriz"]  = $id;
+            $where["eliminado"]  = 0;
             $infoMatrices = $this->ci->dbmisMatriz->getMatricesEmpresa($where);
             if (!empty($infoMatrices)) {
                 $resultados[] = $infoMatrices;
@@ -203,6 +206,8 @@ class LogicaMisMatrices  {
         foreach ($array as $id) {
             $where["idPersona"] = $_SESSION["project"]["info"]["idPersona"];
             $where["idEmpresa"]  = $id;
+            $where["eliminado"]  = 0;
+            $where["estado"]    = 1;
             $infoMatrices = $this->ci->dbmisMatriz->getrelEmpresa($where);
             if (!empty($infoMatrices)) {
                 $resultados[] = $infoMatrices;
@@ -229,6 +234,205 @@ class LogicaMisMatrices  {
         $where['idNuevaMatriz'] = $idMatriz;
         $infoMatrices               = $this->ci->dbmisMatriz->infoMatrize($where);
         return $infoMatrices;
+    }
+    //consulto empresas por id
+    public function infoEmpresa($idEmpresa){
+        $where['idEmpresa'] = $idEmpresa;
+        $infoEmpresa               = $this->ci->dbmisMatriz->infoEmpresa($where);
+        return $infoEmpresa;
+    }
+    //elimina Matrices compradas
+    public function eliminaMatrizComprada($datos){
+        $dataActualiza["estado"]    = 0;
+        $dataActualiza["eliminado"] = 1;
+        $where['idMatriz']          = $datos["idMatriz"];
+        $where['idEmpresa']         = $datos["idEmpresa"];
+        $elimina               = $this->ci->dbmisMatriz->eliminaMatrizComprada($dataActualiza,$where);
+        if($elimina > 0){
+            $respuesta = array("mensaje"=>"La matriz, se elimino Correctamente.",
+            "continuar"=>1,
+            "datos"=>$elimina);
+        }else{
+            $respuesta = array("mensaje"=>"La Matriz no pudo ser eliminada.",
+            "continuar"=>0,
+            "datos"=>"");
+        }
+        return $respuesta;
+    }
+    public function relEmpresaPerfiles($datos){
+        // var_dump($datos);die();
+        $where['idEmpresa']         = $datos["id"];
+        $where['idPerfil']         = 8;
+        $where['estado']         = 1;
+        $consulta               = $this->ci->dbmisMatriz->relEmpresaPerfiles($where);
+        // var_dump($consulta);die();
+        if(count($consulta) > 0){
+            $respuesta = array("mensaje"=>"La empresa ya cuenta con oficial de cumplimiento, por favor comuniquese con le empresa.",
+            "continuar"=>1,
+            "datos"=>$consulta);
+        }else{
+            $datas["idEmpresa"] = $datos["id"];
+            $datas["estado"]    = 1;
+            $datas["eliminado"] = 0;
+            $verifica     = $this->ci->dbmisMatriz->relOficialEmpresa($datas);
+            if(count($verifica) > 0){
+                $respuesta = array("mensaje"=>"La empresa ya cuenta con oficial de cumplimiento independiente, por favor comuniquese con le empresa.",
+                "continuar"=>1,
+                "datos"=>$consulta);
+            }else{
+                $respuesta = array("mensaje"=>"La empresa no cuenta con oficial de cumplimiento.",
+                "continuar"=>0,
+                "datos"=>"");
+            }
+        }
+        return $respuesta;
+    }
+    //informacion de empresas compradas por idPersona de oficial de cumplimiento
+    public function infoEmpresasCompradas($idPersona){
+        $where['idPersona'] = $idPersona;
+        $where['estado']    = 1;
+        $where['eliminado'] = 0;
+        $consulta               = $this->ci->dbmisMatriz->relOficialEmpresa($where);
+        return $consulta;
+    }
+    //inserta file en imagenes temporales
+    public function insertaFotoTemp($data){
+        $dataInserta["nombreArchivo"] = $data["foto"];
+        $dataInserta["ruta"] = $data["rutaFoto"];
+        $crea           = $this->ci->dbmisMatriz->insertaFotoTemp($dataInserta);
+        return $crea;
+    } 
+    public function consultaRcomentario($idRecurrente,$idPersona){
+        $where['idMatrizRecurrente']    = $idRecurrente;
+        $where['idPersona']             = $idPersona;
+        $consulta               = $this->ci->dbmisMatriz->consultaRcomentario($where);
+        if(count($consulta) > 0){
+            $respuesta = array("mensaje"=>"se realizo la consulta.",
+            "continuar"=>1,
+            "datos"=>$consulta);
+        }else{
+            $respuesta = array("mensaje"=>"no se ejecuto la consulta.",
+            "continuar"=>0,
+            "datos"=>"");
+        }
+    return $respuesta;
+    } 
+    //consulta de respuestas de check realizados 
+    public function consultacheck($idRecurrente,$idPersona){
+        $where['idMatrizRecurrente']    = $idRecurrente;
+        $where['idPersona']             = $idPersona;
+        $where['idEmpresa']             = $_SESSION["project"]["info"]["idEmpresa"];
+        $consulta               = $this->ci->dbmisMatriz->consultacheck($where);
+        // var_dump($consulta);die();
+        $valorArray = array();
+        foreach($consulta as $item){
+            $valorArray[] = $item["valor"];
+        }
+        $arrayArchivos =array();
+        foreach($consulta as $archiivo){
+            $arrayArchivos[] = $archiivo["nombreArchivo"];
+        }
+        // var_dump($arrayArchivos);die();
+        if(count($consulta) > 0){
+            $respuesta = array(
+                "respuesta" => $valorArray,
+                "arrayArchivos" => $arrayArchivos,
+                "idEmpresa" => $_SESSION["project"]["info"]["idEmpresa"]
+            );
+        }else{
+            $respuesta = array("mensaje"=>"no se ejecuto la consulta.",
+            "continuar"=>0,
+            "datos"=>"");
+        }
+    return $respuesta;
+    } 
+    //actualiza check
+    public function actualizaCheck($data){
+
+        extract($data);
+        $where['idMatrizRecurrente']    = $data["idMatrizRecurrente"];
+        $where['idPersona']             = $data["idPersona"];
+        $where['idEmpresa']             = $data["idEmpresa"];
+
+        if($_SESSION['project']['info']["idPerfil"] == 8){
+            $resOficial        = $data["resOficial"];
+            $resOficialArray   = explode(",", $resOficial);
+
+            $pregunta = 1;
+            foreach ($resOficialArray as $valores) {
+                
+                $dataActualiza["resOficial"] = $valores;
+                $where['idRespuesta'] = $pregunta;
+                // var_dump($where,$dataActualiza);die();
+                $guardado = $this->ci->dbmisMatriz->actualizaCheck($where,$dataActualiza);
+                $pregunta++;
+            }
+                $respuesta = array("mensaje"=>"El formulario se ha actualizado exitosamente.",
+                                    "continuar"=>1,
+                                    "datos"=>"");
+            return $respuesta;
+        } else {
+            $archivo        = $data["archivos"];
+            $archivoArray   = explode(",", $archivo);
+    
+            $res                = $data["respuestas"];
+            $array              = explode(",", $res);
+            if (!empty($array) && !empty($archivoArray)) {
+                $pregunta = 1;
+                foreach ($array as $valores) {
+                    $dataActualiza["valor"] = $valores;
+                    $dataActualiza["nombreArchivo"] = "";
+                    if ($dataActualiza["valor"] == "SI" && isset($archivoArray[$pregunta - 1])){
+                        $dataActualiza["nombreArchivo"] = $archivoArray[$pregunta - 1];
+                    }
+                    
+                    $where['idRespuesta'] = $pregunta;
+                    // var_dump($where,$dataActualiza);die();
+                    $guardado = $this->ci->dbmisMatriz->actualizaCheck($where,$dataActualiza);
+                    $pregunta++;
+                }
+                $respuesta = array("mensaje"=>"El formulario se ha actualizado exitosamente.",
+                        "continuar"=>1,
+                        "datos"=>"");
+            }
+            return $respuesta;
+        }
+
+
+    }
+    //consulta de check para oficial de cumplimiento
+    public function consultacheckRealizado($idRecurrente,$idPersona,$idEmpresa){
+
+        $where['idMatrizRecurrente']    = $idRecurrente;
+        $where['idPersona']             = $idPersona;
+        $where['idEmpresa']             = $idEmpresa;
+        $consulta               = $this->ci->dbmisMatriz->consultacheckRealizado($where);
+        $valorArray = array();
+        foreach($consulta as $item){
+            $valorArray[] = $item["valor"];
+        }
+        $arrayArchivos =array();
+        foreach($consulta as $archiivo){
+            $arrayArchivos[] = $archiivo["nombreArchivo"];
+        }
+        $arrayResOficial = array();
+        foreach($consulta as $resOficial){
+            $arrayResOficial[] = $resOficial["resOficial"];
+        }
+        // var_dump($arrayArchivos);die();
+        if(count($consulta) > 0){
+            $respuesta = array(
+                "respuesta" => $valorArray,
+                "arrayArchivos" => $arrayArchivos,
+                "arrayResOficial" => $arrayResOficial,
+                "idEmpresa" => $_SESSION["project"]["info"]["idEmpresa"]
+            );
+        }else{
+            $respuesta = array("mensaje"=>"no se ejecuto la consulta.",
+            "continuar"=>0,
+            "datos"=>"");
+        }
+    return $respuesta;
     }
 
     

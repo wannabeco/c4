@@ -51,7 +51,18 @@ class Empresas extends CI_Controller
 				//informacion solo para el oficial de cumplimiento
 				if($_SESSION['project']['info']['idPerfil'] == 8 && $_SESSION['project']['info']['idEmpresa'] == 0){
 					$infoUsuario		   	= $_SESSION['project']['info']['nombre'];
+					$idEmpresa				=$_SESSION['project']['info']['idEmpresa'];
 					$infoEmpresas		  	= $this->lgEmpresas->misEmpresas();
+					$idPersona				= $_SESSION['project']['info']['idPersona'];
+					$infoMembresia		  	= $this->lgEmpresas->infoMembresiaOficial($idPersona);
+					$fechaCaduca = $infoMembresia["datos"][0]["fechaCaducidad"];
+					// var_dump($infoMembresia["datos"][0]["fechaCaducidad"]);die();
+						$hoy = date('Y-m-d H:i:s');
+						if($hoy > $fechaCaduca ){
+							if($idEmpresa == 0){
+								redirect("PagoMatriz/PagoOficial");
+							}
+						}
 					$opc 				   	= "home";
 					$salida['titulo']      	= "Empresas Agregadas";
 					$salida['centro'] 	   	= "empresas/home";
@@ -65,7 +76,7 @@ class Empresas extends CI_Controller
 					$infoUsuario		   	= $_SESSION['project']['info']['nombre'];
 					$infoEmpresas		  	= $this->lgEmpresas->infoEmpresa($idEmpresa);
 					$opc 				   	= "home";
-					$salida['titulo']      	= "Empresas Creadas";
+					$salida['titulo']      	= "Mi empresa";
 					$salida['centro'] 	   	= "empresas/home";
 					$salida['infoModulo']  	= $infoModulo[0];
 					$salida['infoUsuario'] 	= $infoUsuario[0];
@@ -198,7 +209,6 @@ class Empresas extends CI_Controller
 				$infoModulo	      	   			= $this->logica->infoModulo($idModulo);
 				$MatricesCompradas		  		= $this->lgEmpresas->infoMatricesCompradas($id);
 				$infoEmpresas		  			= $this->lgEmpresas->infoEmpresa($id);
-				// var_dump($infoEmpresas[0]);die();
 				$opc 				   			= "home";
 				$salida['titulo']      			= lang("titulo")." - ".$infoModulo[0]['nombreModulo'];
 				$salida['centro'] 	   			= "misMatrices/home";
@@ -222,6 +232,49 @@ class Empresas extends CI_Controller
 			header('Location:'.base_url()."login");
 		}
 	}
+	//inforamcion de matrices compradas por empresa
+	public function matricesEmpresa(){
+		if(validaInApp("web")){
+			$crea = $this->lgEmpresas->matricesEmpresa($_POST);
+			echo json_encode($crea);
+		}
+		else{
+            echo json_encode($crea); 
+		}
+	}
+	//informacion de empresa para verificar si esta al dia
+	public function infoEmpresa(){
+		if(validaInApp("web")){
+			$crea = $this->lgEmpresas->informacionEmpresa($_POST);
+			echo json_encode($crea);
+		}
+		else{
+            echo json_encode($crea); 
+		}
+	}
+	//informacion de empresa por id
+	public function infoEmpresaid(){
+		if(validaInApp("web")){
+			$crea = $this->lgEmpresas->infoEmpresaid($_POST);
+			echo json_encode($crea);
+		}
+		else{
+			$crea = "";
+            echo json_encode($crea); 
+		}
+	}
+	// informacion de persona por id
+	public function infoUsuarioid(){
+		if(validaInApp("web")){
+			$crea = $this->lgEmpresas->infoUsuarioid($_POST);
+			echo json_encode($crea);
+		}
+		else{
+			$crea = "";
+            echo json_encode($crea); 
+		}
+	}
+
 
 }
 ?>

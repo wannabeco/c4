@@ -19,7 +19,8 @@ class PagoMatriz extends CI_Controller
         parent::__construct();
         $this->load->model("general/LogicaGeneral", "logica");//la idea es que este archivo siempre esté ya que aquí se consultan cosas que son muy globales.
         $this->load->model("admin/LogicaEnBlanco", "logicaUsuarios");//aquí se debe llamar la lógica correspondiente al módulo que se esté haciendo.
-       	$this->load->helper('language');//mantener siempre.
+		$this->load->model("misMatrices/LogicaMisMatrices", "logicaMis");
+		$this->load->helper('language');//mantener siempre.
     	$this->lang->load('spanish');//mantener siempre.
     }
     /*
@@ -31,15 +32,48 @@ class PagoMatriz extends CI_Controller
     * y a continuación siempre se debe llamar la función del helper llamada getPrivilegios, la función está en el archivo helpers/funciones_helper.php
     * Tenga en cuenta que cada llamado ajax que haga a una plantilla gráfica que incluya botones de ver,editar, crear, borrar debe siempre llamar la función getPrivilegios.
     */
-	public function pagoMatrices(){
+	public function PagoEmpresas(){
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
 		if(validaIngreso()){
-				$idTienda 				= $_SESSION['project']['info']['idTienda'];
-				$infoTienda     		= $this->logica->getInfoTiendaNew($idTienda);
-				$opc 					= "home";
-				$salida['titulo'] 	  	= "Licencia expirada";
-				$salida['infoTienda']   = $infoTienda;
-				$salida['centro'] 		= "app/homeCaducidad";
+				$idEmpresa = $_SESSION["project"]["info"]["idEmpresa"];
+				$infoEmpresa = $this->logicaMis->infoEmpresa($idEmpresa);
+				$infoPlanes	= $this->logica->infoPlanes();
+				$infoUsuarios = $this->logica->getUsuarioEmpresa($idEmpresa);
+				$infoMatrices = $this->logica->getMatricesEmpresas($idEmpresa);
+				$preciosPerfil = array();
+				$precioMatrices = array();
+				$precioPlanEmpresa = $infoPlanes[0]["precio"];
+				foreach ($infoUsuarios["data"] as $Perfiles) {
+					if (isset($Perfiles["precioPerfil"]) && $Perfiles["precioPerfil"] > 0 ) {
+						array_push($preciosPerfil, $Perfiles["precioPerfil"]);
+					}
+				}
+				foreach ($infoMatrices["data"] as $matrices) {
+					if (isset($matrices["precio"])) {
+						if($matrices["pago"] == "SI"){
+							array_push($precioMatrices, $matrices["precio"]);
+						}
+					}
+				}
+				$totalPerfil = array_sum($preciosPerfil);
+				$cantPerfiles = count($preciosPerfil);
+				$cantMatrices = count($precioMatrices);
+				$totalMatrices = array_sum($precioMatrices);
+				$adicionales = $totalPerfil+ $totalMatrices;
+				$totalPagarEmpresa = $precioPlanEmpresa+ $totalPerfil+ $totalMatrices;
+				$opc 						= "home";
+				$salida['titulo'] 	  		= "Pago Empresas";
+				$salida['infoEmpresa']  	= $infoEmpresa;
+				$salida['infoPlanes']   	= $infoPlanes;
+				$salida['infoUsuarios'] 	= $infoUsuarios["count"];
+				$salida['infoMatrices'] 	= $infoMatrices["count"];
+				$salida['totalPerfil'] 		= $totalPerfil;
+				$salida['totalMatrices'] 	= $totalMatrices;
+				$salida['totalPagarEmpresa']= $totalPagarEmpresa;
+				$salida['adicionales'] 		= $adicionales;
+				$salida['cantPerfiles'] 	= $cantPerfiles;
+				$salida['cantMatrices'] 	= $cantMatrices;
+				$salida['centro'] 			= "app/homeCaducidad";
 				$this->load->view("app/index",$salida);
 		}
 		else{
@@ -73,6 +107,67 @@ class PagoMatriz extends CI_Controller
 	public function insetCEmpresaTemporal(){
 		if(validaInApp("web")){
 			$compraTemporal = $this->logica->insetCEmpresaTemporal($_POST);
+			echo json_encode($compraTemporal);
+		}
+		else{
+			$respuesta = array("mensaje"=>"Acceso no admitido.",
+                              "continuar"=>0,
+                              "datos"=>""); 
+            echo json_encode($respuesta); 
+		}
+	}
+	//pago mensualidad empresa
+	public function pagoMensualidadEmpresa(){
+		if(validaInApp("web")){
+			$compraTemporal = $this->logica->pagoMensualidadEmpresa($_POST);
+			echo json_encode($compraTemporal);
+		}
+		else{
+			$respuesta = array("mensaje"=>"Acceso no admitido.",
+                              "continuar"=>0,
+                              "datos"=>""); 
+            echo json_encode($respuesta); 
+		}
+	}
+	//consuto datos para informacion de pago oficial de cumplimiento
+	public function PagoOficial(){
+		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
+		if(validaIngreso()){
+
+			$infoPlanes	= $this->logica->infoPlanes();
+			$precioPlanEmpresa = $infoPlanes[1]["precio"];
+			$idPersona 			= $_SESSION["project"]["info"]["idPersona"];
+			$EmpresasCompradas 	= $this->logicaMis->infoEmpresasCompradas($idPersona);
+			$compradas = array();
+			foreach ($EmpresasCompradas as $rels) {
+				if (isset($rels)) {
+					array_push($compradas, $rels["precioEmpresa"]);
+				}
+			}
+			$totalCompradas = array_sum($compradas);
+			$cantCompradas = count($compradas);
+			// var_dump($compradas);die();
+
+			//eliminar los que no voy necesitand
+			$totalPagarEmpresa = $precioPlanEmpresa+ $totalCompradas;
+			$opc 						= "home";
+			$salida['titulo'] 	  		= "Pago Empresas";
+			$salida['infoPlanes']   	= $infoPlanes;
+			$salida['cantCompradas']   	= $cantCompradas;
+			$salida['totalCompradas']   = $totalCompradas;
+			$salida['totalPagarEmpresa']= $totalPagarEmpresa;
+			$salida['EmpresasCompradas']= $EmpresasCompradas;
+			$salida['centro'] 			= "app/homeCaducidad";
+			$this->load->view("app/index",$salida);
+		}
+		else{
+			header('Location:'.base_url()."login");
+		}
+	}
+	//pago mensualidad oficial de cumplimiento
+	public function pagoMensualidadOficial(){
+		if(validaInApp("web")){
+			$compraTemporal = $this->logica->pagoMensualidadOficial($_POST);
 			echo json_encode($compraTemporal);
 		}
 		else{

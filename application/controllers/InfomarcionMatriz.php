@@ -81,6 +81,20 @@ class InfomarcionMatriz extends CI_Controller
 			echo json_encode($procesoEliminaParametro);
 		}
 		else{
+			$respuesta = "";
+            echo json_encode($respuesta); 
+		}
+	}
+	//consulto primero si hay matrices recurrentes internas
+	public function consultoR(){
+		if(validaInApp("web")){//esta validación me hará consultas más seguras
+			// var_dump($_POST);die();
+			$id = $_GET["idmatriz"];
+			$infoMatrizRecurrentes			= $this->logMatriz->infoMatrizRecurrentes($id);
+			echo json_encode($infoMatrizRecurrentes);
+		}
+		else{
+			$respuesta = "";
             echo json_encode($respuesta); 
 		}
 	}

@@ -235,62 +235,50 @@ project.controller('buscarEmpresas', function($scope,$http,$q,constantes)
 			constantes.confirmacion("Atención","Esta apunto de realizar el pago, ¿Desea continuar?. Recuerde activar las ventanas emergentes antes de continuar.",'info',function(){
 				//se abre ventana pop
 				var codigo = $("#codigoPago").val();
-				//verifico que la empresa no cuente con ninguna de las matrices para poder continuar.
-					var controlador = $scope.config.apiUrl+"BuscarEmpresas/getrelEmpresa";
-					var parametros  = "id="+idss;
-					constantes.consultaApi(controlador,parametros,function(json){
-						if(json.continuar ==1 ){
-							constantes.alerta("Atención",json.mensaje,"warning",function(){});
-						}
-						else{
-							var controlador = $scope.config.apiUrl+"PagoMatriz/insetCodigoEmpresas";
-							var parametros  = "proveedor="+proveedor;
-							constantes.consultaApi(controlador,parametros,function(json){
-								if(json.continuar == 1){
-									var idPago = json.datos;	
-									var controlador = $scope.config.apiUrl+"PagoMatriz/insetCEmpresaTemporal";
-									var parametros  = "proveedor="+proveedor+"&idPago="+json.datos+"&tipo="+JSON.stringify(tipos);
-									constantes.consultaApi(controlador,parametros,function(json){
-										
-										// eliminar cuando se tenga pasarela de pago
-										var controlador = $scope.config.apiUrl+"BuscarEmpresas/creaGratisrel";
-										var parametros  = 	"id="+idss;
+				//verifico que no tengan relacion de empresa con oficial de cumplimiento
+				var controlador = $scope.config.apiUrl+"BuscarEmpresas/getrelEmpresa";
+				var parametros  = "id="+idss;
+				constantes.consultaApi(controlador,parametros,function(json){
+					if(json.continuar ==1 ){
+						constantes.alerta("Atención",json.mensaje,"warning",function(){});
+					}else{
+						var controlador = $scope.config.apiUrl+"BuscarEmpresas/relEmpresaPerfiles";
+						var parametros  = "id="+idss;
+						constantes.consultaApi(controlador,parametros,function(json){
+							if(json.continuar ==1 ){
+								constantes.alerta("Atención",json.mensaje,"warning",function(){});
+							}else{
+								var controlador = $scope.config.apiUrl+"PagoMatriz/insetCodigoEmpresas";
+								var parametros  = "proveedor="+proveedor;
+								constantes.consultaApi(controlador,parametros,function(json){
+									if(json.continuar == 1){
+										var idPago = json.datos;	
+										var controlador = $scope.config.apiUrl+"PagoMatriz/insetCEmpresaTemporal";
+										var parametros  = "proveedor="+proveedor+"&idPago="+json.datos+"&tipo="+JSON.stringify(tipos);
 										constantes.consultaApi(controlador,parametros,function(json){
-											if(json.continuar == 1){
-												constantes.alerta("Atención",json.mensaje,"success",function(){
-													window.location = $scope.config.apiUrl+"Empresas/empresas/37";
-												});
-											}
-											else{
-												constantes.alerta("Atención",json.mensaje,"warning",function(){});
-											}
-										});	
-
-
-										var ventana ="";
-										var pago ="empresa";
-										var parametro = "idPago="+ idPago+"&pago="+pago;
-										var ruta = $scope.config.apiUrl+"Pagos/procesoPagoOnline/?"+parametro;
-										var ventana = window.open(ruta, "pago_payu" , "width=600,height=880,left = 420");
-										var tiempo= 0;
-											var interval = setInterval(function(){
-												
-												if(ventana.closed !== false) {
-													window.clearInterval(interval);
-													window.location = $scope.config.apiUrl+"Empresas/empresas/37";
-												} else {
-													tiempo +=1;
-												}
-										},1000)
-									});
-								}
-								else
-								{
-								constantes.alerta("Atención",json.mensaje,"error",function(){})
-								}
-							});
-						}
-					});
+											var ventana ="";
+											var pago ="empresa";
+											var parametro = "idPago="+ idPago+"&pago="+pago;
+											var ruta = $scope.config.apiUrl+"Pagos/procesoPagoOnline/?"+parametro;
+											var ventana = window.open(ruta, "pago_payu" , "width=600,height=880,left = 420");
+											var tiempo= 0;
+												var interval = setInterval(function(){
+													if(ventana.closed !== false) {
+														window.clearInterval(interval);
+														window.location = $scope.config.apiUrl+"Empresas/empresas/37";
+													} else {
+														tiempo +=1;
+													}
+											},1000)
+										});
+									}else{
+										constantes.alerta("Atención",json.mensaje,"error",function(){})
+									}
+								});
+							}
+						});
+					}
+				});
 			});
 		}
 	});

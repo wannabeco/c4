@@ -19,7 +19,8 @@ class Pagos extends CI_Controller
     {
         parent::__construct();
         $this->load->model("general/LogicaGeneral", "logica");//la idea es que este archivo siempre esté ya que aquí se consultan cosas que son muy globales.
-       	$this->load->helper('language');//mantener siempre.
+        $this->load->model("misMatrices/LogicaMisMatrices", "logicaMis");
+        $this->load->helper('language');//mantener siempre.
     	$this->lang->load('spanish');//mantener siempre.
     }
     /*
@@ -31,9 +32,14 @@ class Pagos extends CI_Controller
     * y a continuación siempre se debe llamar la función del helper llamada getPrivilegios, la función está en el archivo helpers/funciones_helper.php
     * Tenga en cuenta que cada llamado ajax que haga a una plantilla gráfica que incluya botones de ver,editar, crear, borrar debe siempre llamar la función getPrivilegios.
     */
-
+    
     //pop para pago payu
     public function procesoPagoOnline(){
+        // define('payu_apikey', '4Vj8eK4rloUd272L48hsrarnUA');
+        define('payu_id_mercado', '508029');
+        define('payu_id_cuenta', '512321');
+
+
         $accion = $_GET["pago"];
         if($accion == "empresa"){
             $idPago = $_GET["idPago"];
@@ -45,6 +51,8 @@ class Pagos extends CI_Controller
             $salida['proveedor']        = "payu";
             $salida['compraTemporal']   = $compraTemporal;
             $salida['codigoPago']       = $compraTemporal[0]["codigoPago"];
+            $salida['nombreTransaccion']  = "Compra de empresas.";
+            $salida['payu_apikey']  = "4Vj8eK4rloUd272L48hsrarnUA";
             $this->load->view("registro/indexPago",$salida);    
         }
         else if($accion == "matrices"){
@@ -58,27 +66,162 @@ class Pagos extends CI_Controller
             $salida['pagoRealizar']     = "Pago de matrices";
             $salida['compraTemporal']   = $compraTemporal;
             $salida['codigoPago']       = $compraTemporal[0]["codigoPago"];
+            $salida['nombreTransaccion']  = "Compra de matriz.";
+            $salida['payu_apikey']  = "4Vj8eK4rloUd272L48hsrarnUA";
             $this->load->view("registro/indexPago",$salida);    
-        }   
+        }  
+        //pago mensualidad de empresa 
+        else if($accion == "Mensualidad empresas"){
+            $idPago             = $_GET["idPago"];
+            $idEmpresa          = $_SESSION["project"]["info"]["idEmpresa"];
+            $infoPlanes	        = $this->logica->infoPlanes();
+            $compraTemporal     = $this->logica->pagoEmpresaMesC($idPago);
+            $infoUsuarios       = $this->logica->getUsuarioEmpresa($idEmpresa);
+            // var_dump($infoUsuarios);die();
+            $infoMatrices       = $this->logica->getMatricesEmpresas($idEmpresa);
+            $preciosPerfil      = array();
+            $precioMatrices     = array();
+            $precioPlanEmpresa  = $infoPlanes[0]["precio"];
+            foreach ($infoUsuarios["data"] as $Perfiles) {
+                if (isset($Perfiles["precioPerfil"]) && $Perfiles["precioPerfil"] > 0 ) {
+                    array_push($preciosPerfil, $Perfiles["precioPerfil"]);
+                }
+            }
+            foreach ($infoMatrices["data"] as $matrices) {
+                if (isset($matrices["precio"])) {
+                    if($matrices["pago"] == "SI"){
+                        array_push($precioMatrices, $matrices["precio"]);
+                    }
+                }
+            }
+            $totalPerfil        = array_sum($preciosPerfil);
+            $cantPerfiles       = count($preciosPerfil);
+            $cantMatrices       = count($precioMatrices);
+            $totalMatrices      = array_sum($precioMatrices);
+            $adicionales        = $totalPerfil+ $totalMatrices;
+            $totalPagarEmpresa  = $precioPlanEmpresa+ $totalPerfil+ $totalMatrices;
+            //var_dump($compraTemporal);die();
+            //consulto la info de la tienda
+            $salida['titulo']           = "Pasarela de pago";
+            $salida['centro']           = "registro/pagoOnline";
+            $salida['proveedor']        = "payu";
+            $salida['pagoRealizar']     = "Pago plan empresa";
+            $salida['compraTemporal']   = $compraTemporal;
+            $salida['codigoPago']       = $compraTemporal[0]["codigoPago"];
+            $salida['nombreTransaccion'] = "Compra mensualidad empresa.";
+            $salida['infoPlanes']   	= $infoPlanes;
+            $salida['infoUsuarios'] 	= $infoUsuarios["count"];
+            $salida['infoMatrices'] 	= $infoMatrices["count"];
+            $salida['totalPerfil'] 		= $totalPerfil;
+            $salida['totalMatrices'] 	= $totalMatrices;
+            $salida['totalPagarEmpresa']= $totalPagarEmpresa;
+            $salida['adicionales'] 		= $adicionales;
+            $salida['cantPerfiles'] 	= $cantPerfiles;
+            $salida['cantMatrices'] 	= $cantMatrices;
+            $salida['precioPlanEmpresa']= $precioPlanEmpresa;
+            $salida['payu_apikey']      = "4Vj8eK4rloUd272L48hsrarnUA";
+            $this->load->view("registro/indexPago",$salida);    
+        }
+        // mensualidad oficial de cumplimiento
+        else if($accion == "Mensualidad Oficial"){
+            $idPago             = $_GET["idPago"];
+            $dataPago           = $this->logica->infoPagoMesOficial($idPago);
+            // var_dump($dataPago);die();
+            $infoPlanes	        = $this->logica->infoPlanes();
+			$precioPlanEmpresa  = $infoPlanes[1]["precio"];
+			$idPersona 			= $_SESSION["project"]["info"]["idPersona"];
+			$EmpresasCompradas 	= $this->logicaMis->infoEmpresasCompradas($idPersona);
+			$compradas          = array();
+			foreach ($EmpresasCompradas as $rels) {
+				if (isset($rels)) {
+					array_push($compradas, $rels["precioEmpresa"]);
+				}
+			}
+			$totalCompradas = array_sum($compradas);
+			$cantCompradas = count($compradas);
+            $totalPagarEmpresa = $precioPlanEmpresa+ $totalCompradas;
+            //var_dump($compraTemporal);die();
+            //consulto la info de la tienda
+            $salida['titulo']           = "Pasarela de pago";
+            $salida['centro']           = "registro/pagoOnline";
+            $salida['proveedor']        = "payu";
+            $salida['pagoRealizar']     = "Pago plan oficial de cumplimiento";
+            $salida['codigoPago']       = $dataPago[0]["codigoPago"];
+            $salida['nombreTransaccion']= "Compra mensualidad oficial.";
+            $salida['compraTemporal']   = "";
+            $salida['infoPlanes']   	= $infoPlanes;
+            $salida['precioPlanEmpresa']= $precioPlanEmpresa;
+            $salida['cantCompradas']    = $cantCompradas;
+            $salida['totalCompradas']    = $totalCompradas;
+            $salida['totalPagarEmpresa']= $totalPagarEmpresa;
+            $salida['payu_apikey']  = "4Vj8eK4rloUd272L48hsrarnUA";
+            $this->load->view("registro/indexPago",$salida);    
+        } 
+
     }
     //confirmacion de pago
 	public function confirmacionPago()
     {
         extract($_POST);
+        $descripcion = $_POST["descripcion"];
+        // var_dump();die();
         //debo actualizar la informacon del pedido con lo que me retorno payu
-        $dataInserta['estadoPago']      = $state_pol;
-        $dataInserta['transactionid']   = $transaction_id;
-        $dataInserta['reference_pol']   = $reference_pol;
-        $dataInserta['valor']           = $value;
-        $dataInserta['moneda']          = $currency;
-        $dataInserta['entidad']         = $payment_method;
-        $dataInserta['fechaPago']       = date("Y-m-d H:i:s");
-        $dataInserta['ip']              = getIP();
-        $condicion['codigoPedido']      = $reference_sale;
-        $updatePedido                   = $this->logica->actualizaDatos($dataInserta,$condicion);
-        //envia el mensaje al administrador de la tienda diciendo que el pedido llego
-        $mensajeMail  = "Confirmación de pago del pedido <strong>".$reference_sale."</strong><br><br>";
-        sendMail(_ADMIN_PEDIDOS,"Estado de pago del pedido ".$reference_sale,$mensajeMail);
+        if($descripcion == "Compra de matriz."){
+            $dataInserta['estadoPago']      = $state_pol;
+            $dataInserta['transactionid']   = $transaction_id;
+            $dataInserta['reference_pol']   = $reference_pol;
+            $dataInserta['valor']           = $value;
+            $dataInserta['moneda']          = $currency;
+            $dataInserta['entidad']         = $payment_method;
+            $dataInserta['fechaPago']       = date("Y-m-d H:i:s");
+            $dataInserta['ip']              = getIP();
+            $condicion['codigoPedido']      = $reference_sale;
+            $pagoMatriz                       = $this->logica->pagoMatriz($dataInserta);
+            //envia el mensaje al administrador de la tienda diciendo que el pedido llego
+        }
+        if($descripcion == "Compra de empresas."){
+                $dataInserta['estadoPago']      = $state_pol;
+                $dataInserta['transactionid']   = $transaction_id;
+                $dataInserta['reference_pol']   = $reference_pol;
+                $dataInserta['valor']           = $value;
+                $dataInserta['moneda']          = $currency;
+                $dataInserta['entidad']         = $payment_method;
+                $dataInserta['fechaPago']       = date("Y-m-d H:i:s");
+                $dataInserta['ip']              = getIP();
+                $condicion['codigoPedido']      = $reference_sale;
+                // $mensajeMail                      = $_GET['buyerEmail'];
+                $pagoMatriz               = $this->logica->pagoEmpresaO($dataInserta);
+        }
+        //compra mensualidad empresa
+        if($descripcion == "Compra mensualidad empresa."){
+            $dataInserta['estadoPago']      = $state_pol;
+            $dataInserta['transactionid']   = $transaction_id;
+            $dataInserta['reference_pol']   = $reference_pol;
+            $dataInserta['valor']           = $value;
+            $dataInserta['moneda']          = $currency;
+            $dataInserta['entidad']         = $payment_method;
+            $dataInserta['fechaPago']       = date("Y-m-d H:i:s");
+            $dataInserta['ip']              = getIP();
+            $condicion['codigoPedido']      = $reference_sale;
+            //  $mensajeMail                      = $_GET['buyerEmail'];
+            $pagoMatriz               = $this->logica->pagoMempersa($dataInserta);
+        }
+        //compra mensualidad oficial de cumplimiento
+        if($descripcion == "Compra mensualidad oficial."){
+            $datos['codigoPago']      = $referenceCode;
+            $datos['email']           = $_GET['buyerEmail'];
+            $datos['estadoPago']      = $transactionState;
+            $datos['formaPago']       = $_GET['lapPaymentMethodType'];
+            $datos['transactionid']   = $transactionId;
+            $datos['referencia_pol']  = $reference_pol;
+            $datos['valor']           = $TX_VALUE;
+            $datos['moneda']          = $currency;
+            $datos['entidad']         = $lapPaymentMethod;
+            $datos['fechaPago']       = date("Y-m-d H:i:s");
+            $datos['ip']              = getIP();
+            // $mensajeMail                      = $_GET['buyerEmail'];
+            $pagoMatriz               = $this->logica->pagoMoficial($datos);
+        }
     }
     //confirma pago matrices
     public function pagoMatrices(){
@@ -91,7 +234,6 @@ class Pagos extends CI_Controller
             $respuesta ="nada";
             echo json_encode($respuesta); 
 		}
-        
     }
     //confirma pago empresas
     public function pagoEmpresas(){
@@ -107,77 +249,229 @@ class Pagos extends CI_Controller
 
     }
 
-
-
-
-
-    //respuesta de pago
+    //respuesta de pago inmediata
     public function respuestaPago()
     {   
+        $payu_apikey = "4Vj8eK4rloUd272L48hsrarnUA";
         extract($_GET);
-        var_dump($_GET);die();
-        //var_dump($_GET);die();
-        // $idTienda = $_SESSION['project']['info']['idTienda'];
-        // $infoTienda     = $this->logica->getInfoTiendaNew($idTienda);
-        // $mes = $infoTienda['datos'][0]['mesGratis'];
-        // $fechaCaducidad = $infoTienda['datos'][0]['fechaCaducidad'];
-        // $fehcaActual = date('Y,m,d,H:i:s');
-        // $idTransaccion = $_GET['referenceCode'];
-        
-        // $ApiKey             = $infoTienda['datos'][0]['payu_apikey'];
+    // var_dump($_GET);die();
+        $idEmpresa = $_SESSION['project']['info']['idEmpresa'];
+        $infoTienda     = $this->logica->infoEmpresa($idEmpresa);
+        $descripcion = $_GET['description'];
+        $ApiKey             = $payu_apikey;
+        $merchant_id        = $_GET['merchantId'];
+        $referenceCode      = $_GET['referenceCode'];
+        $TX_VALUE           = $_GET['TX_VALUE'];
+        $New_value          = number_format($TX_VALUE, 1, '.', '');
+        $currency           = $_GET['currency'];
+        $estadoTx           = $_GET['lapTransactionState'];
+        $transactionState   = $_GET['transactionState'];
+        $firma_cadena       = "$ApiKey~$merchant_id~$referenceCode~$TX_VALUE~$currency";
+        $firmacreada        = md5($firma_cadena);
+        $firma              = $_GET['signature'];
+        $reference_pol      = $_GET['reference_pol'];
+        $cus                = $_GET['cus'];
 
-        // $merchant_id        = $_GET['merchantId'];
-        // $referenceCode      = $_GET['referenceCode'];
-        // $TX_VALUE           = $_GET['TX_VALUE'];
-        // $New_value          = number_format($TX_VALUE, 1, '.', '');
-        // $currency           = $_GET['currency'];
-        // $transactionState   = $_GET['transactionState'];
-        // $firma_cadena       = "$ApiKey~$merchant_id~$referenceCode~$TX_VALUE~$currency";
-        // $firmacreada        = md5($firma_cadena);
-        // //echo $firmacreada;
-        // $firma              = $_GET['signature'];
-        // $reference_pol      = $_GET['reference_pol'];
-        // $cus                = $_GET['cus'];
-        // $extra1             = $_GET['description'];//confirmar con farez
-        // $pseBank            = $_GET['pseBank'];
-        // $lapPaymentMethod   = $_GET['lapPaymentMethod'];
-        // $transactionId      = $_GET['transactionId'];
-
-        // $_GET['transactionState'] == 4;
-        // $_GET['transactionState'] == 6;
-        // $_GET['transactionState'] == 104;
-        // $_GET['transactionState'] == 7;
-        // $_GET['transactionState'] == 999;
-        // $_GET['transactionState'] == 000;
-        // $_GET['transactionState'] == 998 ;
-
-        
-
-        // //var_dump($_GET);die();
-        // $salida['estadoTx']         =   $estadoTx;
-        // $salida['ApiKey']           =   $ApiKey;
-        // $salida['merchant_id']      =   $merchant_id;
-        // $salida['referenceCode']    =   $referenceCode;
-        // $salida['TX_VALUE']         =   $TX_VALUE;
-        // $salida['New_value']        =   $New_value;
-        // $salida['currency']         =   $currency;
-        // $salida['transactionState'] =   $transactionState;
-        // $salida['firma_cadena']     =   $firma_cadena;
-        // $salida['firmacreada']      =   $firmacreada;
-        // $salida['firma']            =   $firma;
-        // $salida['reference_pol']    =   $reference_pol;
-        // $salida['cus']              =   $cus;
-        // $salida['extra1']           =   $extra1;
-        // $salida['pseBank']          =   $pseBank;
-        // $salida['lapPaymentMethod'] =   $lapPaymentMethod;
-        // $salida['transactionId']    =   $transactionId;
-        // $salida['infoTienda']       =   $infoTienda['datos'][0];
-        // $salida['titulo']      = lang("resp_pago");
-        // $salida['titulo']      = lang("titulo")." - ".lang("text35");
-        // $salida['centro']      = "pedidos/respuestaPagoMembresia";
-        // $salida['claseLabel']   = $claseLabel;
-        
-		// $this->load->view("registro/indexPago",$salida);
+        //cuando es compra de matriz
+        if($descripcion == "Compra de matriz."){
+            if($_GET['transactionState'] == 4){
+                $estadoTx = lang("trans_aprobada");
+                $claseLabel = "label-success";
+            }
+            if($_GET['transactionState'] == 6){
+                $estadoTx = lang("trans_rechazada");
+                $claseLabel = "label-danger";
+            }
+            if($_GET['transactionState'] == 7){
+                $estadoTx = lang("trans_pendiente");
+                $claseLabel = "label-primary";
+            }
+            if($_GET['transactionState'] == 104){
+                $estadoTx = "Error";
+                $claseLabel = "label-danger";
+            }
+            if($_GET['transactionState'] == 999){
+                $estadoTx = "Pago no realizado";
+                $claseLabel = "label-danger";
+            }
+            if($_GET['transactionState'] == 000){
+                $estadoTx = "Esperando Pago";
+                $claseLabel = "label-warning";
+            }
+            if($_GET['transactionState'] == 998){
+                $estadoTx = "Pago realizado";
+                $claseLabel = "label-success";
+            }
+                $datos['codigoPago']      = $referenceCode;
+                $datos['email']           = $_GET['buyerEmail'];
+                $datos['estadoPago']      = $transactionState;
+                $datos['formaPago']       = $_GET['lapPaymentMethodType'];
+                $datos['transactionid']   = $transactionId;
+                $datos['referencia_pol']  = $reference_pol;
+                $datos['valor']           = $TX_VALUE;
+                $datos['moneda']          = $currency;
+                $datos['entidad']         = $lapPaymentMethod;
+                $datos['fechaPago']       = date("Y-m-d H:i:s");
+                $datos['ip']              = getIP();
+                // $mensajeMail                      = $_GET['buyerEmail'];
+                $pagoMatriz               = $this->logica->pagoMatriz($datos);
+        }
+        //cuando oficial de cumplimiento compra empresas
+        if($descripcion == "Compra de empresas."){
+            if($_GET['transactionState'] == 4){
+                $estadoTx = lang("trans_aprobada");
+                $claseLabel = "label-success";
+            }
+            if($_GET['transactionState'] == 6){
+                $estadoTx = lang("trans_rechazada");
+                $claseLabel = "label-danger";
+            }
+            if($_GET['transactionState'] == 7){
+                $estadoTx = lang("trans_pendiente");
+                $claseLabel = "label-primary";
+            }
+            if($_GET['transactionState'] == 104){
+                $estadoTx = "Error";
+                $claseLabel = "label-danger";
+            }
+            if($_GET['transactionState'] == 999){
+                $estadoTx = "Pago no realizado";
+                $claseLabel = "label-danger";
+            }
+            if($_GET['transactionState'] == 000){
+                $estadoTx = "Esperando Pago";
+                $claseLabel = "label-warning";
+            }
+            if($_GET['transactionState'] == 998){
+                $estadoTx = "Pago realizado";
+                $claseLabel = "label-success";
+            }
+                $datos['codigoPago']      = $referenceCode;
+                $datos['email']           = $_GET['buyerEmail'];
+                $datos['estadoPago']      = $transactionState;
+                $datos['formaPago']       = $_GET['lapPaymentMethodType'];
+                $datos['transactionid']   = $transactionId;
+                $datos['referencia_pol']  = $reference_pol;
+                $datos['valor']           = $TX_VALUE;
+                $datos['moneda']          = $currency;
+                $datos['entidad']         = $lapPaymentMethod;
+                $datos['fechaPago']       = date("Y-m-d H:i:s");
+                $datos['ip']              = getIP();
+                // $mensajeMail                      = $_GET['buyerEmail'];
+                $pagoMatriz               = $this->logica->pagoEmpresaO($datos);
+        }
+        //compra mensualidad empresa
+        if($descripcion == "Compra mensualidad empresa."){
+            if($_GET['transactionState'] == 4){
+                $estadoTx = lang("trans_aprobada");
+                $claseLabel = "label-success";
+            }
+            if($_GET['transactionState'] == 6){
+                $estadoTx = lang("trans_rechazada");
+                $claseLabel = "label-danger";
+            }
+            if($_GET['transactionState'] == 7){
+                $estadoTx = lang("trans_pendiente");
+                $claseLabel = "label-primary";
+            }
+            if($_GET['transactionState'] == 104){
+                $estadoTx = "Error";
+                $claseLabel = "label-danger";
+            }
+            if($_GET['transactionState'] == 999){
+                $estadoTx = "Pago no realizado";
+                $claseLabel = "label-danger";
+            }
+            if($_GET['transactionState'] == 000){
+                $estadoTx = "Esperando Pago";
+                $claseLabel = "label-warning";
+            }
+            if($_GET['transactionState'] == 998){
+                $estadoTx = "Pago realizado";
+                $claseLabel = "label-success";
+            }
+                $datos['codigoPago']      = $referenceCode;
+                $datos['email']           = $_GET['buyerEmail'];
+                $datos['estadoPago']      = $transactionState;
+                $datos['formaPago']       = $_GET['lapPaymentMethodType'];
+                $datos['transactionid']   = $transactionId;
+                $datos['referencia_pol']  = $reference_pol;
+                $datos['valor']           = $TX_VALUE;
+                $datos['moneda']          = $currency;
+                $datos['entidad']         = $lapPaymentMethod;
+                $datos['fechaPago']       = date("Y-m-d H:i:s");
+                $datos['ip']              = getIP();
+                // $mensajeMail                      = $_GET['buyerEmail'];
+                $pagoMatriz               = $this->logica->pagoMempersa($datos);
+        }
+        //mensualidad oficial de cumplimiento
+        if($descripcion == "Compra mensualidad oficial."){
+            if($_GET['transactionState'] == 4){
+                $estadoTx = lang("trans_aprobada");
+                $claseLabel = "label-success";
+            }
+            if($_GET['transactionState'] == 6){
+                $estadoTx = lang("trans_rechazada");
+                $claseLabel = "label-danger";
+            }
+            if($_GET['transactionState'] == 7){
+                $estadoTx = lang("trans_pendiente");
+                $claseLabel = "label-danger";
+            }
+            if($_GET['transactionState'] == 104){
+                $estadoTx = "Error";
+                $claseLabel = "label-danger";
+            }
+            if($_GET['transactionState'] == 999){
+                $estadoTx = "Pago no realizado";
+                $claseLabel = "label-danger";
+            }
+            if($_GET['transactionState'] == 000){
+                $estadoTx = "Esperando Pago";
+                $claseLabel = "label-warning";
+            }
+            if($_GET['transactionState'] == 998){
+                $estadoTx = "Pago realizado";
+                $claseLabel = "label-success";
+            }
+                $datos['codigoPago']      = $referenceCode;
+                $datos['email']           = $_GET['buyerEmail'];
+                $datos['estadoPago']      = $transactionState;
+                $datos['formaPago']       = $_GET['lapPaymentMethodType'];
+                $datos['transactionid']   = $transactionId;
+                $datos['referencia_pol']  = $reference_pol;
+                $datos['valor']           = $TX_VALUE;
+                $datos['moneda']          = $currency;
+                $datos['entidad']         = $lapPaymentMethod;
+                $datos['fechaPago']       = date("Y-m-d H:i:s");
+                $datos['ip']              = getIP();
+                // $mensajeMail                      = $_GET['buyerEmail'];
+                $pagoMatriz               = $this->logica->pagoMoficial($datos);
+        }
+         //var_dump($_GET);die();
+        $salida['estadoTx']         =   $estadoTx;
+        $salida['ApiKey']           =   $ApiKey;
+        $salida['merchant_id']      =   $merchant_id;
+        $salida['referenceCode']    =   $referenceCode;
+        $salida['TX_VALUE']         =   $TX_VALUE;
+        $salida['New_value']        =   $New_value;
+        $salida['currency']         =   $currency;
+        $salida['transactionState'] =   $transactionState;
+        $salida['firma_cadena']     =   $firma_cadena;
+        $salida['firmacreada']      =   $firmacreada;
+        $salida['firma']            =   $firma;
+        $salida['reference_pol']    =   $reference_pol;
+        $salida['cus']              =   $cus;
+        $salida['extra1']           =   $extra1;
+        $salida['pseBank']          =   $pseBank;
+        $salida['lapPaymentMethod'] =   $lapPaymentMethod;
+        $salida['transactionId']    =   $transactionId;
+        $salida['infoTienda']       =   $infoTienda;
+        $salida['titulo']      = lang("resp_pago");
+        $salida['titulo']      = lang("titulo")." - ".lang("text35");
+        $salida['centro']      = "registro/respuestaPago";
+        $salida['claseLabel']   = $claseLabel;
+		$this->load->view("registro/indexPago",$salida);
     }
 }
 ?>

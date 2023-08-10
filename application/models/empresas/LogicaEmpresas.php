@@ -83,8 +83,10 @@ class LogicaEmpresas  {
     }
      //elimina rel de emrpesa
      public function eliminaRel($datos){
+        $dataActualiza["eliminado"]     = 1;
+        $dataActualiza["estado"]        = 0;
         $where['idEmpresa']             = $datos["idEmpresa"];
-        $empresas                       = $this->ci->dbEmpresas->eliminaRel($where);
+        $empresas                       = $this->ci->dbEmpresas->eliminaRel($dataActualiza, $where);
             if($empresas > 0){
                 $respuesta = array("mensaje"=>"La empresa se ha eliminado exitosamente.",
                 "continuar"=>1,
@@ -130,6 +132,8 @@ class LogicaEmpresas  {
     //consulta Matrices Compradas.
     public function infoMatricesCompradas($idEmpresa){
         $where["c.idEmpresa"]   = $idEmpresa;
+        $where["c.eliminado"]   = 0;
+        $where["c.estado"]      = 1;
         $infoMatriz                 = $this->ci->dbEmpresas->infoMatricesCompradas($where);
         if(count($infoMatriz) > 0){
             $respuesta = array("mensaje"=>"las matrices fueron consultadas.",
@@ -143,5 +147,88 @@ class LogicaEmpresas  {
         }
         return $respuesta;
     }
+    public function matricesEmpresa($datos){
+        // var_dump($datos);die();
+        $where["idEmpresa"]   = $datos["idEmpresa"];
+        $infoMatriz                 = $this->ci->dbEmpresas->matricesEmpresa($where);
+        if(count($infoMatriz) > 0){
+            $respuesta = array("mensaje"=>"las matrices fueron consultadas.",
+                        "continuar"=>1,
+                        "datos"=>$infoMatriz);
+        }
+        else{
+            $respuesta = array("mensaje"=>"La empresa no cuenta con matrices, comuníquese con el administrador de empresa para que realice la compra de matrices.",
+                        "continuar"=>0,
+                        "datos"=>"");
+        }
+        return $respuesta;
+    }
+    public function informacionEmpresa($datos){
+        $where["idEmpresa"]   = $datos["idEmpresa"];
+        $infoMatriz                 = $this->ci->dbEmpresas->infoEmpresa($where);
+        $fechaCaduca = $infoMatriz[0]["fechaCaducidad"];
+        $hoy = date("Y-m-d H:i:s");
+        if($fechaCaduca > $hoy){
+            $respuesta = array("mensaje"=>"Empresa consultada.",
+                        "continuar"=>1,
+                        "datos"=>$infoMatriz);
+        }
+        else{
+            $respuesta = array("mensaje"=>"Por favor comuníquese con el administrador de la empresa para el acceso.",
+                        "continuar"=>0,
+                        "datos"=>"");
+        }
+        return $respuesta;
+    }
+    //informacion de empresa por id
+    public function infoEmpresaid($datos){
+        $where["idEmpresa"]   = $datos["idEmpresa"];
+        $infoMatriz           = $this->ci->dbEmpresas->infoEmpresa($where);
+        if($infoMatriz){
+            $respuesta = array("mensaje"=>"Empresa consultada.",
+                        "continuar"=>1,
+                        "datos"=>$infoMatriz);
+        }
+        else{
+            $respuesta = array("mensaje"=>"Por favor comuníquese con el administrador de la empresa para el acceso.",
+                        "continuar"=>0,
+                        "datos"=>"");
+        }
+        return $respuesta;
+    }
+    //informacion de membresia oficial de cumplimiento por idPersona
+    public function infoMembresiaOficial($datos){
+        // var_dump($datos);die();
+        $where["idPersona"]   = $datos;
+        $infoMembresia        = $this->ci->dbEmpresas->infoMembresiaOficial($where);
+        if(count($infoMembresia) > 0){
+            $respuesta = array("mensaje"=>"La consulta se realizo exitosamente.",
+                        "continuar"=>1,
+                        "datos"=>$infoMembresia);
+        }
+        else{
+            $respuesta = array("mensaje"=>"No se realizo la consulta.",
+                        "continuar"=>0,
+                        "datos"=>"");
+        }
+        return $respuesta;
+    }
+    //informacion de usuario por id
+    public function infoUsuarioid($datos){
+        $where["idPersona"]   = $datos["idPersona"];
+        $infoMatriz           = $this->ci->dbEmpresas->infoUsuarioid($where);
+        if($infoMatriz){
+            $respuesta = array("mensaje"=>"Persona consultada consultada.",
+                        "continuar"=>1,
+                        "datos"=>$infoMatriz);
+        }
+        else{
+            $respuesta = array("mensaje"=>"Por favor comuníquese con el administrador de la empresa para el acceso.",
+                        "continuar"=>0,
+                        "datos"=>"");
+        }
+        return $respuesta;
+    }
+
     
 }

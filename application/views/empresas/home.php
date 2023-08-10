@@ -71,7 +71,7 @@
                                 <a ng-click="cargaPlantillaparametros('<?php echo $info['idEmpresa'];?>',1)" data-toggle="tooltip" data-placement="top" title="Actualizar Empresa" class="btn btn-info btn-fab btn-fab-mini btn-xs"><i class="far fa-edit"></i></a>
                             <?php }if(getPrivilegios()[0]['borrar'] == 1){ ?>
                                 <a ng-click="borraEmpresas(<?php echo $info['idEmpresa'];?>)" ng-if="<?php echo $_SESSION['project']['info']["idPerfil"]; ?> == 1 || <?php echo $_SESSION['project']['info']["idPerfil"]; ?> == 2  || <?php echo $_SESSION['project']['info']["idPerfil"]; ?> == 3 " title="Eliminar Empresa"  class="btn btn-danger btn-fab btn-fab-mini btn-xs"><i class="fas fa-trash"></i></a>
-                            <?php }if($_SESSION['project']['info']['idPerfil'] == 8){ ?>
+                            <?php }if($_SESSION['project']['info']['idPerfil'] == 8 && $_SESSION['project']['info']['idEmpresa'] == 0){ ?>
                                 <!-- eliminar la relacion de empresas con oficial de cumplimiento -->
                                 <a ng-click="eliminaRel(<?php echo $info['idEmpresa'];?>)" title="Eliminar Empresa"  class="btn btn-danger btn-fab btn-fab-mini btn-xs"><i class="fas fa-trash"></i></a>
                             <?php }?>

@@ -17,6 +17,7 @@ class crearMatriz extends CI_Controller
         $this->load->model("general/LogicaGeneral", "logica");
         $this->load->model("admin/LogicaAdmin", "logicaAdmin");
         $this->load->model("crearMatriz/LogicaMatriz","logMatriz");
+        $this->load->model("misMatrices/LogicaMisMatrices","logicaMis");
        	$this->load->helper('language');
     	$this->lang->load('spanish');
 		$this->load->database();
@@ -1077,18 +1078,71 @@ class crearMatriz extends CI_Controller
 	//formulario de checkeo
 	public function formCheck(){
 		extract($_POST);
-		$idPerfil = $_SESSION["project"]["info"]["idPerfil"];
-		$id 						= $_POST["idNuevaMatriz"];
-		$idPerdona 					= $_SESSION['project']['info']['idPersona'];
-		$fecha 						= date("F j, Y");
-		$infoUsuario				= $this->logMatriz->infoUsuario($idPerdona);
-		$infoMatrizRecurrentes		= $this->logMatriz->infoMatrizRecurrentes($id);
-		//var_dump($infoMatrizRecurrentes);die();
-		$salida["titulo"] 	 		= "Formulario de checkeo";
-		$salida['infoUsuario']		= $infoUsuario;
-		$salida['fecha']			= $fecha;
-		$salida['idNuevaMatriz']	= $idNuevaMatriz;
-		$salida['informacion']		= $infoMatrizRecurrentes[0];
+		$idRecurrente				= $_POST["idRecurrente"];	
+		if($edita == 1){
+			if($_SESSION['project']['info']['idPerfil'] == 8){
+				$idResponsable = $_POST["idResponsable"];
+				$idEmpresas	= $_POST["idEmpresa"];
+				$infoMatrizRecurrentes		= $this->logMatriz->infoMatrizRecurrentes($idRecurrente);
+				$informacionCheck			= $this->logMatriz->informacionCheckDos($idRecurrente,$idResponsable,$idEmpresas);
+				// var_dump($informacionCheck);die();
+				$idPersonaCheck 			= $informacionCheck[0]["idPersona"];
+				$informacionPersona			= $this->logMatriz->infoPersona($idPersonaCheck);
+				$infoUsuario				= $this->logMatriz->infoUsuario($idPersonaCheck);
+				$consulta					= $this->logicaMis->consultaRcomentario($idRecurrente,$idPersonaCheck);
+				$consultacheck				= $this->logicaMis->consultacheck($idRecurrente,$idPersonaCheck);
+			}
+			if($_SESSION['project']['info']['idPerfil'] != 8){
+
+				$idPersona = $_SESSION['project']['info']['idPersona'];
+				$idEmpresas = $_SESSION['project']['info']['idEmpresa'];
+				$idPerfil = $_SESSION['project']['info']['idPerfil'];
+				$id 						= $_POST["idNuevaMatriz"];
+				$fecha 						= date("F j, Y");
+				$infoMatrizRecurrentes		= $this->logMatriz->infoMatrizRecurrentes($id);
+				$informacionCheck			= $this->logMatriz->informacionCheck($idPerfil,$idRecurrente,$idEmpresas);
+				$informacionPersona			= $this->logMatriz->infoPersona($idPersona);
+				$infoUsuario				= $this->logMatriz->infoUsuario($idPersona);
+				$consulta					= $this->logicaMis->consultaRcomentario($idRecurrente,$idPersona);
+				$consultacheck				= $this->logicaMis->consultacheck($idRecurrente,$idPersona);
+				$salida['fecha']			= $fecha;
+			}
+
+			$salida['infoUsuario']		= $infoUsuario;
+			if($_SESSION['project']['info']["idPerfil"] != 8){
+				$salida["titulo"] 	 		= "Editar Formulario";
+			}
+			if($_SESSION['project']['info']["idPerfil"] == 8){
+				$salida["titulo"] 	 		= "Cumplir Formulario";
+			}
+			$salida['informacion']		= $infoMatrizRecurrentes[0];
+
+			$salida['idRecurrente']		= $idRecurrente;
+			$salida['consulta']			= $consulta;
+			$salida["consultacheck"]	= $consultacheck;
+			$salida["informacionPersona"]= $informacionPersona;
+			$salida["edita"]  	 	= 1;
+			$salida["labelBtn"]  	= "Editar formulario";
+			
+		} else {
+
+			$id 						= $_POST["idNuevaMatriz"];
+			$idPersona 					= $_SESSION['project']['info']['idPersona'];
+			$fecha 						= date("F j, Y");
+			$infoUsuario				= $this->logMatriz->infoUsuario($idPersona);
+			$infoMatrizRecurrentes		= $this->logMatriz->infoMatrizRecurrentes($id);
+			$consulta					= $this->logicaMis->consultaRcomentario($idRecurrente,$idPersona);
+			$salida["titulo"] 	 		= "Formulario de checkeo";
+			$salida['infoUsuario']		= $infoUsuario;
+			$salida['fecha']			= $fecha;
+			$salida['idRecurrente']		= $idRecurrente;
+			$salida['idNuevaMatriz']	= $idNuevaMatriz;
+			$salida['consulta']			= $consulta;
+			$salida["consultacheck"] 	= "";
+			$salida["edita"]  	 		= 0;
+			$salida["labelBtn"]  		= "Guardar";
+			$salida['informacion']		= $infoMatrizRecurrentes[0];
+		}
 		echo $this->load->view("MatricesCreadas/formCheck",$salida,true);
 	}
 	//tipo de matrices
@@ -1181,6 +1235,20 @@ class crearMatriz extends CI_Controller
                               "datos"=>""); 
             echo json_encode($respuesta); 
 		}
+	}
+	public Function consultaCheck(){
+		$idPersona 		= $_SESSION['project']['info']['idPersona'];
+		$idRecurrente	= $_POST["idRecurrente"];	
+		$consultacheck	= $this->logicaMis->consultacheck($idRecurrente,$idPersona);
+		echo json_encode($consultacheck);
+			
+	}
+	public Function consultaCheckRealizado(){
+		$idRecurrente	= $_POST["idRecurrente"];
+		$idPersona 		= $_POST["idPersona"];
+		$idEmpresa 		= $_POST["idEmpresa"];
+		$consultacheck	= $this->logicaMis->consultacheckRealizado($idRecurrente,$idPersona,$idEmpresa);
+		echo json_encode($consultacheck);	
 	}
 }
 ?>

@@ -431,6 +431,23 @@ class BaseDatosMatriz extends CI_Model {
         //print_r($this->db->last_query());die();
         return $id->result_array();
     }
+    //informacion del chekeo por parte de usuario haca oficial de cumplimiento
+    public function informacionCheck($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tableRespuestasCheck);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    public function informacionCheckDos($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tableRespuestasCheck);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
     
 }
 
