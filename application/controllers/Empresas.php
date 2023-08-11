@@ -55,14 +55,17 @@ class Empresas extends CI_Controller
 					$infoEmpresas		  	= $this->lgEmpresas->misEmpresas();
 					$idPersona				= $_SESSION['project']['info']['idPersona'];
 					$infoMembresia		  	= $this->lgEmpresas->infoMembresiaOficial($idPersona);
-					$fechaCaduca = $infoMembresia["datos"][0]["fechaCaducidad"];
-					// var_dump($infoMembresia["datos"][0]["fechaCaducidad"]);die();
-						$hoy = date('Y-m-d H:i:s');
-						if($hoy > $fechaCaduca ){
-							if($idEmpresa == 0){
-								redirect("PagoMatriz/PagoOficial");
+					if($infoMembresia["continuar"] == 0){
+						header('Location:'.base_url()."PagoMatriz/PagoOficial");
+					}else{
+						$fechaCaduca = $infoMembresia["datos"][0]["fechaCaducidad"];
+							$hoy = date('Y-m-d H:i:s');
+							if($hoy > $fechaCaduca ){
+								if($idEmpresa == 0){
+									redirect("PagoMatriz/PagoOficial");
+								}
 							}
-						}
+					}
 					$opc 				   	= "home";
 					$salida['titulo']      	= "Empresas Agregadas";
 					$salida['centro'] 	   	= "empresas/home";
