@@ -688,6 +688,21 @@ class BaseDatosGral extends CI_Model {
         $this->db->update($this->tableMembresiaOficial,$data);
         // print_r($this->db->last_query());die();
         return $this->db->affected_rows();
+    }
+    //consulto si existe
+    public function consultoMembresia($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tableMembresiaOficial);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //inserto mmebresia oficial de cumplimiento
+    public function infoMembresiaOficial($dataInserta){
+        $this->db->insert($this->tableMembresiaOficial,$dataInserta);
+        //print_r($this->db->last_query());die();
+        return $this->db->insert_id();
     }   
 }
 

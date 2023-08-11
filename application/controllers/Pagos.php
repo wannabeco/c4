@@ -77,7 +77,6 @@ class Pagos extends CI_Controller
             $infoPlanes	        = $this->logica->infoPlanes();
             $compraTemporal     = $this->logica->pagoEmpresaMesC($idPago);
             $infoUsuarios       = $this->logica->getUsuarioEmpresa($idEmpresa);
-            // var_dump($infoUsuarios);die();
             $infoMatrices       = $this->logica->getMatricesEmpresas($idEmpresa);
             $preciosPerfil      = array();
             $precioMatrices     = array();
@@ -100,8 +99,6 @@ class Pagos extends CI_Controller
             $totalMatrices      = array_sum($precioMatrices);
             $adicionales        = $totalPerfil+ $totalMatrices;
             $totalPagarEmpresa  = $precioPlanEmpresa+ $totalPerfil+ $totalMatrices;
-            //var_dump($compraTemporal);die();
-            //consulto la info de la tienda
             $salida['titulo']           = "Pasarela de pago";
             $salida['centro']           = "registro/pagoOnline";
             $salida['proveedor']        = "payu";

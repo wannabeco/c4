@@ -113,7 +113,7 @@ project.controller('pagos', function($scope,$http,$q,constantes)
 								var interval = setInterval(function(){
 									if(ventana.closed !== false) {
 										window.clearInterval(interval);
-										window.location.assign($scope.config.apiUrl+"/Empresas/empresas/37"); 
+										window.location.assign($scope.config.apiUrl+"Empresas/empresas/37"); 
 									} else {
 										tiempo +=1;
 									}

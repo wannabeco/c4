@@ -673,13 +673,10 @@ class LogicaGeneral  {
         $dataActualiza['fechaPago']       = date("Y-m-d H:i:s");
         $dataActualiza['ip']              = getIP();
         $pagoEmpresa                      = $this->ci->dbGeneral->pagoMempresa($dataActualiza,$where);
-        //var_dump($pagoEmpresa);die();
         if($pagoEmpresa > 0){
             $where['codigoPago'] = $datos["codigoPago"];
             $verificoPago = $this->ci->dbGeneral->pagoEmpresaMesC($where);
-            // var_dump($verificoPago[0]);die();
             if($verificoPago[0]["estadoPago"] == 4 || $verificoPago[0]["estadoPago"] == 998){
-                // var_dump("aca");die();
                 $donde['idEmpresa']                 = $verificoPago[0]["idEmpresa"];
                 $dataActualizar['fechaInicioPlan']   = date("Y-m-d H:i:s");
                 $hoy                                = date('Y-m-d');
@@ -705,6 +702,21 @@ class LogicaGeneral  {
     }
     //agrego pago de mensualidad oficial de cumplimiento
     public function pagoMensualidadOficial($data){
+        $idPersona = $_SESSION['project']['info']['idPersona'];
+        $consultoMembresia                  = $this->ci->dbGeneral->consultoMembresia($idPersona);
+        if(count($consultoMembresia) > 0){
+            $dataAc['paquete']           = "Mensual";
+            $dataAc['estadoFunciona']    = "Normal";
+            $dataAc['fechaIngreso']      = date('Y-m-d H:m:s');
+            $actualizoMembresia          = $this->ci->dbGeneral->actualizoMembresiaOficial($dataAc,$idPersona);
+            // var_dump($actualizoMembresia);die();
+        }else{
+            $dataMembresia['idPersona']         = $_SESSION['project']['info']['idPersona'];
+            $dataMembresia['paquete']           = "Mensual";
+            $dataMembresia['estadoFunciona']    = "Normal";
+            $dataMembresia['fechaIngreso']        = date('Y-m-d H:m:s');
+            $insertoMembresia   = $this->ci->dbGeneral->infoMembresiaOficial($dataMembresia);
+        }
         $dataInserta['idPersona']       = $_SESSION['project']['info']['idPersona'];
         $dataInserta['email']           = $_SESSION['project']['info']['email'];
         $dataInserta['proveedor']       = $data["proveedor"];
@@ -721,12 +733,11 @@ class LogicaGeneral  {
     //consulto los datos de pago que el oficial va a realizar
     public function infoPagoMesOficial($dato){
         $where["idPagoMesOficial"]= $dato;
-        $resultado          = $this->ci->dbGeneral->infoPagoMesOficial($where); 
+        $resultado          = $this->ci->dbGeneral->infoPagoMesOficial($where);
         return $resultado;
     }
     //repuesta pago oficial de cumplimiento
     public function pagoMoficial($datos){
-        //var_dump($datos);die();
         $where['codigoPago']              = $datos["codigoPago"];
         $dataActualiza['email']           = $datos['email'];
         $dataActualiza['estadoPago']      = $datos['estadoPago'];
@@ -739,11 +750,9 @@ class LogicaGeneral  {
         $dataActualiza['fechaPago']       = date("Y-m-d H:i:s");
         $dataActualiza['ip']              = getIP();
         $pagoOficial                      = $this->ci->dbGeneral->pagoMoficial($dataActualiza,$where);
-        //var_dump($pagoOficial);die();
         if($pagoOficial > 0){
             $where['codigoPago'] = $datos["codigoPago"];
             $verificoPago = $this->ci->dbGeneral->infoPagoMesOficial($where);
-            // var_dump($verificoPago[0]);die();
             if($verificoPago[0]["estadoPago"] == 4 || $verificoPago[0]["estadoPago"] == 998){
                 $donde['idPersona']                 = $verificoPago[0]["idPersona"];
                 $dataActualizar['fechaInicioMes']   = date("Y-m-d H:i:s");
