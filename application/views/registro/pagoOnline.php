@@ -130,8 +130,8 @@
         <div class="container alert alert-primary text-center mt-4" role="alert">
             <?php //var_dump($infoPedido);?>
                 <center>
-                <form method="post" id="theForm" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/">
                 <!-- <form method="post" id="theForm" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/"> -->
+                <form method="post" id="theForm" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/">
                     <input name="merchantId" id="merchantId"    type="hidden"  value="<?php echo $payu_id_mercado?>">
                     <input name="accountId"     type="hidden"  value="<?php echo $payu_id_cuenta?>">
                     <input name="description"   type="hidden"  value="<?php echo $nombreTransaccion; ?>">

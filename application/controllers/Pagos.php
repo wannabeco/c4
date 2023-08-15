@@ -35,9 +35,9 @@ class Pagos extends CI_Controller
     
     //pop para pago payu
     public function procesoPagoOnline(){
-        // define('payu_apikey', '4Vj8eK4rloUd272L48hsrarnUA');
-        define('payu_id_mercado', '508029');
-        define('payu_id_cuenta', '512321');
+        // define('payu_apikey', 'x4Wpfz8di5FY3nrpUOn0C50ypU');
+        define('payu_id_mercado', '989196');
+        define('payu_id_cuenta', '997663');
 
 
         $accion = $_GET["pago"];
@@ -51,7 +51,7 @@ class Pagos extends CI_Controller
             $salida['compraTemporal']   = $compraTemporal;
             $salida['codigoPago']       = $compraTemporal[0]["codigoPago"];
             $salida['nombreTransaccion']  = "Compra de empresas.";
-            $salida['payu_apikey']  = "4Vj8eK4rloUd272L48hsrarnUA";
+            $salida['payu_apikey']  = "x4Wpfz8di5FY3nrpUOn0C50ypU";
             $this->load->view("registro/indexPago",$salida);    
         }
         else if($accion == "matrices"){
@@ -64,7 +64,7 @@ class Pagos extends CI_Controller
             $salida['compraTemporal']   = $compraTemporal;
             $salida['codigoPago']       = $compraTemporal[0]["codigoPago"];
             $salida['nombreTransaccion']  = "Compra de matriz.";
-            $salida['payu_apikey']  = "4Vj8eK4rloUd272L48hsrarnUA";
+            $salida['payu_apikey']  = "x4Wpfz8di5FY3nrpUOn0C50ypU";
             $this->load->view("registro/indexPago",$salida);    
         }  
         //pago mensualidad de empresa 
@@ -148,7 +148,7 @@ class Pagos extends CI_Controller
             $salida['cantPerfiles'] 	= $cantPerfiles;
             $salida['cantMatrices'] 	= $cantMatrices;
             $salida['precioPlanEmpresa']= $precioPlanEmpresa;
-            $salida['payu_apikey']      = "4Vj8eK4rloUd272L48hsrarnUA";
+            $salida['payu_apikey']      = "x4Wpfz8di5FY3nrpUOn0C50ypU";
             $this->load->view("registro/indexPago",$salida);    
         }
         // mensualidad oficial de cumplimiento
@@ -185,7 +185,7 @@ class Pagos extends CI_Controller
             $salida['cantCompradas']    = $cantCompradas;
             $salida['totalCompradas']    = $totalCompradas;
             $salida['totalPagarEmpresa']= $totalPagarEmpresa;
-            $salida['payu_apikey']  = "4Vj8eK4rloUd272L48hsrarnUA";
+            $salida['payu_apikey']  = "x4Wpfz8di5FY3nrpUOn0C50ypU";
             $this->load->view("registro/indexPago",$salida);    
         } 
 
@@ -291,7 +291,7 @@ class Pagos extends CI_Controller
     //respuesta de pago inmediata
     public function respuestaPago()
     {   
-        $payu_apikey = "4Vj8eK4rloUd272L48hsrarnUA";
+        $payu_apikey = "x4Wpfz8di5FY3nrpUOn0C50ypU";
         extract($_GET);
         $idEmpresa = $_SESSION['project']['info']['idEmpresa'];
         $infoTienda     = $this->logica->infoEmpresa($idEmpresa);
