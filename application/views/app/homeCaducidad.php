@@ -177,7 +177,7 @@
                                 <hr>
                                 <div class="col-md-8 float-left text-left"><strong>TOTAL A PAGAR</strong></div>
                                 <div class="col-md-4 float-left">
-                                  <?php echo "$ ".number_format($totalPagarEmpresa,0,',', '.'); ?>
+                                  <?php echo "$ ".number_format($totalPagarOficial,0,',', '.'); ?>
                                 </div>
                               </div><br>
                           <?php }?>

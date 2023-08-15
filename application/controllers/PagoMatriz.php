@@ -160,27 +160,35 @@ class PagoMatriz extends CI_Controller
 		if(validaIngreso()){
 
 			$infoPlanes	= $this->logica->infoPlanes();
-			$precioPlanEmpresa = $infoPlanes[1]["precio"];
+			$precioPlanEmpresa = "";
+			// var_dump($infoPlanes);die();
 			$idPersona 			= $_SESSION["project"]["info"]["idPersona"];
 			$EmpresasCompradas 	= $this->logicaMis->infoEmpresasCompradas($idPersona);
+			$nombrePlan ="";
 			$compradas = array();
+			foreach($infoPlanes as $planes){
+				if($planes["dirigido"]  == 1){
+					$precioPlanEmpresa = $planes["precio"];
+				}
+			}
 			foreach ($EmpresasCompradas as $rels) {
 				if (isset($rels)) {
 					array_push($compradas, $rels["precioEmpresa"]);
 				}
 			}
-			$totalCompradas = array_sum($compradas);
+			$totalECompradas = array_sum($compradas);
 			$cantCompradas = count($compradas);
-			// var_dump($compradas);die();
-
+			
 			//eliminar los que no voy necesitand
-			$totalPagarEmpresa = $precioPlanEmpresa+ $totalCompradas;
+			$totalPagarOficial = $precioPlanEmpresa+ $totalECompradas;
+			// var_dump($totalPagarOficial);die();
 			$opc 						= "home";
 			$salida['titulo'] 	  		= "Pago Empresas";
 			$salida['infoPlanes']   	= $infoPlanes;
 			$salida['cantCompradas']   	= $cantCompradas;
-			$salida['totalCompradas']   = $totalCompradas;
-			$salida['totalPagarEmpresa']= $totalPagarEmpresa;
+			$salida['totalCompradas']   = $totalECompradas;
+			$salida['totalPagarOficial']= $totalPagarOficial;
+			$salida['nombrePlan']		= $nombrePlan;
 			$salida['EmpresasCompradas']= $EmpresasCompradas;
 			$salida['centro'] 			= "app/homeCaducidad";
 			$this->load->view("app/index",$salida);

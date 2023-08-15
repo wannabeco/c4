@@ -105,7 +105,7 @@
                         <?php if($_SESSION['project']['info']["idPerfil"] != 8){?>
                             <label for="archivo">Seleccione un archivo:</label>
                             <input type="file" name="fotoFile1" id="fotoFile1" onchange="angular.element(this).scope().uploadPic('fotoFile1','fotoPresentacion','botonfoto1','preloaderfoto1','archivo1')">
-                            <input type="hidden" name="archivo1" id="archivo1" value="{{ urlArchivo1}}">
+                            <input type="hidden" name="archivo1" id="archivo1" value="{{urlArchivo1}}">
                                 <a href="<?php echo base_url()."assets/uploads/files/".$_SESSION['project']['info']['idEmpresa']; ?>/{{ urlArchivo1 }}" target="_blank" title="Documento actual">
                                     <button type="button" class="btn btn-raised btn-primary"><i class="fas fa-download"></i></button>
                                 </a>

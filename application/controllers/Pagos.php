@@ -156,10 +156,15 @@ class Pagos extends CI_Controller
             $idPago             = $_GET["idPago"];
             $dataPago           = $this->logica->infoPagoMesOficial($idPago);
             $infoPlanes	        = $this->logica->infoPlanes();
-			$precioPlanEmpresa  = $infoPlanes[1]["precio"];
+			$precioPlanEmpresa = "";
 			$idPersona 			= $_SESSION["project"]["info"]["idPersona"];
 			$EmpresasCompradas 	= $this->logicaMis->infoEmpresasCompradas($idPersona);
 			$compradas          = array();
+            foreach($infoPlanes as $planes){
+				if($planes["dirigido"]  == 1){
+					$precioPlanEmpresa = $planes["precio"];
+				}
+			}
 			foreach ($EmpresasCompradas as $rels) {
 				if (isset($rels)) {
 					array_push($compradas, $rels["precioEmpresa"]);

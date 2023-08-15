@@ -128,12 +128,16 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 				//una vez finalizado correctamente
 				success: function(json){
 					$scope.respuestas = json.respuesta;
+					console.log(json.arrayArchivos);
 					$scope.archivos = json.arrayArchivos;
 					$scope.idEmpresa	=json.idEmpresa;
 					if($scope.respuestas[0] == "SI"){
 						document.querySelector('input[id=pregunta1][value="SI"]').checked = true;
 						$scope.mostrarInput1();
 						$scope.urlArchivo1 = $scope.archivos[0];
+						$scope.$apply();
+						document.querySelector('input[id=pregunta1][value="SI"]').checked = true;
+
 					} if($scope.respuestas[0] == "NO"){
 						document.querySelector('input[id=pregunta1][value="NO"]').checked = true;
 					} if($scope.respuestas[0] == "NO/A"){
@@ -142,6 +146,9 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 						document.querySelector('input[id=pregunta2][value="SI"]').checked = true;
 						$scope.mostrarInput2();
 						$scope.urlArchivo2 = $scope.archivos[1];
+						$scope.$apply();
+						document.querySelector('input[id=pregunta2][value="SI"]').checked = true;
+
 					} if($scope.respuestas[1] == "NO"){
 						document.querySelector('input[id=pregunta2][value="NO"]').checked = true;
 					} if($scope.respuestas[1] == "NO/A"){
@@ -150,6 +157,9 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 						document.querySelector('input[id=pregunta3][value="SI"]').checked = true;
 						$scope.mostrarInput3();
 						$scope.urlArchivo3 = $scope.archivos[2];
+						$scope.$apply();
+						document.querySelector('input[id=pregunta3][value="SI"]').checked = true;
+
 					} if($scope.respuestas[2] == "NO"){
 						document.querySelector('input[id=pregunta3][value="NO"]').checked = true;
 					} if($scope.respuestas[2] == "NO/A"){
@@ -158,6 +168,9 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 						document.querySelector('input[id=pregunta4][value="SI"]').checked = true;
 						$scope.mostrarInput4();
 						$scope.urlArchivo4 = $scope.archivos[3];
+						$scope.$apply();
+						document.querySelector('input[id=pregunta4][value="SI"]').checked = true;
+
 					} if($scope.respuestas[3] == "NO"){
 						document.querySelector('input[id=pregunta4][value="NO"]').checked = true;
 					} if($scope.respuestas[3] == "NO/A"){
@@ -166,6 +179,9 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 						document.querySelector('input[id=pregunta5][value="SI"]').checked = true;
 						$scope.mostrarInput5();
 						$scope.urlArchivo5 = $scope.archivos[4];
+						$scope.$apply();
+						document.querySelector('input[id=pregunta5][value="SI"]').checked = true;
+
 					} if($scope.respuestas[4] == "NO"){
 						document.querySelector('input[id=pregunta5][value="NO"]').checked = true;
 					} if($scope.respuestas[4] == "NO/A"){
@@ -174,6 +190,9 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 						document.querySelector('input[id=pregunta6][value="SI"]').checked = true;
 						$scope.mostrarInput6();
 						$scope.urlArchivo6 = $scope.archivos[5];
+						$scope.$apply();
+						document.querySelector('input[id=pregunta6][value="SI"]').checked = true;
+
 					} if($scope.respuestas[5] == "NO"){
 						document.querySelector('input[id=pregunta6][value="NO"]').checked = true;
 					} if($scope.respuestas[5] == "NO/A"){
