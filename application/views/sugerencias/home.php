@@ -14,10 +14,12 @@
             <h1 class="h3 mb-0 text-gray-800 text-dark">Mis sugerencias</h1>
         <?php }?>
     </div>
+
+
     <div class="card shadow mb-4">
-        <!-- <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">MATRÍZ DE OBLIGACIONES</h6>
-        </div> -->
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Listado de sugerencias</h6>
+        </div>
         <div class="card-body">
             <table class="table table-striped">
                 <thead>

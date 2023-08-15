@@ -66,7 +66,7 @@ class Sugerencias extends CI_Controller
 						$idPersona = $_SESSION["project"]["info"]["idPersona"];
 						$misSugerencias	      	= $this->logica->misSugerencias($idPersona);
 						// var_dump($misSugerencias);die();
-					}if($idPerfil <4){
+					}if($idPerfil < 4){
 						$misSugerencias	      	= $this->logica->sugerencias();
 					}
 

@@ -50,7 +50,7 @@ project.controller('planes', function($scope,$http,$q,constantes)
 			constantes.alerta("Atención","Debe seleccionar una fecha donde finaliza de la promoción.","info",function(){});
 		}else{
 			if($edita == 0){
-				constantes.confirmacion("Confirmación","Esta apunto de crear un plan, recuerde que el plan que tenga 0 usuarios y 0 checks, seran tomados como limitados. ¿desea continuar?",'info',function(){
+				constantes.confirmacion("Confirmación","Esta apunto de crear un plan, recuerde que el plan que tenga 100 usuarios y 100 checks, seran tomados como limitados. ¿Desea continuar?",'info',function(){
 					var controlador = $scope.config.apiUrl+"Planes/creaPlanes";
 					var parametros  = 	$("#formCreaPlanes").serialize();
 					constantes.consultaApi(controlador,parametros,function(json){
@@ -65,7 +65,7 @@ project.controller('planes', function($scope,$http,$q,constantes)
 				});
 			}
 			else if($edita == 1){
-				constantes.confirmacion("Confirmación","Esta apunto de actualizar el plan, recuerde que el plan que tenga 0 usuarios y 0 checks, seran tomados como limitados. ¿desea continuar?",'info',function(){
+				constantes.confirmacion("Confirmación","Esta apunto de actualizar el plan, recuerde que el plan que tenga 100 usuarios y 100 checks, seran tomados como limitados. ¿Desea continuar?",'info',function(){
 					var controlador = $scope.config.apiUrl+"Planes/actualizaPlan";
 					var parametros  = 	$("#formCreaPlanes").serialize()+"&idPlan="+$idPlan;
 					constantes.consultaApi(controlador,parametros,function(json){
@@ -82,7 +82,7 @@ project.controller('planes', function($scope,$http,$q,constantes)
 		}
 	}
 	$scope.BorrarPlan =function($id){
-		constantes.confirmacion("Confirmación","Esta apunto de eliminar el plan, ¿desea continuar?",'info',function(){
+		constantes.confirmacion("Confirmación","Esta apunto de eliminar el plan, ¿Desea continuar?",'info',function(){
 			var controlador = $scope.config.apiUrl+"Planes/eliminaPLan";
 			var parametros  = 	"idPlan="+$id;
 			constantes.consultaApi(controlador,parametros,function(json){

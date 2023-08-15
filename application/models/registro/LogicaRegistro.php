@@ -28,16 +28,14 @@ class LogicaRegistro  {
         extract($data);
         //antes de registrar la empresa debo verificar que no exista
         $verificoEmpresaNombre = $this->verificaEmpresa($nombre,"nombre","empresas");
-        if(count($verificoEmpresaNombre) > 0)//la empresa existe y no debo permitirle el registro
-        {
+        if(count($verificoEmpresaNombre) > 0){//la empresa existe y no debo permitirle el registro
             $respuesta = array("mensaje"=>"El nombre de empresa que intenta crear ya existe en nuestra base de datos. Por favor verifique o intente recuperar su clave si es que la ha olvidado.",
                             "continuar"=>0,
                             "datos"=>"");
         } else {
             //ahora verifico que el mail no este registrado como persona
             $verificoPersonaMail = $this->verificaEmpresa($email,"email","personas");
-            if(count($verificoPersonaMail) > 0)
-            {  
+            if(count($verificoPersonaMail) > 0){  
                 $respuesta = array("mensaje"=>"El correo electrónico que intenta registrar ya se encuentra registrado para un perfil tipo persona, por favor verifíquelo o reemplácelo.",
                             "continuar"=>0,
                             "datos"=>"");
@@ -358,7 +356,6 @@ class LogicaRegistro  {
 
                 $emembresiaOficial = $this->ci->dbRegistro->insertaMembresiaMes($dataM);
                 //crea relacion de oficial de cumplimiento y empresa
-                //$crea = $this->ci->dbRegistro->creaRel($dataRel);
                 if($idPersona > 0){
                     //envio email de confirmacion
                     $asuntoMensaje  ="Registro de oficial de cumplimiento";
@@ -378,13 +375,13 @@ class LogicaRegistro  {
                                             "datos"=>$consultaLogin);
                     }
                     $respuesta = array("mensaje"=>"Se ha registrado exitosamente, por favor verifique su correo electrónico al cual llegarán instrucciones de activación de su cuenta.",
-                                            "continuar"=>1,
-                                            "datos"=>$consultaLogin);
+                                        "continuar"=>1,
+                                        "datos"=>$consultaLogin);
                 }
             }else{
                 $respuesta = array("mensaje"=>"Oops!! Esto es bastante embarazoso, ha habido un error interno que no ha permitido registrarar su usuario, por favor intentelo de nuevo más tarde.",
-                                            "continuar"=>0,
-                                            "datos"=>"");
+                                    "continuar"=>0,
+                                    "datos"=>"");
             }
         }
         return $respuesta;

@@ -861,7 +861,8 @@ class LogicaGeneral  {
         $dataInserta["canUsuarios"] = $usuariosPlan;
         $dataInserta["canChecks"]   = $checksPlan;
         $resultado          = $this->ci->dbGeneral->creoPlanesrel($dataInserta);
-        if(count($resultado) > 0){
+        // var_dump($resultado);die();
+        if($resultado > 0){
                 $respuesta = array("mensaje"=>"se realizo consulta.",
                         "continuar"=>1,
                         "datos"=>$resultado);

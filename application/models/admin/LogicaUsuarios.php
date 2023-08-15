@@ -12,20 +12,17 @@ class LogicaUsuarios  {
             $where['u.idPersona']    = $idPersona;
         }
         $where['u.eliminado'] = 0;
-
         $dataUsuario                  = $this->ci->dbUsuarios->infoUsuario($where);
         if(count($dataUsuario) > 0){
             $respuesta = array("mensaje"=>"Información del usuarios consultada.",
-                          "continuar"=>1,
-                          "datos"=>$dataUsuario); 
-        }
-        else{
+                        "continuar"=>1,
+                        "datos"=>$dataUsuario); 
+        }else{
             $respuesta = array("mensaje"=>"No se ha podido consultar la información del usuario, por favor intente de nuevo más tarde.",
-                          "continuar"=>0,
-                          "datos"=>""); 
+                        "continuar"=>0,
+                        "datos"=>""); 
         }
         return $respuesta;
-
     }
     public function borraUsuario($post){
         extract($post);
@@ -38,13 +35,11 @@ class LogicaUsuarios  {
             $respuesta = array("mensaje"=>"El usuario se ha eliminado correctamente.",
                           "continuar"=>1,
                           "datos"=>$proceso); 
-        }
-        else{
+        }else{
             $respuesta = array("mensaje"=>"No se ha podido eliminar el usuario, por favor intente de nuevo más tarde.",
                           "continuar"=>0,
                           "datos"=>""); 
         }
-
         return $respuesta;
     }
     public function generaDatosAcceso($post){
@@ -55,22 +50,19 @@ class LogicaUsuarios  {
         $data['clave']          =  sha1($clave);
         $data['clave64']        =  base64_encode($clave);
         $data['estado']         = 1;
-
         $where['idGeneral']     = $idUsuario;
         $proceso                = $this->ci->dbUsuarios->generaDatosAcceso($where,$data);
         if($proceso > 0){
             auditoria("GENDATOSACCESOPERSONA","Se ha generado una clave de acceso a la persona la persona | ".$idUsuario);
             //debo de enviar un correo electrónico al usuario al cuál le han generado una clave de acceso al sistema
             $respuesta = array("mensaje"=>"Se ha generado correctamente la clave de acceso del usuario.<br>Los datos de acceso son los siguientes:<br><br><strong>Usuario:</strong><br>".$dataUsuario[0]['email']."<br><strong>Clave:</strong><br>".$clave."",
-                          "continuar"=>1,
-                          "datos"=>$proceso); 
-        }
-        else{
+                        "continuar"=>1,
+                        "datos"=>$proceso); 
+        }else{
             $respuesta = array("mensaje"=>"No se ha podido eliminar el usuario, por favor intente de nuevo más tarde.",
-                          "continuar"=>0,
-                          "datos"=>""); 
+                        "continuar"=>0,
+                        "datos"=>""); 
         }
-
         return $respuesta;
     }
     public function procesaUsuarios($post){
@@ -85,51 +77,39 @@ class LogicaUsuarios  {
                 $respuesta = array("mensaje"=>"La información del usuario se ha actualizado correctamente.",
                               "continuar"=>1,
                               "datos"=>$proceso); 
-            }
-            else{
+            }else{
                 $respuesta = array("mensaje"=>"No se ha podido editar la información del usuario, por favor intente de nuevo más tarde.",
                               "continuar"=>0,
                               "datos"=>""); 
             }
-        }
-        else{//proceso de inserción
+        }else{//proceso de inserción
             $whereExisteMail['email']     =   $email;
             $yaExistePersonaMail   = $this->ci->dbUsuarios->infoUsuario($whereExisteMail);
             if(count($yaExistePersonaMail) == 0){
-                
                 unset($post['edita']);
                 unset($post['idUsuario']);
-                //var_dump($post);
-                //die("here");
                 $proceso            = $this->ci->dbUsuarios->agregaUsuario($post);
-
                 if($proceso > 0){
                     //cada vez que se cree un usuario debo insertarlo de una vez en la tabla del login.
                     $dataInserta['idGeneral']   =   $proceso;
                     $dataInserta['usuario']     =   $post['email'];
                     $dataInserta['tipoLogin']   =   2;
                     $usuarioLogin            = $this->ci->dbUsuarios->insertaUsuarioLogin($dataInserta);
-
                     auditoria("CREACIONPERSONA","Se ha creado la persona | ".$proceso);
-                    
                     $respuesta = array("mensaje"=>"El nuevo usuario se ha insertado correctamente.",
                                     "continuar"=>1,
                                     "datos"=>$proceso); 
-                }
-                else{
+                }else{
                     $respuesta = array("mensaje"=>"No se ha podido editar la información del usuario, por favor intente de nuevo más tarde.",
                                     "continuar"=>0,
                                     "datos"=>""); 
                 }
-            }
-            else{
+            }else{
                     $respuesta = array("mensaje"=>"El correo electrónico que intenta ingresar ya está en la base de datos, por favor verifique.",
                                 "continuar"=>0,
                                 "datos"=>"");
             }
-
         }
-
         return $respuesta;
     }
 
@@ -148,9 +128,7 @@ class LogicaUsuarios  {
             $dataActualiza['clave64']       =   base64_encode($rClave);
             $dataActualiza['cambioClave']   =   0;
             $whereCambio['usuario']         =   $_SESSION['project']['info']['email'];
-
             $cambioClaveProc                =   $this->ci->dbUsuarios->cambioClave($whereCambio,$dataActualiza);
-
             if($cambioClaveProc > 0){
                 $mensaje                     =  "Se ha realizado el cambio de contraseña para acceder al aplicativo de ".lang("titulo")."<br><br>";
                 $mensaje                    .=  "Su nueva contraseña es: <h2>".$rClave."</h2>";
@@ -158,15 +136,13 @@ class LogicaUsuarios  {
                 $respuesta = array("mensaje"=>"La contraseña se ha cambiado de manera exitosa.",
                                    "continuar"=>1,
                                    "datos"=>"");
-            }
-            else{
+            }else{
                 $respuesta = array("mensaje"=>"No se ha podido cambiar la contraseña, por favor intente de nuevo más tarde.",
                                   "continuar"=>0,
                                   "datos"=>"");
             }
 
-        }
-        else{
+        }else{
             $respuesta = array("mensaje"=>"Parece que la clave actual no es correcta, por favor verifique.",
                                   "continuar"=>0,
                                   "datos"=>"");
@@ -177,16 +153,13 @@ class LogicaUsuarios  {
     public function getinfoUsuario($post){
         $where["idEmpresa"] = $post;
         $where["u.eliminado"] = 0;
-
         $dataUsuario            = $this->ci->dbUsuarios->getinfoUsuario($where);
         //var_dump($dataUsuario);die();
         if($dataUsuario > 0){
             $respuesta = array("mensaje"=>"Información del usuarios consultada.",
                               "continuar"=>1,
                               "datos"=>$dataUsuario); 
-        }
-        else{
-
+        } else{
             $respuesta = array("mensaje"=>"No se realizo consulta de usuario información del usuarios.",
                               "continuar"=>0,
                               "datos"=>$dataUsuario); 
@@ -215,17 +188,15 @@ class LogicaUsuarios  {
             $where['idEmpresa']    = $idEmpresa;
         }
         $where['eliminado'] = 0;
-
         $dataUsuario                  = $this->ci->dbUsuarios->infoEmpresa($where);
         if(count($dataUsuario) > 0){
             $respuesta = array("mensaje"=>"Información del usuarios consultada.",
-                          "continuar"=>1,
-                          "datos"=>$dataUsuario); 
-        }
-        else{
+                        "continuar"=>1,
+                        "datos"=>$dataUsuario); 
+        }else{
             $respuesta = array("mensaje"=>"No se ha podido consultar la información del usuario, por favor intente de nuevo más tarde.",
-                          "continuar"=>0,
-                          "datos"=>""); 
+                        "continuar"=>0,
+                        "datos"=>""); 
         }
         return $respuesta;
     }
@@ -241,8 +212,7 @@ class LogicaUsuarios  {
                 $respuesta = array("mensaje"=>"La información de la empresa se ha actualizado correctamente.",
                               "continuar"=>1,
                               "datos"=>$proceso); 
-            }
-            else{
+            }else{
                 $respuesta = array("mensaje"=>"No se ha podido editar la información de la empresa, por favor intente de nuevo más tarde.",
                               "continuar"=>0,
                               "datos"=>""); 
@@ -250,4 +220,4 @@ class LogicaUsuarios  {
             return $respuesta;
         }
     }
- }
+}

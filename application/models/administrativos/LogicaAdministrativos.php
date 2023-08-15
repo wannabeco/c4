@@ -45,8 +45,7 @@ class LogicaAdministrativos  {
           //ahora debo armar el query de creación de la tabla
           
           //recorro los encabezados generados para armar un arreglo final, esperemos que funcione.
-          foreach($dataExcel as $datos)
-          {
+          foreach($dataExcel as $datos){
              $cont = 0;//creo un contador en cero cada vez que recorra una línea del arreglo del excel
              foreach($datos as $llave=>$valor)//recorro los datos del excel internos
              {
@@ -58,11 +57,9 @@ class LogicaAdministrativos  {
              array_push($nuevoArrayConData,$nArray);
           }
           //procesdo a insertar la información
-          var_dump($nuevoArrayConData);die();
-          foreach($nuevoArrayConData as $datosExcel)
-          {
-              if(count($datosExcel) > 0)
-              {
+        //   var_dump($nuevoArrayConData);die();
+          foreach($nuevoArrayConData as $datosExcel){
+              if(count($datosExcel) > 0){
                 $dataInserta['idPedido']      =  $datosExcel['idpago'];
                 $dataInserta['idPersona']     = $datosExcel['identificacion'];
                 $dataInserta['conceptoPago']  = $datosExcel['concepto'];
@@ -73,8 +70,7 @@ class LogicaAdministrativos  {
                 $dataInserta['fecha']         = date("Y-m-d H:i:s");
                 $dataInserta['idusuario']     = $_SESSION['project']['info']['idpersona'];
 
-                var_dump($dataInserta);
-
+                // var_dump($dataInserta);
               }
           }
 
@@ -87,8 +83,7 @@ class LogicaAdministrativos  {
         }
         return $salida;
     }
-    public function procesoCreaciontablaAutomatica($arrayDepurado,$nombreTabla,$nombreLista)
-    {
+    public function procesoCreaciontablaAutomatica($arrayDepurado,$nombreTabla,$nombreLista){
         $tipoCampo     = "";
         $querySalida   = "CREATE TABLE ".$nombreTabla." ";
         $querySalida  .= "(";
@@ -96,46 +91,35 @@ class LogicaAdministrativos  {
         $querySalida  .=  "id_".$nombreTabla." BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT, ";
         //con la primera línea tengo tanto los campos que voy a crear como los posibles tipo de campo.
         $primeraLinea = $arrayDepurado[0];
-        foreach($primeraLinea as $llave=>$pl)
-        {
-            if($llave != "")
-            {
+        foreach($primeraLinea as $llave=>$pl){
+            if($llave != ""){
                 $detectoTipoCampo = $pl;
-                if(is_numeric($detectoTipoCampo))
-                {
+                if(is_numeric($detectoTipoCampo)){
                     $tipoCampo = "int";
-                }
-                else
-                {
+                }else{
                     $tipoCampo = "text";
                 }
-
                 $querySalida  .=  $llave." ".$tipoCampo.", ";
             }
-            
         }
         $querySalida   =  substr($querySalida,0,strlen($querySalida)-2);
         $querySalida  .= ")";
         //ahora que tengo la estructura de la tabla lista para crearse el siguiente paso es verificar que no esté creada.
         $verificaTabla = $this->ci->dbListas->verificaTabla($nombreTabla);
         //cuando la tabla no exista debo hacer la creacion
-        if(count($verificaTabla) == 0)
-        {
+        if(count($verificaTabla) == 0){
            $creaTabla = $this->ci->dbListas->creaTabla($querySalida);
            //al terminar de crear la tabla debo registrarla en el listado de listas  del administrador.
            $dataInsertaLista['nombreLista']       = $nombreLista;
            $dataInsertaLista['nombreTableLista']  = $nombreTabla;
            $registraLista                         =  $this->ci->dbListas->registraLista($dataInsertaLista);
            $notifica  = array("mensaje"=>"Tabla creada exitosamente","continuar"=>1);
-        }
-        else
-        {
+        }else{
             $notifica = array("mensaje"=>"La tabla que intenta crear ya existe, por favor verifique","continuar"=>0);
         }
         return $notifica;
     }
-    public function getPrimeraLinea($dataExcel)
-    {
+    public function getPrimeraLinea($dataExcel){
         $primerLinea  =  $dataExcel[1];
         foreach($primerLinea as $llave=>$linea1)
         {
@@ -143,13 +127,11 @@ class LogicaAdministrativos  {
         }
         return $campos;
     }
-    public function getPagos($where=array())
-    {
+    public function getPagos($where=array()){
         $dataPagos = $this->ci->dbAdminis->getPagos($where);
         return $dataPagos;
     }
-    public function getPagosNoGroup($where=array())
-    {
+    public function getPagosNoGroup($where=array()){
         $dataPagos = $this->ci->dbAdminis->getPagosNoGroup($where);
         return $dataPagos;
     }

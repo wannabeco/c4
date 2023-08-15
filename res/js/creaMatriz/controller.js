@@ -68,20 +68,19 @@ project.controller('crearMatriz', function($scope,$http,$q,constantes)
 		//empiezo la validación de campos que será la misma si es editar que si es crear
 		
 		if(nombreNuevaMatriz == "" && tipoEmpresa == ""){
-			constantes.alerta("Atención","Debe escribir un nombre de mastriz.","info",function(){});
+			constantes.alerta("Atención","Debe escribir un nombre del check.","info",function(){});
 		}else if(Precio ==""){
-			constantes.alerta("Atención","Debe escribir un precio para la matriz, de no tener ningun valor, por favor agregr 0.","info",function(){});
+			constantes.alerta("Atención","Debe escribir un precio para el check, de no tener ningun valor, por favor agregr 0.","info",function(){});
 		}else if(descripcion == ""){
-			constantes.alerta("Atención","Debe escribir una breve descripción para la matriz, así podrá ser identificada correctamente.","info",function(){});
+			constantes.alerta("Atención","Debe escribir una breve descripción para el check, así podrá ser identificada correctamente.","info",function(){});
 		}else if(gratis == ""){
-			constantes.alerta("Atención","Debe seleccionar si la matriz sera gratis al registrar empresa","info",function(){});
+			constantes.alerta("Atención","Debe seleccionar si el check sera gratis al registrar empresa","info",function(){});
 		}else if(dirigida == undefined){
 			constantes.alerta("Atención","Debe seleccionar Tipo Plantilla.","info",function(){});
 		}else if(dirigida == 2 && tipoEmpresa == ""){
 			constantes.alerta("Atención","Debe seleccionar el tipo de empresa","info",function(){});
-		}
-		else{
-			constantes.confirmacion("Confirmación","Esta apunto de crear una matriz, ¿desea continuar?",'info',function(){
+		}else{
+			constantes.confirmacion("Confirmación","Esta apunto de crear un check, ¿Desea continuar?",'info',function(){
 				var controlador = $scope.config.apiUrl+"CrearMatriz/creaLaNuevaMatriz";
 				var parametros  = 	$("#agregaNuevaMatriz").serialize()+"&idTipoEmpresa="+tipoEmpresa;
 				constantes.consultaApi(controlador,parametros,function(json){
@@ -154,7 +153,7 @@ project.controller('crearMatriz', function($scope,$http,$q,constantes)
 	
 	//elimina matriz
 	$scope.borraMatriz = function($id){
-		constantes.confirmacion("Confirmación","Esta apunto de eliminar una matriz, ¿desea continuar?",'info',function(){
+		constantes.confirmacion("Confirmación","Esta apunto de eliminar un check, ¿Desea continuar?",'info',function(){
 		var controlador = $scope.config.apiUrl+"MatricesCreadas/eliminaNuevaMatriz";
 			var parametros  = {idNuevaMatriz:$id}
 			constantes.consultaApi(controlador,parametros,function(json){
@@ -182,7 +181,7 @@ project.controller('crearMatriz', function($scope,$http,$q,constantes)
 		});
 	}
 	$scope.borraParametro = function($id){
-		constantes.confirmacion("Confirmación","Esta apunto de eliminar el parametro, ¿desea continuar?",'info',function(){
+		constantes.confirmacion("Confirmación","Esta apunto de eliminar el parametro, ¿Desea continuar?",'info',function(){
 			var controlador = $scope.config.apiUrl+"InfomarcionMatriz/eliminaParametro";
 			var parametros  = {$id}
 			constantes.consultaApi(controlador,parametros,function(json){
@@ -220,10 +219,10 @@ project.controller('crearMatriz', function($scope,$http,$q,constantes)
 		var email 		= $("#email").val();
 		var matriz 		= $("#matriz").val();
 		if(descripcion == ""){
-			constantes.alerta("Atención","Es necesario escribir una descipcion para sugerir una matriz.",'info',function(){});
+			constantes.alerta("Atención","Es necesario escribir una descipcion para sugerir un check.",'info',function(){});
 		}
 		else{
-			constantes.confirmacion("Atención","Esta apunto de sugerir una matriz, ¿Desea continuar?.",'info',function(){
+			constantes.confirmacion("Atención","Esta apunto de sugerir un check, ¿Desea continuar?.",'info',function(){
 				var controlador = 	$scope.config.apiUrl+"Buscar/sugiereMatriz";
 				var parametros  = "nombre="+nombre+"&email="+email+"&descripcion="+descripcion+"&matriz="+matriz;
 				constantes.consultaApi(controlador,parametros,function(json){
@@ -380,7 +379,7 @@ project.controller('crearParametrosMatriz', function($scope,$http,$q,constantes)
 
 	//se actualiza matriz
 	$scope.actualizarMatriz = function(){
-		constantes.confirmacion("Confirmación","Esta apunto de actualizar la matriz,¿desea continuar?",'info',function(){
+		constantes.confirmacion("Confirmación","Esta apunto de actualizar el check, ¿Desea continuar?",'info',function(){
 			var controlador = $scope.config.apiUrl+"CrearMatriz/actualizaMatrizGeneral";
 			var parametros  = 	$("#formMatriz").serialize()+"&idse="+idse;
 			constantes.consultaApi(controlador,parametros,function(json){
@@ -397,7 +396,7 @@ project.controller('crearParametrosMatriz', function($scope,$http,$q,constantes)
 	}
 	//elimina tipo de empresa que se encuentran asignadas
 	$scope.deliminaAdiccion = function($id) {
-		constantes.confirmacion("Atención","Esta apunto de eliminar el tipo de empresa:, ¿desea continuar?",'info',function(){
+		constantes.confirmacion("Atención","Esta apunto de eliminar el tipo de empresa:, ¿Desea continuar?",'info',function(){
 			var controlador = $scope.config.apiUrl+"CrearMatriz/eliminaRelacion";
 			var parametros  = {$id}
 			constantes.consultaApi(controlador,parametros,function(json){

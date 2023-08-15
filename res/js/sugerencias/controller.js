@@ -25,7 +25,7 @@ project.controller('sugerencias', function($scope,$http,$q,constantes)
 		if(respuesta == ""){
 			constantes.alerta("Atención","Por favor escribir la respuesta.","info",function(){});
 		}else{
-			constantes.confirmacion("Confirmación","Esta apunto guardar la respues, ¿desea continuar?",'info',function(){
+			constantes.confirmacion("Confirmación","Esta apunto guardar la respues, ¿Desea continuar?",'info',function(){
 				var controlador = $scope.config.apiUrl+"Sugerencias/guardaRespuesta";
 				var parametros  = "respuesta="+respuesta+"&idSugiere="+idSugiere;
 				constantes.consultaApi(controlador,parametros,function(json){
@@ -33,8 +33,7 @@ project.controller('sugerencias', function($scope,$http,$q,constantes)
 						constantes.alerta("Atención",json.mensaje,"success",function(){
 							location.reload();
 						});
-					}
-					else{
+					}else{
 						constantes.alerta("Atención",json.mensaje,"warning",function(){});
 					}
 				});
@@ -45,7 +44,7 @@ project.controller('sugerencias', function($scope,$http,$q,constantes)
 	//elimina matriz
 	$scope.borraEmpresas = function($id){
 		var idEmpresa =$id;
-		constantes.confirmacion("Confirmación","Esta apunto de eliminar la empresa, ¿desea continuar?",'info',function(){
+		constantes.confirmacion("Confirmación","Esta apunto de eliminar la empresa, ¿Desea continuar?",'info',function(){
 			var controlador = $scope.config.apiUrl+"Empresas/eliminaEmpresa";
 			var parametros  = {idEmpresa:$id}
 			constantes.consultaApi(controlador,parametros,function(json){
@@ -53,8 +52,7 @@ project.controller('sugerencias', function($scope,$http,$q,constantes)
 					constantes.alerta("Atención",json.mensaje,"success",function(){
 						location.reload();
 					});
-				}
-				else{
+				}else{
 					constantes.alerta("Atención",json.mensaje,"warning",function(){});
 				}
 			});

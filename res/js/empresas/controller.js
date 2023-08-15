@@ -57,7 +57,7 @@ project.controller('empresas', function($scope,$http,$q,constantes)
 	//elimina matriz
 	$scope.borraEmpresas = function($id){
 		var idEmpresa =$id
-		constantes.confirmacion("Confirmación","Esta apunto de eliminar la empresa, ¿desea continuar?",'info',function(){
+		constantes.confirmacion("Confirmación","Esta apunto de eliminar la empresa, ¿Desea continuar?",'info',function(){
 		var controlador = $scope.config.apiUrl+"Empresas/eliminaEmpresa";
 			var parametros  = {idEmpresa:$id}
 			constantes.consultaApi(controlador,parametros,function(json){
@@ -77,7 +77,7 @@ project.controller('empresas', function($scope,$http,$q,constantes)
 	//elimina relacion de oficial y empresa
 	$scope.eliminaRel =function($id){
 		var idEmpresa =$id
-		constantes.confirmacion("Confirmación","Esta apunto de eliminar la empresa, recuerde que se eliminara todo tipo de relación. ¿desea continuar?",'info',function(){
+		constantes.confirmacion("Confirmación","Esta apunto de eliminar la empresa, recuerde que se eliminara todo tipo de relación. ¿Desea continuar?",'info',function(){
 			var controlador = $scope.config.apiUrl+"Empresas/eliminaRel";
 			var parametros  = {idEmpresa:$id}
 			constantes.consultaApi(controlador,parametros,function(json){
@@ -85,8 +85,7 @@ project.controller('empresas', function($scope,$http,$q,constantes)
 					constantes.alerta("Atención",json.mensaje,"success",function(){
 						location.reload();
 					});
-				}
-				else{
+				}else{
 					constantes.alerta("Atención",json.mensaje,"warning",function(){});
 				}
 			});
@@ -99,9 +98,8 @@ project.controller('empresas', function($scope,$http,$q,constantes)
 		//var controlador = 	$scope.config.apiUrl+"Empresas/crearRel";
 		if(idEmpresa == ""){
 			constantes.alerta("Atención","Debe seleccionar una empresa","info",function(){});
-		}
-		else{
-			constantes.confirmacion("Confirmación","Esta a punto de agregar una empresa, ¿desea continuar?",'info',function(){
+		}else{
+			constantes.confirmacion("Confirmación","Esta a punto de agregar una empresa, ¿Desea continuar?",'info',function(){
 				//window.location = $scope.config.apiUrl+"Empresas/empresas/37";
 				var controlador = 	$scope.config.apiUrl+"Empresas/crearRel";
 				var parametros  = $("#formRelEmpresa").serialize();
@@ -110,8 +108,7 @@ project.controller('empresas', function($scope,$http,$q,constantes)
 						constantes.alerta("Atención",json.mensaje,"success",function(){
 							window.location = $scope.config.apiUrl+"Empresas/empresas/37";
 						});
-					}
-					else{
+					}else{
 						constantes.alerta("Atención",json.mensaje,"warning",function(){});
 					}
 				});

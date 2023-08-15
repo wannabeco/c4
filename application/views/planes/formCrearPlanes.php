@@ -48,7 +48,7 @@
         <div ng-if="dirige== 0">
             <div class="col col-lg-12">
                 <div class="form-group  label-floating">
-                    <label class="control-label" for="canMatrices"><strong>Cantidad de matrices</strong></label>
+                    <label class="control-label" for="canMatrices"><strong>Cantidad de checks</strong></label>
                     <input type="number" tabindex="5" autocomplete="off" id="canMatrices" name="canMatrices" maxlength="10" class="form-control" value="<?php echo (isset($infoPlanes['canMatrices']))?$infoPlanes['canMatrices']:'';?>">
                     <p class="help-block"></p>
                 </div> 

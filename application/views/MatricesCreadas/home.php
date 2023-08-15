@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Matrices <!--<small><?php echo $_SESSION['project']['info']['nombre']." ".$_SESSION['project']['info']['apellido']; ?></small>--></h1>
+        <h1 class="h3 mb-0 text-gray-800">Checks <!--<small><?php echo $_SESSION['project']['info']['nombre']." ".$_SESSION['project']['info']['apellido']; ?></small>--></h1>
         <?php if(getPrivilegios()[0]['crear'] == 1){ ?>
             <div class="dropdown">
                 <a class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -23,20 +23,20 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <h6 class="dropdown-header"><?php echo lang("lblSeleccioneOpc") ?></h6>
-                    <a class="dropdown-item" ng-click="irCreaMatriz()" style="cursor:pointer"><i class="fa fa-fw fa-plus"></i> Nueva Matriz</a>
+                    <a class="dropdown-item" ng-click="irCreaMatriz()" style="cursor:pointer"><i class="fa fa-fw fa-plus"></i> Nuevo Check</a>
                 </div>
             </div>
         <?php } ?>
     </div>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Matrices Creadas</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Checks Creados</h6>
         </div>
         <div class="card-body">
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">Nombre de Matriz</th>
+                    <th scope="col">Nombre de Check</th>
                     <!-- <th scope="col">Tipo de empresa</th> -->
                     <th scope="col">estado</th>
                     <th scope="col">Acciones</th>

@@ -165,7 +165,6 @@ class LogicaMatriz  {
         $ids = $data["idTipoEmpresa"];
         $array = explode(",", $ids);
         unset($data['idTipoEmpresa']);
-        //var_dump($array);die();
         $creaMatriz = $this->ci->dbMatriz->creaNuevaMatriz($data);
         if($creaMatriz > 0){
             //se recorren las posiciones si $array esta lleno
@@ -183,9 +182,7 @@ class LogicaMatriz  {
                 $respuesta = array("mensaje"=>"La matriz se ha registrado exitosamente.",
                             "continuar"=>1,
                             "datos"=>"");
-            //}
-        }
-        else{
+        }else{
             $respuesta = array("mensaje"=>"Oops!! Esto es bastante embarazoso, La matriz no se ha registradao, por favor intentelo de nuevo más tarde.",
                         "continuar"=>0,
                         "datos"=>"");
@@ -201,7 +198,6 @@ class LogicaMatriz  {
     }
     //informacion de matriz recurrente por id
     public function infoMatrizporID($datos){
-        //var_dump($datos);die();
         $where["r.idMatrizRecurrente"] = $datos;
         $where['r.eliminado']     = 0;
         $infoMatrices               = $this->ci->dbMatriz->infoMatrizporID($where);
@@ -240,8 +236,7 @@ class LogicaMatriz  {
             $respuesta = array("mensaje"=>"La matriz se ha eliminado correctamente.",
             "continuar"=>1,
             "datos"=>"");
-        }
-        else{
+        }else{
             
             $respuesta = array("mensaje"=>"Oops!! Esto es bastante embarazoso, La matriz no se ha registradao, por favor intentelo de nuevo más tarde.",
             "continuar"=>0,
@@ -260,8 +255,7 @@ class LogicaMatriz  {
             $respuesta = array("mensaje"=>"La matriz se ha eliminado correctamente.",
             "continuar"=>1,
             "datos"=>"");
-        }
-        else{
+        }else{
             
             $respuesta = array("mensaje"=>"Oops!! Esto es bastante embarazoso, La matriz no se ha registradao, por favor intentelo de nuevo más tarde.",
             "continuar"=>0,
@@ -273,14 +267,13 @@ class LogicaMatriz  {
     public function crearParametros($datos){
         unset($datos['edita']);
         $dataInserta = $datos;
-        $actualiza                        = $this->ci->dbMatriz->crearParametros($dataInserta);
+        $actualiza   = $this->ci->dbMatriz->crearParametros($dataInserta);
         if($actualiza > 0){
             
             $respuesta = array("mensaje"=>"Los parametros se han creado correctamente.",
             "continuar"=>1,
             "datos"=>"");
-        }
-        else{
+        }else{
             
             $respuesta = array("mensaje"=>"Oops!! Esto es bastante embarazoso, La matriz no se ha registradao, por favor intentelo de nuevo más tarde.",
             "continuar"=>0,
@@ -291,14 +284,13 @@ class LogicaMatriz  {
     //se asigna tipo de emrpesa a matriz
     public function asigTiposEmpresa($datos){
         $dataInserta = $datos;
-        $actualiza                        = $this->ci->dbMatriz->guardarRelacionMatriz($dataInserta);
+        $actualiza   = $this->ci->dbMatriz->guardarRelacionMatriz($dataInserta);
         if($actualiza > 0){
             
             $respuesta = array("mensaje"=>"El tipo de empresa se ha asignado correctamente.",
             "continuar"=>1,
             "datos"=>"");
-        }
-        else{
+        }else{
             
             $respuesta = array("mensaje"=>"Oops!! Esto es bastante embarazoso, La matriz no se ha registradao, por favor intentelo de nuevo más tarde.",
             "continuar"=>0,
@@ -325,8 +317,7 @@ class LogicaMatriz  {
             $respuesta = array("mensaje"=>"El parametro se ha actualizado correctamente.",
             "continuar"=>1,
             "datos"=>"");
-        }
-        else{
+        }else{
             
             $respuesta = array("mensaje"=>"Oops!! Esto es bastante embarazoso, no se ha podido completar la eliminación, por favor intentelo de nuevo más tarde.",
             "continuar"=>0,
@@ -336,14 +327,12 @@ class LogicaMatriz  {
     }
     //selecciona las matrices creadas
     public function infoMatrizRecurrentes($id){
-        //var_dump($id);die();
         $where['r.idNuevaMatriz'] = $id;
         $where['r.eliminado']     = 0;
         $respuesta          = $this->ci->dbMatriz->infoMatrizRecurrentes($where);
         return $respuesta;
     }
     public function infoMatrizRecurrentesDos($id,$idPerfil){
-        //var_dump($id);die();
         $where['r.idNuevaMatriz'] = $id;
         $where['r.idResponsable'] = $idPerfil;
         $where['r.eliminado']     = 0;
@@ -362,8 +351,7 @@ class LogicaMatriz  {
             $respuesta = array("mensaje"=>"Se ha eliminado correctamente.",
             "continuar"=>1,
             "datos"=>"");
-        }
-        else{
+        }else{
             
             $respuesta = array("mensaje"=>"Oops!! Esto es bastante embarazoso, no se ha podido completar la eliminación, por favor intentelo de nuevo más tarde.",
             "continuar"=>0,
@@ -392,15 +380,12 @@ class LogicaMatriz  {
                 }
             }
         }else{
-            $actualiza                              = $this->ci->dbMatriz->actualizaMatrizGeneral($dataActualiza,$where);
-            
-            if($actualiza > 0){
-                
+            $actualiza    = $this->ci->dbMatriz->actualizaMatrizGeneral($dataActualiza,$where);
+            if($actualiza > 0){ 
                 $respuesta = array("mensaje"=>"La matriz se ha actualizado correctamente.",
                 "continuar"=>1,
                 "datos"=>"");
-            }
-            else{
+            }else{
                 $respuesta = array("mensaje"=>"Oops!! Esto es bastante embarazoso, no se ha podido completar la eliminación, por favor intentelo de nuevo más tarde.",
                 "continuar"=>0,
                 "datos"=>"");
@@ -421,8 +406,7 @@ class LogicaMatriz  {
             $respuesta = array("mensaje"=>"La relacion se ha eliminado correctamente.",
             "continuar"=>1,
             "datos"=>"");
-        }
-        else{
+        }else{
             $respuesta = array("mensaje"=>"Oops!! Esto es bastante embarazoso, no se ha podido completar la eliminación, por favor intentelo de nuevo más tarde.",
             "continuar"=>0,
             "datos"=>"");
@@ -451,7 +435,7 @@ class LogicaMatriz  {
         $datacreaComentario["idEmpresa"]              = $idEmpresa;
         $datacreaComentario["fechaRespuesta"]         = date("Y-m-d H:i:s");
         $this->ci->dbMatriz->creaComentario($datacreaComentario);
-        if (!empty($array) && !empty($archivoArray)) {
+        if (!empty($array) && !empty($archivoArray)){
             $pregunta = 1;
             foreach ($array as $valores) {
                 $datacrea["valor"] = $valores;
@@ -489,13 +473,11 @@ class LogicaMatriz  {
             $respuesta = array("mensaje"=>"los comentarios se han consultado correctamente.",
                         "continuar"=>1,
                         "datos"=>$informacion);
-        }
-        else{
+        }else{
             $respuesta = array("mensaje"=>"los comentarios no se han consultado correctamente.",
                         "continuar"=>0,
                         "datos"=>"");
         }
-        
         return $respuesta;
     }
     //informacion de respuestas chekeador
@@ -508,7 +490,6 @@ class LogicaMatriz  {
         if(isset($informacion[0]["idNuevaMatriz"])){
             $idNuevaMatriz = $informacion[0]['idNuevaMatriz'];
         }
-        // var_dump($nuevaMatriz, $idMatrizRecurrente);die();
         $id1 = intval(trim($nuevaMatriz));
         $id2 = intval(trim($idNuevaMatriz));
 
@@ -522,7 +503,6 @@ class LogicaMatriz  {
                         "continuar"=>0,
                         "datos"=>"");
         }
-        
         return $respuesta;
     }
     public function informacionCheckDos($idrecurrente,$idPrefil,$idEmpresa){
@@ -530,7 +510,6 @@ class LogicaMatriz  {
         $where["idMatrizRecurrente"] = $idrecurrente;
         $where["idEmpresa"] = $idEmpresa;
         $informacion            = $this->ci->dbMatriz->informacionCheckDos($where);
-        // var_dump($informacion);die();
         return $informacion;
     }
     //informacion de persona por id
@@ -539,5 +518,4 @@ class LogicaMatriz  {
         $actualiza            = $this->ci->dbMatriz->infoUsuario($where);
         return $actualiza;
     }
-    
 }

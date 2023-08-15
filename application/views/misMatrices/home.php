@@ -9,7 +9,7 @@
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <div class="row ml-2">
-        <h5 class="modal-title">Matriz de obligaciones</h5>
+        <h5 class="modal-title">Checks de obligaciones</h5>
     </div>  
         <?php if($_SESSION['project']['info']['idPerfil'] == 11){ ?>
             <div class="dropdown">
@@ -18,7 +18,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <h6 class="dropdown-header"><?php echo lang("lblSeleccioneOpc") ?></h6>
-                    <a class="dropdown-item" ng-click="agregarMatriz()" style="cursor:pointer"><i class="fa fa-fw fa-plus"></i> Agregar matriz</a>
+                    <a class="dropdown-item" ng-click="agregarMatriz()" style="cursor:pointer"><i class="fa fa-fw fa-plus"></i> Agregar Checks</a>
                 </div>
             </div>
         <?php }?>
@@ -33,9 +33,9 @@
         
     <?php $infoEmpresa = json_encode($infoEmpresas); }  ?>
     <div class="card shadow mb-4">
-        <!-- <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">MATRÍZ DE OBLIGACIONES</h6>
-        </div> -->
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Listado de Checks</h6>
+        </div>
         <div class="card-body">
             <table class="table table-striped">
                 <thead>

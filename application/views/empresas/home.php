@@ -21,11 +21,12 @@
         <?php }?>
     </div>
     <div class="card shadow mb-4">
-        <!-- <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary"></h6>
-        </div> -->
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Lista de empresas</h6>
+        </div>
         <div class="card-body">
-        <table class="table table-striped">
+            <div class="table-responsive">
+            <table class="table table-striped">
             <thead>
                 <tr>
                     <th scope="col">Nombre Empresa</th>
@@ -81,6 +82,7 @@
                 
             </tbody>
         </table>
+            </div>
         </div>
     </div>
 </div>

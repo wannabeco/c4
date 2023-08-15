@@ -110,10 +110,21 @@ class Pagos extends CI_Controller
                     }
                 }
             }
-            $totalPerfil        = array_sum($preciosPerfil);
-            $cantPerfiles       = count($preciosPerfil);
-            $cantMatrices       = count($precioMatrices);
-            $totalMatrices      = array_sum($precioMatrices);
+            if(count($preciosPerfil) > $infoPlanes[0]["canUsuarios"]){
+                $totalPerfil = array_sum($preciosPerfil);
+                $cantPerfiles = count($preciosPerfil);
+            }else{
+                $totalPerfil = 0;
+                $cantPerfiles = 0;
+            }
+            if(count($precioMatrices) > $infoPlanes[0]["canMatrices"]){
+                $cantMatrices = count($precioMatrices);
+                $totalMatrices = array_sum($precioMatrices);
+            }
+            else{
+                $cantMatrices = 0;
+                $totalMatrices = 0;
+            }
             $adicionales        = $totalPerfil+ $totalMatrices;
             $totalPagarEmpresa  = $precioPlanEmpresa+ $totalPerfil+ $totalMatrices;
             $salida['titulo']           = "Pasarela de pago";

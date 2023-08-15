@@ -22,7 +22,7 @@ project.controller('misMatrices', function($scope,$http,$q,constantes)
 			dataType: "json",
 			success: function(response) {
 				if(response == ""){
-					constantes.alerta("Atención","La matriz se encuentra en construcción.","info",function(){});
+					constantes.alerta("Atención","El check se encuentra en construcción.","info",function(){});
 				}
 				else{
 					window.location = $scope.config.apiUrl+"MisMatrices/informacion/42/"+$id+"/"+idEmpresa;
@@ -43,15 +43,15 @@ project.controller('misMatrices', function($scope,$http,$q,constantes)
 		//empiezo la validación de campos que será la misma si es editar que si es crear
 		
 		if(nombreNuevaMatriz == ""){
-			constantes.alerta("Atención","Debe escribir un nombre de mastriz.","info",function(){});
+			constantes.alerta("Atención","Debe escribir un nombre del check.","info",function(){});
 		}else if(dirigida == ""){
 			constantes.alerta("Atención","Debe seleccionar Tipo Plantilla.","info",function(){});
 		}else if(gratis == ""){
-			constantes.alerta("Atención","Debe seleccionar si la matriz sera gratis al registrar la emrpesa.","info",function(){});
+			constantes.alerta("Atención","Debe seleccionar si el check sera gratis al registrar la empresa.","info",function(){});
 		}else if(dirigida == 2 && tipoEmpresa == ""){
 			constantes.alerta("Atención","Debe seleccionar el tipo de empresa","info",function(){});
 		}else{
-			constantes.confirmacion("Confirmación","Esta apunto de crear una matriz, ¿desea continuar?",'info',function(){
+			constantes.confirmacion("Confirmación","Esta apunto de crear un check, ¿Desea continuar?",'info',function(){
 				var controlador = $scope.config.apiUrl+"CrearMatriz/creaLaNuevaMatriz";
 				var parametros  = 	$("#agregaNuevaMatriz").serialize()+"&idTipoEmpresa="+tipoEmpresa;
 				constantes.consultaApi(controlador,parametros,function(json){
@@ -98,7 +98,7 @@ project.controller('misMatrices', function($scope,$http,$q,constantes)
 	}
 
 	$scope.borraMatriz = function($idNuevaMatriz, $idEmpresa){
-		constantes.confirmacion("Confirmación","Esta apunto de eliminar una matriz, ¿desea continuar?",'info',function(){
+		constantes.confirmacion("Confirmación","Esta apunto de eliminar un check, ¿Desea continuar?",'info',function(){
 			var controlador = $scope.config.apiUrl+"MisMatrices/eliminaMatrizComprada";
 			var parametros  = "idMatriz="+$idNuevaMatriz+"&idEmpresa="+$idEmpresa;
 			constantes.consultaApi(controlador,parametros,function(json){

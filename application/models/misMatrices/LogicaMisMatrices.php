@@ -45,8 +45,7 @@ class LogicaMisMatrices  {
             $respuesta = array("mensaje"=>"las matrices fueron consultadas.",
                         "continuar"=>1,
                         "datos"=>$infoMatriz);
-        }
-        else{
+        }else{
             $respuesta = array("mensaje"=>"las matrices no fueron consultadas.",
                         "continuar"=>0,
                         "datos"=>"");
@@ -63,8 +62,7 @@ class LogicaMisMatrices  {
             $respuesta = array("mensaje"=>"las matrices fueron consultadas.",
                         "continuar"=>1,
                         "datos"=>$infoMatriz);
-        }
-        else{
+        }else{
             $respuesta = array("mensaje"=>"las matrices no fueron consultadas.",
                         "continuar"=>0,
                         "datos"=>"");
@@ -81,7 +79,6 @@ class LogicaMisMatrices  {
     //crea relacion de las matrices gratis, apenas se registra la empresa.
     public function creaGratis($datos){
         extract($datos);
-        //var_dump($datos);die();
         $ids = $datos["id"];
         $array = explode(",", $ids);
         foreach($array as $id){
@@ -96,8 +93,7 @@ class LogicaMisMatrices  {
             $respuesta = array("mensaje"=>"Las matrices se han agregado correctamente.",
                     "continuar"=>1,
                     "datos"=>"");
-        }
-        else{
+        }else{
             $respuesta = array("mensaje"=>"las matrices no fueron agregadas.",
                     "continuar"=>0,
                     "datos"=>"");
@@ -133,7 +129,6 @@ class LogicaMisMatrices  {
                 "datos" => $resultados
             );
         }
-        
         return $respuesta;
     }
     //busca matriz por nombre
@@ -157,8 +152,7 @@ class LogicaMisMatrices  {
             $respuesta = array("mensaje"=>"las matrices fueron consultadas.",
                         "continuar"=>1,
                         "datos"=>$infoMatriz);
-        }
-        else{
+        }else{
             $respuesta = array("mensaje"=>"las matrices no fueron consultadas.",
                         "continuar"=>0,
                         "datos"=>"");
@@ -174,7 +168,6 @@ class LogicaMisMatrices  {
     //crea relacion de cumplimiento y empresa
     public function creaGratisrel($datos){
         extract($datos);
-        //var_dump($datos);die();
         $ids = $datos["id"];
         $array = explode(",", $ids);
         foreach($array as $id){
@@ -188,8 +181,7 @@ class LogicaMisMatrices  {
             $respuesta = array("mensaje"=>"Se han agregado correctamente.",
                     "continuar"=>1,
                     "datos"=>"");
-        }
-        else{
+        }else{
             $respuesta = array("mensaje"=>"las matrices no fueron agregadas.",
                     "continuar"=>0,
                     "datos"=>"");
@@ -260,12 +252,10 @@ class LogicaMisMatrices  {
         return $respuesta;
     }
     public function relEmpresaPerfiles($datos){
-        // var_dump($datos);die();
         $where['idEmpresa']         = $datos["id"];
         $where['idPerfil']         = 8;
         $where['estado']         = 1;
         $consulta               = $this->ci->dbmisMatriz->relEmpresaPerfiles($where);
-        // var_dump($consulta);die();
         if(count($consulta) > 0){
             $respuesta = array("mensaje"=>"La empresa ya cuenta con oficial de cumplimiento, por favor comuniquese con le empresa.",
             "continuar"=>1,
@@ -323,7 +313,6 @@ class LogicaMisMatrices  {
         $where['idPersona']             = $idPersona;
         $where['idEmpresa']             = $_SESSION["project"]["info"]["idEmpresa"];
         $consulta               = $this->ci->dbmisMatriz->consultacheck($where);
-        // var_dump($consulta);die();
         $valorArray = array();
         foreach($consulta as $item){
             $valorArray[] = $item["valor"];
@@ -332,7 +321,6 @@ class LogicaMisMatrices  {
         foreach($consulta as $archiivo){
             $arrayArchivos[] = $archiivo["nombreArchivo"];
         }
-        // var_dump($arrayArchivos);die();
         if(count($consulta) > 0){
             $respuesta = array(
                 "respuesta" => $valorArray,
@@ -348,7 +336,6 @@ class LogicaMisMatrices  {
     } 
     //actualiza check
     public function actualizaCheck($data){
-
         extract($data);
         $where['idMatrizRecurrente']    = $data["idMatrizRecurrente"];
         $where['idPersona']             = $data["idPersona"];
@@ -357,13 +344,10 @@ class LogicaMisMatrices  {
         if($_SESSION['project']['info']["idPerfil"] == 8){
             $resOficial        = $data["resOficial"];
             $resOficialArray   = explode(",", $resOficial);
-
             $pregunta = 1;
             foreach ($resOficialArray as $valores) {
-                
                 $dataActualiza["resOficial"] = $valores;
                 $where['idRespuesta'] = $pregunta;
-                // var_dump($where,$dataActualiza);die();
                 $guardado = $this->ci->dbmisMatriz->actualizaCheck($where,$dataActualiza);
                 $pregunta++;
             }
@@ -385,9 +369,7 @@ class LogicaMisMatrices  {
                     if ($dataActualiza["valor"] == "SI" && isset($archivoArray[$pregunta - 1])){
                         $dataActualiza["nombreArchivo"] = $archivoArray[$pregunta - 1];
                     }
-                    
                     $where['idRespuesta'] = $pregunta;
-                    // var_dump($where,$dataActualiza);die();
                     $guardado = $this->ci->dbmisMatriz->actualizaCheck($where,$dataActualiza);
                     $pregunta++;
                 }
@@ -397,12 +379,9 @@ class LogicaMisMatrices  {
             }
             return $respuesta;
         }
-
-
     }
     //consulta de check para oficial de cumplimiento
     public function consultacheckRealizado($idRecurrente,$idPersona,$idEmpresa){
-
         $where['idMatrizRecurrente']    = $idRecurrente;
         $where['idPersona']             = $idPersona;
         $where['idEmpresa']             = $idEmpresa;
@@ -419,7 +398,6 @@ class LogicaMisMatrices  {
         foreach($consulta as $resOficial){
             $arrayResOficial[] = $resOficial["resOficial"];
         }
-        // var_dump($arrayArchivos);die();
         if(count($consulta) > 0){
             $respuesta = array(
                 "respuesta" => $valorArray,
@@ -434,6 +412,4 @@ class LogicaMisMatrices  {
         }
     return $respuesta;
     }
-
-    
 }

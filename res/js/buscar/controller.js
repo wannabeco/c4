@@ -234,7 +234,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 			constantes.alerta("Atención","Por favor verifique que las matrices esten completas, recuerde que con su plan, puede agregar 3.",'info',function(){});
 		}
 		else{
-			constantes.confirmacion("Confirmación","Esta apunto de agregar las matrices, ¿desea continuar?",'info',function(){
+			constantes.confirmacion("Confirmación","Esta apunto de agregar l0s chacks, ¿desea continuar?",'info',function(){
 				var controlador = $scope.config.apiUrl+"MisMatrices/creaGratis";
 				var parametros  = 	"id="+ids;
 				constantes.consultaApi(controlador,parametros,function(json){
@@ -252,7 +252,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 	});
 	$(document).on('click', '#Pagar', function() {
 		if(tipos.length < 1){
-			constantes.alerta("Atención","Por favor verifique no hay matrices por comprar.",'info',function(){});
+			constantes.alerta("Atención","Por favor verifique no hay chacks por comprar.",'info',function(){});
 		}
 		else{
 			var proveedor = "payu";
@@ -321,10 +321,9 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 		var email 		= $("#email").val();
 		var matriz 		= "";
 		if(descripcion == ""){
-			constantes.alerta("Atención","Es necesario escribir una descipcion para sugerir una matriz.",'info',function(){});
-		}
-		else{
-			constantes.confirmacion("Atención","Esta apunto de sugerir una matriz, ¿Desea continuar?.",'info',function(){
+			constantes.alerta("Atención","Es necesario escribir una descipcion para sugerir un check.",'info',function(){});
+		}else{
+			constantes.confirmacion("Atención","Esta apunto de sugerir un check, ¿Desea continuar?.",'info',function(){
 				var controlador = 	$scope.config.apiUrl+"Buscar/sugiereMatriz";
 				var parametros  = "nombre="+nombre+"&email="+email+"&descripcion="+descripcion+"&matriz="+matriz;
 				constantes.consultaApi(controlador,parametros,function(json){

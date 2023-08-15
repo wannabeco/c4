@@ -26,33 +26,24 @@ project.controller('creaEmpresa', function($scope,$http,$q,constantes)
 		//empiezo la validación de campos que será la misma si es editar que si es crear
 		if(nombre == ""){
 			constantes.alerta("Atención","Debe escribir el nombre de la empresa.","info",function(){})
-		}
-		else if(tipoEmpresa <= 0){
+		}else if(tipoEmpresa <= 0){
 			constantes.alerta("Atención","Debe seleccionar el tipo de empresa.","info",function(){})
-		}
-		else if(nombreUsuario == ""){
+		}else if(nombreUsuario == ""){
 			constantes.alerta("Atención","Debe escribir el nombre del usuario.","info",function(){})
-		}
-		else if(apellido == ""){
+		}else if(apellido == ""){
 			constantes.alerta("Atención","Debe escribir el apellido del usuario.","info",function(){})
-		}
-		else if(email == ""){
+		}else if(email == ""){
 			constantes.alerta("Atención","Es importante escribir un correo electrónico valido ya que este será el usuario de acceso al sistema para el usuario.","info",function(){})
-		}
-		else if(email != "" && !constantes.validaMail(email)){
+		}else if(email != "" && !constantes.validaMail(email)){
 			constantes.alerta("Atención","El correo electrónico ingresado no es correcto, por favor verifique.","info",function(){})
-		}
-		else if(clave == ""){
+		}else if(clave == ""){
 			constantes.alerta("Atención","La contraseña es requerica, por favor verifique.","info",function(){})
-		}
-		else if(rclave == ""){
+		}else if(rclave == ""){
 			constantes.alerta("Atención","Es necesario que repita la contraseña, por favor verifique.","info",function(){})
-		}
-		else if(rclave != clave){
+		}else if(rclave != clave){
 			constantes.alerta("Atención","Las contraseñas no coinsiden, por favor verifique.","info",function(){})
-		}
-		else{
-			constantes.confirmacion("Confirmación","Esta apunto de crear una empresa, ¿desea continuar?",'info',function(){
+		}else{
+			constantes.confirmacion("Confirmación","Esta apunto de crear una empresa, ¿Desea continuar?",'info',function(){
 				//$scope.cracion("Creando empresa",10000);
 				var controlador = $scope.config.apiUrl+"Registro/insertaEmpresaNueva";
 				var parametros  = 	$("#dataEmpresa").serialize();
@@ -76,7 +67,6 @@ project.controller('creaEmpresa', function($scope,$http,$q,constantes)
 		var nombreUsuarios		=	$("#nombreUsuarios").val();
 		var apellidos			=	$("#apellidos").val();
 		var celular				=	$("#celular").val();
-		// var empresa 			=   $('#empresa').val();
 		var email				=	$("#email").val();
 		var clave				=	$("#clave").val();
 		var rclave				=	$("#rclave").val();
@@ -85,11 +75,7 @@ project.controller('creaEmpresa', function($scope,$http,$q,constantes)
 			constantes.alerta("Atención","Debe escribir el nombre del usuario.","info",function(){});
 		}else if(apellidos == ""){
 			constantes.alerta("Atención","Debe escribir el apellido del usuario.","info",function(){});
-		}
-		// else if(empresa <= 0){
-		// 	constantes.alerta("Atención","Debe seleccionar la empresa.","info",function(){})
-		// }
-		else if(celular == ""){
+		}else if(celular == ""){
 			constantes.alerta("Atención","El numero de celular es requerido.","info",function(){});
 		}else if(isNaN(celular)){
 			constantes.alerta("Atención","El numero de celular no es valido, por favor verifique.","info",function(){});
@@ -107,9 +93,8 @@ project.controller('creaEmpresa', function($scope,$http,$q,constantes)
 			constantes.alerta("Atención","Es necesario que repita la contraseña, por favor verifique.","info",function(){});
 		}else if(rclave != clave){
 			constantes.alerta("Atención","Las contraseñas no coinsiden, por favor verifique.","info",function(){});
-		}
-		else{
-			constantes.confirmacion("Confirmación","Esta apunto de registrarse como Oficial de cumplimiento, ¿desea continuar?",'info',function(){
+		}else{
+			constantes.confirmacion("Confirmación","Esta apunto de registrarse como Oficial de cumplimiento, ¿Desea continuar?",'info',function(){
 				var controlador = $scope.config.apiUrl+"Registro/creaOficial";
 				var parametros  = 	$("#dataOficial").serialize();
 					constantes.consultaApi(controlador,parametros,function(json){

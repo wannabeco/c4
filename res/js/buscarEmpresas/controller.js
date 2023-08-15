@@ -145,72 +145,13 @@ project.controller('buscarEmpresas', function($scope,$http,$q,constantes)
 			);
 		}
 	});
-	//agrego matrices gratis
-	// var tiposGratis = [];
-	// var maxTiposGratis = 1;
-	// var ids = [];
-	// $scope.agregaGratis = function(nombre, idEmpresa) {
-	// 	if(tiposGratis.length >= maxTiposGratis){
-	// 		constantes.alerta("Atención","Para tu plan, solo podras agregar 1 empresa gratis, por favor verifique y elimine la que no necesite.",'info',function(){});
-	// 		return false;
-	// 	}
-	//   var nuevaEmpresa = {
-	// 	id: idEmpresa,
-	// 	nombre: nombre
-	//   };
-	//   var indice = tiposGratis.findIndex(function(elemento) {
-	// 	return elemento.id === nuevaEmpresa.id;
-	//   });
-	//   if (indice === -1) {
-	// 	tiposGratis.push(nuevaEmpresa);
-	// 	ids.push(idEmpresa);
-	//   }
-	//   $(".tipos").html(
-	// 	tiposGratis.map(function(elemento) {
-	// 	  var palabra = elemento.nombre.trim();
-	// 	  return (
-	// 		'<div class="float-left col-md-6"><span class="badge bg-success" style="font-size:16px; color:white; margin-left:10px;">' +
-	// 		palabra +
-	// 		' <a href="#" class="eliminar text-danger" data-palabra="' +
-	// 		palabra +
-	// 		'"> X </a></span></div>'
-	// 	  );
-	// 	}).join('')+
-	// 	(tiposGratis != 0 ?'<button class="btn btn-primary" id="btnAgregar" style="margin-left: 20px;" type="button">Agregar</button>': '')
-	//   );
-	//   return false;
-	// };
-	// $(document).on('click', '.eliminar', function() {
-	//   var palabraEliminar = $(this).data('palabra');
-	//   var indice = tiposGratis.findIndex(function(elemento) {
-	// 	return elemento.nombre.trim() === palabraEliminar;
-	//   });
-	//   if (indice !== -1) {
-	// 	tiposGratis.splice(indice, 1);
-	// 	var idEliminar = ids[indice];
-    //     ids.splice(indice, 1);
-	
-	// 	$(".tipos").html(
-	// 		tiposGratis.map(function(elemento) {
-	// 		var palabra = elemento.nombre.trim();
-	// 		return (
-	// 		  '<span class="badge bg-success" style="font-size:16px; color:white; margin-left:10px;">' +
-	// 		  palabra +
-	// 		  ' <a href="#" class="eliminar text-danger" data-palabra="' +
-	// 		  palabra +
-	// 		  '"> X </a></span>'
-	// 		);
-	// 	  }).join('')+
-	// 	  (tiposGratis != 0 ?'<button class="btn btn-primary" id="btnAgregar" style="margin-left: 20px;" type="button">Agregar</button>': '')
-	// 	);
-	//   }
-	// });
+
 	$(document).on('click', '#btnAgregar', function() {
 		if(tiposGratis.length < 1){
 			constantes.alerta("Atención","No se pudo agregar ninguna empresa, por favor verifique.",'info',function(){});
 		}
 		else{
-			constantes.confirmacion("Confirmación","Esta apunto de agregar empresa, ¿desea continuar?",'info',function(){
+			constantes.confirmacion("Confirmación","Esta apunto de agregar empresa, ¿Desea continuar?",'info',function(){
 				var controlador = $scope.config.apiUrl+"BuscarEmpresas/creaGratisrel";
 				var parametros  = 	"id="+ids;
 				constantes.consultaApi(controlador,parametros,function(json){

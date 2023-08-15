@@ -66,12 +66,23 @@ class PagoMatriz extends CI_Controller
 						}
 					}
 				}
-				$totalPerfil = array_sum($preciosPerfil);
-				$cantPerfiles = count($preciosPerfil);
-				$cantMatrices = count($precioMatrices);
-				$totalMatrices = array_sum($precioMatrices);
+				if(count($preciosPerfil) > $relacionPlan["datos"][0]["canUsuarios"]){
+					$totalPerfil = array_sum($preciosPerfil);
+					$cantPerfiles = count($preciosPerfil);
+				}else{
+					$totalPerfil = 0;
+					$cantPerfiles = 0;
+				}
+				if(count($precioMatrices) > $relacionPlan["datos"][0]["canChecks"]){
+					$cantMatrices = count($precioMatrices);
+					$totalMatrices = array_sum($precioMatrices);
+				}
+				else{
+					$cantMatrices = 0;
+					$totalMatrices = 0;
+				}
+				
 				$adicionales = $totalPerfil+ $totalMatrices;
-				//$totalPagarEmpresa = $precioPlanEmpresa+ $totalPerfil+ $totalMatrices;
 				$opc 						= "home";
 				$salida['titulo'] 	  		= "Pago Empresas";
 				$salida['infoEmpresa']  	= $infoEmpresa;

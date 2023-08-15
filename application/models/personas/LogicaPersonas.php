@@ -6,18 +6,15 @@ class LogicaPersonas  {
         $this->ci = &get_instance();
         $this->ci->load->model("personas/BaseDatosPersonas","dbPersonas");
     } 
-    public function getPersonas()
-    {
+    public function getPersonas(){
         $where['estado']        = 1;
         $where['eliminado']     = 0;
         $listadoAreas = $this->ci->dbPersonas->getPersonas($where);
-        if(count($listadoAreas) > 0)
-        {
+        if(count($listadoAreas) > 0){
             $respuesta = array("mensaje"=>"Listado de áreas empresariales consultado.",
                           "continuar"=>1,
                           "datos"=>$listadoAreas); 
-        }
-        else
+        }else
         {
             $respuesta = array("mensaje"=>"No hay áreas de trabajo creadas aún, no olvide crearlas haciendo clic en el boton ACCIONES > AGREGAR NUEVA ÁREA.",
                           "continuar"=>0,
