@@ -39,7 +39,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 			$scope.canMatrices = response.datos;
 			// $scope.che = response.datos[0].canChecks;
 			$scope.Checks = response.datos[0].canChecks;
-			console.log($scope.canMatrices);
+			console.log($scope.Checks);
 			$scope.$apply();
 		  }
 		});

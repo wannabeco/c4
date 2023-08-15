@@ -41,19 +41,9 @@ class PagoMatriz extends CI_Controller
 				$infoUsuarios = $this->logica->getUsuarioEmpresa($idEmpresa);
 				$infoMatrices = $this->logica->getMatricesEmpresas($idEmpresa);
 				$relacionPlan = $this->logica->relPlan($idEmpresa);
-				if($relacionPlan["continuar"] == 1){
-					$adicionalesa = 1;
-					$plan["idPlan"] = $relacionPlan["datos"][0]["idPlan"];
-					$infoPlanActual = $this->logica->infoPlanesid($plan);
-					$salida['nombrePlan'] 	= $infoPlanActual[0]["nombrePlan"];
-				}else{
-					$adicionalesa = 0;
-					$salida['nombrePlan'] ="";
-				}
 				$preciosPerfil = array();
 				$precioMatrices = array();
 				$precioPlanEmpresa = $infoPlanes[0]["precio"];
-				// var_dump($precioPlanEmpresa);die();
 				foreach ($infoUsuarios["data"] as $Perfiles) {
 					if (isset($Perfiles["precioPerfil"]) && $Perfiles["precioPerfil"] > 0 ) {
 						array_push($preciosPerfil, $Perfiles["precioPerfil"]);
@@ -66,21 +56,35 @@ class PagoMatriz extends CI_Controller
 						}
 					}
 				}
-				if(count($preciosPerfil) > $relacionPlan["datos"][0]["canUsuarios"]){
-					$totalPerfil = array_sum($preciosPerfil);
-					$cantPerfiles = count($preciosPerfil);
+				// var_dump($relacionPlan);die();
+				if($relacionPlan["continuar"] == 1){
+					$adicionalesa = 1;
+					$plan["idPlan"] = $relacionPlan["datos"][0]["idPlan"];
+					$infoPlanActual = $this->logica->infoPlanesid($plan);
+					$salida['nombrePlan'] 	= $infoPlanActual[0]["nombrePlan"];
+					if(count($preciosPerfil) > $relacionPlan["datos"][0]["canUsuarios"]){
+						$totalPerfil = array_sum($preciosPerfil);
+						$cantPerfiles = count($preciosPerfil);
+					}else{
+						$totalPerfil = 0;
+						$cantPerfiles = 0;
+					}
+					if(count($precioMatrices) > $relacionPlan["datos"][0]["canChecks"]){
+						$cantMatrices = count($precioMatrices);
+						$totalMatrices = array_sum($precioMatrices);
+					}else{
+						$cantMatrices = 0;
+						$totalMatrices = 0;
+					}
 				}else{
+					$adicionalesa = 0;
+					$salida['nombrePlan'] ="";
+					$cantMatrices = 0;
 					$totalPerfil = 0;
+					$totalMatrices = 0;
 					$cantPerfiles = 0;
 				}
-				if(count($precioMatrices) > $relacionPlan["datos"][0]["canChecks"]){
-					$cantMatrices = count($precioMatrices);
-					$totalMatrices = array_sum($precioMatrices);
-				}
-				else{
-					$cantMatrices = 0;
-					$totalMatrices = 0;
-				}
+				// var_dump($precioPlanEmpresa);die();
 				
 				$adicionales = $totalPerfil+ $totalMatrices;
 				$opc 						= "home";
@@ -97,8 +101,7 @@ class PagoMatriz extends CI_Controller
 				$salida['cantMatrices'] 	= $cantMatrices;
 				$salida['centro'] 			= "app/homeCaducidad";
 				$this->load->view("app/index",$salida);
-		}
-		else{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
