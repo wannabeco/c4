@@ -9,7 +9,7 @@
             
         ?>
     <div class="container"><br>
-    <center><img src="<?php echo base_url()?>/res/img/CargaFoto.png" width="20%"></center><br>
+    <center><img src="<?php echo base_url()?>res/img/logoWabe.png" width="50%"></center><br>
     <h3 class="text-center"><strong><?php echo $pagoRealizar; ?></strong></h3><br>
     <div class="table-responsive">
         <?php if($pagoRealizar == "Pago de matrices"){?>

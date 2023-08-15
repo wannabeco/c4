@@ -242,7 +242,7 @@ class Empresas extends CI_Controller
 			echo json_encode($crea);
 		}
 		else{
-            echo json_encode($crea); 
+			header('Location:'.base_url()."login");
 		}
 	}
 	//informacion de empresa para verificar si esta al dia
@@ -252,7 +252,7 @@ class Empresas extends CI_Controller
 			echo json_encode($crea);
 		}
 		else{
-            echo json_encode($crea); 
+            header('Location:'.base_url()."login");
 		}
 	}
 	//informacion de empresa por id
@@ -262,8 +262,7 @@ class Empresas extends CI_Controller
 			echo json_encode($crea);
 		}
 		else{
-			$crea = "";
-            echo json_encode($crea); 
+			header('Location:'.base_url()."login");
 		}
 	}
 	// informacion de persona por id
@@ -273,8 +272,7 @@ class Empresas extends CI_Controller
 			echo json_encode($crea);
 		}
 		else{
-			$crea = "";
-            echo json_encode($crea); 
+			header('Location:'.base_url()."login");
 		}
 	}
 

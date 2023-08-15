@@ -77,10 +77,10 @@
                             <?php if(getPrivilegios()[0]['ver'] == 1){ ?>
                                 <a ng-click="verMatriz('',0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn btn-primary btn-fab btn-fab-mini btn-xs"><i class="fas fa-eye"></i></a>
                             <?php }?> -->
-                            <?php if(getPrivilegios()[0]['editar'] == 1){ ?>
+                            <?php if($_SESSION['project']['info']['idPerfil']== 1 || $_SESSION['project']['info']['idPerfil']== 2 || $_SESSION['project']['info']['idPerfil']== 3){ ?>
                                 <a ng-click="creaPlanes('<?php echo $info["idPlan"];?>',1)" data-toggle="tooltip" data-placement="top" title="Actualizar matriz" class="btn btn-info btn-fab btn-fab-mini btn-xs"><i class="far fa-edit"></i></a>
                             <?php }?>
-                            <?php if(getPrivilegios()[0]['borrar'] == 1){ ?>
+                            <?php if($_SESSION['project']['info']['idPerfil']== 1 || $_SESSION['project']['info']['idPerfil']== 2 || $_SESSION['project']['info']['idPerfil']== 3){ ?>
                                     <a ng-click="BorrarPlan(<?php echo $info["idPlan"];?>)" title="Eliminar Matriz"  class="btn btn-danger btn-fab btn-fab-mini btn-xs"><i class="fas fa-trash"></i></a> 
                             <?php } ?>  
                             </td>

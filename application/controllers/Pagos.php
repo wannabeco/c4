@@ -44,7 +44,6 @@ class Pagos extends CI_Controller
         if($accion == "empresa"){
             $idPago = $_GET["idPago"];
             $compraTemporal				= $this->logica->compraEmpresaTemporal($idPago);
-            //var_dump($compraTemporal);die();
             $salida['titulo']           = "Pasarela de pago";
             $salida['centro']           = "registro/pagoOnline";
             $salida['pagoRealizar']     = "Pago de empresas";
@@ -58,8 +57,6 @@ class Pagos extends CI_Controller
         else if($accion == "matrices"){
             $idPago = $_GET["idPago"];
             $compraTemporal				= $this->logica->compraMatrizTemporal($idPago);
-            //var_dump($compraTemporal);die();
-            //consulto la info de la tienda
             $salida['titulo']           = "Pasarela de pago";
             $salida['centro']           = "registro/pagoOnline";
             $salida['proveedor']        = "payu";
@@ -73,14 +70,34 @@ class Pagos extends CI_Controller
         //pago mensualidad de empresa 
         else if($accion == "Mensualidad empresas"){
             $idPago             = $_GET["idPago"];
+            $idPlan["idPlan"] = $_GET["idPLan"];
+            $duracion = $_GET["duracion"];
             $idEmpresa          = $_SESSION["project"]["info"]["idEmpresa"];
-            $infoPlanes	        = $this->logica->infoPlanes();
+            $infoPlanes	        = $this->logica->infoPlanesid($idPlan);
             $compraTemporal     = $this->logica->pagoEmpresaMesC($idPago);
             $infoUsuarios       = $this->logica->getUsuarioEmpresa($idEmpresa);
             $infoMatrices       = $this->logica->getMatricesEmpresas($idEmpresa);
+            $infoPlanEmrpesa    = $this->logica->infoPlanesrel($idEmpresa);
+            if($infoPlanEmrpesa["continuar"] == 1){
+                $plan = $_GET["idPLan"];
+                $usuariosPlan = $infoPlanes[0]["canUsuarios"];
+                $checksPlan = $infoPlanes[0]["canMatrices"];
+                $actualizo = $this->logica->actualizoPlanesrel($idEmpresa,$usuariosPlan,$checksPlan,$plan);
+            }
+            else{
+                $plan = $_GET["idPLan"];
+                $usuariosPlan = $infoPlanes[0]["canUsuarios"];
+                $checksPlan = $infoPlanes[0]["canMatrices"];
+                $creaPlanrelEmpresa  = $this->logica->creoPlanesrel($idEmpresa,$usuariosPlan,$checksPlan,$plan);
+            }
             $preciosPerfil      = array();
             $precioMatrices     = array();
-            $precioPlanEmpresa  = $infoPlanes[0]["precio"];
+
+            if($duracion == "year"){
+                $precioPlanEmpresa  = $infoPlanes[0]["precio"]*$infoPlanes[0]["mesCobraYear"];
+            }if($duracion == "mes"){
+                $precioPlanEmpresa  = $infoPlanes[0]["precio"];
+            }
             foreach ($infoUsuarios["data"] as $Perfiles) {
                 if (isset($Perfiles["precioPerfil"]) && $Perfiles["precioPerfil"] > 0 ) {
                     array_push($preciosPerfil, $Perfiles["precioPerfil"]);
@@ -105,7 +122,11 @@ class Pagos extends CI_Controller
             $salida['pagoRealizar']     = "Pago plan empresa";
             $salida['compraTemporal']   = $compraTemporal;
             $salida['codigoPago']       = $compraTemporal[0]["codigoPago"];
-            $salida['nombreTransaccion'] = "Compra mensualidad empresa.";
+            if($duracion == "year"){
+                $salida['nombreTransaccion'] = "Compra membresia anual empresa.";
+            }if($duracion == "mes"){
+                $salida['nombreTransaccion'] = "Compra membresia mensual empresa.";
+            }
             $salida['infoPlanes']   	= $infoPlanes;
             $salida['infoUsuarios'] 	= $infoUsuarios["count"];
             $salida['infoMatrices'] 	= $infoMatrices["count"];
@@ -123,7 +144,6 @@ class Pagos extends CI_Controller
         else if($accion == "Mensualidad Oficial"){
             $idPago             = $_GET["idPago"];
             $dataPago           = $this->logica->infoPagoMesOficial($idPago);
-            // var_dump($dataPago);die();
             $infoPlanes	        = $this->logica->infoPlanes();
 			$precioPlanEmpresa  = $infoPlanes[1]["precio"];
 			$idPersona 			= $_SESSION["project"]["info"]["idPersona"];
@@ -137,8 +157,6 @@ class Pagos extends CI_Controller
 			$totalCompradas = array_sum($compradas);
 			$cantCompradas = count($compradas);
             $totalPagarEmpresa = $precioPlanEmpresa+ $totalCompradas;
-            //var_dump($compraTemporal);die();
-            //consulto la info de la tienda
             $salida['titulo']           = "Pasarela de pago";
             $salida['centro']           = "registro/pagoOnline";
             $salida['proveedor']        = "payu";
@@ -161,7 +179,6 @@ class Pagos extends CI_Controller
     {
         extract($_POST);
         $descripcion = $_POST["descripcion"];
-        // var_dump();die();
         //debo actualizar la informacon del pedido con lo que me retorno payu
         if($descripcion == "Compra de matriz."){
             $dataInserta['estadoPago']      = $state_pol;
@@ -186,11 +203,10 @@ class Pagos extends CI_Controller
                 $dataInserta['fechaPago']       = date("Y-m-d H:i:s");
                 $dataInserta['ip']              = getIP();
                 $condicion['codigoPedido']      = $reference_sale;
-                // $mensajeMail                      = $_GET['buyerEmail'];
                 $pagoMatriz               = $this->logica->pagoEmpresaO($dataInserta);
         }
         //compra mensualidad empresa
-        if($descripcion == "Compra mensualidad empresa."){
+        if($descripcion == "Compra membresia mensual empresa."){
             $dataInserta['estadoPago']      = $state_pol;
             $dataInserta['transactionid']   = $transaction_id;
             $dataInserta['reference_pol']   = $reference_pol;
@@ -200,7 +216,6 @@ class Pagos extends CI_Controller
             $dataInserta['fechaPago']       = date("Y-m-d H:i:s");
             $dataInserta['ip']              = getIP();
             $condicion['codigoPedido']      = $reference_sale;
-            //  $mensajeMail                      = $_GET['buyerEmail'];
             $pagoMatriz               = $this->logica->pagoMempersa($dataInserta);
         }
         //compra mensualidad oficial de cumplimiento
@@ -216,8 +231,19 @@ class Pagos extends CI_Controller
             $datos['entidad']         = $lapPaymentMethod;
             $datos['fechaPago']       = date("Y-m-d H:i:s");
             $datos['ip']              = getIP();
-            // $mensajeMail                      = $_GET['buyerEmail'];
             $pagoMatriz               = $this->logica->pagoMoficial($datos);
+        }
+        if($descripcion == "Compra membresia anual empresa."){
+            $dataInserta['estadoPago']      = $state_pol;
+            $dataInserta['transactionid']   = $transaction_id;
+            $dataInserta['reference_pol']   = $reference_pol;
+            $dataInserta['valor']           = $value;
+            $dataInserta['moneda']          = $currency;
+            $dataInserta['entidad']         = $payment_method;
+            $dataInserta['fechaPago']       = date("Y-m-d H:i:s");
+            $dataInserta['ip']              = getIP();
+            $condicion['codigoPedido']      = $reference_sale;
+            $pagoMatriz               = $this->logica->pagoAempersa($dataInserta);
         }
     }
     //confirma pago matrices
@@ -251,7 +277,6 @@ class Pagos extends CI_Controller
     {   
         $payu_apikey = "4Vj8eK4rloUd272L48hsrarnUA";
         extract($_GET);
-    // var_dump($_GET);die();
         $idEmpresa = $_SESSION['project']['info']['idEmpresa'];
         $infoTienda     = $this->logica->infoEmpresa($idEmpresa);
         $descripcion = $_GET['description'];
@@ -354,11 +379,10 @@ class Pagos extends CI_Controller
                 $datos['entidad']         = $lapPaymentMethod;
                 $datos['fechaPago']       = date("Y-m-d H:i:s");
                 $datos['ip']              = getIP();
-                // $mensajeMail                      = $_GET['buyerEmail'];
                 $pagoMatriz               = $this->logica->pagoEmpresaO($datos);
         }
         //compra mensualidad empresa
-        if($descripcion == "Compra mensualidad empresa."){
+        if($descripcion == "Compra membresia mensual empresa."){
             if($_GET['transactionState'] == 4){
                 $estadoTx = lang("trans_aprobada");
                 $claseLabel = "label-success";
@@ -398,7 +422,6 @@ class Pagos extends CI_Controller
                 $datos['entidad']         = $lapPaymentMethod;
                 $datos['fechaPago']       = date("Y-m-d H:i:s");
                 $datos['ip']              = getIP();
-                // $mensajeMail                      = $_GET['buyerEmail'];
                 $pagoMatriz               = $this->logica->pagoMempersa($datos);
         }
         //mensualidad oficial de cumplimiento
@@ -442,10 +465,51 @@ class Pagos extends CI_Controller
                 $datos['entidad']         = $lapPaymentMethod;
                 $datos['fechaPago']       = date("Y-m-d H:i:s");
                 $datos['ip']              = getIP();
-                // $mensajeMail                      = $_GET['buyerEmail'];
                 $pagoMatriz               = $this->logica->pagoMoficial($datos);
         }
-         //var_dump($_GET);die();
+        //compra mensualidad empresa
+        if($descripcion == "Compra membresia anual empresa."){
+            if($_GET['transactionState'] == 4){
+                $estadoTx = lang("trans_aprobada");
+                $claseLabel = "label-success";
+            }
+            if($_GET['transactionState'] == 6){
+                $estadoTx = lang("trans_rechazada");
+                $claseLabel = "label-danger";
+            }
+            if($_GET['transactionState'] == 7){
+                $estadoTx = lang("trans_pendiente");
+                $claseLabel = "label-primary";
+            }
+            if($_GET['transactionState'] == 104){
+                $estadoTx = "Error";
+                $claseLabel = "label-danger";
+            }
+            if($_GET['transactionState'] == 999){
+                $estadoTx = "Pago no realizado";
+                $claseLabel = "label-danger";
+            }
+            if($_GET['transactionState'] == 000){
+                $estadoTx = "Esperando Pago";
+                $claseLabel = "label-warning";
+            }
+            if($_GET['transactionState'] == 998){
+                $estadoTx = "Pago realizado";
+                $claseLabel = "label-success";
+            }
+                $datos['codigoPago']      = $referenceCode;
+                $datos['email']           = $_GET['buyerEmail'];
+                $datos['estadoPago']      = $transactionState;
+                $datos['formaPago']       = $_GET['lapPaymentMethodType'];
+                $datos['transactionid']   = $transactionId;
+                $datos['referencia_pol']  = $reference_pol;
+                $datos['valor']           = $TX_VALUE;
+                $datos['moneda']          = $currency;
+                $datos['entidad']         = $lapPaymentMethod;
+                $datos['fechaPago']       = date("Y-m-d H:i:s");
+                $datos['ip']              = getIP();
+                $pagoMatriz               = $this->logica->pagoAempersa($datos);
+        }
         $salida['estadoTx']         =   $estadoTx;
         $salida['ApiKey']           =   $ApiKey;
         $salida['merchant_id']      =   $merchant_id;
@@ -471,4 +535,5 @@ class Pagos extends CI_Controller
 		$this->load->view("registro/indexPago",$salida);
     }
 }
+
 ?>

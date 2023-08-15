@@ -30,6 +30,8 @@ project.controller('planes', function($scope,$http,$q,constantes)
 		var promocion 		= $("#promocion").val();
 		var fechaInicio 	= $("#fechaInicio").val();
 		var fechaFinaliza 	= $("#fechaFinaliza").val();
+		var dirigido 		= $("#dirigido").val();
+		var mesCobraYear 	= $("#mesCobraYear").val();
 		if(nombrePlan == ""){
 			constantes.alerta("Atención","Debe escribir un nombre del Plan.","info",function(){});
 		}else if(tituloPLan == ""){
@@ -38,14 +40,17 @@ project.controller('planes', function($scope,$http,$q,constantes)
 			constantes.alerta("Atención","Debe escribir una pequeña descripcion del plan.","info",function(){});
 		}else if(precio == ""){
 			constantes.alerta("Atención","Debe escribir el precio del plan.","info",function(){});
+		}else if(dirigido == ""){
+			constantes.alerta("Atención","Debe Seleccionar para quien va dirigido el plan.","info",function(){});
+		}else if(dirigido == 0 && mesCobraYear == 0){
+			constantes.alerta("Atención","Debe escribir la cantidad de meses a cobrar el año.","info",function(){});
 		}else if(promocion == 1 && fechaInicio == ""){
 			constantes.alerta("Atención","Debe seleccionar una fecha de incio de la promoción.","info",function(){});
 		}else if(promocion == 1 && fechaFinaliza == ""){
 			constantes.alerta("Atención","Debe seleccionar una fecha donde finaliza de la promoción.","info",function(){});
-
 		}else{
 			if($edita == 0){
-				constantes.confirmacion("Confirmación","Esta apunto de crear un plan, ¿desea continuar?",'info',function(){
+				constantes.confirmacion("Confirmación","Esta apunto de crear un plan, recuerde que el plan que tenga 0 usuarios y 0 checks, seran tomados como limitados. ¿desea continuar?",'info',function(){
 					var controlador = $scope.config.apiUrl+"Planes/creaPlanes";
 					var parametros  = 	$("#formCreaPlanes").serialize();
 					constantes.consultaApi(controlador,parametros,function(json){
@@ -53,15 +58,14 @@ project.controller('planes', function($scope,$http,$q,constantes)
 							constantes.alerta("Atención",json.mensaje,"success",function(){
 								window.location = $scope.config.apiUrl+"Planes/planes/45";
 							});
-						}
-						else{
+						}else{
 							constantes.alerta("Atención",json.mensaje,"warning",function(){});
 						}
 					});
 				});
 			}
 			else if($edita == 1){
-				constantes.confirmacion("Confirmación","Esta apunto de actualizar el plan, ¿desea continuar?",'info',function(){
+				constantes.confirmacion("Confirmación","Esta apunto de actualizar el plan, recuerde que el plan que tenga 0 usuarios y 0 checks, seran tomados como limitados. ¿desea continuar?",'info',function(){
 					var controlador = $scope.config.apiUrl+"Planes/actualizaPlan";
 					var parametros  = 	$("#formCreaPlanes").serialize()+"&idPlan="+$idPlan;
 					constantes.consultaApi(controlador,parametros,function(json){
@@ -69,9 +73,8 @@ project.controller('planes', function($scope,$http,$q,constantes)
 							constantes.alerta("Atención",json.mensaje,"success",function(){
 								window.location = $scope.config.apiUrl+"Planes/planes/45";
 							});
-						}
-						else{
-							constantes.alerta("Atención",json.mensaje,"warning",function(){});
+						}else{
+							constantes.alerta("info",json.mensaje,"warning",function(){});
 						}
 					});
 				});
@@ -87,8 +90,7 @@ project.controller('planes', function($scope,$http,$q,constantes)
 					constantes.alerta("Atención",json.mensaje,"success",function(){
 						window.location = $scope.config.apiUrl+"Planes/planes/45";
 					});
-				}
-				else{
+				}else{
 					constantes.alerta("Atención",json.mensaje,"warning",function(){});
 				}
 			});

@@ -40,9 +40,19 @@ class PagoMatriz extends CI_Controller
 				$infoPlanes	= $this->logica->infoPlanes();
 				$infoUsuarios = $this->logica->getUsuarioEmpresa($idEmpresa);
 				$infoMatrices = $this->logica->getMatricesEmpresas($idEmpresa);
+				$relacionPlan = $this->logica->relPlan($idEmpresa);
+				if($relacionPlan["continuar"] == 1){
+					$adicionalesa = 1;
+					$plan["idPlan"] = $relacionPlan["datos"][0]["idPlan"];
+					$infoPlanActual = $this->logica->infoPlanesid($plan);
+					$salida['nombrePlan'] 	= $infoPlanActual[0]["nombrePlan"];
+				}else{
+					$adicionalesa = 0;
+				}
 				$preciosPerfil = array();
 				$precioMatrices = array();
 				$precioPlanEmpresa = $infoPlanes[0]["precio"];
+				// var_dump($precioPlanEmpresa);die();
 				foreach ($infoUsuarios["data"] as $Perfiles) {
 					if (isset($Perfiles["precioPerfil"]) && $Perfiles["precioPerfil"] > 0 ) {
 						array_push($preciosPerfil, $Perfiles["precioPerfil"]);
@@ -60,7 +70,7 @@ class PagoMatriz extends CI_Controller
 				$cantMatrices = count($precioMatrices);
 				$totalMatrices = array_sum($precioMatrices);
 				$adicionales = $totalPerfil+ $totalMatrices;
-				$totalPagarEmpresa = $precioPlanEmpresa+ $totalPerfil+ $totalMatrices;
+				//$totalPagarEmpresa = $precioPlanEmpresa+ $totalPerfil+ $totalMatrices;
 				$opc 						= "home";
 				$salida['titulo'] 	  		= "Pago Empresas";
 				$salida['infoEmpresa']  	= $infoEmpresa;
@@ -69,9 +79,9 @@ class PagoMatriz extends CI_Controller
 				$salida['infoMatrices'] 	= $infoMatrices["count"];
 				$salida['totalPerfil'] 		= $totalPerfil;
 				$salida['totalMatrices'] 	= $totalMatrices;
-				$salida['totalPagarEmpresa']= $totalPagarEmpresa;
 				$salida['adicionales'] 		= $adicionales;
 				$salida['cantPerfiles'] 	= $cantPerfiles;
+				$salida['adicionalesa'] 	= $adicionalesa;
 				$salida['cantMatrices'] 	= $cantMatrices;
 				$salida['centro'] 			= "app/homeCaducidad";
 				$this->load->view("app/index",$salida);

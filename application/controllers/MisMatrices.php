@@ -91,7 +91,7 @@ class MisMatrices extends CI_Controller
 						$salida['infor']			= $inforMiMatriz["datos"];
 					}
 						$opc 				   		= "home";
-						$salida['titulo']      		= "Matrices";
+						$salida['titulo']      		= "Checks";
 						$salida['centro'] 	   		= "misMatrices/home";
 						$salida['infoModulo']  		= $infoModulo[0];
 						$this->load->view("app/index",$salida);
@@ -148,7 +148,7 @@ class MisMatrices extends CI_Controller
 					$idrecurrente					= $infoMatrizRecurrentes[0]["idMatrizRecurrente"];
 					$infoComentarios				= $this->logMatriz->infoComentarios($idrecurrente,$idPersona);
 					$opc 				   			= "home";
-					$salida['titulo']      			= "Información de Matriz";
+					$salida['titulo']      			= "Información de Check";
 					$salida['centro'] 	   			= "MatricesCreadas/infoMatriz";
 					$salida['infoModulo']  			= $infoModulo[0];
 					$salida['infoUsuario'] 			= $infoUsuario[0];
@@ -190,7 +190,7 @@ class MisMatrices extends CI_Controller
 					
 					$infoMatrices		  			= $this->logMatriz->infoGeneralMatriz();
 					$opc 				   			= "home";
-					$salida['titulo']      			= "Información de Matriz";
+					$salida['titulo']      			= "Información de check";
 					$salida['centro'] 	   			= "MatricesCreadas/infoMatriz";
 					$salida['infoModulo']  			= $infoModulo[0];
 					$salida['infoUsuario'] 			= $infoUsuario[0];
@@ -215,7 +215,7 @@ class MisMatrices extends CI_Controller
 					$infoComentarios				= $this->logMatriz->infoComentarios($idrecurrente,$idPersona);
 					// var_dump($infoComentarios);die();
 					$opc 				   			= "home";
-					$salida['titulo']      			= "Información de Matriz";
+					$salida['titulo']      			= "Información de check";
 					$salida['infoModulo']  			= $infoModulo[0];
 					$salida['infoUsuario'] 			= $infoUsuario[0];
 					$salida['infoMatrices'] 		= $infoMatrices;
@@ -263,7 +263,7 @@ class MisMatrices extends CI_Controller
 		$inforMiMatriz = $this->logicaMis->consultaMatricescompradas($idPersona, $idEmpresa);
 		$infoMatrices = $this->logicaMis->infoMatrices();
 		$opc = "home";
-		$salida['titulo'] = "Matrices Creadas";
+		$salida['titulo'] = "Check Creados";
 		$salida['inforMiMatriz'] = $inforMiMatriz;
 		$salida['infoMatrices'] = $infoMatrices;
 		$salida['centro'] = "misMatrices/creadas";
@@ -295,7 +295,7 @@ class MisMatrices extends CI_Controller
 				echo json_encode($response); 
 			}
 			$opc = "home";
-			$salida['titulo'] = "Matrices Creadas";
+			$salida['titulo'] = "Check Creados";
 			$salida['inforMiMatriz'] = $inforMiMatriz;
 			$salida['infoMatrices'] = $infoMatrices;
 			$salida['centro'] = "misMatrices/creadas";
@@ -328,7 +328,7 @@ class MisMatrices extends CI_Controller
 	//formulario de sugerir matriz
 	public function sugerirMatriz(){
 			$opc 				   		= "home";
-			$salida['titulo']      		= "Sugerir nueva matriz";
+			$salida['titulo']      		= "Sugerir nuevo check";
 			echo $this->load->view("misMatrices/sugerir",$salida,true);
 	}
 	//sugerir matriz

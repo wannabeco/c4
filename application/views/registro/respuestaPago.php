@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-lg-12">
             <br>
-            <center><img src="<?php echo base_url()?>assets/uploads/files/logoApp.png" width="50%"></center><br>
+            <center><img src="<?php echo base_url()?>res/img/logoWabe.png" width="50%"></center><br>
             <h1 class="page-header text-center" style="font-size:1.8em">
                 <strong><?php echo lang("text35")?></strong>
             </h1>

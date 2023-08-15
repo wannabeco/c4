@@ -1067,7 +1067,7 @@ class crearMatriz extends CI_Controller
 		}
 		$dirigida						= $this->logMatriz->dirigida();
 		$estados   	 					= $this->logMatriz->estados();
-		$salida["titulo"] 	 			= "Actualizacón de matriz";
+		$salida["titulo"] 	 			= "Actualizacón de check";
 		$salida["informacionMatriz"]   	= $informacionMatriz;
 		$salida["estados"]   	    	= $estados;
 		$salida["dirigida"]   			= $dirigida;

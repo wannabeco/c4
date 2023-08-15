@@ -8,9 +8,11 @@ project.controller('buscar', function($scope,$http,$q,constantes)
     $scope.initbuscar = function() {
 		$scope.config = configLogin; // configuración global
 		$scope.busquedaMatrices();
+		$scope.busquedaRelEmpresaPalan();
 	};
-	$scope.infoMatrices= "";
-	$scope.inforMiMatriz = "";
+	$scope.infoMatrices		= "";
+	$scope.inforMiMatriz	= "";
+	$scope.Checks  			= "";
 
 	//plantilla informacion de matriz
 	$scope.cargaPlantillaInfo = function(idNuevaMatriz,edita){	
@@ -24,7 +26,24 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 			$scope.compileAngularElement("#formAgregaParametros");
 		},'');
 	}
-
+	//cantidad de matrices que puede agregar la empresa
+	$scope.busquedaRelEmpresaPalan = function() {
+		var controlador = $scope.config.apiUrl+"Buscar/busquedaRelEmpresaPalan";
+		var parametros = "";
+		$.ajax({
+		  url: controlador,
+		  type: "GET",
+		  data: parametros,
+		  dataType: "json",
+		  success: function(response) {
+			$scope.canMatrices = response.datos;
+			$scope.che = response.datos[0].canChecks
+			$scope.Checks = response.datos[0].canChecks;
+			console.log($scope.canMatrices);
+			$scope.$apply();
+		  }
+		});
+	};
 	//busqueda de todas las matrices
 	$scope.busquedaMatrices = function() {
 		var controlador = $scope.config.apiUrl+"Buscar/matricesCreadas";
@@ -149,15 +168,16 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 			);
 		}
 	});
-	//agrego matrices gratis
+
+	//agrego matrices que incluye el plan
 	var tiposGratis = [];
-	var maxTiposGratis = 3;
+	// var maxTiposGratis = 3;
 	var ids = [];
 	$scope.agregaGratis = function(nombreMatriz, idMatriz) {
-		if(tiposGratis.length >= maxTiposGratis){
-			constantes.alerta("Atención","Para tu plan, solo podras agregar 3 matrices gratis, por favor verifique y elimine la que no necesite.",'info',function(){});
-			return false;
-		}
+		// if(tiposGratis.length >= maxTiposGratis){
+		// 	constantes.alerta("Atención","Para tu plan, solo podras agregar 3 matrices gratis, por favor verifique y elimine la que no necesite.",'info',function(){});
+		// 	return false;
+		// }
 	  var nuevaMatriz = {
 		id: idMatriz,
 		nombre: nombreMatriz
@@ -210,7 +230,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 	  }
 	});
 	$(document).on('click', '#btnAgregar', function() {
-		if(tiposGratis.length < 3){
+		if(tiposGratis.length == 0){
 			constantes.alerta("Atención","Por favor verifique que las matrices esten completas, recuerde que con su plan, puede agregar 3.",'info',function(){});
 		}
 		else{

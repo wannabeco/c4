@@ -18,20 +18,30 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800 text-dark"><?php echo $titulo;?></h1>
         <?php if($_SESSION['project']['info']['idPerfil'] == 11){?>
-            <button type="button" class="btn btn-primary float-right" ng-click="crearnueva()"><i class="fas fa-lightbulb"></i> Sugerir nueva matriz</button>
+            <button type="button" class="btn btn-primary float-right" ng-click="crearnueva()"><i class="fas fa-lightbulb"></i> Sugerir nuevos checks</button>
         <?php }?>
     </div>
     <div ng-if="inforMiMatriz.continuar === 0">
-        <div class="col-md-7">
+        <div ng-if="Checks < 100" class="col-md-7">
             <div class="alert alert-success" role="alert">
-            <i class="fas fa-info-circle"></i> Recuerde que las matrices adicionales a las <strong> 3 </strong> que incluye el plan serán cobradas.
+            <i class="fas fa-info-circle"></i> Recuerde que los checks adicionales a las <strong> {{ Checks }} </strong> que incluye el plan serán cobradas.
+            </div>
+        </div>
+        <div ng-if="Checks == 100" class="col-md-7">
+            <div class="alert alert-success" role="alert">
+            <i class="fas fa-info-circle"></i> Recuerde que los checks actuales son <strong> Limitados </strong>.
             </div>
         </div>
     </div>
     <div ng-if="inforMiMatriz.continuar === 1">
-        <div class="col-md-7">
+        <div ng-if="Checks < 100" class="col-md-7">
             <div class="alert alert-info" role="alert">
-            <i class="fas fa-exclamation-triangle"></i> Recuerde que las matrices adicionales a las <strong> 3 </strong> que incluye el plan, <strong> serán cobradas.</strong>
+            <i class="fas fa-exclamation-triangle"></i> Recuerde que los checks adicionales a las <strong> {{ Checks }} </strong> que incluye el plan, <strong> serán cobradas.</strong>
+            </div>
+        </div>
+        <div ng-if="Checks == 100" class="col-md-7">
+            <div class="alert alert-info" role="alert">
+            <i class="fas fa-exclamation-triangle"></i> Recuerde que los checks actuales son <strong> Limitados </strong>.
             </div>
         </div>
     </div>
@@ -39,7 +49,7 @@
         <!-- buscador -->
         <div class="col-md-12 p-4">
             <div class="form-group input-group">
-                <input class="form-control" width="90%" id="busca" type="text" placeholder="Buscar empresas.." ng-model="searchText" ng-keyup="search()"/>
+                <input class="form-control" width="90%" id="busca" type="text" placeholder="Buscar checks..." ng-model="searchText" ng-keyup="search()"/>
             </div>
         </div>
     </div>
