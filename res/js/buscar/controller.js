@@ -37,7 +37,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 		  dataType: "json",
 		  success: function(response) {
 			$scope.canMatrices = response.datos;
-			$scope.che = response.datos[0].canChecks
+			// $scope.che = response.datos[0].canChecks;
 			$scope.Checks = response.datos[0].canChecks;
 			console.log($scope.canMatrices);
 			$scope.$apply();
