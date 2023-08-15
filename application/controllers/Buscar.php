@@ -37,10 +37,11 @@ class Buscar extends CI_Controller
 		$idPersona = $_SESSION["project"]["info"]["idPersona"];
 		$idEmpresa = $_SESSION["project"]["info"]["idEmpresa"];
 		$inforMiMatriz = $this->logicaMis->consultaMatricescompradas($idPersona, $idEmpresa);
-		//var_dump($inforMiMatriz);die();
+		$infoPlanesrel = $this->logica->infoPlanesrel($idEmpresa);
+		// var_dump($infoPlanesrel);die();
 		$infoMatrices = $this->logicaMis->infoMatrices();
 		$opc = "home";
-		$salida['titulo'] = "Matrices Creadas";
+		$salida['titulo'] = "Check's Creados";
 		$salida['inforMiMatriz'] = $inforMiMatriz;
 		$salida['infoMatrices'] = $infoMatrices;
 		$salida['centro'] = "misMatrices/creadas";
@@ -57,20 +58,39 @@ class Buscar extends CI_Controller
 			$idPersona = $_SESSION["project"]["info"]["idPersona"];
 			$idEmpresa = $_SESSION["project"]["info"]["idEmpresa"];
 			$inforMiMatriz = $this->logicaMis->consultaMatricescompradas($idPersona, $idEmpresa);
-			$infoMatrices = [];
-			if ($infoMatriceslike > 0){
-				$infoMatrices = $infoMatriceslike;
-				$response =array(
-					"infoMatrices" =>$infoMatrices,
-					"inforMiMatriz" =>$inforMiMatriz,
-				);
-				//var_dump($response);die();
-			} else {
+			// var_dump($inforMiMatriz);die();
+			$matricesCompradas= 0;
+			if($inforMiMatriz["datos"] >0){
+				$matricesCompradas = count($inforMiMatriz["datos"]);
+			}
+			$relacionEmpresaPlan = $this->logica->infoPlanesrel($idEmpresa);
+			if($relacionEmpresaPlan["datos"] >0){
+				$checkcomprar =  $relacionEmpresaPlan["datos"][0]["canChecks"];
+			}
+			if($checkcomprar > $matricesCompradas){
 				$infoMatrices = $this->logicaMis->infoMatrices();
+				$inforMiMatriz = array("mensaje"=>"las matrices no fueron consultadas.",
+									"continuar"=>0,
+									"datos"=>"");
 				$response =array(
 					"infoMatrices" =>$infoMatrices,
 					"inforMiMatriz" =>$inforMiMatriz,
 				);
+			}else{
+				if ($infoMatriceslike > 0){
+					$infoMatrices = $infoMatriceslike;
+					$response =array(
+						"infoMatrices" =>$infoMatrices,
+						"inforMiMatriz" =>$inforMiMatriz,
+					);
+				} else {
+					$infoMatrices = [];
+					$infoMatrices = $this->logicaMis->infoMatrices();
+					$response =array(
+						"infoMatrices" =>$infoMatrices,
+						"inforMiMatriz" =>$inforMiMatriz,
+					);
+				}
 			}
 			//var_dump($response);die();
 			echo json_encode($response); 
@@ -109,6 +129,18 @@ class Buscar extends CI_Controller
 		if(validaInApp("web")){
 			// var_dump($_POST);die();
 			$proceso = $this->logica->sugiereMatriz($_POST);
+			echo json_encode($proceso); 
+		}
+		else{
+			$proceso ="nada";
+			echo json_encode($proceso); 
+		}
+	}
+	// busco relacion de empresa con el plan
+	public function busquedaRelEmpresaPalan(){
+		if(validaInApp("web")){
+			$idEmpresa = $_SESSION["project"]["info"]["idEmpresa"];
+			$proceso = $this->logica->infoPlanesrel($idEmpresa);
 			echo json_encode($proceso); 
 		}
 		else{

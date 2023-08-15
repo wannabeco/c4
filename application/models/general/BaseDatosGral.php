@@ -56,6 +56,7 @@ class BaseDatosGral extends CI_Model {
     private $tablePagoMesEmpresas        =   "";
     private $tablePagoMesOficial         =   "";
     private $tableMembresiaOficial       =   "";
+    private $tablerelPlanEmpresa         =   "";
     
     public function __construct() 
     {
@@ -103,6 +104,7 @@ class BaseDatosGral extends CI_Model {
         $this->tablePagoMesEmpresas      = "app_pago_mensualidad_empresa";
         $this->tablePagoMesOficial       = "app_pago_mensualidad_oficial";
         $this->tableMembresiaOficial     = "app_membresia_oficial";
+        $this->tablerelPlanEmpresa       = "app_rel_empresa_plan";
     }
     public function getVariablesGlobales(){
         $this->db->select("*");
@@ -703,7 +705,29 @@ class BaseDatosGral extends CI_Model {
         $this->db->insert($this->tableMembresiaOficial,$dataInserta);
         //print_r($this->db->last_query());die();
         return $this->db->insert_id();
-    }   
+    }
+    //informacion de empresa con plan obtenido
+    public function relPlan($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tablerelPlanEmpresa);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //creo relacion de empresa con plan
+     public function creoPlanesrel($dataInserta){
+        $this->db->insert($this->tablerelPlanEmpresa,$dataInserta);
+        //print_r($this->db->last_query());die();
+        return $this->db->insert_id();
+    }
+    //actualizo el plan adquirido por la emrpesa
+    public function actualizoPlanesrel($data,$where){
+        $this->db->where($where);
+        $this->db->update($this->tablerelPlanEmpresa,$data);
+        // print_r($this->db->last_query());die();
+        return $this->db->affected_rows();
+    }
 }
 
 ?>

@@ -7,6 +7,7 @@ project.controller('pagos', function($scope,$http,$q,constantes)
 {	
     $scope.initpagos = function() {
 		$scope.config = configLogin; // configuración global
+		$scope.membresiaPlan = 'mes';
 	};
 
 
@@ -39,8 +40,10 @@ project.controller('pagos', function($scope,$http,$q,constantes)
 			
 		});
 	}
-	$scope.pagoEmpresa = function($dataEmpresa){
-		var proveedor = "payu";
+	$scope.pagoEmpresa = function($dataEmpresa,$idPlan,$duracion){
+		var proveedor 	= "payu";
+		var idPlan	  	= $idPlan
+		var duracion   	= $duracion
 		constantes.confirmacion("Atención","Esta apunto de realizar el pago, ¿Desea continuar?. Recuerde activar las ventanas emergentes antes de continuar.",'info',function(){
 			//verifico que la empresa cumpla con los datos necesarios, si no, sera enviado actualizar datos
 			var controlador = $scope.config.apiUrl+"Empresas/infoEmpresaid";
@@ -58,7 +61,7 @@ project.controller('pagos', function($scope,$http,$q,constantes)
 							//se abre pop
 							var ventana ="";
 							var pago ="Mensualidad empresas";								
-							var parametro = "idPago="+ idPago+"&pago="+pago;
+							var parametro = "idPago="+ idPago+"&pago="+pago+"&idPLan="+idPlan+"&duracion="+duracion;
 							var ruta = $scope.config.apiUrl+"Pagos/procesoPagoOnline/?"+parametro;
 							var ventana = window.open(ruta, "pago_payu" , "width=600,height=880,left = 420");
 							var tiempo= 0;
@@ -73,7 +76,7 @@ project.controller('pagos', function($scope,$http,$q,constantes)
 						}
 						else
 						{
-						constantes.alerta("Atención",json.mensaje,"error",function(){})
+						constantes.alerta("Atención",json.mensaje,"error",function(){});
 						}
 					});
 				}

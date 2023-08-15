@@ -477,6 +477,9 @@ class LogicaGeneral  {
         $dataActualiza["fechaInicio"]  = $datos["fechaInicio"];
         $dataActualiza["fechaFinaliza"]  = $datos["fechaFinaliza"];
         $dataActualiza["estado"]  = $datos["estado"];
+        $dataActualiza["canMatrices"]  = $datos["canMatrices"];
+        $dataActualiza["canUsuarios"]  = $datos["canUsuarios"];
+        $dataActualiza["mesCobraYear"]  = $datos["mesCobraYear"];
         $where['idPlan']           = $datos["idPlan"];
         $empresas                  = $this->ci->dbGeneral->actualizaPlan($dataActualiza, $where);
         if($empresas > 0){
@@ -485,7 +488,7 @@ class LogicaGeneral  {
             "datos"=>"");
         }else{
             $respuesta = array("mensaje"=>"No fue posible actualizar el plan, por favor intentolo Nuevamente.",
-            "continuar"=>1,
+            "continuar"=>0,
             "datos"=>"");
         }
     return $respuesta;
@@ -658,7 +661,7 @@ class LogicaGeneral  {
         $resultado         = $this->ci->dbGeneral->pagoEmpresaMesC($where); 
         return $resultado;
     }
-    //registro pago empresa
+    //registro pago empresa mensual
     public function pagoMempersa($datos){
         //var_dump($datos);die();
         $where['codigoPago']              = $datos["codigoPago"];
@@ -777,5 +780,114 @@ class LogicaGeneral  {
             }
             return $respuesta;
         }
+    }
+    //consulta relacion de empresa y plan obtenido
+    public function relPlan($idEmpresa){
+        $where["idEmpresa"]= $idEmpresa;
+        $resultado          = $this->ci->dbGeneral->relPlan($where);
+        if(count($resultado) > 0){
+                $respuesta = array("mensaje"=>"se realizo consulta.",
+                        "continuar"=>1,
+                        "datos"=>$resultado);
+        }else{
+            $respuesta = array("mensaje"=>"No hay datos.",
+                        "continuar"=>0,
+                        "datos"=>"");
+        }
+        return $respuesta;
+    }
+    //pago empresa anual
+    public function pagoAempersa($datos){
+        //var_dump($datos);die();
+        $where['codigoPago']              = $datos["codigoPago"];
+        $dataActualiza['email']           = $datos['email'];
+        $dataActualiza['estadoPago']      = $datos['estadoPago'];
+        $dataActualiza['formaPago']       = $datos['formaPago'];
+        $dataActualiza['transactionid']   = $datos['transactionid'];
+        $dataActualiza['referencia_pol']  = $datos['referencia_pol'];
+        $dataActualiza['valor']           = $datos['valor'];
+        $dataActualiza['moneda']          = $datos['moneda'];
+        $dataActualiza['entidad']         = $datos['entidad'];
+        $dataActualiza['fechaPago']       = date("Y-m-d H:i:s");
+        $dataActualiza['ip']              = getIP();
+        $pagoEmpresa                      = $this->ci->dbGeneral->pagoMempresa($dataActualiza,$where);
+        if($pagoEmpresa > 0){
+            $where['codigoPago'] = $datos["codigoPago"];
+            $verificoPago = $this->ci->dbGeneral->pagoEmpresaMesC($where);
+            if($verificoPago[0]["estadoPago"] == 4 || $verificoPago[0]["estadoPago"] == 998){
+                $donde['idEmpresa']                 = $verificoPago[0]["idEmpresa"];
+                $hoy                                = date('Y-m-d');
+                $dataActualizar['fechaInicioPlan']  = $hoy;
+                $mes                                = date('Y-m-d', strtotime('+1 year', strtotime($hoy)));
+                $dataActualizar['fechaCaducidad']   = $mes;
+                $actualizoEmpresa = $this->ci->dbGeneral->actualizoEmpresa($dataActualizar,$donde);
+                if($actualizoEmpresa > 0){
+                    $respuesta = array("mensaje"=>"se agregaron datos de la empresa.",
+                            "continuar"=>1,
+                            "datos"=>$actualizoEmpresa);
+                }
+                $respuesta = array("mensaje"=>"Por favor comuniquese con el administrador.",
+                            "continuar"=>0,
+                            "datos"=>$actualizoEmpresa);
+            }
+            if($verificoPago[0]["estadoPago"] == 6 || $verificoPago[0]["estadoPago"] == 104 || $verificoPago[0]["estadoPago"] == 999){
+                $respuesta = array("mensaje"=>"pago rechazado.",
+                            "continuar"=>0,
+                            "datos"=>"");
+            }
+            return $respuesta;
+        }
+    }
+    //consulta relacion de empresa y plan obtenido
+    public function infoPlanesrel($datos){
+        $where["idEmpresa"] = $datos;
+        $resultado          = $this->ci->dbGeneral->relPlan($where);
+        // var_dump($resultado);die();
+        if(count($resultado) > 0){
+                $respuesta = array("mensaje"=>"se realizo consulta.",
+                        "continuar"=>1,
+                        "datos"=>$resultado);
+        }else{
+            $respuesta = array("mensaje"=>"no hay resultado.",
+                        "continuar"=>0,
+                        "datos"=>$resultado);
+        }
+        return $respuesta;
+    }
+    //si relacion de empresa con plan no existe, la creo
+    public function creoPlanesrel($idEmpresa,$usuariosPlan,$checksPlan,$plan){
+        $dataInserta["idEmpresa"]   = $idEmpresa;
+        $dataInserta["idPlan"]      = $plan;
+        $dataInserta["canUsuarios"] = $usuariosPlan;
+        $dataInserta["canChecks"]   = $checksPlan;
+        $resultado          = $this->ci->dbGeneral->creoPlanesrel($dataInserta);
+        if(count($resultado) > 0){
+                $respuesta = array("mensaje"=>"se realizo consulta.",
+                        "continuar"=>1,
+                        "datos"=>$resultado);
+        }else{
+            $respuesta = array("mensaje"=>"algo salio mal.",
+                        "continuar"=>0,
+                        "datos"=>"");
+        }
+        return $respuesta;
+    }
+    //actualizo la relacion de plan con empresa
+    public function actualizoPlanesrel($idEmpresa,$usuariosPlan,$checksPlan,$plan){
+        $where["idEmpresa"]   = $idEmpresa;
+        $dataInserta["idPlan"]      = $plan;
+        $dataInserta["canUsuarios"] = $usuariosPlan;
+        $dataInserta["canChecks"]   = $checksPlan;
+        $resultado          = $this->ci->dbGeneral->actualizoPlanesrel($dataInserta,$where);
+        if($resultado > 0){
+                $respuesta = array("mensaje"=>"se actualizo.",
+                        "continuar"=>1,
+                        "datos"=>$resultado);
+        }else{
+            $respuesta = array("mensaje"=>"algo salio mal.",
+                        "continuar"=>0,
+                        "datos"=>"");
+        }
+        return $respuesta;
     }
 }

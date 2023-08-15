@@ -37,13 +37,36 @@
         <div class="col col-lg-12">
             <div class="form-group  label-floating">
                 <label class="control-label" for="dirigido"><strong>Dirigido</strong></label>
-                <select class="form-control" id="dirigido" name="dirigido">
+                <select ng-model="dirige" class="form-control" id="dirigido" name="dirigido">
                     <option selected>Seleccione...</option>
-                    <option <?php if(isset($infoPlanes['dirigido']) && $infoPlanes['dirigido'] == 0){ ?> selected<?php } ?> value="0">Empresas</option>
+                    <option <?php if(isset($infoPlanes['dirigido']) && $infoPlanes['dirigido'] == 0){ ?> selected <?php } ?> value="0">Empresas</option>
                     <option <?php if(isset($infoTienda['dirigido']) && $infoTienda['dirigido'] == 1){ ?> selected<?php } ?> value="1">Oficial de cumplimiento</option>
                 </select>
                 <p class="help-block"></p>
             </div> 
+        </div>
+        <div ng-if="dirige== 0">
+            <div class="col col-lg-12">
+                <div class="form-group  label-floating">
+                    <label class="control-label" for="canMatrices"><strong>Cantidad de matrices</strong></label>
+                    <input type="number" tabindex="5" autocomplete="off" id="canMatrices" name="canMatrices" maxlength="10" class="form-control" value="<?php echo (isset($infoPlanes['canMatrices']))?$infoPlanes['canMatrices']:'';?>">
+                    <p class="help-block"></p>
+                </div> 
+            </div>
+            <div class="col col-lg-12">
+                <div class="form-group  label-floating">
+                    <label class="control-label" for="canUsuarios"><strong>Cantidad de usuarios</strong></label>
+                    <input type="number" tabindex="5" autocomplete="off" id="canUsuarios" name="canUsuarios" maxlength="10" class="form-control" value="<?php echo (isset($infoPlanes['canUsuarios']))?$infoPlanes['canUsuarios']:'';?>">
+                    <p class="help-block"></p>
+                </div> 
+            </div>
+            <div class="col col-lg-12">
+                <div class="form-group  label-floating">
+                    <label class="control-label" for="mesCobraYear"><strong>Meses a cobrar Anual</strong></label>
+                    <input type="number" tabindex="5" autocomplete="off" id="mesCobraYear" name="mesCobraYear" maxlength="10" class="form-control" value="<?php echo (isset($infoPlanes['mesCobraYear']))?$infoPlanes['mesCobraYear']:'';?>">
+                    <p class="help-block"></p>
+                </div> 
+            </div>
         </div>
         <div class="col col-lg-12">
             <div class="form-group  label-floating">
