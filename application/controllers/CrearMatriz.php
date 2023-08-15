@@ -60,25 +60,20 @@ class crearMatriz extends CI_Controller
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
-	public function creaNuevaMatriz($idModulo)	
-	{
+	public function creaNuevaMatriz($idModulo){
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 				//info Módulo
 				$infoModulo	      	   		= $this->logica->infoModulo($idModulo);
 				$infoTipoEmpresa			= $this->logMatriz->infoTipoEmpresa();
@@ -88,33 +83,26 @@ class crearMatriz extends CI_Controller
 				$salida['infoModulo']  		= $infoModulo[0];
 				$salida['infoTipoEmpresa']  = $infoTipoEmpresa;
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
-	public function parametrosMatriz($idModulo)	
-	{
+	public function parametrosMatriz($idModulo)	{
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 				//info Módulo
 				$infoModulo	      	   		= $this->logica->infoModulo($idModulo);
 				$infoProceso				= $this->logMatriz->infoProceso();
@@ -140,35 +128,28 @@ class crearMatriz extends CI_Controller
 				$salida['infoConsecuencias']  	= $infoConsecuencias;
 				$salida['infoTipoEmpresa']  	= $infoTipoEmpresa;
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
 	//Descripcion de riesgos
-	public function descripcionRiesgo($idModulo)	
-	{
+	public function descripcionRiesgo($idModulo){
 		//ini_set("display_errors",'1');
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 				try{
 					$crud = new grocery_CRUD();
 					$crud->set_theme('datatables');
@@ -196,35 +177,28 @@ class crearMatriz extends CI_Controller
 				$salida['centro'] 	   = 'admin/centroEstandarMa';
 				$salida['infoModulo']  = $infoModulo[0];
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
 	//tipo de riesgos
-	public function tipoRiesgo($idModulo)	
-	{
+	public function tipoRiesgo($idModulo){
 		//ini_set("display_errors",'1');
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 				try{
 					$crud = new grocery_CRUD();
 					$crud->set_theme('datatables');
@@ -252,35 +226,28 @@ class crearMatriz extends CI_Controller
 				$salida['centro'] 	   = 'admin/centroEstandarMa';
 				$salida['infoModulo']  = $infoModulo[0];
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
 	//riesgos Asociados
-	public function riesgoAsociado($idModulo)	
-	{
+	public function riesgoAsociado($idModulo){
 		//ini_set("display_errors",'1');
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 				try{
 					$crud = new grocery_CRUD();
 					$crud->set_theme('datatables');
@@ -308,35 +275,28 @@ class crearMatriz extends CI_Controller
 				$salida['centro'] 	   = 'admin/centroEstandarMa';
 				$salida['infoModulo']  = $infoModulo[0];
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
 	//consecuencias
-	public function consecuencias($idModulo)	
-	{
+	public function consecuencias($idModulo){
 		//ini_set("display_errors",'1');
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 				try{
 					$crud = new grocery_CRUD();
 					$crud->set_theme('datatables');
@@ -364,35 +324,28 @@ class crearMatriz extends CI_Controller
 				$salida['centro'] 	   = 'admin/centroEstandarMa';
 				$salida['infoModulo']  = $infoModulo[0];
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
 	//procesos
-	public function procesos($idModulo)	
-	{
+	public function procesos($idModulo)	{
 		//ini_set("display_errors",'1');
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 				try{
 					$crud = new grocery_CRUD();
 					$crud->set_theme('datatables');
@@ -420,35 +373,28 @@ class crearMatriz extends CI_Controller
 				$salida['centro'] 	   = 'admin/centroEstandarMa';
 				$salida['infoModulo']  = $infoModulo[0];
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
 	//procesos
-	public function tipoEmpresa($idModulo)	
-	{
+	public function tipoEmpresa($idModulo){
 		//ini_set("display_errors",'1');
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 				try{
 					$crud = new grocery_CRUD();
 					$crud->set_theme('datatables');
@@ -476,35 +422,28 @@ class crearMatriz extends CI_Controller
 				$salida['centro'] 	   = 'admin/centroEstandarMa';
 				$salida['infoModulo']  = $infoModulo[0];
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
 	//fuente Riesgo
-	public function fuenteRiesgo($idModulo)	
-	{
+	public function fuenteRiesgo($idModulo){
 		//ini_set("display_errors",'1');
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+		{ 
 				try{
 					$crud = new grocery_CRUD();
 					$crud->set_theme('datatables');
@@ -532,35 +471,28 @@ class crearMatriz extends CI_Controller
 				$salida['centro'] 	   = 'admin/centroEstandarMa';
 				$salida['infoModulo']  = $infoModulo[0];
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
 	//Factor Especifico
-	public function factorEspecifico($idModulo)	
-	{
+	public function factorEspecifico($idModulo){
 		//ini_set("display_errors",'1');
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 				try{
 					$crud = new grocery_CRUD();
 					$crud->set_theme('datatables');
@@ -588,27 +520,21 @@ class crearMatriz extends CI_Controller
 				$salida['centro'] 	   = 'admin/centroEstandarMa';
 				$salida['infoModulo']  = $infoModulo[0];
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
 	//causas
-	public function causas($idModulo)	
-	{
+	public function causas($idModulo){
 		//ini_set("display_errors",'1');
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
@@ -644,35 +570,28 @@ class crearMatriz extends CI_Controller
 				$salida['centro'] 	   = 'admin/centroEstandarMa';
 				$salida['infoModulo']  = $infoModulo[0];
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
 	//entidades
-	public function entidades($idModulo)	
-	{
+	public function entidades($idModulo){
 		//ini_set("display_errors",'1');
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 				try{
 					$crud = new grocery_CRUD();
 					$crud->set_theme('datatables');
@@ -700,35 +619,28 @@ class crearMatriz extends CI_Controller
 				$salida['centro'] 	   = 'admin/centroEstandarMa';
 				$salida['infoModulo']  = $infoModulo[0];
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
 	//frecuencia de ejecucion
-	public function fejecucion($idModulo)	
-	{
+	public function fejecucion($idModulo){
 		//ini_set("display_errors",'1');
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 				try{
 					$crud = new grocery_CRUD();
 					$crud->set_theme('datatables');
@@ -756,34 +668,27 @@ class crearMatriz extends CI_Controller
 				$salida['centro'] 	   = 'admin/centroEstandarMa';
 				$salida['infoModulo']  = $infoModulo[0];
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
-	public function aplicaccsm($idModulo)	
-	{
+	public function aplicaccsm($idModulo){
 		//ini_set("display_errors",'1');
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 				try{
 					$crud = new grocery_CRUD();
 					$crud->set_theme('datatables');
@@ -811,35 +716,28 @@ class crearMatriz extends CI_Controller
 				$salida['centro'] 	   = 'admin/centroEstandarMa';
 				$salida['infoModulo']  = $infoModulo[0];
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
 	//cuando aplique
-	public function cuandoAplique($idModulo)	
-	{
+	public function cuandoAplique($idModulo){
 		//ini_set("display_errors",'1');
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 				try{
 					$crud = new grocery_CRUD();
 					$crud->set_theme('datatables');
@@ -867,17 +765,13 @@ class crearMatriz extends CI_Controller
 				$salida['centro'] 	   = 'admin/centroEstandarMa';
 				$salida['infoModulo']  = $infoModulo[0];
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
@@ -920,15 +814,13 @@ class crearMatriz extends CI_Controller
 				$salida['centro'] 	   = 'admin/centroEstandarMa';
 				$salida['infoModulo']  = $infoModulo[0];
 				$this->load->view("app/index",$salida);
-			}
-			else{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
@@ -971,15 +863,13 @@ class crearMatriz extends CI_Controller
 				$salida['centro'] 	   = 'admin/centroEstandarMa';
 				$salida['infoModulo']  = $infoModulo[0];
 				$this->load->view("app/index",$salida);
-			}
-			else{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
@@ -989,8 +879,7 @@ class crearMatriz extends CI_Controller
 			
 			$procesoEmpresa = $this->logMatriz->creaLaMatriz($_POST);
 			echo json_encode($procesoEmpresa);
-		}
-		else{
+		}else{
 			$respuesta = array("mensaje"=>"Acceso no admitido.",
                               "continuar"=>0,
                               "datos"=>""); 
@@ -1002,8 +891,7 @@ class crearMatriz extends CI_Controller
 		if(validaInApp("web")){//esta validación me hará consultas más segura	
 			$procesoEmpresa = $this->logMatriz->creaNuevaMatriz($_POST);
 			echo json_encode($procesoEmpresa);
-		}
-		else{
+		}else{
 			$respuesta = array("mensaje"=>"Acceso no admitido.",
                               "continuar"=>0,
                               "datos"=>""); 
@@ -1015,7 +903,6 @@ class crearMatriz extends CI_Controller
 		extract($_POST);
 		$edita = $_POST["edita"];
 		$id = $_POST["idNuevaMatriz"];
-
 		$entidades				= $this->logMatriz->entidades();
 		$frecuenciaejecucion    = $this->logMatriz->frecuenciaejecucion();
 		$cuandoAplique   	 	= $this->logMatriz->cuandoAplique();
@@ -1024,8 +911,6 @@ class crearMatriz extends CI_Controller
 		$metodoControl   	 	= $this->logMatriz->metodoControl();
 		$periodicidad   	 	= $this->logMatriz->periodicidad();
 		$estados   	 			= $this->logMatriz->estados();
-		
-
 		if($edita == 1){
 			$infoMatriz				= $this->logMatriz->infoMatrizporID($id);
 			$salida["titulo"] 	 	= "Editar Parametro";
@@ -1033,8 +918,7 @@ class crearMatriz extends CI_Controller
 			$salida["infoMatriz"] 	= $infoMatriz;
 			$salida["edita"]  	 	= 1;
 			$salida["labelBtn"]  	= "Editar matriz";
-		}
-		else{
+		}else{
 			$infoMatriz					= $this->logMatriz->infoNuevaMatriz($id);
 			$info = $infoMatriz;
 			$salida["titulo"] 	 		= "Parametrizacion";
@@ -1107,7 +991,6 @@ class crearMatriz extends CI_Controller
 				$consultacheck				= $this->logicaMis->consultacheck($idRecurrente,$idPersona);
 				$salida['fecha']			= $fecha;
 			}
-
 			$salida['infoUsuario']		= $infoUsuario;
 			if($_SESSION['project']['info']["idPerfil"] != 8){
 				$salida["titulo"] 	 		= "Editar Formulario";
@@ -1150,8 +1033,7 @@ class crearMatriz extends CI_Controller
 		if(validaInApp("web")){
 			$informacionMatriz	= $this->logMatriz->informacionMatrizDos($_POST);
 			echo json_encode($informacionMatriz);
-		}
-		else{
+		}else{
 			$respuesta = array("mensaje"=>"Acceso no admitido.",
                               "continuar"=>0,
                               "datos"=>""); 
@@ -1167,13 +1049,11 @@ class crearMatriz extends CI_Controller
 
 				$proceso = $this->logMatriz->actualizaParametros($_POST);
 				echo json_encode($proceso);
-			}
-			else{
+			}else{
 				$proceso = $this->logMatriz->crearParametros($_POST);
 				echo json_encode($proceso);
 			}
-		}
-		else{
+		}else{
 			$respuesta = array("mensaje"=>"Acceso no admitido.",
                               "continuar"=>0,
                               "datos"=>""); 
@@ -1187,8 +1067,7 @@ class crearMatriz extends CI_Controller
 				$proceso = $this->logMatriz->asigTiposEmpresa($_POST);
 				echo json_encode($proceso);
 
-		}
-		else{
+		}else{
 			$respuesta = array("mensaje"=>"Acceso no admitido.",
                               "continuar"=>0,
                               "datos"=>""); 
@@ -1201,8 +1080,7 @@ class crearMatriz extends CI_Controller
 			$proceso = $this->logMatriz->actualizaMatrizGeneral($_POST);
 			echo json_encode($proceso);
 
-		}
-		else{
+		}else{
 			$respuesta = array("mensaje"=>"Acceso no admitido.",
 							"continuar"=>0,
 							"datos"=>""); 
@@ -1215,8 +1093,7 @@ class crearMatriz extends CI_Controller
 			$proceso = $this->logMatriz->eliminaRelacion($_POST);
 			echo json_encode($proceso);
 
-		}
-		else{
+		}else{
 			$respuesta = array("mensaje"=>"Acceso no admitido.",
 							"continuar"=>0,
 							"datos"=>""); 
@@ -1228,8 +1105,7 @@ class crearMatriz extends CI_Controller
 				$proceso = $this->logMatriz->asigTiposEmpresa($_POST);
 				echo json_encode($proceso);
 
-		}
-		else{
+		}else{
 			$respuesta = array("mensaje"=>"Acceso no admitido.",
                               "continuar"=>0,
                               "datos"=>""); 

@@ -32,19 +32,16 @@ class Empresas extends CI_Controller
     * y a continuación siempre se debe llamar la función del helper llamada getPrivilegios, la función está en el archivo helpers/funciones_helper.php
     * Tenga en cuenta que cada llamado ajax que haga a una plantilla gráfica que incluya botones de ver,editar, crear, borrar debe siempre llamar la función getPrivilegios.
     */
-	public function empresas($idModulo)	
-	{
+	public function empresas($idModulo)	{
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 	
+			if(getPrivilegios()[0]['ver'] == 1){ 	
 				//var_dump($_SESSION['project']['info']);die();
 				//info Módulo
 				$infoModulo	      	   	= $this->logica->infoModulo($idModulo);
@@ -97,17 +94,13 @@ class Empresas extends CI_Controller
 					$salida['infoEmpresas'] = $infoEmpresas;
 					$this->load->view("app/index",$salida);
 				}
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
@@ -116,25 +109,21 @@ class Empresas extends CI_Controller
 		if(validaInApp("web")){//esta validación me hará consultas más seguras
 			$procesoElimina = $this->lgEmpresas->eliminaEmpresa($_POST);
 			echo json_encode($procesoElimina);
-		}
-		else{
+		}else{
             echo json_encode($procesoElimina); 
 		}
 	}
 	//panel infromacion de la empresa
-	public function empresa($idModulo,$parametro)	
-	{
+	public function empresa($idModulo,$parametro){
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 				//info Módulo
 				$id =$parametro;
 				$infoModulo	      	   			= $this->logica->infoModulo($idModulo);
@@ -151,17 +140,13 @@ class Empresas extends CI_Controller
 				$salida['infoEmpresa'] 			= $infoEmpresa[0];
 				
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
@@ -170,8 +155,7 @@ class Empresas extends CI_Controller
 		if(validaInApp("web")){//esta validación me hará consultas más seguras
 			$procesoElimina = $this->lgEmpresas->eliminaRel($_POST);
 			echo json_encode($procesoElimina);
-		}
-		else{
+		}else{
             echo json_encode($procesoElimina); 
 		}
 	}
@@ -189,24 +173,20 @@ class Empresas extends CI_Controller
 		if(validaInApp("web")){//esta validación me hará consultas más seguras
 			$crea = $this->lgEmpresas->crearRel($_POST);
 			echo json_encode($crea);
-		}
-		else{
+		}else{
             echo json_encode($crea); 
 		}
 	}
-	public function matrices($idModulo,$parametro)	
-	{
+	public function matrices($idModulo,$parametro)	{
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 				//info Módulo
 				$id =$parametro;
 				$infoModulo	      	   			= $this->logica->infoModulo($idModulo);
@@ -221,17 +201,13 @@ class Empresas extends CI_Controller
 				$salida['infoEmpresas']    		= $infoEmpresas[0];
 				$salida["id"]					= $id;
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
@@ -240,8 +216,7 @@ class Empresas extends CI_Controller
 		if(validaInApp("web")){
 			$crea = $this->lgEmpresas->matricesEmpresa($_POST);
 			echo json_encode($crea);
-		}
-		else{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
@@ -250,8 +225,7 @@ class Empresas extends CI_Controller
 		if(validaInApp("web")){
 			$crea = $this->lgEmpresas->informacionEmpresa($_POST);
 			echo json_encode($crea);
-		}
-		else{
+		}else{
             header('Location:'.base_url()."login");
 		}
 	}
@@ -260,8 +234,7 @@ class Empresas extends CI_Controller
 		if(validaInApp("web")){
 			$crea = $this->lgEmpresas->infoEmpresaid($_POST);
 			echo json_encode($crea);
-		}
-		else{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
@@ -270,12 +243,9 @@ class Empresas extends CI_Controller
 		if(validaInApp("web")){
 			$crea = $this->lgEmpresas->infoUsuarioid($_POST);
 			echo json_encode($crea);
-		}
-		else{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
-
-
 }
 ?>

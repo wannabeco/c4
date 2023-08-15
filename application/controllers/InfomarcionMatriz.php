@@ -32,19 +32,16 @@ class InfomarcionMatriz extends CI_Controller
     * y a continuación siempre se debe llamar la función del helper llamada getPrivilegios, la función está en el archivo helpers/funciones_helper.php
     * Tenga en cuenta que cada llamado ajax que haga a una plantilla gráfica que incluya botones de ver,editar, crear, borrar debe siempre llamar la función getPrivilegios.
     */
-	public function informacion($idModulo,$parametro)	
-	{
+	public function informacion($idModulo,$parametro){
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 				//info Módulo
 				$id =$parametro;
 				$infoModulo	      	   			= $this->logica->infoModulo($idModulo);
@@ -60,17 +57,13 @@ class InfomarcionMatriz extends CI_Controller
 				$salida['infoMatrizRecurrentes']= $infoMatrizRecurrentes;
 				$salida["idNuevaMatriz"] =$id;
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
@@ -79,10 +72,8 @@ class InfomarcionMatriz extends CI_Controller
 		if(validaInApp("web")){//esta validación me hará consultas más seguras
 			$procesoEliminaParametro = $this->logMatriz->eliminaParametro($_POST);
 			echo json_encode($procesoEliminaParametro);
-		}
-		else{
-			$respuesta = "";
-            echo json_encode($respuesta); 
+		}else{
+			header('Location:'.base_url()."login"); 
 		}
 	}
 	//consulto primero si hay matrices recurrentes internas
@@ -92,12 +83,9 @@ class InfomarcionMatriz extends CI_Controller
 			$id = $_GET["idmatriz"];
 			$infoMatrizRecurrentes			= $this->logMatriz->infoMatrizRecurrentes($id);
 			echo json_encode($infoMatrizRecurrentes);
-		}
-		else{
-			$respuesta = "";
-            echo json_encode($respuesta); 
+		}else{
+			header('Location:'.base_url()."login");
 		}
 	}
-
 }
 ?>

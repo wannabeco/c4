@@ -32,8 +32,7 @@ class Registro extends CI_Controller
 			extract($_POST);
 			$ciudades =  getCiudades('057',$idDepto,"JSON");
 			echo $ciudades;
-		}
-		else{
+		}else{
 			$respuesta = array("mensaje"=>"Acceso no admitido.",
                               "continuar"=>0,
                               "datos"=>""); 
@@ -46,8 +45,7 @@ class Registro extends CI_Controller
 		if(validaInApp("web")){
 			$procesoEmpresa = $this->logicaReg->insertaEmpresa($_POST);
 			echo json_encode($procesoEmpresa);
-		}
-		else{
+		}else{
 			$respuesta = array("mensaje"=>"Acceso no admitido.",
                               "continuar"=>0,
                               "datos"=>""); 
@@ -59,8 +57,7 @@ class Registro extends CI_Controller
 		if(validaInApp("web")){
 			$procesoPersona = $this->logicaReg->insertaPersona($_POST);
 			echo json_encode($procesoPersona);
-		}
-		else{
+		}else{
 			$respuesta = array("mensaje"=>"Acceso no admitido.",
                               "continuar"=>0,
                               "datos"=>""); 
@@ -73,8 +70,7 @@ class Registro extends CI_Controller
 		if(validaInApp("web")){
 			$procesoEmpresa = $this->logicaReg->creaEmpresaNueva($_POST);
 			echo json_encode($procesoEmpresa);
-		}
-		else{
+		}else{
 			$respuesta = array("mensaje"=>"Acceso no admitido.",
                               "continuar"=>0,
                               "datos"=>""); 

@@ -33,11 +33,9 @@ class MisMatrices extends CI_Controller
     * y a continuación siempre se debe llamar la función del helper llamada getPrivilegios, la función está en el archivo helpers/funciones_helper.php
     * Tenga en cuenta que cada llamado ajax que haga a una plantilla gráfica que incluya botones de ver,editar, crear, borrar debe siempre llamar la función getPrivilegios.
     */
-	public function matrices($idModulo)	
-	{
+	public function matrices($idModulo)	{
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
@@ -95,17 +93,13 @@ class MisMatrices extends CI_Controller
 						$salida['centro'] 	   		= "misMatrices/home";
 						$salida['infoModulo']  		= $infoModulo[0];
 						$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
@@ -125,8 +119,7 @@ class MisMatrices extends CI_Controller
 	//informacion interna de la matriz
 	public function informacion($idModulo,$parametro,$idEmpresa){
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
@@ -134,7 +127,6 @@ class MisMatrices extends CI_Controller
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
 			if(getPrivilegios()[0]['ver'] == 1){
-
 				$idPerfil = $_SESSION["project"]["info"]["idPerfil"];
 				if( $idPerfil == 11){
 					//info Módulo
@@ -164,8 +156,7 @@ class MisMatrices extends CI_Controller
 				    }
 					$salida["idNuevaMatriz"] 		= $id;
 					$this->load->view("app/index",$salida);
-				}
-				else if($idPerfil == 8){
+				}else if($idPerfil == 8){
 					$nuevaMatriz = $parametro;
 					$idEmpresas = $idEmpresa;
 					$infoModulo	      	   			= $this->logica->infoModulo($idModulo);
@@ -195,16 +186,12 @@ class MisMatrices extends CI_Controller
 					$salida['infoModulo']  			= $infoModulo[0];
 					$salida['infoUsuario'] 			= $infoUsuario[0];
 					$salida['infoMatrices'] 		= $infoMatrices[0];
-					
 					$salida['idEmpresas'] 			= $idEmpresas;
 					$salida['idResponsable'] 		= $idResponsable;
 					$salida['infoMatrizRecurrentes']= $infoMatrizRecurrentes;
-					
 					$salida["idNuevaMatriz"] 		= $nuevaMatriz;
 					$this->load->view("app/index",$salida);
-				}
-				else if($idPerfil > 3 && $idPerfil != 11 && $idPerfil != 8){
-					
+				}else if($idPerfil > 3 && $idPerfil != 11 && $idPerfil != 8){
 					$id =$parametro;
 					$infoModulo	      	   			= $this->logica->infoModulo($idModulo);
 					$infoUsuario		   			= $_SESSION['project']['info']['nombre'];
@@ -213,7 +200,6 @@ class MisMatrices extends CI_Controller
 					$infoMatrices		  			= $this->logMatriz->infoGeneralMatriz();
 					$idrecurrente					=$infoMatrizRecurrentes[0]["idMatrizRecurrente"];
 					$infoComentarios				= $this->logMatriz->infoComentarios($idrecurrente,$idPersona);
-					// var_dump($infoComentarios);die();
 					$opc 				   			= "home";
 					$salida['titulo']      			= "Información de check";
 					$salida['infoModulo']  			= $infoModulo[0];
@@ -231,17 +217,13 @@ class MisMatrices extends CI_Controller
 					$this->load->view("app/index",$salida);
 				}
 				
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
@@ -251,10 +233,8 @@ class MisMatrices extends CI_Controller
 			// var_dump($_POST);die();
 			$procesoCrea = $this->logMatriz->creaCheckeo($_POST);
 			echo json_encode($procesoCrea);
-		}
-		else{
-			$respuesta="nada";
-            echo json_encode($respuesta); 
+		}else{
+			header('Location:'.base_url()."login");
 		}
 	}
 	public function consultaMatrices(){
@@ -270,9 +250,9 @@ class MisMatrices extends CI_Controller
 		$this->load->view("app/index",$salida);
 	}
 	//consulta matrices creadas
-	public function matricesCreadas() {
+	public function matricesCreadas(){
 			$infoMatriceslike = "";
-			if (isset($_POST["buscar"])) {
+			if (isset($_POST["buscar"])){
 				$buscar = $_POST["buscar"];
 				$infoMatriceslike = $this->logicaMis->infoMatriceslike($buscar);
 			}
@@ -308,10 +288,8 @@ class MisMatrices extends CI_Controller
 			// var_dump($_POST);die();
 			$proceso = $this->logicaMis->creaGratis($_POST);
 			echo json_encode($proceso); 
-		}
-		else{
-			$proceso ="nada";
-			echo json_encode($proceso); 
+		}else{
+			header('Location:'.base_url()."login");
 		}
 	}
 	//verificar si la empresa ya cuenta con las matrices.
@@ -319,10 +297,8 @@ class MisMatrices extends CI_Controller
 		if(validaInApp("web")){//esta validación me hará consultas más seguras
 			$proceso = $this->logicaMis->getMatricesEmpresa($_POST);
 			echo json_encode($proceso); 
-		}
-		else{
-			$proceso ="nada";
-			echo json_encode($proceso); 
+		}else{
+			header('Location:'.base_url()."login");
 		}
 	}
 	//formulario de sugerir matriz
@@ -345,10 +321,8 @@ class MisMatrices extends CI_Controller
 		if(validaInApp("web")){//esta validación me hará consultas más seguras
 			$proceso = $this->logicaMis->eliminaMatrizComprada($_POST);
 			echo json_encode($proceso); 
-		}
-		else{
-			$proceso ="nada";
-			echo json_encode($proceso); 
+		}else{
+			header('Location:'.base_url()."login");
 		}
 	}
 	//cargador de archivos
@@ -404,10 +378,8 @@ class MisMatrices extends CI_Controller
 		if(validaInApp("web")){//esta validación me hará consultas más seguras
 			$proceso = $this->logicaMis->actualizaCheck($_POST);
 			echo json_encode($proceso); 
-		}
-		else{
-			$proceso ="nada";
-			echo json_encode($proceso); 
+		}else{
+			header('Location:'.base_url()."login");
 		}
 	}
 }

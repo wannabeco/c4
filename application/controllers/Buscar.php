@@ -103,8 +103,7 @@ class Buscar extends CI_Controller
 			echo json_encode($proceso); 
 		}
 		else{
-			$proceso ="nada";
-			echo json_encode($proceso); 
+			header('Location:'.base_url()."login");
 		}
 	}
 	//verificar si la empresa ya cuenta con las matrices.
@@ -114,8 +113,7 @@ class Buscar extends CI_Controller
 			echo json_encode($proceso); 
 		}
 		else{
-			$proceso ="nada";
-			echo json_encode($proceso); 
+			header('Location:'.base_url()."login");
 		}
 	}
 	//formulario de sugerir matriz
@@ -132,8 +130,7 @@ class Buscar extends CI_Controller
 			echo json_encode($proceso); 
 		}
 		else{
-			$proceso ="nada";
-			echo json_encode($proceso); 
+			header('Location:'.base_url()."login");
 		}
 	}
 	// busco relacion de empresa con el plan
@@ -144,8 +141,7 @@ class Buscar extends CI_Controller
 			echo json_encode($proceso); 
 		}
 		else{
-			$proceso ="nada";
-			echo json_encode($proceso); 
+			header('Location:'.base_url()."login");
 		}
 	}
 }
