@@ -22,10 +22,9 @@ class PerfilUsuario extends CI_Controller
     	$this->lang->load('spanish');
     }
     
-	public function datosUsuario()	{
+	public function datosUsuario(){
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{	
+		if(validaIngreso()){
 			$tiposDoc		  	 = $this->logica->consultatiposDoc(); 
 			$sexo		  	 	 = $this->logica->consultaSexo(); 
 			$profesiones  	 	 = $this->logica->consultaProfesiones(); 
@@ -55,18 +54,14 @@ class PerfilUsuario extends CI_Controller
 			$salida['centro'] 	   = "admin/perfilUsuario/home";
 			$salida['datos']	   = $infoUsuario['datos'][0];
 			$this->load->view("app/index",$salida);
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
 
-	public function cambiafotoPerfil()
-	{
+	public function cambiafotoPerfil(){
 		extract($_POST);
-		if(isset($_FILES) && $_FILES['fotoPerfil']['name'] != "")
-		{
+		if(isset($_FILES) && $_FILES['fotoPerfil']['name'] != ""){
 			@mkdir('./res/fotos/personas/'.$idUsuarioFoto,"0777");
 
 			$config['upload_path'] 	 = './res/fotos/personas/'.$idUsuarioFoto.'/';
@@ -79,8 +74,7 @@ class PerfilUsuario extends CI_Controller
 
 	        $this->load->library('upload', $config);
 
-	        if(!$this->upload->do_upload($file_element_name))
-	        {
+	        if(!$this->upload->do_upload($file_element_name)){
 	            $status = 'error';
 	            $msg = $this->upload->display_errors();
 	           // var_dump($msg);
@@ -88,9 +82,7 @@ class PerfilUsuario extends CI_Controller
             				"continuar"=>0,
             				"datos"=>array());
 
-	        }
-	        else
-	        {
+	        }else{
 	            $data = $this->upload->data();
 
 	            $nPost['icono']			=	$data['file_name'];
@@ -100,14 +92,11 @@ class PerfilUsuario extends CI_Controller
 	            //procedo a actualizar la información del usuario
 	            $procesoUsuario 	 	=  $this->logicaUsuarios->procesaUsuarios($nPost);
 
-	            if($procesoUsuario > 0)
-	            {
+	            if($procesoUsuario > 0){
 	            	$salida = array("mensaje"=>"La foto de perfil ha sido actualizada.",
             				"continuar"=>1,
             				"datos"=>array());
-	            }
-	            else
-	            {
+	            }else{
 	            	$salida = array("mensaje"=>"La foto de perfil no ha podido sido actualizada, intente de nuevo más tarde.",
             				"continuar"=>1,
             				"datos"=>array());
@@ -134,9 +123,7 @@ class PerfilUsuario extends CI_Controller
 	            @unlink($_FILES[$file_element_name]);*/
 	        	
 	        }
-	    }
-	    else
-	    {
+	    }else{
 	    	$salida = array("mensaje"=>"Debe seleccionar una foto para su perfil. Sólo formatos PNG, JPG, GIF",
             				"continuar"=>0,
             				"datos"=>array());
@@ -190,9 +177,7 @@ class PerfilUsuario extends CI_Controller
 			$salida['idEmpresa']	= $id;
 			$salida['centro'] 	   = "admin/perfilUsuario/empresa";
 			$this->load->view("app/index",$salida);
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}

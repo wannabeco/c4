@@ -30,19 +30,16 @@ class Parametrizacion extends CI_Controller
     * y a continuación siempre se debe llamar la función del helper llamada getPrivilegios, la función está en el archivo helpers/funciones_helper.php
     * Tenga en cuenta que cada llamado ajax que haga a una plantilla gráfica que incluya botones de ver,editar, crear, borrar debe siempre llamar la función getPrivilegios.
     */
-	public function parametrizacion($idModulo)	
-	{
+	public function parametrizacion($idModulo)	{
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 				//info Módulo
 				$infoModulo	      	   = $this->logica->infoModulo($idModulo);
 				$opc 				   = "home";
@@ -50,22 +47,17 @@ class Parametrizacion extends CI_Controller
 				$salida['centro'] 	   = "admin/parametrizacion/home";
 				$salida['infoModulo']  = $infoModulo[0];
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
-	public function tiposDoumento($idModulo)	
-	{
+	public function tiposDoumento($idModulo){
 		//ini_set("display_errors",'1');
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
 		if(validaIngreso())
@@ -669,20 +661,17 @@ class Parametrizacion extends CI_Controller
 			header('Location:'.base_url()."login");
 		}
 	}
-	public function perfiles($idModulo)	
-	{
+	public function perfiles($idModulo){
 		//ini_set("display_errors",'1');
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 					try{
 						$crud = new grocery_CRUD();
 						$crud->set_theme('datatables');
@@ -712,34 +701,27 @@ class Parametrizacion extends CI_Controller
 				$salida['centro'] 	   = 'admin/centroEstandarPar';
 				$salida['infoModulo']  = $infoModulo[0];
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
-	public function tipoLimon($idModulo)	
-	{
+	public function tipoLimon($idModulo){
 		//ini_set("display_errors",'1');
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 					try{
 						$crud = new grocery_CRUD();
 						$crud->set_theme('datatables');
@@ -767,34 +749,27 @@ class Parametrizacion extends CI_Controller
 				$salida['centro'] 	   = 'admin/centroEstandarPar';
 				$salida['infoModulo']  = $infoModulo[0];
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
-	public function tipoEstiba($idModulo)	
-	{
+	public function tipoEstiba($idModulo){
 		//ini_set("display_errors",'1');
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 					try{
 						$crud = new grocery_CRUD();
 						$crud->set_theme('datatables');
@@ -822,34 +797,27 @@ class Parametrizacion extends CI_Controller
 				$salida['centro'] 	   = 'admin/centroEstandarPar';
 				$salida['infoModulo']  = $infoModulo[0];
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
-	public function tipoContrato($idModulo)	
-	{
+	public function tipoContrato($idModulo){
 		//ini_set("display_errors",'1');
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 					try{
 						$crud = new grocery_CRUD();
 						$crud->set_theme('datatables');
@@ -877,34 +845,27 @@ class Parametrizacion extends CI_Controller
 				$salida['centro'] 	   = 'admin/centroEstandarPar';
 				$salida['infoModulo']  = $infoModulo[0];
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
-	public function constantes($idModulo)	
-	{
+	public function constantes($idModulo){
 		//ini_set("display_errors",'1');
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 					try{
 						$crud = new grocery_CRUD();
 						$crud->set_theme('datatables');
@@ -931,17 +892,13 @@ class Parametrizacion extends CI_Controller
 				$salida['centro'] 	   = 'admin/centroEstandarPar';
 				$salida['infoModulo']  = $infoModulo[0];
 				$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}

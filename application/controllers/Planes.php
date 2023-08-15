@@ -69,9 +69,8 @@ class Planes extends CI_Controller
 		if(validaInApp("web")){//esta validación me hará consultas más seguras
 			$crearPlanes = $this->logica->creaPlanes($_POST);
 			echo json_encode($crearPlanes); 
-		}
-		else{
-			$crearPlanes ="nada";
+		}else{
+			header('Location:'.base_url()."login");
 		}
 			
 	}
@@ -80,9 +79,8 @@ class Planes extends CI_Controller
 		if(validaInApp("web")){//esta validación me hará consultas más seguras
 			$actualizaPlan = $this->logica->actualizaPlan($_POST);
 			echo json_encode($actualizaPlan); 
-		}
-		else{
-			$eliminaPlan ="nada";
+		}else{
+			header('Location:'.base_url()."login");
 		}
 	}
 	//eliminaPlan
@@ -90,12 +88,10 @@ class Planes extends CI_Controller
 		if(validaInApp("web")){//esta validación me hará consultas más seguras
 			$eliminaPlan = $this->logica->eliminaPlanes($_POST);
 			echo json_encode($eliminaPlan); 
-		}
-		else{
-			$eliminaPlan ="nada";
+		}else{
+			header('Location:'.base_url()."login");
 		}
 	}
-
 }
 ?>
 

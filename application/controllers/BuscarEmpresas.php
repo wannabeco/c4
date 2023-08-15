@@ -80,8 +80,7 @@ class BuscarEmpresas extends CI_Controller
 			echo json_encode($proceso); 
 		}
 		else{
-			$proceso ="nada";
-			echo json_encode($proceso); 
+			header('Location:'.base_url()."login");
 		}
 	}
 	//verificar que la empresa no este agregada
@@ -89,10 +88,8 @@ class BuscarEmpresas extends CI_Controller
 		if(validaInApp("web")){//esta validación me hará consultas más seguras
 			$proceso = $this->logicaMis->getrelEmpresa($_POST);
 			echo json_encode($proceso); 
-		}
-		else{
-			$proceso ="nada";
-			echo json_encode($proceso); 
+		}else{
+			header('Location:'.base_url()."login");
 		}
 	}
 	//verifico que la empresa no cuente con oficial de cumplimiento
@@ -100,10 +97,8 @@ class BuscarEmpresas extends CI_Controller
 		if(validaInApp("web")){//esta validación me hará consultas más seguras
 			$proceso = $this->logicaMis->relEmpresaPerfiles($_POST);
 			echo json_encode($proceso); 
-		}
-		else{
-			$proceso ="nada";
-			echo json_encode($proceso); 
+		}else{
+			header('Location:'.base_url()."login");
 		}
 	}
 }

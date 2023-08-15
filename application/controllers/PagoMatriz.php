@@ -48,6 +48,7 @@ class PagoMatriz extends CI_Controller
 					$salida['nombrePlan'] 	= $infoPlanActual[0]["nombrePlan"];
 				}else{
 					$adicionalesa = 0;
+					$salida['nombrePlan'] ="";
 				}
 				$preciosPerfil = array();
 				$precioMatrices = array();

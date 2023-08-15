@@ -14,9 +14,7 @@ class Personas extends CI_Controller
 		if(validaInApp("web"))//esta validación me hará consultas más seguras
 		{
 			$respuesta = $this->logicaPersonas->getPersonas();
-		}
-		else
-		{
+		}else{
 			$respuesta = array("mensaje"=>"Acceso no admitido.",
                               "continuar"=>0,
                               "datos"=>""); 

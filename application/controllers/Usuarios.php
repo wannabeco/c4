@@ -31,7 +31,7 @@ class Usuarios extends CI_Controller
     * y a continuación siempre se debe llamar la función del helper llamada getPrivilegios, la función está en el archivo helpers/funciones_helper.php
     * Tenga en cuenta que cada llamado ajax que haga a una plantilla gráfica que incluya botones de ver,editar, crear, borrar debe siempre llamar la función getPrivilegios.
     */
-	public function adminUsuarios($idModulo)	{
+	public function adminUsuarios($idModulo){
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
 		if(validaIngreso()){
 			/*******************************************************************************************/
@@ -65,15 +65,13 @@ class Usuarios extends CI_Controller
 				$salida['centro'] 	   = "admin/adminUsuarios/home";
 				$salida['infoModulo']  = $infoModulo[0];
 				$this->load->view("app/index",$salida);
-			}
-			else{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
@@ -138,8 +136,7 @@ class Usuarios extends CI_Controller
 			$salida["idUsuario"] = $idUsuario;
 			$salida["edita"]  	 = $edita;
 			$salida["labelBtn"]  = "EDITAR USUARIO";
-		}
-		else{
+		}else{
 			$salida["titulo"] 	 = "Agregar nuevo usuario";
 			$salida["datos"] 	 = array();
 			$salida["edita"]  	 = $edita;

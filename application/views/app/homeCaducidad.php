@@ -9,9 +9,11 @@
       ?>
         <div class="col-lg-12">
             <!-- APP MOVIL  -->
+          <?php if($nombrePlan != ""){?>
             <div class="alert alert-info m-2" role="alert">
-            <i class="fas fa-info-circle"></i> Actualmetne la empresa cuenta con el <strong> <?php echo $nombrePlan;?></strong>
+              <i class="fas fa-info-circle"></i> Actualmetne la empresa cuenta con el <strong> <?php echo $nombrePlan;?></strong>
             </div>
+          <?php }?>
             <div class="text-center">
               <?php foreach($infoPlanes as $info){
                         if($info["dirigido"] == 0 && $_SESSION["project"]["info"]["idPerfil"] == 11){  

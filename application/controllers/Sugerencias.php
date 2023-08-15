@@ -33,11 +33,9 @@ class Sugerencias extends CI_Controller
     * y a continuación siempre se debe llamar la función del helper llamada getPrivilegios, la función está en el archivo helpers/funciones_helper.php
     * Tenga en cuenta que cada llamado ajax que haga a una plantilla gráfica que incluya botones de ver,editar, crear, borrar debe siempre llamar la función getPrivilegios.
     */
-	public function sugerencias($idModulo)	
-	{
+	public function sugerencias($idModulo){
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
-		if(validaIngreso())
-		{
+		if(validaIngreso()){
 			/*******************************************************************************************/
 			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
 			/*******************************************************************************************/
@@ -80,17 +78,13 @@ class Sugerencias extends CI_Controller
 					$salida['centro'] 	   		= "sugerencias/home";
 					$salida['infoModulo']  		= $infoModulo[0];
 					$this->load->view("app/index",$salida);
-			}
-			else
-			{
+			}else{
 				$opc 				   = "home";
 				$salida['titulo']      = lang("titulo")." - Área Restringida";
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}
-		else
-		{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
@@ -108,9 +102,8 @@ class Sugerencias extends CI_Controller
 			//var_dump($_POST);die();
 			$crea = $this->logica->guardaRespuesta($_POST);
 			echo json_encode($crea);
-		}
-		else{
-            echo json_encode($crea); 
+		}else{
+			header('Location:'.base_url()."login");
 		}
 	}
 }
