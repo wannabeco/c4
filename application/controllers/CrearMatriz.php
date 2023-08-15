@@ -443,7 +443,7 @@ class crearMatriz extends CI_Controller
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-		{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 				try{
 					$crud = new grocery_CRUD();
 					$crud->set_theme('datatables');
@@ -492,7 +492,7 @@ class crearMatriz extends CI_Controller
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1){ 
+			if(getPrivilegios()[0]['ver'] == 1){
 				try{
 					$crud = new grocery_CRUD();
 					$crud->set_theme('datatables');
@@ -541,8 +541,7 @@ class crearMatriz extends CI_Controller
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1)
-			{ 
+			if(getPrivilegios()[0]['ver'] == 1){ 
 				try{
 					$crud = new grocery_CRUD();
 					$crud->set_theme('datatables');
@@ -640,7 +639,7 @@ class crearMatriz extends CI_Controller
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1){ 
+			if(getPrivilegios()[0]['ver'] == 1){
 				try{
 					$crud = new grocery_CRUD();
 					$crud->set_theme('datatables');
@@ -737,7 +736,7 @@ class crearMatriz extends CI_Controller
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1){ 
+			if(getPrivilegios()[0]['ver'] == 1){
 				try{
 					$crud = new grocery_CRUD();
 					$crud->set_theme('datatables');
