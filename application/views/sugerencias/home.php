@@ -18,7 +18,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Listado de sugerencias</h6>
+            <h6 class="m-0 font-weight-bold text-danger">Listado de sugerencias</h6>
         </div>
         <div class="card-body">
             <table class="table table-striped">
@@ -62,12 +62,12 @@
                             </td>
                             <td>
                                 <?php if($_SESSION['project']['info']['idPerfil'] == 11){ ?>
-                                    <a ng-click="verSugerencia('<?php echo $info['idSugiere'];?>',0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-success float-left"><i class="fas fa-eye" style="font-size: 30px; cursor:pointer;"></i></a>
+                                    <a ng-click="verSugerencia('<?php echo $info['idSugiere'];?>',0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-secondary float-left"><i class="fas fa-eye" style="font-size: 30px; cursor:pointer;"></i></a>
                                 <?php }if($_SESSION['project']['info']['idPerfil'] < 4){ 
                                         if($info["estaRespuesta"] == 1){ ?>
-                                        <a ng-click="verSugerencia('<?php echo $info['idSugiere'];?>',0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-success float-left"><i class="fas fa-eye" style="font-size: 30px; cursor:pointer;"></i></a>
+                                        <a ng-click="verSugerencia('<?php echo $info['idSugiere'];?>',0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-secondary float-left"><i class="fas fa-eye" style="font-size: 30px; cursor:pointer;"></i></a>
                                     <?php }if($info["estaRespuesta"] == 0){ ?>
-                                        <a ng-click="verSugerencia('<?php echo $info['idSugiere'];?>',0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-primary float-left"><i class="fas fa-edit" style="font-size: 30px; cursor:pointer;"></i></a>
+                                        <a ng-click="verSugerencia('<?php echo $info['idSugiere'];?>',0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-dark float-left"><i class="fas fa-edit" style="font-size: 30px; cursor:pointer;"></i></a>
                                 <?php } }?>
                             </td>
                         </tr>

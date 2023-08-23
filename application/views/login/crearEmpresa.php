@@ -104,10 +104,10 @@
                                 </div>
                             <!-- fin registro de oficial de cumplimiento -->
                             <div class="text-center">
-                                <a class="small" href="<?php echo base_url() ?>Inicio/recordarClave">¿Recordar contraseña?</a><br>
+                                <a class="small text-danger" href="<?php echo base_url() ?>Inicio/recordarClave">¿Recordar contraseña?</a><br>
                             </div>
                             <div class="text-center">
-                                <a class="small" href="<?php echo base_url() ?>login">¿Ya tienes una cuenta?</a>
+                                <a class="small text-danger" href="<?php echo base_url() ?>login">¿Ya tienes una cuenta?</a>
                             </div>
                         </div>
                     </div>

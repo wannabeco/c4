@@ -431,15 +431,15 @@
         <div class="col-md-12 p-4">
         
             <?php if($edita == 0){?>
-                <button type="submit" class="btn btn-raised btn-info ml-4"><?php echo $labelBtn;?></button>
+                <button type="submit" class="btn btn-raised btn-danger ml-4"><?php echo $labelBtn;?></button>
             <?php } if($edita == 1){
                         if($_SESSION['project']['info']["idPerfil"] != 8){    
             ?>
-                <button type="button" class="btn btn-raised btn-primary ml-4" ng-click="enviarFormulario()"><?php echo $labelBtn;?></button>
+                <button type="button" class="btn btn-raised btn-danger ml-4" ng-click="enviarFormulario()"><?php echo $labelBtn;?></button>
             <?php }if($_SESSION['project']['info']["idPerfil"] == 8){ ?>
-                <button type="button" class="btn btn-raised btn-primary ml-4" ng-click="enviarFormularioOficial()">Guardar</button>
+                <button type="button" class="btn btn-raised btn-danger ml-4" ng-click="enviarFormularioOficial()">Guardar</button>
             <?php }}?>
-            <button type="button" data-dismiss="modal" class="btn btn-raised btn-danger"><?php echo lang('reg_btn_cancelar') ?></button>
+            <button type="button" data-dismiss="modal" class="btn btn-raised btn-light"><?php echo lang('reg_btn_cancelar') ?></button>
         </div>
     </div>
   </div>

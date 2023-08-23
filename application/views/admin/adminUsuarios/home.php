@@ -35,7 +35,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Lista de usuarios</h6>
+            <h6 class="m-0 font-weight-bold text-danger">Lista de usuarios</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -64,8 +64,8 @@
                             <td class="align-middle text-center">
 
                                 <?php if(getPrivilegios()[0]['editar'] == 1){ ?>
-                                    <a ng-click="cargaPlantillaControl(ulist.idPersona,1)" title="Editar usuario" class="btn btn-primary btn-fab btn-fab-mini"><i class="fas fa-user-edit"></i></a>
-                                    <a ng-click="generaDatosAcceso(ulist.idPersona)" title="Generar datos de acceso" class="btn btn-primary btn-fab btn-fab-mini"><i class="fa fa-lock"></i></a>
+                                    <a ng-click="cargaPlantillaControl(ulist.idPersona,1)" title="Editar usuario" class="btn btn-dark btn-fab btn-fab-mini"><i class="fas fa-user-edit"></i></a>
+                                    <a ng-click="generaDatosAcceso(ulist.idPersona)" title="Generar datos de acceso" class="btn btn-secondary btn-fab btn-fab-mini"><i class="fa fa-lock"></i></a>
                                 <?php }?>
                                 <?php if(getPrivilegios()[0]['borrar'] == 1){ 
                                             if($_SESSION['project']['info']['idPerfil'] != 11){   

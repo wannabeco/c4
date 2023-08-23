@@ -1,12 +1,13 @@
  <!-- Sidebar -->
- <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+ <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
 <!-- Sidebar - Brand -->
 <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?php echo base_url()?>">
-    <div class="sidebar-brand-icon rotate-n-15">
+    <!-- <div class="sidebar-brand-icon rotate-n-15">
         <i class="fas fa-smile-wink"></i>
-    </div>
-    <div class="sidebar-brand-text mx-3"><?php echo lang("titulo")?></div>
+    </div> -->
+    <!-- <div class="sidebar-brand-text mx-3"><?php echo lang("titulo")?></div> -->
+    <img src="<?php echo base_url()?>/res/img/logoBlanco.png" width="80%" alt="">
 </a>
 
 <!-- Divider -->
@@ -62,11 +63,11 @@
 
 
 <!-- Sidebar Message -->
-<div class="sidebar-card d-none d-lg-flex">
+<!-- <div class="sidebar-card d-none d-lg-flex">
     <img class="sidebar-card-illustration mb-2" src="<?php echo base_url()?>res/img/undraw_rocket.svg" alt="...">
     <p class="text-center mb-2"><strong>SAMI.</strong> <br>Sistema Administrativo de Multiple Integración</p>
     <a class="btn btn-success btn-sm" target="_blank" href="https://github.com/orugal">Ver desarrollador</a>
-</div>
+</div> -->
 
 </ul>
 <!-- End of Sidebar -->

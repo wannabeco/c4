@@ -30,7 +30,7 @@
     </div>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Checks Creados</h6>
+            <h6 class="m-0 font-weight-bold text-danger">Checks Creados</h6>
         </div>
         <div class="card-body">
         <table class="table table-striped">
@@ -63,10 +63,10 @@
                                 <a ng-click="cargaPlantillaparametros('<?php echo $info['idNuevaMatriz'];?>',0)" data-toggle="tooltip" data-placement="top" title="Agregar Parametros" class="btn btn-primary btn-fab btn-fab-mini btn-xs"><i class="fas fa-plus"></i></a>
                             <?php }?>
                             <?php if(getPrivilegios()[0]['ver'] == 1){ ?>
-                                <a ng-click="verMatriz('<?php echo $info['idNuevaMatriz'];?>',0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn btn-primary btn-fab btn-fab-mini btn-xs"><i class="fas fa-eye"></i></a>
+                                <a ng-click="verMatriz('<?php echo $info['idNuevaMatriz'];?>',0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn btn-secondary btn-fab btn-fab-mini btn-xs"><i class="fas fa-eye"></i></a>
                             <?php }?>
                             <?php if(getPrivilegios()[0]['editar'] == 1){ ?>
-                                <a ng-click="cargaPlantillaMatriz('<?php echo $info['idNuevaMatriz'];?>')" data-toggle="tooltip" data-placement="top" title="Actualizar matriz" class="btn btn-info btn-fab btn-fab-mini btn-xs"><i class="far fa-edit"></i></a>
+                                <a ng-click="cargaPlantillaMatriz('<?php echo $info['idNuevaMatriz'];?>')" data-toggle="tooltip" data-placement="top" title="Actualizar matriz" class="btn btn-dark btn-fab btn-fab-mini btn-xs"><i class="far fa-edit"></i></a>
                             <?php }?>
                             <?php if(getPrivilegios()[0]['borrar'] == 1){ ?>
                                 <?php if($info["tieneRecurrencia"]== 0){ ?>

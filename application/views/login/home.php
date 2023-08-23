@@ -10,12 +10,12 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Bienvenido a <?php echo lang("titulo")?></h1>
+                                        <!-- <h1 class="h4 text-gray-900 mb-4">Bienvenido a <?php echo lang("titulo")?></h1> -->
                                     </div>
-                                    <div class="row-picture" style="margin:10% 0 0 0">
-                                      <center><img class="img img-circle" id="miniatura" ng-src="{{fotoLogin}}" alt="icon" width="35%" style="margin:auto !important;border-radius:50% 50% 50% 50%"></center><br>
+                                    <div class="row-picture">
+                                      <center><img class="img img-circle" id="miniatura" src="<?php echo base_url() ?>/res/img/Logo.png" alt="icon" width="60%" style="margin:auto auto 20px auto;"></center><br>
                                     </div>
-                                    <form class="user" id="formLogin" ng-submit="loginInApp()">
+                                    <form class="user mt-5" id="formLogin" ng-submit="loginInApp()">
                                         <div class="form-group">
                                             <input type="email" ng-change="getPicture()" class="form-control form-control-user" aria-describedby="emailHelp" placeholder="Correo electrónico" name="usuario" ng-model="usuario" id="usuario" >
                                         </div>
@@ -29,7 +29,7 @@
                                                     Me</label>
                                             </div>
                                         </div> -->
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                        <button type="submit" class="btn btn-danger btn-user btn-block">
                                             <?php echo lang("labelBtnLogin") ?>
                                         </button>
                                         <!-- <hr>
@@ -42,10 +42,10 @@
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="<?php echo base_url() ?>Inicio/recordarClave">¿Recordar contraseña?</a>
+                                        <a class="small text-danger" href="<?php echo base_url() ?>Inicio/recordarClave">¿Recordar contraseña?</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="<?php echo base_url() ?>Inicio/creaEmpresa">Crea una cuenta!</a><br>
+                                        <a class="small text-danger" href="<?php echo base_url() ?>Inicio/creaEmpresa">Crea una cuenta!</a><br>
                                         <small>V 2.0 &copy;<?php echo date("Y") ?></small>
                                     </div>
                                 </div>

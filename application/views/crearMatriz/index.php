@@ -4,7 +4,7 @@
     </div>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Datos de creación</h6>
+            <h6 class="m-0 font-weight-bold text-danger">Datos de creación</h6>
         </div>
         <div class="card-body" ng-controller="crearMatriz" ng-init="initcreaMatriz()">
             <!-- Contenido de parametrización-->

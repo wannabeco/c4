@@ -34,7 +34,7 @@
     <?php $infoEmpresa = json_encode($infoEmpresas); }  ?>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Listado de Checks</h6>
+            <h6 class="m-0 font-weight-bold text-danger">Listado de Checks</h6>
         </div>
         <div class="card-body">
             <table class="table table-striped">
@@ -63,12 +63,12 @@
                             <td>
                                 <?php if(getPrivilegios()[0]['ver'] == 1){ ?>
                                     <?php if($_SESSION["project"]["info"]["idPerfil"] == 8){?>
-                                        <a ng-click="verMatriz('<?php echo $info['idNuevaMatriz'];?>',<?php echo $id;?>,0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-success float-left"><i class="fas fa-eye" style="font-size: 30px; cursor:pointer;"></i></a>
+                                        <a ng-click="verMatriz('<?php echo $info['idNuevaMatriz'];?>',<?php echo $id;?>,0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-secondary float-left"><i class="fas fa-eye" style="font-size: 30px; cursor:pointer;"></i></a>
                                         <div class="form-group form-check float-left ml-4 ">
                                             <input type="checkbox" class="form-check-input text-secondary" id="exampleCheck1" style="height: 22px; width:22px;">
                                         </div>
                                     <?php } if($_SESSION["project"]["info"]["idPerfil"] != 8){?>    
-                                            <a ng-click="verMatriz('<?php echo $info['idNuevaMatriz'];?>',0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn btn-success btn-fab btn-fab-mini btn-xs float-left"><i class="fas fa-eye"></i></a>
+                                            <a ng-click="verMatriz('<?php echo $info['idNuevaMatriz'];?>',0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn btn-secondary btn-fab btn-fab-mini btn-xs float-left"><i class="fas fa-eye"></i></a>
                                     <?php }}?>
                                     <?php if(getPrivilegios()[0]['borrar'] == 1){ 
                                                 if($info['pago'] == "SI"){    

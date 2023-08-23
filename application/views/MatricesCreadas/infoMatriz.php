@@ -68,7 +68,7 @@
     <!-- fin nav -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Parametros de matriz</h6>
+            <h6 class="m-0 font-weight-bold text-danger">Parametros de matriz</h6>
         </div>
         <div class="card-body">
             <div style="overflow-x:auto;">
@@ -115,15 +115,15 @@
                                         <a ng-click="borraParametro(<?php echo $info['idMatrizRecurrente'];?>)" ng-if="<?php echo $_SESSION['project']['info']["idPerfil"]; ?> == 1 || <?php echo $_SESSION['project']['info']["idPerfil"]; ?> == 2  || <?php echo $_SESSION['project']['info']["idPerfil"]; ?> == 3 " title="Eliminar Matriz"  class="btn btn-danger btn-fab btn-fab-mini btn-xs"><i class="fas fa-trash"></i></a>
                                     <?php } ?>
                                     <?php if($_SESSION['project']['info']['idPerfil'] < 4 ){?>
-                                        <a ng-click="verMatriz('<?php echo $info['idNuevaMatriz'];?>',0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-success float-left"><i class="fas fa-eye" style="font-size: 30px; cursor:pointer;"></i></a>
+                                        <a ng-click="verMatriz('<?php echo $info['idNuevaMatriz'];?>',0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-secondary float-left"><i class="fas fa-eye" style="font-size: 30px; cursor:pointer;"></i></a>
                                     <?php } ?>
                                     <?php if( $_SESSION['project']['info']['idPerfil'] != 11 && $_SESSION['project']['info']['idPerfil'] > 3){
                                         if($infoComentarios["datos"] != "" && $_SESSION['project']['info']['idPerfil'] != 8 ){ ?>
-                                            <a ng-click="check('<?php echo $info['idNuevaMatriz'];?>',<?php echo $info['idMatrizRecurrente'];?>,1)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-primary float-left"><i class="far fa-edit" style="font-size: 30px; cursor:pointer;"></i></a>        
+                                            <a ng-click="check('<?php echo $info['idNuevaMatriz'];?>',<?php echo $info['idMatrizRecurrente'];?>,1)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-dark float-left"><i class="far fa-edit" style="font-size: 30px; cursor:pointer;"></i></a>        
                                         <?php } else if($infoComentarios["datos"] == "" && $_SESSION['project']['info']['idPerfil'] != 8){?>
-                                            <a ng-click="check('<?php echo $info['idNuevaMatriz'];?>',<?php echo $info['idMatrizRecurrente'];?>,0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-success float-left"><i class="fas fa-list" style="font-size: 30px; cursor:pointer;"></i></a>
+                                            <a ng-click="check('<?php echo $info['idNuevaMatriz'];?>',<?php echo $info['idMatrizRecurrente'];?>,0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-secondary float-left"><i class="fas fa-list" style="font-size: 30px; cursor:pointer;"></i></a>
                                     <?php } } if($_SESSION['project']['info']['idPerfil'] == 8 && $informacionCheck > 0){?>
-                                        <a ng-click="checkCompleto('<?php echo $info["idMatrizRecurrente"];?>',<?php echo $idNuevaMatriz;?>,<?php echo $idEmpresas;?>,<?php echo $idResponsable;?>,1)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-success float-left"><i class="fas fa-check-square" style="font-size: 30px; cursor:pointer;"></i></a>
+                                        <a ng-click="checkCompleto('<?php echo $info["idMatrizRecurrente"];?>',<?php echo $idNuevaMatriz;?>,<?php echo $idEmpresas;?>,<?php echo $idResponsable;?>,1)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-secondary float-left"><i class="fas fa-check-square" style="font-size: 30px; cursor:pointer;"></i></a>
                                     <?php }?>    
                                 </td>
                             </tr>

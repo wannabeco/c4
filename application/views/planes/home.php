@@ -25,7 +25,7 @@
       
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Listado de planes</h6>
+            <h6 class="m-0 font-weight-bold text-danger">Listado de planes</h6>
         </div>
         <div class="card-body">
             <table class="table table-striped">
@@ -78,7 +78,7 @@
                                 <a ng-click="verMatriz('',0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn btn-primary btn-fab btn-fab-mini btn-xs"><i class="fas fa-eye"></i></a>
                             <?php }?> -->
                             <?php if($_SESSION['project']['info']['idPerfil']== 1 || $_SESSION['project']['info']['idPerfil']== 2 || $_SESSION['project']['info']['idPerfil']== 3){ ?>
-                                <a ng-click="creaPlanes('<?php echo $info["idPlan"];?>',1)" data-toggle="tooltip" data-placement="top" title="Actualizar matriz" class="btn btn-info btn-fab btn-fab-mini btn-xs"><i class="far fa-edit"></i></a>
+                                <a ng-click="creaPlanes('<?php echo $info["idPlan"];?>',1)" data-toggle="tooltip" data-placement="top" title="Actualizar matriz" class="btn btn-dark btn-fab btn-fab-mini btn-xs"><i class="far fa-edit"></i></a>
                             <?php }?>
                             <?php if($_SESSION['project']['info']['idPerfil']== 1 || $_SESSION['project']['info']['idPerfil']== 2 || $_SESSION['project']['info']['idPerfil']== 3){ ?>
                                     <a ng-click="BorrarPlan(<?php echo $info["idPlan"];?>)" title="Eliminar Matriz"  class="btn btn-danger btn-fab btn-fab-mini btn-xs"><i class="fas fa-trash"></i></a> 

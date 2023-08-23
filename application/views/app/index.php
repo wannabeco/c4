@@ -29,7 +29,8 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>res/css/css_bootstrap-datetimepicker.css" media="">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>res/css/select2.min.css" media="">
     <!-- Custom styles for this template-->
-    <link href="<?php echo base_url() ?>res/css/sb-admin-2.min.css" rel="stylesheet">
+    <!-- <link href="<?php echo base_url() ?>res/css/sb-admin-2.min.css" rel="stylesheet"> -->
+    <link href="<?php echo base_url() ?>res/css/sb-admin-2.css" rel="stylesheet">
     <!-- Grocewry CRUD-->
     <?php if(isset($output)){?>
             <?php foreach($output->css_files as $file): ?>
