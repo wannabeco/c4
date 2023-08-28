@@ -9,7 +9,7 @@
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div class="row ml-2">
-            <h5 class="modal-title"><?php echo $titulo;?></h5>
+        <h1 class="h3 mb-0 text-gray-800 text-dark"><?php echo $titulo;?></h1>
         </div>
         <div class="dropdown">
                 <a class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

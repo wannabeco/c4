@@ -7,10 +7,38 @@ project.controller('empresas', function($scope,$http,$q,constantes)
 {
     $scope.initEmpresas = function(){
 		$scope.config 			=  configLogin;//configuración global
+		// $scope.consultaEmpresa();
     }
 	
 	$scope.verEmpresa = function($id){
-		window.location = $scope.config.apiUrl+"Empresas/empresa/37/"+$id;
+		var controlador = $scope.config.apiUrl+"Empresas/infoEmpresa";
+		var parametros = "idEmpresa="+$id;
+		$.ajax({
+			url: controlador,
+			type: "POST",
+			data: parametros,
+			dataType: "json",
+			success: function(response) {
+				var data = response.datos[0];
+				if(data){
+					var ciudad = data.ciudad;
+					var departamento = data.departamento;
+					var email = data.email;
+					console.log(data);
+					if(ciudad === undefined || ciudad === null || ciudad === '') {
+						constantes.alerta("Atención", "La empresa no cuenta con información completa, el email de contacto es: " + email, "warning", function() {});
+					}else if(departamento === undefined || departamento === null || departamento === ''){
+						constantes.alerta("Atención", "La empresa no cuenta con información completa, el email de contacto es: " + email, "warning", function() {});
+					} else {
+						window.location = $scope.config.apiUrl + "Empresas/empresa/37/"+$id;
+					}
+				} else {
+					constantes.alerta("Atención","No hay datos de empresa","warning", function() {});
+				}
+			},error: function(xhr, textStatus, errorThrown) {
+				console.log("Error en la petición: " + textStatus);
+			}
+		});
 	}
 	$scope.regresa =function(){
 		window.location = $scope.config.apiUrl+"Empresas/empresas/37";
@@ -29,7 +57,7 @@ project.controller('empresas', function($scope,$http,$q,constantes)
 				var parametros  = "idEmpresa="+$id;
 				constantes.consultaApi(controlador,parametros,function(json){
 					if(json.continuar == 1){
-						window.location = $scope.config.apiUrl+"Empresas/matrices/37/"+$id;
+						window.location = $scope.config.apiUrl+"MisMatrices/home/43/"+$id;
 					}
 					else{
 						constantes.alerta("Atención",json.mensaje,"warning",function(){});
@@ -114,6 +142,16 @@ project.controller('empresas', function($scope,$http,$q,constantes)
 				});
 			});
 		}
+	}
+	//modal de iniciar perido empresa
+	$scope.periocidad =function(){
+		$('#modalperiodo').modal("show");
+	 	var controlador = 	$scope.config.apiUrl+"Empresas/periocidad";
+	 	var parametros  = 	"";
+	 	constantes.consultaApi(controlador,parametros,function(json){
+	 		$("#modalRelCrea").html(json);
+	 		$scope.compileAngularElement("#modalperiodo");
+	 	},'');
 	}
 	
 	$scope.compileAngularElement = function(elSelector) {

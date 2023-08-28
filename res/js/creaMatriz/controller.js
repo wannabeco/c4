@@ -126,20 +126,20 @@ project.controller('crearMatriz', function($scope,$http,$q,constantes)
 
 	}
 	//modal de check
-	$scope.check = function(idMatriz,idRecurrente,edita){
+	$scope.check = function(idMatriz,idRecurrente,edita,idPeriocidad){
 		$('#modalCheck').modal("show");
 		var controlador = 	$scope.config.apiUrl+"CrearMatriz/formCheck";
-		var parametros  = 	"edita="+edita+"&idNuevaMatriz="+idMatriz+"&idRecurrente="+idRecurrente;
+		var parametros  = 	"edita="+edita+"&idNuevaMatriz="+idMatriz+"&idRecurrente="+idRecurrente+"&idPeriocidad="+idPeriocidad;
 		constantes.consultaApi(controlador,parametros,function(json){
 			$("#modalformCheck").html(json);
 			$scope.compileAngularElement("#formulario");
 		},'');
 	}
 	//checkeo 
-	$scope.checkCompleto = function(idRecurrente,idMatriz,idEmpresa,idResponsable,edita){
+	$scope.checkCompleto = function(idRecurrente,idMatriz,idEmpresa,idResponsable,edita,idPeriocidad){
 		$('#modalCheck').modal("show");
 		var controlador = 	$scope.config.apiUrl+"CrearMatriz/formCheck";
-		var parametros  = 	"edita="+edita+"&idNuevaMatriz="+idMatriz+"&idRecurrente="+idRecurrente+"&idEmpresa="+idEmpresa+"&idResponsable="+idResponsable;
+		var parametros  = 	"edita="+edita+"&idNuevaMatriz="+idMatriz+"&idRecurrente="+idRecurrente+"&idEmpresa="+idEmpresa+"&idResponsable="+idResponsable+"&idPeriocidad="+idPeriocidad;
 		constantes.consultaApi(controlador,parametros,function(json){
 			$("#modalformCheck").html(json);
 			$scope.compileAngularElement("#formulario");

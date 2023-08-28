@@ -33,7 +33,7 @@ class MisMatrices extends CI_Controller
     * y a continuación siempre se debe llamar la función del helper llamada getPrivilegios, la función está en el archivo helpers/funciones_helper.php
     * Tenga en cuenta que cada llamado ajax que haga a una plantilla gráfica que incluya botones de ver,editar, crear, borrar debe siempre llamar la función getPrivilegios.
     */
-	public function matrices($idModulo)	{
+	public function matrices($idModulo,$idEmpresa,$idPeriocidad){
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
 		if(validaIngreso()){
 			/*******************************************************************************************/
@@ -46,10 +46,9 @@ class MisMatrices extends CI_Controller
 					//variables para la consulta
 					$idPerfil = $_SESSION["project"]["info"]["idPerfil"];
 					$idPersona = $_SESSION["project"]["info"]["idPersona"];
-					$idEmpresa =$_SESSION["project"]["info"]["idEmpresa"];
+					$infoModulo	   = $this->logica->infoModulo($idModulo);
 					//valido perfil para enviar a mostrar datos y hacer consultas
 					if($idPerfil == 11){
-						$idEmpresa =$_SESSION["project"]["info"]["idEmpresa"];
 						$infoEmprsa = $this->logicaMis->infoEmpresa($idEmpresa);
 						$fechaCaduca = $infoEmprsa[0]["fechaCaducidad"];
 						$hoy = date('Y-m-d H:i:s');
@@ -65,28 +64,31 @@ class MisMatrices extends CI_Controller
 								$this->load->view("app/index",$salida);
 							}
 						}
-						//info Módulo
-						$infoModulo	      	   		= $this->logica->infoModulo($idModulo);
 						$relacion					= $this->logicaMis->consultaRelacion($idEmpresa);
 						$inforMiMatriz				= $this->logicaMis->consultaMatricescompradas($idPersona,$idEmpresa);
 						$salida['inforMiMatriz']	= $inforMiMatriz;
 						$salida['infor']			= $inforMiMatriz["datos"];
 					}else if($idPerfil == 8){
-						//info Módulo
-						$infoModulo	      	   		= $this->logica->infoModulo($idModulo);
+						// var_dump($idEmpresa);die();
+						$periocidad 				= $idPeriocidad;
 						$relacion					= $this->logicaMis->consultaRelacion($idEmpresa);
 						$inforMiMatriz				= $this->logicaMis->consultaMatricescompradas($idPersona,$idEmpresa);
+						$infoEmpresas 				= $this->logicaMis->infoEmpresa($idEmpresa);
+						// var_dump($inforMiMatriz["datos"]);die();
 						$salida['inforMiMatriz']	= $inforMiMatriz;
+						$salida['infoEmpresas']		= $infoEmpresas[0];
 						$salida['infor']			= $inforMiMatriz["datos"];
+						$salida['periocidad']	    = $periocidad;
 					}
 					else if($idPerfil > 3 || $idPerfil != 11){
-						//info Módulo
-						$infoModulo	      	   		= $this->logica->infoModulo($idModulo);
+						$periocidad = $idPeriocidad;
 						$relacion					= $this->logicaMis->consultaRelacion($idEmpresa);
 						$tipoEmpresa 				= $relacion[0]["tipoEmpresa"];
 						$inforMiMatriz				= $this->logicaMis->consultaMatriz($idPerfil,$tipoEmpresa);
 						$salida['inforMiMatriz']	= $inforMiMatriz;
 						$salida['infor']			= $inforMiMatriz["datos"];
+						$salida['periocidad']	    = $periocidad;
+
 					}
 						$opc 				   		= "home";
 						$salida['titulo']      		= "Checks";
@@ -117,7 +119,7 @@ class MisMatrices extends CI_Controller
 		echo $this->load->view("misMatrices/index",$salida,true);
 	}
 	//informacion interna de la matriz
-	public function informacion($idModulo,$parametro,$idEmpresa){
+	public function informacion($idModulo,$parametro,$idEmpresa,$idPeriocidad){
 		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
 		if(validaIngreso()){
 			/*******************************************************************************************/
@@ -129,7 +131,7 @@ class MisMatrices extends CI_Controller
 			if(getPrivilegios()[0]['ver'] == 1){
 				$idPerfil = $_SESSION["project"]["info"]["idPerfil"];
 				if( $idPerfil == 11){
-					//info Módulo
+					
 					$id =$parametro;
 					$idEmpresas = $idEmpresa;
 					$infoModulo	      	   			= $this->logica->infoModulo($idModulo);
@@ -156,19 +158,22 @@ class MisMatrices extends CI_Controller
 				    }
 					$salida["idNuevaMatriz"] 		= $id;
 					$this->load->view("app/index",$salida);
+
 				}else if($idPerfil == 8){
 					$nuevaMatriz = $parametro;
 					$idEmpresas = $idEmpresa;
+					$periocidad = $idPeriocidad;
+					// var_dump($periocidad);die();
 					$infoModulo	      	   			= $this->logica->infoModulo($idModulo);
 					$infoUsuario		   			= $_SESSION['project']['info']['nombre'];
 					$idPersona						= $_SESSION['project']['info']['idPersona'];
 					$infoMatrizRecurrentes			= $this->logMatriz->infoMatrizRecurrentes($nuevaMatriz);
 					$idResponsable 					= $infoMatrizRecurrentes[0]["idResponsable"];
-					$informacionCheck				= $this->logMatriz->informacionCheck($idResponsable,$nuevaMatriz,$idEmpresas);
+					$informacionCheck				= $this->logMatriz->informacionCheck($idResponsable,$nuevaMatriz,$idEmpresas,$periocidad);
 					if($informacionCheck["continuar"] == 1){
 						$idPersonaCheck 				= $informacionCheck["datos"][0]["idPersona"];
 						$informacionPersona				= $this->logMatriz->infoPersona($idPersonaCheck);
-						$infoComentarios				= $this->logMatriz->infoComentarios($nuevaMatriz,$idPersonaCheck);
+						$infoComentarios				= $this->logMatriz->infoComentarios($nuevaMatriz,$idPersonaCheck,$periocidad);
 						$salida['informacionCheck'] 	= $informacionCheck;
 						$salida['informacionPersona'] 	= $informacionPersona[0];
 						$salida["infoComentarios"] 		= $infoComentarios;
@@ -190,8 +195,11 @@ class MisMatrices extends CI_Controller
 					$salida['idResponsable'] 		= $idResponsable;
 					$salida['infoMatrizRecurrentes']= $infoMatrizRecurrentes;
 					$salida["idNuevaMatriz"] 		= $nuevaMatriz;
+					$salida["periocidad"] 			= $periocidad;
 					$this->load->view("app/index",$salida);
 				}else if($idPerfil > 3 && $idPerfil != 11 && $idPerfil != 8){
+					
+					$periocidad = $idPeriocidad;
 					$id =$parametro;
 					$infoModulo	      	   			= $this->logica->infoModulo($idModulo);
 					$infoUsuario		   			= $_SESSION['project']['info']['nombre'];
@@ -199,7 +207,7 @@ class MisMatrices extends CI_Controller
 					$infoMatrizRecurrentes			= $this->logMatriz->infoMatrizRecurrentesDos($id,$idPerfil);
 					$infoMatrices		  			= $this->logMatriz->infoGeneralMatriz();
 					$idrecurrente					=$infoMatrizRecurrentes[0]["idMatrizRecurrente"];
-					$infoComentarios				= $this->logMatriz->infoComentarios($idrecurrente,$idPersona);
+					$infoComentarios				= $this->logMatriz->infoComentarios($idrecurrente,$idPersona,$periocidad);
 					$opc 				   			= "home";
 					$salida['titulo']      			= "Información de check";
 					$salida['infoModulo']  			= $infoModulo[0];
@@ -208,6 +216,7 @@ class MisMatrices extends CI_Controller
 					$salida['infoMatrizRecurrentes']= $infoMatrizRecurrentes;
 					$salida["id"] 					= $id;
 					$salida["idPerfil"] 			= $idPerfil;
+					$salida["periocidad"] 			= $periocidad;
 					if($infoComentarios["continuar"] == 1){
 					 	$salida["infoComentarios"] 		= $infoComentarios;
 					}else if($infoComentarios["continuar"] == 0){
@@ -377,6 +386,93 @@ class MisMatrices extends CI_Controller
 	public function actualizaCheck(){
 		if(validaInApp("web")){//esta validación me hará consultas más seguras
 			$proceso = $this->logicaMis->actualizaCheck($_POST);
+			echo json_encode($proceso); 
+		}else{
+			header('Location:'.base_url()."login");
+		}
+	}
+	public function home($idModulo, $idEmpresa){
+		//valido que haya una sesión de usuario, si no existe siempre lo enviaré al login
+		if(validaIngreso()){
+			/*******************************************************************************************/
+			/* ESTA SECCIÓN DE CÓDIGO  ES MUY IMPORTANTE YA QUE ES LA QUE CONTROLARÁ EL MÓDULO VISITADO*/
+			/*******************************************************************************************/
+			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
+			$_SESSION['moduloVisitado']		=	$idModulo;
+			
+			$infoModulo	      	   		= $this->logica->infoModulo($idModulo);
+			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
+			if($_SESSION["project"]["info"]["idPerfil"] == 8){
+				$periocidades = $this->logicaMis->infoPeriocidades($idEmpresa);
+				$opc 				   		= "home";
+				$salida['titulo']      		= "Checks";
+				$salida['centro'] 	   		= "misMatrices/periocidades";
+				$salida['infoModulo']  		= $infoModulo[0];
+				$salida['periocidades']  	= $periocidades;
+				$salida["periodicidad"] 	= $periocidades["datos"];
+				$salida["idEmpresa"] 		= $idEmpresa;
+				$this->load->view("app/index",$salida);
+			}if(getPrivilegios()[0]['ver'] == 1 && $_SESSION["project"]["info"]["idPerfil"] != 8){
+				//cuando el perfil es diferente a oficial de cumplimiento
+				$idPersona = $_SESSION["project"]["info"]["idPersona"];
+				$periocidades = $this->logicaMis->periocidades($idPersona,$idEmpresa);
+				$opc 				   		= "home";
+				$salida['titulo']      		= "Checks";
+				$salida['centro'] 	   		= "misMatrices/periocidades";
+				$salida['infoModulo']  		= $infoModulo[0];
+				$salida['periocidades']  	= $periocidades;
+				$salida["periodicidad"] 	= $periocidades["datos"];
+				$salida["idEmpresa"] 		= $idEmpresa;
+				$this->load->view("app/index",$salida);
+			}else{
+				$opc 				   = "home";
+				$salida['titulo']      = lang("titulo")." - Área Restringida";
+				$salida['centro'] 	   = "error/areaRestringida";
+				$this->load->view("app/index",$salida);
+			}
+		}else{
+			header('Location:'.base_url()."login");
+		}
+	}
+	//modal periocidad
+	public function modalPeriocidad(){
+		extract($_POST);
+		$editar 			= $_POST["edita"];
+		$idRelPeriocidad 	= $_POST["idRelPeriocidad"];
+		if($editar == 1){
+			$periocidades 			= $this->logicaMis->infoPeriodicidad($idRelPeriocidad);
+			// var_dump($periocidades);die();
+			$periocidad 			= $this->logMatriz->periodicidad();
+			$salida["titulo"] 	 	= "Actualizar periocidad";
+			$salida["periodicidad"] = $periocidad;
+			$salida["periocidades"] = $periocidades;
+			$salida["idRelPeriocidad"] = $periocidades[0]["idRelPeriocidad"];
+			$salida["editar"] 	 	= $editar;
+			echo $this->load->view("misMatrices/formPeriocidad",$salida,true);
+		}else{
+			$periocidad 			= $this->logMatriz->periodicidad();
+			$periocidades 			="";
+			$salida["titulo"] 	 	= "Crear periocidad";
+			$salida["periodicidad"] = $periocidad;
+			$salida["periocidades"] = $periocidades;
+			$salida["idRelPeriocidad"] = "";
+			$salida["editar"] 	 	= 0;
+			echo $this->load->view("misMatrices/formPeriocidad",$salida,true);
+		}
+	}
+	//crear periocidad
+	public function crearRelPeriocidad(){
+		if(validaInApp("web")){
+			$proceso = $this->logicaMis->crearRelPeriocidad($_POST);
+			echo json_encode($proceso); 
+		}else{
+			header('Location:'.base_url()."login");
+		}
+	}
+	//eliminar periocidad
+	public function borraPeriocidad(){
+		if(validaInApp("web")){
+			$proceso = $this->logicaMis->borraPeriocidad($_POST);
 			echo json_encode($proceso); 
 		}else{
 			header('Location:'.base_url()."login");

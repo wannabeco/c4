@@ -11,7 +11,7 @@ project.controller('misMatrices', function($scope,$http,$q,constantes)
 	$scope.infoMatrices= "";
 	$scope.inforMiMatriz = "";
 		
-	$scope.verMatriz = function($id,$idEmpresa){
+	$scope.verMatriz = function($id,$idEmpresa,$idPeriocidad){
 		var idEmpresa = $idEmpresa;
 		var controlador = $scope.config.apiUrl+"InfomarcionMatriz/consultoR?idmatriz="+$id;
 		var parametros = "";
@@ -25,7 +25,7 @@ project.controller('misMatrices', function($scope,$http,$q,constantes)
 					constantes.alerta("Atención","El check se encuentra en construcción.","info",function(){});
 				}
 				else{
-					window.location = $scope.config.apiUrl+"MisMatrices/informacion/42/"+$id+"/"+idEmpresa;
+					window.location = $scope.config.apiUrl+"MisMatrices/informacion/42/"+$id+"/"+idEmpresa+"/"+$idPeriocidad;
 				}
 			$scope.$apply();
 			}
@@ -114,18 +114,91 @@ project.controller('misMatrices', function($scope,$http,$q,constantes)
 	}
 
 	// plantilla crea parametros a matriz
-	  $scope.cargaPlantillaMatriz = function(idNuevaMatriz){	
-	 	$('#modalMatriz').modal("show");
-	 	var controlador = 	$scope.config.apiUrl+"CrearMatriz/actualizaMatriz";
-	 	var parametros  = 	"idNuevaMatriz="+idNuevaMatriz;
-	 	constantes.consultaApi(controlador,parametros,function(json){
-				
-	 		$("#modaldeMatriz").html(json);
-	 		// actualiza el DOM
-	 		$scope.compileAngularElement("#formMatriz");
-	 	},'');
-	 }
-	
+	$scope.cargaPlantillaMatriz = function(idNuevaMatriz){	
+		$('#modalMatriz').modal("show");
+		var controlador = 	$scope.config.apiUrl+"CrearMatriz/actualizaMatriz";
+		var parametros  = 	"idNuevaMatriz="+idNuevaMatriz;
+		constantes.consultaApi(controlador,parametros,function(json){
+			$("#modaldeMatriz").html(json);
+			$scope.compileAngularElement("#formMatriz");
+		},'');
+	}
+	// periocidad de la matriz o check
+	$scope.periocidad = function(idRelPeriocidad,edita){
+		$('#modalPeriocidad').modal("show");
+		var controlador = 	$scope.config.apiUrl+"MisMatrices/modalPeriocidad";
+		var parametros  = 	"edita="+edita+"&idRelPeriocidad="+idRelPeriocidad;
+		constantes.consultaApi(controlador,parametros,function(json){
+			$("#modaldePeriocidad").html(json);
+			$scope.compileAngularElement("#creaPeriocidad");
+		},'');
+	}
+	//crear nueva periocidad
+	$scope.crearPeriocidad = function(){
+		var idperiodicidad 	= $('#idperiodicidad').val();
+		var nombreRel      	= $('#nombreRel').val();
+		var edita      		= $('#edita').val();
+		var idRelPeriocidad	= $('#idRelPeriocidad').val();
+		if(idperiodicidad == ""){
+			constantes.alerta("Atención","Debe seleccionar un periodo de checks.","info",function(){});
+		}else if(nombreRel == ""){
+			constantes.alerta("Atención","Debe agregar una descripcion","info",function(){});
+		}else if(nombreRel.length > 30){
+			constantes.alerta("Atención","La descripción no debe ser mayor a 30 caracteres.","info",function(){});
+		}else{
+			if(edita == 1){
+				constantes.confirmacion("Confirmación","Esta apunto de actualizar, ¿Desea continuar?",'info',function(){
+					var controlador = $scope.config.apiUrl+"MisMatrices/crearRelPeriocidad";
+					var parametros  = 	"edita="+edita+"&idRelPeriocidad="+idRelPeriocidad+"&"+$("#creaPeriocidad").serialize();
+					constantes.consultaApi(controlador,parametros,function(json){
+						if(json.continuar == 1){
+							constantes.alerta("Atención",json.mensaje,"success",function(){
+								$scope.recargar();
+							});
+						}
+						else{
+							constantes.alerta("Atención",json.mensaje,"warning",function(){});
+						}
+					});
+				});
+			}else{
+				constantes.confirmacion("Confirmación","Esta apunto de crear el periodo de check, ¿Desea continuar?",'info',function(){
+					var controlador = $scope.config.apiUrl+"MisMatrices/crearRelPeriocidad";
+					var parametros  = 	$("#creaPeriocidad").serialize();
+					constantes.consultaApi(controlador,parametros,function(json){
+						if(json.continuar == 1){
+							constantes.alerta("Atención",json.mensaje,"success",function(){
+								$scope.recargar();
+							});
+						}
+						else{
+							constantes.alerta("Atención",json.mensaje,"warning",function(){});
+						}
+					});
+				});
+			}
+		}
+	}
+	//elimino la periocidad
+	$scope.borraPeriocidad = function($idRelPeriocidad){
+		constantes.confirmacion("Confirmación","Esta apunto de eliminar la periocidad, ¿Desea continuar?",'info',function(){
+			var controlador = $scope.config.apiUrl+"MisMatrices/borraPeriocidad";
+			var parametros  = "idRelPeriocidad="+$idRelPeriocidad;
+			constantes.consultaApi(controlador,parametros,function(json){
+				if(json.continuar == 1){
+					constantes.alerta("Atención",json.mensaje,"success",function(){
+						$scope.recargar();
+					});
+				} else {
+					constantes.alerta("Atención",json.mensaje,"warning",function(){});
+				}
+			});
+		});
+	}
+	//ingreso a ver mis matrices
+	$scope.verMatrices = function($id,$idEmpresa){
+		window.location = $scope.config.apiUrl+"MisMatrices/matrices/43/"+$idEmpresa+"/"+$id;
+	}
 
 	$scope.compileAngularElement = function(elSelector) {
         var elSelector = (typeof elSelector == 'string') ? elSelector : null ;  

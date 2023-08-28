@@ -61,7 +61,7 @@
                     Categorías 
 
                     <?php if(getPrivilegios()[0]['crear'] == 1){ ?>
-                        <a data-toggle="modal" data-target="#modalCategoria" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm d-float-right"><i class="fas fa-download fa-plus text-white-50"></i> Nueva categoría</a>
+                        <a data-toggle="modal" data-target="#modalCategoria" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm float-right"><i class="fas fa-download fa-plus text-white-50"></i> Nueva categoría</a>
                     <?php } ?> 
 
                 </h4><br>
@@ -90,9 +90,9 @@
                                         <a ng-click="consultaModulosCategoria(categorias.idPadre)" title="Ver los módulos de la categoría {{categorias.nombreModulo}}" class="btn btn-primary btn-fab btn-fab-mini"><i class="fa fa-list"></i></a>
                                     <?php }?>
                                     <?php if( getPrivilegios()[0]['editar'] == 1 ){ ?>
-                                        <a ng-click="estadoCategoriaPrincipal(categorias.idPadre,categorias.estado)" ng-if="categorias.estado==1" title="Apagar categoría {{categorias.nombreModulo}}" class="btn btn-primary btn-fab btn-fab-mini"><i class="fas fa-eye-slash"></i></a>
-                                        <a ng-click="estadoCategoriaPrincipal(categorias.idPadre,categorias.estado)" ng-if="categorias.estado==0" title="Encender categoría {{categorias.nombreModulo}}" class="btn btn-primary btn-fab btn-fab-mini"><i class="fas fa-eye"></i></a>
-                                        <a data-toggle="modal" data-target="#modalCategoriaEditar" ng-click="cargarDataCategoria(categorias)" title="Editar nombre de la categoría {{categorias.nombreModulo}}" class="btn btn-primary btn-fab btn-fab-mini"><i class="fas fa-edit"></i></a>
+                                        <a ng-click="estadoCategoriaPrincipal(categorias.idPadre,categorias.estado)" ng-if="categorias.estado==1" title="Apagar categoría {{categorias.nombreModulo}}" class="btn btn-secondary btn-fab btn-fab-mini"><i class="fas fa-eye-slash"></i></a>
+                                        <a ng-click="estadoCategoriaPrincipal(categorias.idPadre,categorias.estado)" ng-if="categorias.estado==0" title="Encender categoría {{categorias.nombreModulo}}" class="btn btn-secondary btn-fab btn-fab-mini"><i class="fas fa-eye"></i></a>
+                                        <a data-toggle="modal" data-target="#modalCategoriaEditar" ng-click="cargarDataCategoria(categorias)" title="Editar nombre de la categoría {{categorias.nombreModulo}}" class="btn btn-dark btn-fab btn-fab-mini"><i class="fas fa-edit"></i></a>
                                     <?php } ?>
                                 </td>
                             </tr>
@@ -108,10 +108,10 @@
                         <h4>
                             Módulos de la categoría
                             <?php if(getPrivilegios()[0]['crear'] == 1){ ?>
-                                <a ng-click="cargaPlantillaCreacionModulos('',0)" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm d-float-right"><i class="fas fa-download fa-plus text-white-50"></i> Nuevo módulo</a>
+                                <a ng-click="cargaPlantillaCreacionModulos('',0)" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm float-right"><i class="fas fa-download fa-plus text-white-50"></i> Nuevo módulo</a>
                             <?php } ?> 
                         </h4>
-                        <div class="table-responsive">
+                        <div class="table-responsive mt-4">
                             <table class="table table-hover table-striped">
                                 <thead>
                                     <tr>

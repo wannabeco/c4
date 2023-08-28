@@ -73,15 +73,15 @@
                 <?php if($_SESSION['project']['info']["idPerfil"] != 8){?> <div class="col-md-4 float-left"> <?php }if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-3 float-left"><?php }?>
                     <div class="checkboxes pt-3">
                         <div class="form-check form-check-inline">
-                            <input type="radio" class="form-check-input text-secondary" id="pregunta1" name="pregunta1" style="height: 22px; width:22px;" value="SI" ng-click="mostrarInput1()" ng-checked="respuestas[0] == SI" ng-disabled="perfilUsuario == 8">
+                            <input type="radio" class="form-check-input text-secondary" id="pregunta1" name="pregunta1" style="height: 22px; width:22px;" value="SI" ng-click="mostrarInput1()" ng-checked="respuestas[0] == 'SI'" ng-disabled="perfilUsuario == 8">
                             <label class="form-check-label" for="pregunta1"></label>
                         </div>
                         <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="form-check form-check-inline pl-3"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="form-check form-check-inline pl-5"><?php }?>
-                            <input type="radio" class="form-check-input text-secondary" id="pregunta1" name="pregunta1" style="height: 22px; width:22px;" value="NO" ng-click="ocultaInput1()" ng-checked="respuestas[0] == NO" ng-disabled="perfilUsuario == 8">
+                            <input type="radio" class="form-check-input text-secondary" id="pregunta1" name="pregunta1" style="height: 22px; width:22px;" value="NO" ng-click="ocultaInput1()" ng-checked="respuestas[0] == 'NO'" ng-disabled="perfilUsuario == 8">
                             <label class="form-check-label" for="pregunta1"></label>
                         </div>
                         <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="form-check form-check-inline pl-3"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="form-check form-check-inline pl-5"><?php }?>
-                            <input type="radio" class="form-check-input text-secondary" id="pregunta1" name="pregunta1" style="height: 22px; width:22px;" value="NO/A" ng-click="ocultaInput1()" ng-checked="respuestas[0] == NO/A" ng-disabled="perfilUsuario == 8">
+                            <input type="radio" class="form-check-input text-secondary" id="pregunta1" name="pregunta1" style="height: 22px; width:22px;" value="NO/A" ng-click="ocultaInput1()" ng-checked="respuestas[0] == 'NO/A'" ng-disabled="perfilUsuario == 8">
                             <label class="form-check-label" for="pregunta1"></label>
                         </div>
                     </div>
@@ -129,15 +129,15 @@
                 <?php if($_SESSION['project']['info']["idPerfil"] != 8){?> <div class="col-md-4 float-left"> <?php }if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-3 float-left"><?php }?>
                     <div class="checkboxes pt-3">
                         <div class="form-check form-check-inline">
-                            <input type="radio" class="form-check-input text-secondary" id="pregunta2" name="pregunta2" style="height: 22px; width:22px;" value="SI" ng-click="mostrarInput2()" ng-checked="respuestas[1] == SI">
+                            <input type="radio" class="form-check-input text-secondary" id="pregunta2" name="pregunta2" style="height: 22px; width:22px;" value="SI" ng-click="mostrarInput2()" ng-checked="respuestas[1] == 'SI'">
                             <label class="form-check-label" for="si"></label>
                         </div>
                         <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="form-check form-check-inline pl-3"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="form-check form-check-inline pl-5"><?php }?>
-                            <input type="radio" class="form-check-input text-secondary" id="pregunta2" name="pregunta2" style="height: 22px; width:22px;" value="NO" ng-click="ocultaInput2()" ng-checked="respuestas[1] == NO">
+                            <input type="radio" class="form-check-input text-secondary" id="pregunta2" name="pregunta2" style="height: 22px; width:22px;" value="NO" ng-click="ocultaInput2()" ng-checked="respuestas[1] == 'NO'">
                             <label class="form-check-label" for="no"></label>
                         </div>
                         <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="form-check form-check-inline pl-3"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="form-check form-check-inline pl-5"><?php }?>
-                            <input type="radio" class="form-check-input text-secondary" id="pregunta2" name="pregunta2" style="height: 22px; width:22px;" value="NO/A" ng-click="ocultaInput2()" ng-checked="respuestas[1] == NO/A">
+                            <input type="radio" class="form-check-input text-secondary" id="pregunta2" name="pregunta2" style="height: 22px; width:22px;" value="NO/A" ng-click="ocultaInput2()" ng-checked="respuestas[1] == 'NO/A'">
                             <label class="form-check-label" for="noa"></label>
                         </div>
                     </div>
@@ -185,15 +185,15 @@
                 <?php if($_SESSION['project']['info']["idPerfil"] != 8){?> <div class="col-md-4 float-left"> <?php }if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-3 float-left"><?php }?>
                     <div class="checkboxes pt-3">
                         <div class="form-check form-check-inline">
-                            <input type="radio" class="form-check-input text-secondary" id="pregunta3" name="pregunta3" style="height: 22px; width:22px;" value="SI" ng-click="mostrarInput3()" ng-checked="respuestas[2] == SI">
+                            <input type="radio" class="form-check-input text-secondary" id="pregunta3" name="pregunta3" style="height: 22px; width:22px;" value="SI" ng-click="mostrarInput3()" ng-checked="respuestas[2] == 'SI'">
                             <label class="form-check-label" for="si"></label>
                         </div>
                         <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="form-check form-check-inline pl-3"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="form-check form-check-inline pl-5"><?php }?>
-                            <input type="radio" class="form-check-input text-secondary" id="pregunta3" name="pregunta3" style="height: 22px; width:22px;" value="NO" ng-click="ocultaInput3()" ng-checked="respuestas[2] == NO">
+                            <input type="radio" class="form-check-input text-secondary" id="pregunta3" name="pregunta3" style="height: 22px; width:22px;" value="NO" ng-click="ocultaInput3()" ng-checked="respuestas[2] == 'NO'">
                             <label class="form-check-label" for="no"></label>
                         </div>
                         <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="form-check form-check-inline pl-3"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="form-check form-check-inline pl-5"><?php }?>
-                            <input type="radio" class="form-check-input text-secondary" id="pregunta3" name="pregunta3" style="height: 22px; width:22px;" value="NO/A" ng-click="ocultaInput3()" ng-checked="respuestas[2] == NO/A">
+                            <input type="radio" class="form-check-input text-secondary" id="pregunta3" name="pregunta3" style="height: 22px; width:22px;" value="NO/A" ng-click="ocultaInput3()" ng-checked="respuestas[2] == 'NO/A'">
                             <label class="form-check-label" for="noa"></label>
                         </div>
                     </div>
@@ -240,15 +240,15 @@
                 <?php if($_SESSION['project']['info']["idPerfil"] != 8){?> <div class="col-md-4 float-left"> <?php }if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-3 float-left"><?php }?>
                     <div class="checkboxes">
                         <div class="form-check form-check-inline">
-                            <input type="radio" class="form-check-input text-secondary" id="pregunta4" name="pregunta4" style="height: 22px; width:22px;" value="SI" ng-click="mostrarInput4()" ng-checked="respuestas[3] == SI">
+                            <input type="radio" class="form-check-input text-secondary" id="pregunta4" name="pregunta4" style="height: 22px; width:22px;" value="SI" ng-click="mostrarInput4()" ng-checked="respuestas[3] == 'SI'">
                             <label class="form-check-label" for="si"></label>
                         </div>
                         <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="form-check form-check-inline pl-3"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="form-check form-check-inline pl-5"><?php }?>
-                            <input type="radio" class="form-check-input text-secondary" id="pregunta4" name="pregunta4" style="height: 22px; width:22px;" value="NO" ng-click="ocultaInput4()" ng-checked="respuestas[3] == NO">
+                            <input type="radio" class="form-check-input text-secondary" id="pregunta4" name="pregunta4" style="height: 22px; width:22px;" value="NO" ng-click="ocultaInput4()" ng-checked="respuestas[3] == 'NO'">
                             <label class="form-check-label" for="no"></label>
                         </div>
                         <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="form-check form-check-inline pl-3"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="form-check form-check-inline pl-5"><?php }?>
-                            <input type="radio" class="form-check-input text-secondary" id="pregunta4" name="pregunta4" style="height: 22px; width:22px;" value="NO/A" ng-click="ocultaInput4()" ng-checked="respuestas[3] == NO/A">
+                            <input type="radio" class="form-check-input text-secondary" id="pregunta4" name="pregunta4" style="height: 22px; width:22px;" value="NO/A" ng-click="ocultaInput4()" ng-checked="respuestas[3] == 'NO/A'">
                             <label class="form-check-label" for="noa"></label>
                         </div>
                     </div>
@@ -295,15 +295,15 @@
                 <?php if($_SESSION['project']['info']["idPerfil"] != 8){?> <div class="col-md-4 float-left"> <?php }if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-3 float-left"><?php }?>
                     <div class="checkboxes pt-3">
                         <div class="form-check form-check-inline">
-                            <input type="radio" class="form-check-input text-secondary" id="pregunta5" name="pregunta5" style="height: 22px; width:22px;" value="SI" ng-click="mostrarInput5()" ng-checked="respuestas[4] == SI">
+                            <input type="radio" class="form-check-input text-secondary" id="pregunta5" name="pregunta5" style="height: 22px; width:22px;" value="SI" ng-click="mostrarInput5()" ng-checked="respuestas[4] == 'SI'">
                             <label class="form-check-label" for="si"></label>
                         </div>
                         <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="form-check form-check-inline pl-3"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="form-check form-check-inline pl-5"><?php }?>
-                            <input type="radio" class="form-check-input text-secondary" id="pregunta5" name="pregunta5" style="height: 22px; width:22px;" value="NO" ng-click="ocultaInput5()" ng-checked="respuestas[4] == NO">
+                            <input type="radio" class="form-check-input text-secondary" id="pregunta5" name="pregunta5" style="height: 22px; width:22px;" value="NO" ng-click="ocultaInput5()" ng-checked="respuestas[4] == 'NO'">
                             <label class="form-check-label" for="no"></label>
                         </div>
                         <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="form-check form-check-inline pl-3"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="form-check form-check-inline pl-5"><?php }?>
-                            <input type="radio" class="form-check-input text-secondary" id="pregunta5" name="pregunta5" style="height: 22px; width:22px;" value="NO/A" ng-click="ocultaInput5()" ng-checked="respuestas[4] == NO/A">
+                            <input type="radio" class="form-check-input text-secondary" id="pregunta5" name="pregunta5" style="height: 22px; width:22px;" value="NO/A" ng-click="ocultaInput5()" ng-checked="respuestas[4] == 'NO/A'">
                             <label class="form-check-label" for="noa"></label>
                         </div>
                     </div>
@@ -350,15 +350,15 @@
                 <?php if($_SESSION['project']['info']["idPerfil"] != 8){?> <div class="col-md-4 float-left"> <?php }if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-3 float-left"><?php }?>
                     <div class="checkboxes pt-3">
                         <div class="form-radio form-check-inline">
-                            <input type="radio" class="form-check-input text-secondary" id="pregunta6" name="pregunta6" style="height: 22px; width:22px;" value="SI" ng-click="mostrarInput6()" ng-checked="respuestas[5] == SI">
+                            <input type="radio" class="form-check-input text-secondary" id="pregunta6" name="pregunta6" style="height: 22px; width:22px;" value="SI" ng-click="mostrarInput6()" ng-checked="respuestas[5] == 'SI'">
                             <label class="form-check-label" for="si"></label>
                         </div>
                         <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="form-check form-check-inline pl-3"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="form-check form-check-inline pl-5"><?php }?>
-                            <input type="radio" class="form-check-input text-secondary" id="pregunta6" name="pregunta6" style="height: 22px; width:22px;" value="NO" ng-click="ocultaInput6()" ng-checked="respuestas[5] == NO">
+                            <input type="radio" class="form-check-input text-secondary" id="pregunta6" name="pregunta6" style="height: 22px; width:22px;" value="NO" ng-click="ocultaInput6()" ng-checked="respuestas[5] == 'NO'">
                             <label class="form-check-label" for="no"></label>
                         </div>
                         <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="form-check form-check-inline pl-3"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="form-check form-check-inline pl-5"><?php }?>
-                            <input type="radio" class="form-check-input text-secondary" id="pregunta6" name="pregunta6" style="height: 22px; width:22px;" value="NO/A" ng-click="ocultaInput6()" ng-checked="respuestas[5] == NO/A">
+                            <input type="radio" class="form-check-input text-secondary" id="pregunta6" name="pregunta6" style="height: 22px; width:22px;" value="NO/A" ng-click="ocultaInput6()" ng-checked="respuestas[5] == 'NO/A'">
                             <label class="form-check-label" for="noa"></label>
                         </div>
                     </div>
@@ -403,6 +403,7 @@
         <input id="idMatrizRecurrente" name="idMatrizRecurrente" value="<?php echo $idRecurrente;?>" type="hidden"/>
         <input id="idEmpresa" name="idEmpresa" value="<?php echo $_SESSION['project']['info']["idEmpresa"]; ?>" type="hidden"/>
         <input id="idPerfil" value="<?php echo $_SESSION['project']['info']["idPerfil"]; ?>" type="hidden"/>
+        <input id="idRelPeriocidad" value="<?php echo $periocidad; ?>" type="hidden"/>
         <input id="edita" value="<?php echo $edita; ?>" type="hidden"/>
     <?php }if($_SESSION['project']['info']["idPerfil"] == 8){?>
         <input id="idMatrizRecurrente" name="idMatrizRecurrente" value="<?php echo $idRecurrente;?>" type="hidden"/>
@@ -410,6 +411,7 @@
         <input id="idPersona" name="idPersona" value="<?php echo $infoUsuario[0]["idPersona"]; ?>" type="hidden" />
         <input id="idEmpresa" name="idEmpresa" value="<?php echo $infoUsuario[0]["idEmpresa"]; ?>" type="hidden"/>
         <input id="idPerfil" value="<?php echo $_SESSION['project']['info']["idPerfil"]; ?>" type="hidden"/>
+        <input id="idRelPeriocidad" value="<?php echo $periocidad; ?>" type="hidden"/>
         <input id="edita" value="<?php echo $edita; ?>" type="hidden"/>
     <?php }?>
 

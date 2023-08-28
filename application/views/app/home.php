@@ -5,8 +5,8 @@
         header("Location: Empresas/empresas/37");
         exit();
     }
-    if($_SESSION['project']['info']['idPerfil'] > 3){
-        header("Location: MisMatrices/matrices/43");
+    if($_SESSION['project']['info']['idPerfil'] > 3 && $_SESSION['project']['info']['idPerfil'] != 8){
+        header("Location: MisMatrices/home/43/".$_SESSION['project']['info']['idEmpresa']);
         exit();
     }
 ?>

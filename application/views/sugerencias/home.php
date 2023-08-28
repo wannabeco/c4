@@ -7,7 +7,7 @@
             </div>
         </div>
     </div>
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4 ml-2">
         <?php if($_SESSION['project']['info']['idPerfil'] < 4){?>
             <h1 class="h3 mb-0 text-gray-800 text-dark">Sugerencias</h1>
         <?php }if($_SESSION['project']['info']['idPerfil'] == 11){ ?>

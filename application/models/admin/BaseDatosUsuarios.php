@@ -3,19 +3,18 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class BaseDatosUsuarios extends CI_Model {
-    private $tableDeptos                 =   "";
-    private $tableCiudad                 =   "";
-    private $tableMails                  =   "";
-    private $tableInfoPago               =   "";
-    private $tableEmpresas               =   "";
-    private $tablePersonas               =   "";
-    private $tableAreas                  =   "";
-    private $tablePerfiles               =   "";
-    private $tableLogin                  =   "";
-    private $tableModulos                =   "";
-    private $tableRelPerfilModulo        =   "";
-    public function __construct() 
-    {
+        private $tableDeptos                 =   "";
+        private $tableCiudad                 =   "";
+        private $tableMails                  =   "";
+        private $tableInfoPago               =   "";
+        private $tableEmpresas               =   "";
+        private $tablePersonas               =   "";
+        private $tableAreas                  =   "";
+        private $tablePerfiles               =   "";
+        private $tableLogin                  =   "";
+        private $tableModulos                =   "";
+        private $tableRelPerfilModulo        =   "";
+    public function __construct() {
         parent::__construct();
         $this->load->database();
         $this->tableDeptos               = "app_departamentos"; 
@@ -30,44 +29,37 @@ class BaseDatosUsuarios extends CI_Model {
         $this->tableModulos              = "app_modulos";
         $this->tableRelPerfilModulo      = "app_rel_perfil_modulo";
     }
-    public function agregaUsuario($dataInserta)
-    {
+    public function agregaUsuario($dataInserta){
         $this->db->insert($this->tablePersonas,$dataInserta);
         //print_r($this->db->last_query());die();
         return $this->db->insert_id();
     }
-    public function insertaUsuarioLogin($dataInserta)
-    {
+    public function insertaUsuarioLogin($dataInserta){
         $this->db->insert($this->tableLogin,$dataInserta);
         //print_r($this->db->last_query());die();
         return $this->db->insert_id();
     }
-    public function actualizaUsuario($where,$dataInserta)
-    {
+    public function actualizaUsuario($where,$dataInserta){
         $this->db->where($where);
         $this->db->update($this->tablePersonas,$dataInserta);
         //print_r($this->db->last_query());die();
         return $this->db->affected_rows();
     }
-    public function cambioClave($where,$dataInserta)
-    {
+    public function cambioClave($where,$dataInserta){
         $this->db->where($where);
         $this->db->update($this->tableLogin,$dataInserta);
         //print_r($this->db->last_query());die();
         return $this->db->affected_rows();
     }
-    public function generaDatosAcceso($where,$dataInserta)
-    {
+    public function generaDatosAcceso($where,$dataInserta){
         $this->db->where($where);
         $this->db->update($this->tableLogin,$dataInserta);
         //print_r($this->db->last_query());die();
         return $this->db->affected_rows();
     }
-    public function infoUsuario($where="")
-    {
+    public function infoUsuario($where=""){
         $this->db->select("u.*,u.estado as estadoU,p.nombrePerfil,l.*");
-        if(count($where) > 0)
-        {
+        if(count($where) > 0){
             $this->db->where($where);
         }
         $this->db->from($this->tablePersonas." u");
@@ -90,8 +82,7 @@ class BaseDatosUsuarios extends CI_Model {
         return $id->result_array();
     }
     //info departamentos
-    public function infodepartamentos($where="")
-    {
+    public function infodepartamentos($where=""){
         $this->db->select("*");
         $this->db->where($where);
         $this->db->from($this->tableDeptos);
@@ -100,8 +91,7 @@ class BaseDatosUsuarios extends CI_Model {
         return $id->result_array();
     }
     //info ciudades
-    public function infociudades($where="")
-    {
+    public function infociudades($where=""){
         $this->db->select("*");
         $this->db->where($where);
         $this->db->from($this->tableCiudad);
@@ -124,7 +114,7 @@ class BaseDatosUsuarios extends CI_Model {
         $this->db->update($this->tableEmpresas,$dataInserta);
         //print_r($this->db->last_query());die();
         return $this->db->affected_rows();
-    } 
+    }
 }
 
 ?>

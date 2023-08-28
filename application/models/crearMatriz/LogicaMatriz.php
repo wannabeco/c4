@@ -426,6 +426,7 @@ class LogicaMatriz  {
         $matriz             = $data["idNuevaMatriz"];
         $recurrente         = $data["idMatrizRecurrente"];
         $res                = $data["respuestas"];
+        $idRelPeriocidad    = $data["idRelPeriocidad"];
         $array              = explode(",", $res);
         $datacreaComentario["idNuevaMatriz"]          = $matriz;
         $datacreaComentario["idPersona"]              = $idPersona;
@@ -433,6 +434,7 @@ class LogicaMatriz  {
         $datacreaComentario["idMatrizRecurrente"]     = $recurrente;
         $datacreaComentario["comentario"]             = $data["comentario"];
         $datacreaComentario["idEmpresa"]              = $idEmpresa;
+        $datacreaComentario["idRelPeriocidad"]        = $idRelPeriocidad;
         $datacreaComentario["fechaRespuesta"]         = date("Y-m-d H:i:s");
         $this->ci->dbMatriz->creaComentario($datacreaComentario);
         if (!empty($array) && !empty($archivoArray)){
@@ -449,6 +451,7 @@ class LogicaMatriz  {
                 $datacrea["idNuevaMatriz"]          = $matriz;
                 $datacrea["idMatrizRecurrente"]     = $recurrente;
                 $datacrea["idRespuesta"]            = $pregunta;
+                $datacrea["idRelPeriocidad"]        = $idRelPeriocidad;
                 
                 $guardado = $this->ci->dbMatriz->creaCheckeo($datacrea);
                 $pregunta++;
@@ -460,9 +463,10 @@ class LogicaMatriz  {
         return $respuesta;
     }
     //informacion de comentarios
-    public function infoComentarios($idrecurrente,$idPersona){
+    public function infoComentarios($idrecurrente,$idPersona,$periocidad){
         $where["idPersona"]          = $idPersona;
         $where["idMatrizRecurrente"] = $idrecurrente;
+        $where["idRelPeriocidad"]   = $periocidad;
         $informacion            = $this->ci->dbMatriz->infoComentarios($where);
         //var_dump($informacion);die();
         $id ="";
@@ -481,27 +485,53 @@ class LogicaMatriz  {
         return $respuesta;
     }
     //informacion de respuestas chekeador
-    public function informacionCheck($idPersona,$nuevaMatriz,$idEmpresa){
-        $where["idPerfil"]          = $idPersona;
-        $where["idNuevaMatriz"] = $nuevaMatriz;
-        $where["idEmpresa"] = $idEmpresa;
-        $informacion            = $this->ci->dbMatriz->informacionCheck($where);
-        $idNuevaMatriz = "";
-        if(isset($informacion[0]["idNuevaMatriz"])){
-            $idNuevaMatriz = $informacion[0]['idNuevaMatriz'];
-        }
-        $id1 = intval(trim($nuevaMatriz));
-        $id2 = intval(trim($idNuevaMatriz));
-
-        if($id1 == $id2){
-            $respuesta = array("mensaje"=>"los comentarios se han consultado correctamente.",
-                        "continuar"=>1,
-                        "datos"=>$informacion);
-        }
-        else{
-            $respuesta = array("mensaje"=>"los comentarios no se han consultado correctamente.",
-                        "continuar"=>0,
-                        "datos"=>"");
+    public function informacionCheck($idPersona,$nuevaMatriz,$idEmpresa,$periocidad){
+        if($_SESSION['project']['info']['idPerfil'] != 8){
+            $where["idPerfil"]          = $idPersona;
+            $where["idMatrizRecurrente"] = $nuevaMatriz;
+            $where["idEmpresa"] = $idEmpresa;
+            $where["idRelPeriocidad"] = $periocidad;
+            $informacion            = $this->ci->dbMatriz->informacionCheck($where);
+            $idNuevaMatriz = "";
+            if(isset($informacion[0]["idNuevaMatriz"])){
+                $idNuevaMatriz = $informacion[0]['idNuevaMatriz'];
+            }
+            $id1 = intval(trim($nuevaMatriz));
+            $id2 = intval(trim($idNuevaMatriz));
+    
+            if($id1 == $id2){
+                $respuesta = array("mensaje"=>"los comentarios se han consultado correctamente.",
+                            "continuar"=>1,
+                            "datos"=>$informacion);
+            }
+            else{
+                $respuesta = array("mensaje"=>"los comentarios no se han consultado correctamente.",
+                            "continuar"=>0,
+                            "datos"=>"");
+            }
+        }if($_SESSION['project']['info']['idPerfil'] == 8){
+            $where["idPerfil"]          = $idPersona;
+            $where["idNuevaMatriz"] = $nuevaMatriz;
+            $where["idEmpresa"] = $idEmpresa;
+            $where["idRelPeriocidad"] = $periocidad;
+            $informacion            = $this->ci->dbMatriz->informacionCheck($where);
+            $idNuevaMatriz = "";
+            if(isset($informacion[0]["idNuevaMatriz"])){
+                $idNuevaMatriz = $informacion[0]['idNuevaMatriz'];
+            }
+            $id1 = intval(trim($nuevaMatriz));
+            $id2 = intval(trim($idNuevaMatriz));
+    
+            if($id1 == $id2){
+                $respuesta = array("mensaje"=>"los comentarios se han consultado correctamente.",
+                            "continuar"=>1,
+                            "datos"=>$informacion);
+            }
+            else{
+                $respuesta = array("mensaje"=>"los comentarios no se han consultado correctamente.",
+                            "continuar"=>0,
+                            "datos"=>"");
+            }
         }
         return $respuesta;
     }

@@ -32,7 +32,7 @@
 <?php foreach($modulos as $modMenu){ ?>
     <!-- Nav Item - Pages Collapse Menu -->
 <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#modulo<?php echo $modMenu['idPadre']?>"
+    <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#modulo<?php echo $modMenu['idPadre']?>"
         aria-expanded="true" aria-controls="modulo<?php $modMenu['idPadre']?>">
         <i class="<?php if($modMenu['icono'] != ""){ echo $modMenu['icono']; }else{ echo '';}?>"></i>
         <span><?php echo ucwords(mb_strtolower($modMenu['nombreModulo']))?></span>
@@ -45,9 +45,12 @@
                     <?php if( $hijos['idModulo'] == 40 || $hijos['idModulo'] == 42){ ?>
                     <a style="display:none;" class="collapse-item" href="<?php echo base_url()?><?php echo $hijos['urlModulo'] ?><?php echo $hijos['idModulo'] ?>" title="<?php echo ucwords($hijos['nombreModulo']) ?>"><i class="<?php if($hijos['icono'] != ""){ echo $hijos['icono']; }else{ echo '';}?>" ></i> <?php echo ucwords($hijos['nombreModulo']) ?></a>
                     <?php }else{ ?>
+                        <?php if($hijos['idModulo'] == 43 && $_SESSION["project"]["info"]["idPerfil"] == 8){?>
+                            <a class="collapse-item" style="display: none;" href="<?php echo base_url()?><?php echo $hijos['urlModulo'] ?><?php echo $hijos['idModulo'] ?>/<?php echo $_SESSION["project"]["info"]["idEmpresa"]?>" title="<?php echo ucwords($hijos['nombreModulo']) ?>"><i class="<?php if($hijos['icono'] != ""){ echo $hijos['icono']; }else{ echo '';}?>" ></i> <?php echo ucwords($hijos['nombreModulo']) ?></a>
+                        <?php }else{?>
                     <a class="collapse-item" href="<?php echo base_url()?><?php echo $hijos['urlModulo'] ?><?php echo $hijos['idModulo'] ?>" title="<?php echo ucwords($hijos['nombreModulo']) ?>"><i class="<?php if($hijos['icono'] != ""){ echo $hijos['icono']; }else{ echo '';}?>" ></i> <?php echo ucwords($hijos['nombreModulo']) ?></a>
                 
-                <?php } }?>
+                <?php } } }?>
             </div>
         </div>
     <?php }?>
