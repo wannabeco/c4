@@ -1,8 +1,4 @@
 <div class="container-fluid" ng-controller="crearMatriz" ng-init="initcreaMatriz()">
-    <div class="row ml-2">
-        <h1 class="h3 mb-0 text-gray-800 text-dark"><?php echo $titulo ?></h1>
-    </div>    
-
 
 <!-- modal estandar-->
     <div id="modalParametros" class="modal fade" role="dialog"  data-keyboard="false" data-backdrop="static">
@@ -32,15 +28,16 @@
             </div>
         </div>
     </div>
-    
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800 text-dark"> <!--<small><?php echo $_SESSION['project']['info']['nombre']." ".$_SESSION['project']['info']['apellido']; ?></small>--></h1>
+        <div class="row ml-2">
+            <h1 class="h3 mb-0 text-gray-800 text-dark"><?php echo $titulo ?></h1>
+        </div>  
         <?php if($_SESSION["project"]["info"]["idPerfil"] == 11){?>
             <button type="button" class="btn btn-primary float-right" ng-click="crearnuevaItem(<?php echo $infoMatrizRecurrentes[0]['idNuevaMatriz']; ?>)"><i class="fas fa-lightbulb"></i> Sugerir item</button>
         <?php }if(getPrivilegios()[0]['crear'] == 1){ ?>
             <div class="dropdown">
                 <a class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-plus"></i> Crear <span class="caret"></span>
+                    <i class="fas fa-plus"></i> <?php echo lang("lblRelacion") ?> <span class="caret"></span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <h6 class="dropdown-header"><?php echo lang("lblSeleccioneOpc") ?></h6>
@@ -49,14 +46,16 @@
             </div>
         <?php } ?>
     </div>
+
+
     <!-- nav  -->
     <?php if($_SESSION["project"]["info"]["idPerfil"] != 8){?>
-    <nav aria-label="breadcrumb">
+    <!-- <nav aria-label="breadcrumb">
         <ol class="breadcrumb"  style="background-color:transparent !important">
             <li class="breadcrumb-item"><a href="<?php echo base_url()?>">Home</a></li>
             <li class="breadcrumb-item"><a href="<?php echo base_url()."MisMatrices/matrices/43";?>"><?php echo $infoMatrizRecurrentes[0]['nombreNuevaMatriz']; ?></a></li>
         </ol>
-    </nav>
+    </nav> -->
     <?php } if($_SESSION["project"]["info"]["idPerfil"] == 8){ ?>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb"  style="background-color:transparent !important">
@@ -109,13 +108,13 @@
                                 </td>
                                 <td>
                                     <?php if(getPrivilegios()[0]['editar'] == 1){ ?>
-                                        <a ng-click="cargaPlantillaparametros('<?php echo $info['idMatrizRecurrente'];?>',1)" data-toggle="tooltip" data-placement="top" title="Actualizar matriz" class="btn btn-info btn-fab btn-fab-mini btn-xs" style="width:40px;"><i class="far fa-edit"></i></a>
+                                        <a ng-click="cargaPlantillaparametros('<?php echo $info['idMatrizRecurrente'];?>',1)" data-toggle="tooltip" data-placement="top" title="Actualizar matriz" class="btn btn-dark btn-fab btn-fab-mini btn-xs" style="width:40px;"><i class="far fa-edit"></i></a>
                                     <?php }?>
                                     <?php if(getPrivilegios()[0]['borrar'] == 1){ ?>
                                         <a ng-click="borraParametro(<?php echo $info['idMatrizRecurrente'];?>)" ng-if="<?php echo $_SESSION['project']['info']["idPerfil"]; ?> == 1 || <?php echo $_SESSION['project']['info']["idPerfil"]; ?> == 2  || <?php echo $_SESSION['project']['info']["idPerfil"]; ?> == 3 " title="Eliminar Matriz"  class="btn btn-danger btn-fab btn-fab-mini btn-xs"><i class="fas fa-trash"></i></a>
                                     <?php } ?>
                                     <?php if($_SESSION['project']['info']['idPerfil'] < 4 ){?>
-                                        <a ng-click="verMatriz('<?php echo $info['idNuevaMatriz'];?>',0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-secondary float-left"><i class="fas fa-eye" style="font-size: 30px; cursor:pointer;"></i></a>
+                                        <!-- <a ng-click="verMatriz('<?php echo $info['idNuevaMatriz'];?>',0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn btn-segundary btn-fab btn-fab-mini btn-xs text-secondary float-left"><i class="fas fa-eye" style="font-size: 30px; cursor:pointer;"></i></a> -->
                                     <?php } ?>
                                     <?php if( $_SESSION['project']['info']['idPerfil'] != 11 && $_SESSION['project']['info']['idPerfil'] > 3){
                                         if($infoComentarios["datos"] != "" && $_SESSION['project']['info']['idPerfil'] != 8 ){ ?>
