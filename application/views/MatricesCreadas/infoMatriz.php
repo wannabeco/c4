@@ -1,6 +1,6 @@
 <div class="container-fluid" ng-controller="crearMatriz" ng-init="initcreaMatriz()">
     <div class="row ml-2">
-        <h5 class="modal-title"><?php echo $titulo ?></h5>
+        <h1 class="h3 mb-0 text-gray-800 text-dark"><?php echo $titulo ?></h1>
     </div>    
 
 
@@ -34,7 +34,7 @@
     </div>
     
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800"> <!--<small><?php echo $_SESSION['project']['info']['nombre']." ".$_SESSION['project']['info']['apellido']; ?></small>--></h1>
+        <h1 class="h3 mb-0 text-gray-800 text-dark"> <!--<small><?php echo $_SESSION['project']['info']['nombre']." ".$_SESSION['project']['info']['apellido']; ?></small>--></h1>
         <?php if($_SESSION["project"]["info"]["idPerfil"] == 11){?>
             <button type="button" class="btn btn-primary float-right" ng-click="crearnuevaItem(<?php echo $infoMatrizRecurrentes[0]['idNuevaMatriz']; ?>)"><i class="fas fa-lightbulb"></i> Sugerir item</button>
         <?php }if(getPrivilegios()[0]['crear'] == 1){ ?>
@@ -119,11 +119,11 @@
                                     <?php } ?>
                                     <?php if( $_SESSION['project']['info']['idPerfil'] != 11 && $_SESSION['project']['info']['idPerfil'] > 3){
                                         if($infoComentarios["datos"] != "" && $_SESSION['project']['info']['idPerfil'] != 8 ){ ?>
-                                            <a ng-click="check('<?php echo $info['idNuevaMatriz'];?>',<?php echo $info['idMatrizRecurrente'];?>,1)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-dark float-left"><i class="far fa-edit" style="font-size: 30px; cursor:pointer;"></i></a>        
+                                            <a ng-click="check('<?php echo $info['idNuevaMatriz'];?>',<?php echo $info['idMatrizRecurrente'];?>,1,<?php echo $periocidad;?>)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-dark float-left"><i class="far fa-edit" style="font-size: 30px; cursor:pointer;"></i></a>        
                                         <?php } else if($infoComentarios["datos"] == "" && $_SESSION['project']['info']['idPerfil'] != 8){?>
-                                            <a ng-click="check('<?php echo $info['idNuevaMatriz'];?>',<?php echo $info['idMatrizRecurrente'];?>,0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-secondary float-left"><i class="fas fa-list" style="font-size: 30px; cursor:pointer;"></i></a>
+                                            <a ng-click="check('<?php echo $info['idNuevaMatriz'];?>',<?php echo $info['idMatrizRecurrente'];?>,0,<?php echo $periocidad;?>)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-secondary float-left"><i class="fas fa-list" style="font-size: 30px; cursor:pointer;"></i></a>
                                     <?php } } if($_SESSION['project']['info']['idPerfil'] == 8 && $informacionCheck > 0){?>
-                                        <a ng-click="checkCompleto('<?php echo $info["idMatrizRecurrente"];?>',<?php echo $idNuevaMatriz;?>,<?php echo $idEmpresas;?>,<?php echo $idResponsable;?>,1)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-secondary float-left"><i class="fas fa-check-square" style="font-size: 30px; cursor:pointer;"></i></a>
+                                        <a ng-click="checkCompleto('<?php echo $info["idMatrizRecurrente"];?>',<?php echo $idNuevaMatriz;?>,<?php echo $idEmpresas;?>,<?php echo $idResponsable;?>,1,<?php echo $periocidad;?>)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-secondary float-left"><i class="fas fa-check-square" style="font-size: 30px; cursor:pointer;"></i></a>
                                     <?php }?>    
                                 </td>
                             </tr>

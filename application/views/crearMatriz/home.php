@@ -4,7 +4,7 @@
     </div>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-danger">Lista de bases de datos matriz de obligaciones recurrentes</h6>
+            <h6 class="m-0 font-weight-bold text-danger">Lista de bases de datos check de obligaciones recurrentes</h6>
         </div>
         <div class="card-body">
             
@@ -149,7 +149,7 @@
     </div>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-danger">Lista de bases de datos matriz sagrilaft</h6>
+            <h6 class="m-0 font-weight-bold text-danger">Lista de bases de datos check sagrilaft</h6>
         </div>
         <div class="card-body">
             

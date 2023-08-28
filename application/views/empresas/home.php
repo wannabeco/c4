@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4 ml-2">
         <h1 class="h3 mb-0 text-gray-800"><?php echo $titulo;?> <!--<small><?php echo $_SESSION['project']['info']['nombre']." ".$_SESSION['project']['info']['apellido']; ?></small>--></h1>
         <?php if($_SESSION['project']['info']['idPerfil'] == 8 && $_SESSION['project']['info']['idEmpresa'] == 0){?>
             <button type="button" class="btn btn-primary" ng-click="buscaEmpresa()"><i class="fa fa-fw fa-plus"></i> Agregar empresa</button>

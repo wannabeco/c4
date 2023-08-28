@@ -113,13 +113,15 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 	}
 	//consulto respuestas
 	$scope.consultaCheck = function(){
+		
 		var idRecurrente = $("#idMatrizRecurrente").val();
 		var edita = $("#edita").val();
 		var idPerfil = $("#idPerfil").val();
+		var idRelPeriocidad = $("#idRelPeriocidad").val();
 		$scope.perfilUsuario = idPerfil;
 		if(edita == 1 && idPerfil != 8){
 			var controlador = 	$scope.config.apiUrl+"CrearMatriz/consultaCheck"; 
-			var parametros	=	{ idRecurrente: idRecurrente };
+			var parametros	=	{ idRecurrente: idRecurrente, idRelPeriocidad:idRelPeriocidad };
 			$.ajax({
 				url: controlador,  
 				type: 'POST',
@@ -128,7 +130,7 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 				//una vez finalizado correctamente
 				success: function(json){
 					$scope.respuestas = json.respuesta;
-					console.log(json.arrayArchivos);
+					console.log(json);
 					$scope.archivos = json.arrayArchivos;
 					$scope.idEmpresa	=json.idEmpresa;
 					if($scope.respuestas[0] == "SI"){
@@ -209,8 +211,10 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 			var edita = $("#edita").val();
 			var idEmpresa = $("#idEmpresa").val();
 			var idPersona = $("#idPersona").val();
+			var idRelPeriocidad = $("#idRelPeriocidad").val();
+			// alert(idRelPeriocidad);
 			var controlador = 	$scope.config.apiUrl+"CrearMatriz/consultaCheckRealizado"; 
-			var parametros	=	{ idRecurrente: idRecurrente, idEmpresa : idEmpresa, idPersona : idPersona};
+			var parametros	=	{ idRecurrente: idRecurrente, idEmpresa : idEmpresa, idPersona : idPersona, idRelPeriocidad:idRelPeriocidad};
 			$.ajax({
 				url: controlador,  
 				type: 'POST',
@@ -218,6 +222,7 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 				dataType:"json",
 				//una vez finalizado correctamente
 				success: function(json){
+					console.log(json);
 					$scope.respuestas = json.respuesta;
 					$scope.archivos = json.arrayArchivos;
 					$scope.idEmpresa	=json.idEmpresa;
@@ -349,6 +354,7 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 		var idMatrizRecurrente 	= $("#idMatrizRecurrente").val();
 		var idEmpresa 			= $("#idEmpresa").val();
 		var comentario 			= $('#comentarios').val();
+		var idRelPeriocidad = $("#idRelPeriocidad").val();
 		var edita				= $('#edita').val();
 		// alert(pregunta1);
 		if(pregunta1 == undefined){
@@ -383,11 +389,11 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 			archivos.push(archivo1,archivo2,archivo3,archivo4,archivo5,archivo6);
 			constantes.confirmacion("Confirmación","Esta apunto de actualizar el formulario, ¿Desea continuar?",'info',function(){
 				var controlador = $scope.config.apiUrl+"MisMatrices/actualizaCheck";
-				var parametros  = 	"respuestas="+respuestas+"&archivos="+archivos+"&idNuevaMatriz="+idNuevaMatriz+"&idPersona="+idPersona+"&idMatrizRecurrente="+idMatrizRecurrente+"&comentario="+comentario+"&idEmpresa="+idEmpresa;
+				var parametros  = 	"respuestas="+respuestas+"&archivos="+archivos+"&idNuevaMatriz="+idNuevaMatriz+"&idPersona="+idPersona+"&idMatrizRecurrente="+idMatrizRecurrente+"&comentario="+comentario+"&idEmpresa="+idEmpresa+"&idRelPeriocidad="+idRelPeriocidad;
 				constantes.consultaApi(controlador,parametros,function(json){
 					if(json.continuar == 1){
 						constantes.alerta("Atención",json.mensaje,"success",function(){
-							window.location = $scope.config.apiUrl+"MisMatrices/matrices/43";
+							window.location = $scope.config.apiUrl+"MisMatrices/home/43/"+idEmpresa;
 						});
 					}
 					else{
@@ -404,6 +410,7 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 		var idPersona 			= $("#idPersona").val();
 		var idMatrizRecurrente 	= $("#idMatrizRecurrente").val();
 		var idEmpresa 			= $("#idEmpresa").val();
+		var idRelPeriocidad = $("#idRelPeriocidad").val();
 
 		var pregunta1o 			= $('input[name="pregunta1o"]:checked').val();
 		var pregunta2o 			= $('input[name="pregunta2o"]:checked').val();
@@ -430,11 +437,11 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 			var respuestasOficiales =resOficiales;
 			constantes.confirmacion("Confirmación","Esta apunto de actualizar el formulario, ¿Desea continuar?",'info',function(){
 				var controlador = $scope.config.apiUrl+"MisMatrices/actualizaCheck";
-				var parametros  = 	"resOficial="+respuestasOficiales+"&idNuevaMatriz="+idNuevaMatriz+"&idPersona="+idPersona+"&idMatrizRecurrente="+idMatrizRecurrente+"&idEmpresa="+idEmpresa;
+				var parametros  = 	"resOficial="+respuestasOficiales+"&idNuevaMatriz="+idNuevaMatriz+"&idPersona="+idPersona+"&idMatrizRecurrente="+idMatrizRecurrente+"&idEmpresa="+idEmpresa+"&idRelPeriocidad="+idRelPeriocidad;
 				constantes.consultaApi(controlador,parametros,function(json){
 					if(json.continuar == 1){
 						constantes.alerta("Atención",json.mensaje,"success",function(){
-							window.location = $scope.config.apiUrl+"Empresas/empresas/37";
+							window.location = $scope.config.apiUrl+"Empresas/empresas/37/"+idEmpresa;
 						});
 					}
 					else{
@@ -470,6 +477,7 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 		var idMatrizRecurrente 	= $("#idMatrizRecurrente").val();
 		var idEmpresa 			= $("#idEmpresa").val();
 		var comentario 			= $('#comentarios').val();
+		var idRelPeriocidad 	= $('#idRelPeriocidad').val();
 		var edita				= $('#edita').val();
 		// alert(pregunta1);
 		if(pregunta1 == undefined){
@@ -506,11 +514,11 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 
 				constantes.confirmacion("Confirmación","Esta apunto de guardar el formulario, ¿Desea continuar?",'info',function(){
 					var controlador = $scope.config.apiUrl+"MisMatrices/nuevocheck";
-					var parametros  = 	"respuestas="+respuestas+"&archivos="+archivos+"&idNuevaMatriz="+idNuevaMatriz+"&idPersona="+idPersona+"&idMatrizRecurrente="+idMatrizRecurrente+"&comentario="+comentario+"&idEmpresa="+idEmpresa;
+					var parametros  = 	"respuestas="+respuestas+"&archivos="+archivos+"&idNuevaMatriz="+idNuevaMatriz+"&idPersona="+idPersona+"&idMatrizRecurrente="+idMatrizRecurrente+"&comentario="+comentario+"&idEmpresa="+idEmpresa+"&idRelPeriocidad="+idRelPeriocidad;
 					constantes.consultaApi(controlador,parametros,function(json){
 						if(json.continuar == 1){
 							constantes.alerta("Atención",json.mensaje,"success",function(){
-								window.location = $scope.config.apiUrl+"MisMatrices/matrices/43";
+								window.location = $scope.config.apiUrl+"MisMatrices/home/43/"+idEmpresa;
 							});
 						}
 						else{

@@ -8,11 +8,11 @@
         </div>
     </div>
     <!-- cabecera de la plantilla-->
-    <h1 class="h3 mb-4 text-gray-800">
+    <h1 class="h3 mb-0 text-gray-800 text-dark ml-2">
         <?php echo $infoModulo['nombreModulo'] ?>
         
         <?php if(getPrivilegios()[0]['crear'] == 1){ ?>
-            <div class="dropdown">
+            <div class="dropdown float-right">
                 <a class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-cog"></i> <?php echo lang("lblAcciones") ?> <span class="caret"></span>
                 </a>

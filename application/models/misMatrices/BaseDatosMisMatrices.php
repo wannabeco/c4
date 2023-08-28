@@ -26,6 +26,9 @@ class BaseDatosMisMatrices extends CI_Model {
     private $tableArchivoTemporal           =   "";
     private $tableRcomentarios              =   "";
     private $tableRcheck                    =   "";
+    private $tablePeriocidades              =   "";
+    private $tablePeriocidad                =   "";
+    private $tablePerfiles                  =   "";
 
 
     public function __construct() {
@@ -44,6 +47,9 @@ class BaseDatosMisMatrices extends CI_Model {
         $this->tableArchivoTemporal         = "app_archivos_temporales"; 
         $this->tableRcomentarios            = "app_respuesta_comentarios"; 
         $this->tableRcheck                  = "app_respuestas_check"; 
+        $this->tablePeriocidades            = "app_rel_periocidad"; 
+        $this->tablePeriocidad              = "app_periodicidad"; 
+        $this->tablePerfiles                = "app_perfiles"; 
     }
     //se obtienen todos los procesos
     public function consultaMiMatriz($where){
@@ -239,6 +245,40 @@ class BaseDatosMisMatrices extends CI_Model {
         $this->db->select("*");
         $this->db->where($where);
         $this->db->from($this->tableRcheck);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //consulto periocidades
+    public function periocidades($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tablePeriocidades." r");
+        $this->db->join($this->tablePeriocidad." e", "e.idperiodicidad = r.idPeriodicidad", "INNER");
+        $this->db->join($this->tablePersonas." p", "p.idPersona = r.idPersona", "INNER");
+        $this->db->join($this->tablePerfiles." f", "f.idPerfil = p.idPerfil", "INNER");
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //crear periocidad
+    public function crearRelPeriocidad($datos){
+        $this->db->insert($this->tablePeriocidades,$datos);
+        //print_r($this->db->last_query());die();
+        return $this->db->affected_rows();
+    }
+    //eliminar periodicidad
+    public function updatePeriocidad($data,$where){
+        $this->db->where($where);
+        $this->db->update($this->tablePeriocidades,$data);
+        //print_r($this->db->last_query());die();
+        return $this->db->affected_rows();
+    }
+    public function infoPeriodicidad($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tablePeriocidades." r");
+        $this->db->join($this->tablePeriocidad." e", "e.idperiodicidad = r.idPeriodicidad", "INNER");
         $id = $this->db->get();
         // print_r($this->db->last_query());die();
         return $id->result_array();

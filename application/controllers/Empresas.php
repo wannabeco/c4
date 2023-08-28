@@ -126,19 +126,36 @@ class Empresas extends CI_Controller
 			if(getPrivilegios()[0]['ver'] == 1){ 
 				//info Módulo
 				$id =$parametro;
-				$infoModulo	      	   			= $this->logica->infoModulo($idModulo);
-				$infoUsuario		   			= $_SESSION['project']['info']['nombre'];
-				$infoEmpresa		  			= $this->lgEmpresas->infoEmpresa($id);
-				// $infoPais		  				= $this->lgEmpresas->infopaises();
-				// $infoDepartamento		  		= $this->lgEmpresas->infodepartamentos($infoPais);
-				// $infoCiudad		  				= $this->lgEmpresas->infociudades($infoPais,$infoDepartamento);
+				$infoModulo	      	= $this->logica->infoModulo($idModulo);
+				$infoUsuario		= $_SESSION['project']['info']['nombre'];
+				$infoEmpresa		= $this->lgEmpresas->infoEmpresa($id);
+				$infoPais		 	= $this->lgEmpresas->infopaises();
+				$pais 				= $infoPais[0]["ID_PAIS"];
+				$infoDepartamento	= $this->lgEmpresas->infodepartamentos($pais);
+				$departamentoEmpresa= $infoEmpresa[0]["departamento"];
+				$ciudadEmpresa 		= $infoEmpresa[0]["ciudad"];
+				$departamento = [];
+				foreach($infoDepartamento as $depto){
+					if($departamentoEmpresa == $depto["ID_DPTO"]){
+						array_push($departamento, $depto);
+					}
+				}
+				$ciudad = [];
+				$infoCiudad		  	= $this->lgEmpresas->infociudades($pais,$departamento[0]["ID_DPTO"]);
+				foreach($infoCiudad as $ciudas){
+					if($ciudadEmpresa == $ciudas["ID_CIUDAD"]){
+						array_push($ciudad, $ciudas);
+					}
+					array_push($ciudad, $ciudas);
+				}	
 				$opc 				   			= "home";
 				$salida['titulo']      			= lang("titulo")." - ".$infoModulo[0]['nombreModulo'];
 				$salida['centro'] 	   			= "empresas/index";
 				$salida['infoModulo']  			= $infoModulo[0];
 				$salida['infoUsuario'] 			= $infoUsuario[0];
 				$salida['infoEmpresa'] 			= $infoEmpresa[0];
-				
+				$salida['departamento'] 		= $departamento[0];
+				$salida['ciudad'] 				= $ciudad[0];
 				$this->load->view("app/index",$salida);
 			}else{
 				$opc 				   = "home";

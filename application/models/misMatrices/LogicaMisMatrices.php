@@ -53,19 +53,35 @@ class LogicaMisMatrices  {
         return $respuesta;
     }
     public function consultaMatricescompradas($idPersona,$idEmpresa){
-        $where["c.estado"]      = 1;
-        $where["c.eliminado"]   = 0;
-        $where["c.idPersona"]   = $idPersona;
-        $where["c.idEmpresa"]   = $idEmpresa;
-        $infoMatriz                 = $this->ci->dbmisMatriz->consultaMatricescompradas($where);
-        if(count($infoMatriz) > 0){
-            $respuesta = array("mensaje"=>"las matrices fueron consultadas.",
-                        "continuar"=>1,
-                        "datos"=>$infoMatriz);
-        }else{
-            $respuesta = array("mensaje"=>"las matrices no fueron consultadas.",
-                        "continuar"=>0,
-                        "datos"=>"");
+        if($_SESSION["project"]["info"]["idPerfil"] != 8){
+            $where["c.estado"]      = 1;
+            $where["c.eliminado"]   = 0;
+            $where["c.idPersona"]   = $idPersona;
+            $where["c.idEmpresa"]   = $idEmpresa;
+            $infoMatriz                 = $this->ci->dbmisMatriz->consultaMatricescompradas($where);
+            if(count($infoMatriz) > 0){
+                $respuesta = array("mensaje"=>"las matrices fueron consultadas.",
+                            "continuar"=>1,
+                            "datos"=>$infoMatriz);
+            }else{
+                $respuesta = array("mensaje"=>"las matrices no fueron consultadas.",
+                            "continuar"=>0,
+                            "datos"=>"");
+            }
+        }else if($_SESSION["project"]["info"]["idPerfil"] == 8){
+            $where["c.estado"]      = 1;
+            $where["c.eliminado"]   = 0;
+            $where["c.idEmpresa"]   = $idEmpresa;
+            $infoMatriz             = $this->ci->dbmisMatriz->consultaMatricescompradas($where);
+            if(count($infoMatriz) > 0){
+                $respuesta = array("mensaje"=>"las matrices fueron consultadas.",
+                            "continuar"=>1,
+                            "datos"=>$infoMatriz);
+            }else{
+                $respuesta = array("mensaje"=>"las matrices no fueron consultadas.",
+                            "continuar"=>0,
+                            "datos"=>"");
+            }
         }
         return $respuesta;
     }
@@ -308,10 +324,11 @@ class LogicaMisMatrices  {
     return $respuesta;
     } 
     //consulta de respuestas de check realizados 
-    public function consultacheck($idRecurrente,$idPersona){
+    public function consultacheck($idRecurrente,$idPersona,$idRelPeriocidad){
         $where['idMatrizRecurrente']    = $idRecurrente;
         $where['idPersona']             = $idPersona;
         $where['idEmpresa']             = $_SESSION["project"]["info"]["idEmpresa"];
+        $where['idRelPeriocidad']       = $idRelPeriocidad;
         $consulta               = $this->ci->dbmisMatriz->consultacheck($where);
         $valorArray = array();
         foreach($consulta as $item){
@@ -340,6 +357,7 @@ class LogicaMisMatrices  {
         $where['idMatrizRecurrente']    = $data["idMatrizRecurrente"];
         $where['idPersona']             = $data["idPersona"];
         $where['idEmpresa']             = $data["idEmpresa"];
+        $where['idRelPeriocidad']       = $data["idRelPeriocidad"];
 
         if($_SESSION['project']['info']["idPerfil"] == 8){
             $resOficial        = $data["resOficial"];
@@ -381,11 +399,13 @@ class LogicaMisMatrices  {
         }
     }
     //consulta de check para oficial de cumplimiento
-    public function consultacheckRealizado($idRecurrente,$idPersona,$idEmpresa){
+    public function consultacheckRealizado($idRecurrente,$idPersona,$idEmpresa,$idRelPeriocidad){
         $where['idMatrizRecurrente']    = $idRecurrente;
         $where['idPersona']             = $idPersona;
         $where['idEmpresa']             = $idEmpresa;
+        $where['idRelPeriocidad']       = $idRelPeriocidad;
         $consulta               = $this->ci->dbmisMatriz->consultacheckRealizado($where);
+        // var_dump($consulta);die();
         $valorArray = array();
         foreach($consulta as $item){
             $valorArray[] = $item["valor"];
@@ -411,5 +431,102 @@ class LogicaMisMatrices  {
             "datos"=>"");
         }
     return $respuesta;
+    }
+    //consulto periocidades
+    public function periocidades($idPersona,$idEmpresa){
+        $where['r.idPersona']    = $idPersona;
+        $where['r.idEmpresa']    = $idEmpresa;
+        $where['r.estado']       = 1;
+        $where['r.eliminado']    = 0;
+        $consulta              = $this->ci->dbmisMatriz->periocidades($where);
+        if(count($consulta) > 0){
+            $respuesta = array("mensaje"=>"se realizo la consulta.",
+            "continuar"=>1,
+            "datos"=>$consulta);
+        }else{
+            $respuesta = array("mensaje"=>"no se ejecuto la consulta.",
+            "continuar"=>0,
+            "datos"=>"");
+        }
+    return $respuesta;
+    }
+    //crear periocidad
+    public function crearRelPeriocidad($data){
+        if($data["edita"]==1){
+            $dataActualiza["idPeriodicidad"]    = $data["idPeriodicidad"];
+            $dataActualiza["nombreRel"]         = $data["nombreRel"];
+            $where['idRelPeriocidad']           = $data["idRelPeriocidad"];
+            $actualiza                            = $this->ci->dbmisMatriz->updatePeriocidad($dataActualiza,$where);
+            if($actualiza > 0){
+                $respuesta = array("mensaje"=>"Se Actualizo correctamente.",
+                "continuar"=>1,
+                "datos"=>$actualiza);
+            }else{
+                $respuesta = array("mensaje"=>"No pudo ser Actualizado, por favor comuniquese con el administrador.",
+                "continuar"=>0,
+                "datos"=>"");
+            }
+            return $respuesta;
+        }else{
+            $dataInserta["idPeriodicidad"]  = $data["idPeriodicidad"];
+            $dataInserta["nombreRel"]       = $data["nombreRel"];
+            $dataInserta["idEmpresa"]       = $_SESSION["project"]["info"]["idEmpresa"];
+            $dataInserta["idPersona"]       = $_SESSION["project"]["info"]["idPersona"];
+            $dataInserta["fecha"]           = date("Y-m-d H:i:s");
+            $crea           = $this->ci->dbmisMatriz->crearRelPeriocidad($dataInserta);
+            if($crea > 0){
+                $respuesta = array("mensaje"=>"Se ha creado correctamente.",
+                "continuar"=>1,
+                "datos"=>$crea);
+            }else{
+                $respuesta = array("mensaje"=>"No se ha creado",
+                "continuar"=>0,
+                "datos"=>"");
+            }
+            return $respuesta;
+        }
+    }
+    //eliminar periodicidad
+    public function borraPeriocidad($datos){
+        $dataActualiza["estado"]    = 0;
+        $dataActualiza["eliminado"] = 1;
+        $where['idRelPeriocidad']   = $datos["idRelPeriocidad"];
+        $where['idPersona']         = $_SESSION["project"]["info"]["idPersona"];
+        $where['idEmpresa']         = $_SESSION["project"]["info"]["idEmpresa"];
+        $elimina               = $this->ci->dbmisMatriz->updatePeriocidad($dataActualiza,$where);
+        if($elimina > 0){
+            $respuesta = array("mensaje"=>"Se elimino coorectamente.",
+            "continuar"=>1,
+            "datos"=>$elimina);
+        }else{
+            $respuesta = array("mensaje"=>"No pudo ser eliminada.",
+            "continuar"=>0,
+            "datos"=>"");
+        }
+        return $respuesta;
+    }
+    //consulto periocidad de la empresa
+    public function infoPeriocidades($idEmpresa){
+        $where['r.idEmpresa']    = $idEmpresa;
+        $where['r.estado']       = 1;
+        $where['r.eliminado']    = 0;
+        $consulta              = $this->ci->dbmisMatriz->periocidades($where);
+        // var_dump($consulta);die();
+        if(count($consulta) > 0){
+            $respuesta = array("mensaje"=>"se realizo la consulta.",
+            "continuar"=>1,
+            "datos"=>$consulta);
+        }else{
+            $respuesta = array("mensaje"=>"no se ejecuto la consulta.",
+            "continuar"=>0,
+            "datos"=>"");
+        }
+    return $respuesta;
+    }
+    //datos para editar
+    public function infoPeriodicidad($idRelPeriocidad){
+        $where['idRelPeriocidad'] = $idRelPeriocidad;
+        $consulta                   = $this->ci->dbmisMatriz->infoPeriodicidad($where);
+        return $consulta;
     }
 }
