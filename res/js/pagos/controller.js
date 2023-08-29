@@ -68,7 +68,7 @@ project.controller('pagos', function($scope,$http,$q,constantes)
 								var interval = setInterval(function(){
 									if(ventana.closed !== false) {
 										window.clearInterval(interval);
-										window.location.assign($scope.config.apiUrl+"MisMatrices/matrices/43"); 
+										window.location.assign($scope.config.apiUrl+"MisMatrices/home/43/"+$dataEmpresa); 
 									} else {
 										tiempo +=1;
 									}

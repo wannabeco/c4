@@ -81,14 +81,9 @@
                                       <label class="control-label" for="tipoDocumento">Tipo de documento</label>
                                       <select  id="tipoDocumento" name="tipoDocumento" class="form-control">
                                           <option value=""></option>
-                                        <?php 
-                                            $contador = 0;
-                                            foreach($selects['tiposDoc'] as $listaTD){ 
-                                              $contador++;
-                                              if($contador >= 5){
-                                        ?>
+                                        <?php  foreach($selects['tiposDoc'] as $listaTD){ ?>
                                             <option value="<?php echo $listaTD['idTipoDoc'] ?>" <?php echo (isset($datos['tipoDocumento']) && $listaTD['idTipoDoc'] == $datos['tipoDocumento'])?'selected':''; ?>><?php echo $listaTD['nombreTipoDoc'] ?></option>
-                                        <?php } } ?>
+                                        <?php } ?>
                                       </select>
                                   </div> 
                               </div>
