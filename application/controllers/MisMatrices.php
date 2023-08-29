@@ -49,6 +49,7 @@ class MisMatrices extends CI_Controller
 					$infoModulo	   = $this->logica->infoModulo($idModulo);
 					//valido perfil para enviar a mostrar datos y hacer consultas
 					if($idPerfil == 11){
+						$periocidad	= $idPeriocidad;
 						$infoEmprsa = $this->logicaMis->infoEmpresa($idEmpresa);
 						$fechaCaduca = $infoEmprsa[0]["fechaCaducidad"];
 						$hoy = date('Y-m-d H:i:s');
@@ -61,6 +62,7 @@ class MisMatrices extends CI_Controller
 								$opc 				   = "home";
 								$salida['titulo']      = "Pago Empresa";
 								$salida['centro'] 	   = "error/areaRestringida";
+								
 								$this->load->view("app/index",$salida);
 							}
 						}
@@ -68,6 +70,7 @@ class MisMatrices extends CI_Controller
 						$inforMiMatriz				= $this->logicaMis->consultaMatricescompradas($idPersona,$idEmpresa);
 						$salida['inforMiMatriz']	= $inforMiMatriz;
 						$salida['infor']			= $inforMiMatriz["datos"];
+						$salida['periocidad']	    = $periocidad;
 					}else if($idPerfil == 8){
 						// var_dump($idEmpresa);die();
 						$periocidad 				= $idPeriocidad;
@@ -134,13 +137,14 @@ class MisMatrices extends CI_Controller
 					
 					$id =$parametro;
 					$idEmpresas = $idEmpresa;
+					$periocidad = $idPeriocidad;
 					$infoModulo	      	   			= $this->logica->infoModulo($idModulo);
 					$infoUsuario		   			= $_SESSION['project']['info']['nombre'];
 					$idPersona						= $_SESSION['project']['info']['idPersona'];
 					$infoMatrizRecurrentes			= $this->logMatriz->infoMatrizRecurrentes($id);
 					$infoMatrices		  			= $this->logMatriz->infoGeneralMatriz();
 					$idrecurrente					= $infoMatrizRecurrentes[0]["idMatrizRecurrente"];
-					$infoComentarios				= $this->logMatriz->infoComentarios($idrecurrente,$idPersona);
+					$infoComentarios				= $this->logMatriz->infoComentarios($idrecurrente,$idPersona,$periocidad);
 					$opc 				   			= "home";
 					$salida['titulo']      			= "Información de Check";
 					$salida['centro'] 	   			= "MatricesCreadas/infoMatriz";
@@ -163,7 +167,6 @@ class MisMatrices extends CI_Controller
 					$nuevaMatriz = $parametro;
 					$idEmpresas = $idEmpresa;
 					$periocidad = $idPeriocidad;
-					// var_dump($periocidad);die();
 					$infoModulo	      	   			= $this->logica->infoModulo($idModulo);
 					$infoUsuario		   			= $_SESSION['project']['info']['nombre'];
 					$idPersona						= $_SESSION['project']['info']['idPersona'];
@@ -412,7 +415,18 @@ class MisMatrices extends CI_Controller
 				$salida["periodicidad"] 	= $periocidades["datos"];
 				$salida["idEmpresa"] 		= $idEmpresa;
 				$this->load->view("app/index",$salida);
-			}if(getPrivilegios()[0]['ver'] == 1 && $_SESSION["project"]["info"]["idPerfil"] != 8){
+			}if($_SESSION["project"]["info"]["idPerfil"] == 11){
+				$periocidades = $this->logicaMis->infoPeriocidades($idEmpresa);
+				$opc 				   		= "home";
+				$salida['titulo']      		= "Checks";
+				$salida['centro'] 	   		= "misMatrices/periocidades";
+				$salida['infoModulo']  		= $infoModulo[0];
+				$salida['periocidades']  	= $periocidades;
+				$salida["periodicidad"] 	= $periocidades["datos"];
+				$salida["idEmpresa"] 		= $idEmpresa;
+				$this->load->view("app/index",$salida);
+			}
+			if(getPrivilegios()[0]['ver'] == 1 && $_SESSION["project"]["info"]["idPerfil"] != 8 && $_SESSION["project"]["info"]["idPerfil"] != 11){
 				//cuando el perfil es diferente a oficial de cumplimiento
 				$idPersona = $_SESSION["project"]["info"]["idPersona"];
 				$periocidades = $this->logicaMis->periocidades($idPersona,$idEmpresa);

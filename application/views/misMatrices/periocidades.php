@@ -18,7 +18,7 @@
     <div class="row ml-2">
         <h1 class="h3 mb-0 text-gray-800 text-dark">Periodos de checks</h1>
     </div>
-    <?php if($_SESSION["project"]["info"]["idPerfil"] != 8){?>  
+    <?php if($_SESSION["project"]["info"]["idPerfil"] != 8 && $_SESSION["project"]["info"]["idPerfil"] != 11){?>  
         <a class="btn btn-sm btn-primary" ng-click="periocidad('',0)" style="cursor:pointer"><i class="fa fa-fw fa-plus"></i> Agregar Nuevo</a>
     <?php }?>
     </div>
@@ -32,7 +32,7 @@
                     <tr class="text-dark">
                         <th scope="col">Descripción</th>
                         <th scope="col">Periodo</th>
-                        <?php if($_SESSION["project"]["info"]["idPerfil"] == 8){?>
+                        <?php if($_SESSION["project"]["info"]["idPerfil"] == 8 || $_SESSION["project"]["info"]["idPerfil"] == 11){?>
                             <th scope="col">Responsable</th>
                         <?php }?>   
                         <th scope="col">Fecha</th>
@@ -46,18 +46,18 @@
                         <tr>
                             <td><p class="text-dark"><?php echo $info["nombreRel"]; ?></p></td>
                             <td><p class="text-dark"><?php echo $info["nombrePeriodicidad"]; ?></p></td>
-                            <?php if($_SESSION["project"]["info"]["idPerfil"] == 8){?>
+                            <?php if($_SESSION["project"]["info"]["idPerfil"] == 8 || $_SESSION["project"]["info"]["idPerfil"] == 11){?>
                                 <td><p class="text-dark"><?php echo $info["nombrePerfil"]; ?></p></td>
                             <?php }?>  
                             <td><p class="text-dark"><?php echo formatoFechaEspanol($info["fecha"]); ?></p></td>
                             <td>
                                 <?php if(getPrivilegios()[0]['ver'] == 1){
-                                    if($_SESSION["project"]["info"]["idPerfil"] != 8){?>    
+                                    if($_SESSION["project"]["info"]["idPerfil"] != 8 && $_SESSION["project"]["info"]["idPerfil"] != 11){?>    
                                             <a ng-click="verMatrices('<?php echo $info['idRelPeriocidad'];?>',<?php echo $idEmpresa; ?>)" data-toggle="tooltip" data-placement="top" title="Ingresar" class="btn btn-secondary btn-fab btn-fab-mini btn-xs float-left"><i class="fas fa-sign-out-alt"></i></a>
                                             <a ng-click="periocidad('<?php echo $info['idRelPeriocidad'];?>',1)" title="Editar "  class="btn btn-dark btn-fab btn-fab-mini btn-xs ml-2"><i class="fas fa-edit"></i></a>
                                             <a ng-click="borraPeriocidad('<?php echo $info['idRelPeriocidad'];?>')" title="Eliminar "  class="btn btn-danger btn-fab btn-fab-mini btn-xs ml-2"><i class="fas fa-trash"></i></a>
                                 <?php }?>
-                                <?php } if($_SESSION["project"]["info"]["idPerfil"] == 8){ ?>
+                                <?php } if($_SESSION["project"]["info"]["idPerfil"] == 8 || $_SESSION["project"]["info"]["idPerfil"] == 11){ ?>
                                     <a ng-click="verMatrices('<?php echo $info['idRelPeriocidad'];?>',<?php echo $idEmpresa; ?>)" data-toggle="tooltip" data-placement="top" title="Ingresar" class="btn btn-secondary btn-fab btn-fab-mini btn-xs float-left"><i class="fas fa-sign-out-alt"></i></a>
                                 <?php }?>
                             </td>
