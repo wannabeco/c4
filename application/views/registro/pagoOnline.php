@@ -1,9 +1,9 @@
 <div>
     <?php 
-            $payu_id_mercado =payu_id_mercado;
-            $payu_id_cuenta =payu_id_cuenta;
-            // $payu_apikey = "4Vj8eK4rloUd272L48hsrarnUA";
+            $payu_id_mercado =989196;
+            $payu_id_cuenta =997663;
             $payu_apikey = "x4Wpfz8di5FY3nrpUOn0C50ypU";
+            // $payu_apikey = "x4Wpfz8di5FY3nrpUOn0C50ypU";
             $referencia = $codigoPago;
             $datos = json_encode($compraTemporal);
             $email = $_SESSION['project']['info']['email'];
@@ -124,36 +124,31 @@
     </div>
     </div>
     <?php if($proveedor == 'payu'){
-        $llave = md5($payu_apikey."~".$payu_id_mercado."~".$codigoPago."~".$total."~COP");
-        
+        $llave = md5($payu_apikey."~".$payu_id_mercado."~".$referencia."~".$total."~COP");
+        // $llave = md5(_PAYU_API_KEY."~"._PAYU_ID_MERCADO."~".$referencia."~".$precio."~COP");
     ?>
-        
         <div class="container alert alert-primary text-center mt-4" role="alert">
-            <?php //var_dump($infoPedido);?>
                 <center>
-                <!-- <form method="post" id="theForm" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/"> -->
-                <form method="post" id="theForm" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/">
-                    <input name="merchantId" id="merchantId" type="hidden"  value="<?php echo $payu_id_mercado?>">
-                    <input name="accountId" type="hidden" value="<?php echo $payu_id_cuenta?>">
-                    <input name="description" type="hidden" value="<?php echo $nombreTransaccion; ?>">
-                    <input name="apKey" id="apKey" type="hidden" value="<?php echo $payu_apikey?>"  >
-                    <input name="secret" type="hidden"   value="pRRXKOl8ikMmt9u">
-                    <input name="referenceCode" id="referenceCode" type="hidden"  value="<?php echo $codigoPago?>">
-                    <input name="amount" type="hidden" value="<?php echo $total?>">
-                    <input name="tax" type="hidden" value="0">
-                    <input name="taxReturnBase" type="hidden" value="0">
-                    <input name="currency" id="currency" type="hidden" value="COP">
-                    <input name="signature" id="signature" type="hidden" value="<?php echo $llave?>">
-                    <input name="test" type="hidden" value="0" >
-                    <input name="buyerEmail" type="hidden" value="<?php echo $email; ?>" >
-                    <input name="responseUrl" type="hidden" value="<?php echo base_url().'Pagos/respuestaPago'?>" >
-                    <input name="confirmationUrl" type="hidden" value="<?php echo base_url().'Pagos/confirmacionPago'?>" > 
-                    <button type="submit" class="btn btn-primary" style="background:#000;color:#fff; border-radius:5px;width:150px;">Pagar</button>
+                <form method="post" id="theForm" action="https://checkout.payulatam.com/ppp-web-gateway-payu/">
+                    <input name="accountId"                         type="hidden"   value="<?php echo $payu_id_cuenta?>">
+                    <input name="merchantId"    id="merchantId"     type="hidden"   value="<?php echo $payu_id_mercado?>">
+                    <input name="description"                       type="hidden"   value="<?php echo $nombreTransaccion?>">
+                    <input name="referenceCode" id="referenceCode"  type="hidden"   value="<?php echo $referencia?>">
+                    <input name="amount"                            type="hidden"   value="<?php echo sprintf('%.2f',$total)?>">
+                    <input name="tax"                               type="hidden"   value="0">
+                    <input name="taxReturnBase"                     type="hidden"   value="0">
+                    <input name="currency"      id="currency"       type="hidden"   value="COP">
+                    <input name="signature"     id="signature"      type="hidden"   value="<?php echo $llave?>">
+                    <input name="test"                              type="hidden"   value="false" >
+                    <input name="buyerEmail"                        type="hidden"   value="<?php echo $email?>">
+                    <input name="responseUrl"                       type="hidden"   value="<?php echo base_url().'Pagos/respuestaPago'?>" >
+                    <input name="confirmationUrl"                   type="hidden"   value="<?php echo base_url().'Pagos/confirmacionPago'?>" > 
+                    <button type="submit" class="btn btn-primary" style="background:#000;color:#fff"><?php echo lang("text30")?></button>               
                 </form><br><br>
                 <img src="<?php echo base_url()?>/res/img/payuPagos.jpg" width="100%" alt="">
             </center>
             <a onclick="window.close()" class="btn btn-primary"style="background:;color:#f6f6f6;">CERRAR VENTANA</a>
             <input type="text" value="<?php var_dump('');die();?>" hidden>
         </div>
-        <?php }?>
+    <?php }?>
 </div>
