@@ -104,7 +104,7 @@ project.controller('misMatrices', function($scope,$http,$q,constantes)
 			constantes.consultaApi(controlador,parametros,function(json){
 				if(json.continuar == 1){
 					constantes.alerta("Atención",json.mensaje,"success",function(){
-						window.location = $scope.config.apiUrl+"MisMatrices/matrices/43";
+						window.location = $scope.config.apiUrl+"MisMatrices/matrices/43/"+$idEmpresa+"/0";
 					});
 				} else {
 					constantes.alerta("Atención",json.mensaje,"warning",function(){});

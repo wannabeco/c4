@@ -272,6 +272,7 @@ project.controller('perfilEmpresa', function($scope,$http,$q,constantes){
 		var telefono			=	$("#telefono").val();
 		var email				=	$("#email").val();
 		var edita 				=   1;
+		var idEmpresa			=	$("#idEmpresa").val();
 		
 		//empiezo la validación de campos que será la misma si es editar que si es crear
 		if(tipoDocumento == ""){
@@ -302,7 +303,7 @@ project.controller('perfilEmpresa', function($scope,$http,$q,constantes){
 				constantes.consultaApi(controlador,parametros,function(json){
 					if(json.continuar == 1){
 						constantes.alerta("Atención",json.mensaje,"success",function(){
-							window.location.assign($scope.config.apiUrl+"MisMatrices/matrices/43"); 
+							window.location.assign($scope.config.apiUrl+"MisMatrices/matrices/43/"+idEmpresa+"/0"); 
 						})
 					} else{
 						constantes.alerta("Atención",json.mensaje,"warning",function(){})
