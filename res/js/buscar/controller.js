@@ -231,6 +231,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 	  }
 	});
 	$(document).on('click', '#btnAgregar', function() {
+		var idEmpresa = $("#idEmpresa").val();
 		if(tiposGratis.length == 0){
 			constantes.alerta("Atención","Por favor verifique que las matrices esten completas, recuerde que con su plan, puede agregar 3.",'info',function(){});
 		}
