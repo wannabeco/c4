@@ -25,6 +25,7 @@
             <textarea class="form-control" id="descripcion" name="descripcion" rows="3" maxlength="250"></textarea>
         </div>
     </div>
+    <input type="text" id="idEmpresa" name="idEmpresa" value="<?php echo $_SESSION["project"]["info"]["idEmpresa"];?>" hidden>
   <div class="modal-footer">
     <button type="button"  data-dismiss="modal" class="btn  btn-default"><?php echo lang('reg_btn_cancelar') ?></button>
     <button type="submit" class="btn btn-raised btn-primary">Guardar</button>

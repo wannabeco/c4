@@ -57,7 +57,7 @@ project.controller('empresas', function($scope,$http,$q,constantes)
 				var parametros  = "idEmpresa="+$id;
 				constantes.consultaApi(controlador,parametros,function(json){
 					if(json.continuar == 1){
-						window.location = $scope.config.apiUrl+"MisMatrices/home/43/"+$id;
+						window.location = $scope.config.apiUrl+"MisMatrices/home/43/"+$id+"/0";
 					}
 					else{
 						constantes.alerta("Atención",json.mensaje,"warning",function(){});

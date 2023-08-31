@@ -42,9 +42,10 @@ class Buscar extends CI_Controller
 		$infoMatrices = $this->logicaMis->infoMatrices();
 		$opc = "home";
 		$salida['titulo'] = "Check's Creados";
-		$salida['inforMiMatriz'] = $inforMiMatriz;
-		$salida['infoMatrices'] = $infoMatrices;
-		$salida['centro'] = "misMatrices/creadas";
+		$salida['inforMiMatriz']= $inforMiMatriz;
+		$salida['infoMatrices']	= $infoMatrices;
+		$salida['centro'] 		= "misMatrices/creadas";
+		$salida['idEmpresa'] 	= $idEmpresa;
 		//$this->load->view("app/index",$salida);
 		echo $this->load->view("app/index",$salida,true);
 	}

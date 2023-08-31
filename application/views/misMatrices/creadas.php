@@ -68,12 +68,14 @@
                         <div ng-if="inforMiMatriz.continuar === 0">
                             <p class="card-text col-md-4 float-left"><small class="text-muted" style="text-decoration: line-through;">$ {{ matriz.precio| number }}</small></p>
                             <form ng-submit="agregaGratis(matriz.nombreNuevaMatriz, matriz.idNuevaMatriz)" class="flat-left">
+                                <input type="text" id="idEmpresa" name="idEmpresa" value="<?php echo $idEmpresa;?>" hidden>
                                 <button class="btn btn-primary float-right" type="submit"><i class="fas fa-plus"></i> Agregar</button>
                             </form>
                         </div>
                         <div ng-if="inforMiMatriz.continuar === 1">
                             <p class="card-text col-md-4 float-left"><small class="text-muted">$ {{ matriz.precio| number }} </small></p>
                             <form ng-submit="agrega(matriz.nombreNuevaMatriz, matriz.idNuevaMatriz, matriz.precio)" class="flat-left">
+                                <input type="text" id="idEmpresa" name="idEmpresa" value="<?php echo $idEmpresa;?>" hidden>
                                 <button class="btn btn-primary float-right" type="submit"><i class="fas fa-plus"></i> Agregar</button>
                             </form>
                         </div> 

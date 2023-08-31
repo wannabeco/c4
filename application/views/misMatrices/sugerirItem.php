@@ -31,6 +31,7 @@
             <label for="exampleInputEmail1">Descripción</label>
             <textarea class="form-control" id="descripcion" name="descripcion" rows="3" maxlength="250"></textarea>
         </div>
+        <input type="text" id="idEmpresa" name="idEmpresa" value="<?php echo $_SESSION["project"]["info"]["idEmpresa"]?>" hidden>
     </div>
   <div class="modal-footer">
     <button type="button"  data-dismiss="modal" class="btn  btn-default"><?php echo lang('reg_btn_cancelar') ?></button>

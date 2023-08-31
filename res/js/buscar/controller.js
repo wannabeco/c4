@@ -111,6 +111,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 	var idss = [];
 	
 	$scope.agrega = function(nombreMatriz, idMatriz, precio) {
+		var idEmpresa = $("#idEmpresa").val();
 		var nuevaMatriz = {
 			id: idMatriz,
 			nombre: nombreMatriz,
@@ -136,7 +137,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 				);
 			}).join('') +
 			(total !== 0 ? '<div class="float-left col-md-2"> Total: <strong>' + total + '</strong></div>'+
-			'<div class="float-left col-md-2" style="padding-right: 0px;top:-10px;"><button class="btn btn-primary float-righ" id="Pagar" type="button">Pagar</button></div>': '')
+			'<input type="text" id="idEmpresa" name="idEmpresa" value='+idEmpresa+' hidden>'+'<div class="float-left col-md-2" style="padding-right: 0px;top:-10px;"><button class="btn btn-primary float-righ" id="Pagar" type="button">Pagar</button></div>': '')
 		);
 		return false;
 	};
@@ -164,7 +165,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 					);
 				}).join('')+
 				(total !== 0 ? '<div class="float-left col-md-2"> Total: <strong>' + total + '</strong></div>'+
-				'<div class="float-left col-md-2" style="padding-right: 0px;top:-10px;"><button class="btn btn-primary float-righ" id="Pagar" type="button">Pagar</button></div>': '')
+				'<input type="text" id="idEmpresa" name="idEmpresa" value='+idEmpresa+' hidden>'+'<div class="float-left col-md-2" style="padding-right: 0px;top:-10px;"><button class="btn btn-primary float-righ" id="Pagar" type="button">Pagar</button></div>': '')
 			);
 		}
 	});
@@ -200,7 +201,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 			'"> X </a></span>'
 		  );
 		}).join('')+
-		(tiposGratis != 0 ?'<button class="btn btn-primary" id="btnAgregar" style="margin-left: 20px;" type="button">Agregar</button>': '')
+		(tiposGratis != 0 ?'<input type="text" id="idEmpresa" name="idEmpresa" value='+idEmpresa+' hidden>'+'<button class="btn btn-primary" id="btnAgregar" style="margin-left: 20px;" type="button">Agregar</button>': '')
 	  );
 	  return false;
 	};
@@ -225,7 +226,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 			  '"> X </a></span>'
 			);
 		  }).join('')+
-		  (tiposGratis != 0 ?'<button class="btn btn-primary" id="btnAgregar" style="margin-left: 20px;" type="button">Agregar</button>': '')
+		  (tiposGratis != 0 ?'<input type="text" id="idEmpresa" name="idEmpresa" value='+idEmpresa+' hidden>'+'<button class="btn btn-primary" id="btnAgregar" style="margin-left: 20px;" type="button">Agregar</button>': '')
 		);
 	  }
 	});
@@ -240,7 +241,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 				constantes.consultaApi(controlador,parametros,function(json){
 					if(json.continuar == 1){
 						constantes.alerta("Atención",json.mensaje,"success",function(){
-							window.location = $scope.config.apiUrl+"MisMatrices/matrices/43";
+							window.location = $scope.config.apiUrl+"MisMatrices/matrices/43/"+idEmpresa;
 						});
 					}
 					else{
@@ -251,6 +252,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 		}
 	});
 	$(document).on('click', '#Pagar', function() {
+		var idEmpresa = $("#idEmpresa").val();
 		if(tipos.length < 1){
 			constantes.alerta("Atención","Por favor verifique no hay chacks por comprar.",'info',function(){});
 		}
@@ -284,7 +286,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 										var interval = setInterval(function(){
 											if(ventana.closed !== false) {
 												window.clearInterval(interval);
-												window.location.assign($scope.config.apiUrl+"MisMatrices/matrices/43"); 
+												window.location.assign($scope.config.apiUrl+"MisMatrices/matrices/43/"+idEmpresa+"/0"); 
 											} else {
 												tiempo +=1;
 											}
@@ -320,6 +322,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 		var nombre 		= $("#nombre").val();
 		var email 		= $("#email").val();
 		var matriz 		= "";
+		var idEmpresa 		= $("#idEmpresa").val();
 		if(descripcion == ""){
 			constantes.alerta("Atención","Es necesario escribir una descipcion para sugerir un check.",'info',function(){});
 		}else{
@@ -329,7 +332,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 				constantes.consultaApi(controlador,parametros,function(json){
 					if(json.continuar == 1){
 						constantes.alerta("Atención",json.mensaje,"success",function(){
-							window.location.assign($scope.config.apiUrl+"MisMatrices/matrices/43"); 
+							window.location.assign($scope.config.apiUrl+"MisMatrices/matrices/43/"+idEmpresa); 
 						});
 					}
 					else{

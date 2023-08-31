@@ -218,6 +218,7 @@ project.controller('crearMatriz', function($scope,$http,$q,constantes)
 		var nombre 		= $("#nombre").val();
 		var email 		= $("#email").val();
 		var matriz 		= $("#matriz").val();
+		var idEmpresa	= $("#idEmpresa").val();
 		if(descripcion == ""){
 			constantes.alerta("Atención","Es necesario escribir una descipcion para sugerir un check.",'info',function(){});
 		}
@@ -228,7 +229,7 @@ project.controller('crearMatriz', function($scope,$http,$q,constantes)
 				constantes.consultaApi(controlador,parametros,function(json){
 					if(json.continuar == 1){
 						constantes.alerta("Atención",json.mensaje,"success",function(){
-							window.location.assign($scope.config.apiUrl+"MisMatrices/matrices/43"); 
+							window.location.assign($scope.config.apiUrl+"MisMatrices/matrices/43/"+idEmpresa); 
 						});
 					}
 					else{
