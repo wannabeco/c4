@@ -47,7 +47,7 @@
                     <?php }else{ ?>
                         <?php if($hijos['idModulo'] == 43 && $_SESSION["project"]["info"]["idPerfil"] == 8){?>
                             <a class="collapse-item" style="display: none;" href="<?php echo base_url()?><?php echo $hijos['urlModulo'] ?><?php echo $hijos['idModulo'] ?>/<?php echo $_SESSION["project"]["info"]["idEmpresa"]?>" title="<?php echo ucwords($hijos['nombreModulo']) ?>"><i class="<?php if($hijos['icono'] != ""){ echo $hijos['icono']; }else{ echo '';}?>" ></i> <?php echo ucwords($hijos['nombreModulo']) ?></a>
-                        <?php }if($hijos['idModulo'] == 43 && $_SESSION["project"]["info"]["idPerfil"] != 8){?>
+                        <?php }if($hijos['idModulo'] == 43 && $_SESSION["project"]["info"]["idPerfil"] != 8 && $_SESSION["project"]["info"]["idPerfil"] != 11){?>
                             <a class="collapse-item" href="<?php echo base_url()?><?php echo $hijos['urlModulo'] ?><?php echo $hijos['idModulo'] ?>/<?php echo $_SESSION["project"]["info"]["idEmpresa"]?>" title="<?php echo ucwords($hijos['nombreModulo']) ?>"><i class="<?php if($hijos['icono'] != ""){ echo $hijos['icono']; }else{ echo '';}?>" ></i> <?php echo ucwords($hijos['nombreModulo']) ?></a>
                         <?php }if($hijos['idModulo'] == 46 && $_SESSION["project"]["info"]["idPerfil"] == 11){?>
                                 <a class="collapse-item" href="<?php echo base_url()?><?php echo $hijos['urlModulo'] ?><?php echo $hijos['idModulo'] ?>/<?php echo $_SESSION["project"]["info"]["idEmpresa"]?>/0" title="<?php echo ucwords($hijos['nombreModulo']) ?>"><i class="<?php if($hijos['icono'] != ""){ echo $hijos['icono']; }else{ echo '';}?>" ></i> <?php echo ucwords($hijos['nombreModulo']) ?></a>
