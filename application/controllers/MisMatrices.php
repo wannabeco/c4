@@ -42,35 +42,62 @@ class MisMatrices extends CI_Controller
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1){ 		
+			if(getPrivilegios()[0]['ver'] == 1){ 
+						
 					//variables para la consulta
 					$idPerfil = $_SESSION["project"]["info"]["idPerfil"];
 					$idPersona = $_SESSION["project"]["info"]["idPersona"];
 					$infoModulo	   = $this->logica->infoModulo($idModulo);
 					//valido perfil para enviar a mostrar datos y hacer consultas
 					if($idPerfil == 11){
-						$periocidad	= $idPeriocidad;
-						$infoEmprsa = $this->logicaMis->infoEmpresa($idEmpresa);
-						$fechaCaduca = $infoEmprsa[0]["fechaCaducidad"];
-						$hoy = date('Y-m-d H:i:s');
-						// verifico que la empresa este al dia
-						if($hoy > $fechaCaduca ){
-							if($idEmpresa > 0){
-								redirect("PagoMatriz/PagoEmpresas");
+						if ($idPeriocidad == 0) {
+							$periocidad	= $idPeriocidad;
+							$infoEmprsa = $this->logicaMis->infoEmpresa($idEmpresa);
+							$fechaCaduca = $infoEmprsa[0]["fechaCaducidad"];
+							$hoy = date('Y-m-d H:i:s');
+							// verifico que la empresa este al dia
+							if($hoy > $fechaCaduca ){
+								if($idEmpresa > 0){
+									redirect("PagoMatriz/PagoEmpresas");
+								}
+								if($idEmpresa == 0 ){
+									$opc 				   = "home";
+									$salida['titulo']      = "Pago Empresa";
+									$salida['centro'] 	   = "error/areaRestringida";
+									
+									$this->load->view("app/index",$salida);
+								}
 							}
-							if($idEmpresa == 0 ){
-								$opc 				   = "home";
-								$salida['titulo']      = "Pago Empresa";
-								$salida['centro'] 	   = "error/areaRestringida";
-								
-								$this->load->view("app/index",$salida);
+							$relacion					= $this->logicaMis->consultaRelacion($idEmpresa);
+							$inforMiMatriz				= $this->logicaMis->consultaMatricescompradas($idPersona,$idEmpresa);
+							$salida['inforMiMatriz']	= $inforMiMatriz;
+							$salida['infor']			= $inforMiMatriz["datos"];
+							$salida['periocidad']	    = 0;
+						} else {
+							$periocidad	= $idPeriocidad;
+							$infoEmprsa = $this->logicaMis->infoEmpresa($idEmpresa);
+							$fechaCaduca = $infoEmprsa[0]["fechaCaducidad"];
+							$hoy = date('Y-m-d H:i:s');
+							// verifico que la empresa este al dia
+							if($hoy > $fechaCaduca ){
+								if($idEmpresa > 0){
+									redirect("PagoMatriz/PagoEmpresas");
+								}
+								if($idEmpresa == 0 ){
+									$opc 				   = "home";
+									$salida['titulo']      = "Pago Empresa";
+									$salida['centro'] 	   = "error/areaRestringida";
+									
+									$this->load->view("app/index",$salida);
+								}
 							}
+							$relacion					= $this->logicaMis->consultaRelacion($idEmpresa);
+							$inforMiMatriz				= $this->logicaMis->consultaMatricescompradas($idPersona,$idEmpresa);
+							$salida['inforMiMatriz']	= $inforMiMatriz;
+							$salida['infor']			= $inforMiMatriz["datos"];
+							$salida['periocidad']	    = $periocidad;
 						}
-						$relacion					= $this->logicaMis->consultaRelacion($idEmpresa);
-						$inforMiMatriz				= $this->logicaMis->consultaMatricescompradas($idPersona,$idEmpresa);
-						$salida['inforMiMatriz']	= $inforMiMatriz;
-						$salida['infor']			= $inforMiMatriz["datos"];
-						$salida['periocidad']	    = $periocidad;
+						
 					}else if($idPerfil == 8){
 						// var_dump($idEmpresa);die();
 						$periocidad 				= $idPeriocidad;
