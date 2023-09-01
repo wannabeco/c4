@@ -68,7 +68,7 @@
                                 </td>
                             <?php } ?>
                             <td>
-                                <?php if(getPrivilegios()[0]['ver'] == 1){ ?>
+                                <?php //if(getPrivilegios()[0]['ver'] == 1){ ?>
                                     <?php if($_SESSION["project"]["info"]["idPerfil"] == 8){?>
                                         <a ng-click="verMatriz('<?php echo $info['idNuevaMatriz'];?>',<?php echo $info['idEmpresa'];?>,<?php echo $periocidad;?>)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-secondary float-left ml-2"><i class="fas fa-list-alt" style="font-size: 30px; cursor:pointer;"></i></a>
                                         <!-- <div class="form-group form-check float-left ml-4 ">
@@ -84,7 +84,7 @@
                                     <?php } }?>
                             </td>
                         </tr>
-                    <?php } } ?>
+                    <?php } //} ?>
                 </tbody>
             </table>
         </div>
