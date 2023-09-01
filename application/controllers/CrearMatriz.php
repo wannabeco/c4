@@ -999,6 +999,7 @@ class crearMatriz extends CI_Controller
 				if($_SESSION['project']['info']["idPerfil"] == 8){
 					$salida["titulo"] 	 		= "Cumplir Formulario";
 				}
+			$id 						= $_POST["idNuevaMatriz"];
 			$salida['informacion']		= $id;
 			$salida['idRecurrente']		= $idRecurrente;
 			$salida['consulta']			= $consulta;
