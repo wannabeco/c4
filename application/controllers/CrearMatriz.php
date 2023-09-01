@@ -1027,7 +1027,7 @@ class crearMatriz extends CI_Controller
 			$salida["consultacheck"] 	= "";
 			$salida["edita"]  	 		= 0;
 			$salida["labelBtn"]  		= "Guardar";
-			$salida['informacion']		= $infoMatrizRecurrentes[0];
+			$salida['informacion']		= $id;
 		}
 		echo $this->load->view("MatricesCreadas/formCheck",$salida,true);
 	}
