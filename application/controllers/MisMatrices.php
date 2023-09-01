@@ -42,7 +42,7 @@ class MisMatrices extends CI_Controller
 			//si no se declara está variable en cada inicio del módulo no se podrán consultar los privilegios
 			$_SESSION['moduloVisitado']		=	$idModulo;
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
-			if(getPrivilegios()[0]['ver'] == 1){ 
+			// if(getPrivilegios()[0]['ver'] == 1){ 
 						
 					//variables para la consulta
 					$idPerfil = $_SESSION["project"]["info"]["idPerfil"];
@@ -131,9 +131,10 @@ class MisMatrices extends CI_Controller
 				$salida['centro'] 	   = "error/areaRestringida";
 				$this->load->view("app/index",$salida);
 			}
-		}else{
-			header('Location:'.base_url()."login");
-		}
+		//}
+		// else{
+		// 	header('Location:'.base_url()."login");
+		// }
 	}
 	//modal informacion de matriz asignada
 	public function miMatriz(){
