@@ -39,7 +39,7 @@ class LogicaMisMatrices  {
     //consulto matriz con el responsable
     public function consultaMatriz($dato,$tipoEmpresa){
         $where["r.idResponsable"]   = $dato;
-        $where["a.idTipoEmpresa"]   = $tipoEmpresa;
+        // $where["a.idTipoEmpresa"]   = $tipoEmpresa;
         $infoMatriz                 = $this->ci->dbmisMatriz->consultaMatriz($where);
         if(count($infoMatriz) > 0){
             $respuesta = array("mensaje"=>"las matrices fueron consultadas.",
@@ -452,7 +452,7 @@ class LogicaMisMatrices  {
     }
     //crear periocidad
     public function crearRelPeriocidad($data){
-        if($data["edita"]==1){
+        if($data["edita"] == 1){
             $dataActualiza["idPeriodicidad"]    = $data["idPeriodicidad"];
             $dataActualiza["nombreRel"]         = $data["nombreRel"];
             $where['idRelPeriocidad']           = $data["idRelPeriocidad"];
@@ -467,7 +467,7 @@ class LogicaMisMatrices  {
                 "datos"=>"");
             }
             return $respuesta;
-        }else{
+        }if($data["edita"] == 0){
             $dataInserta["idPeriodicidad"]  = $data["idPeriodicidad"];
             $dataInserta["nombreRel"]       = $data["nombreRel"];
             $dataInserta["idEmpresa"]       = $_SESSION["project"]["info"]["idEmpresa"];

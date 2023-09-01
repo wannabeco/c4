@@ -137,7 +137,7 @@ project.controller('misMatrices', function($scope,$http,$q,constantes)
 	$scope.crearPeriocidad = function(){
 		var idperiodicidad 	= $('#idperiodicidad').val();
 		var nombreRel      	= $('#nombreRel').val();
-		var edita      		= $('#edita').val();
+		var edita      		= $('#editar').val();
 		var idRelPeriocidad	= $('#idRelPeriocidad').val();
 		if(idperiodicidad == ""){
 			constantes.alerta("Atención","Debe seleccionar un periodo de checks.","info",function(){});
@@ -164,7 +164,7 @@ project.controller('misMatrices', function($scope,$http,$q,constantes)
 			}else{
 				constantes.confirmacion("Confirmación","Esta apunto de crear el periodo de check, ¿Desea continuar?",'info',function(){
 					var controlador = $scope.config.apiUrl+"MisMatrices/crearRelPeriocidad";
-					var parametros  = 	$("#creaPeriocidad").serialize();
+					var parametros  = "edita="+edita+"&"+$("#creaPeriocidad").serialize();
 					constantes.consultaApi(controlador,parametros,function(json){
 						if(json.continuar == 1){
 							constantes.alerta("Atención",json.mensaje,"success",function(){

@@ -25,7 +25,7 @@
             </div> 
         </div>
     </div>
-    <input type="text" id="edita" value="<?php echo $editar;?>" hidden>
+    <input type="text" id="editar" value="<?php echo $editar;?>" hidden>
     <input type="text" id="idRelPeriocidad" value="<?php echo $idRelPeriocidad;?>" hidden>
     <div class="modal-footer">
         <button type="button"  data-dismiss="modal" class="btn  btn-default"><?php echo lang('reg_btn_cancelar') ?></button>
