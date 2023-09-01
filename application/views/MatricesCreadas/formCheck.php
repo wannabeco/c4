@@ -398,7 +398,7 @@
         </div>
     </div>
     <?php if($_SESSION['project']['info']["idPerfil"] != 8){?>
-        <input id="idNuevaMatriz" name="idNuevaMatriz" value="<?php echo $informacion["idNuevaMatriz"]; ?>" type="hidden" />
+        <input id="idNuevaMatriz" name="idNuevaMatriz" value="<?php echo $informacion; ?>" type="hidden" />
         <input id="idPersona" name="idPersona" value="<?php echo $_SESSION['project']['info']["idPersona"]; ?>" type="hidden"/>
         <input id="idMatrizRecurrente" name="idMatrizRecurrente" value="<?php echo $idRecurrente;?>" type="hidden"/>
         <input id="idEmpresa" name="idEmpresa" value="<?php echo $_SESSION['project']['info']["idEmpresa"]; ?>" type="hidden"/>
@@ -407,7 +407,7 @@
         <input id="edita" value="<?php echo $edita; ?>" type="hidden"/>
     <?php }if($_SESSION['project']['info']["idPerfil"] == 8){?>
         <input id="idMatrizRecurrente" name="idMatrizRecurrente" value="<?php echo $idRecurrente;?>" type="hidden"/>
-        <input id="idNuevaMatriz" name="idNuevaMatriz" value="<?php echo $informacion["idNuevaMatriz"]; ?>" type="hidden" />
+        <input id="idNuevaMatriz" name="idNuevaMatriz" value="<?php echo $informacion; ?>" type="hidden" />
         <input id="idPersona" name="idPersona" value="<?php echo $infoUsuario[0]["idPersona"]; ?>" type="hidden" />
         <input id="idEmpresa" name="idEmpresa" value="<?php echo $infoUsuario[0]["idEmpresa"]; ?>" type="hidden"/>
         <input id="idPerfil" value="<?php echo $_SESSION['project']['info']["idPerfil"]; ?>" type="hidden"/>

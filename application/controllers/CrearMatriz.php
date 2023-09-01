@@ -984,7 +984,7 @@ class crearMatriz extends CI_Controller
 				$idPerfil = $_SESSION['project']['info']['idPerfil'];
 				$id 						= $_POST["idNuevaMatriz"];
 				$fecha 						= date("F j, Y");
-				$infoMatrizRecurrentes		= $this->logMatriz->infoMatrizRecurrentes($id);
+				//$infoMatrizRecurrentes		= $this->logMatriz->infoMatrizRecurrentes($id);
 				$informacionCheck			= $this->logMatriz->informacionCheck($idPerfil,$idRecurrente,$idEmpresas,$idPeriocidad);
 				$informacionPersona			= $this->logMatriz->infoPersona($idPersona);
 				$infoUsuario				= $this->logMatriz->infoUsuario($idPersona);
@@ -993,13 +993,13 @@ class crearMatriz extends CI_Controller
 				$salida['fecha']			= $fecha;
 			}
 			$salida['infoUsuario']		= $infoUsuario;
-			if($_SESSION['project']['info']["idPerfil"] != 8){
-				$salida["titulo"] 	 		= "Editar Formulario";
-			}
-			if($_SESSION['project']['info']["idPerfil"] == 8){
-				$salida["titulo"] 	 		= "Cumplir Formulario";
-			}
-			$salida['informacion']		= $infoMatrizRecurrentes[0];
+				if($_SESSION['project']['info']["idPerfil"] != 8){
+					$salida["titulo"] 	 		= "Editar Formulario";
+				}
+				if($_SESSION['project']['info']["idPerfil"] == 8){
+					$salida["titulo"] 	 		= "Cumplir Formulario";
+				}
+			$salida['informacion']		= $id;
 			$salida['idRecurrente']		= $idRecurrente;
 			$salida['consulta']			= $consulta;
 			$salida["consultacheck"]	= $consultacheck;
