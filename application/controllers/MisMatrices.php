@@ -161,12 +161,12 @@ class MisMatrices extends CI_Controller
 			//antes de pintar la plantilla del módulo valido si hay permisos de ver ese módulo para evitar que ingresen al módulo vía URL
 			if(getPrivilegios()[0]['ver'] == 1){
 				$idPerfil = $_SESSION["project"]["info"]["idPerfil"];
+				$infoModulo	      	   			= $this->logica->infoModulo($idModulo);
 				if( $idPerfil == 11){
 					
 					$id =$parametro;
 					$idEmpresas = $idEmpresa;
 					$periocidad = $idPeriocidad;
-					$infoModulo	      	   			= $this->logica->infoModulo($idModulo);
 					$infoUsuario		   			= $_SESSION['project']['info']['nombre'];
 					$idPersona						= $_SESSION['project']['info']['idPersona'];
 					$infoMatrizRecurrentes			= $this->logMatriz->infoMatrizRecurrentes($id);
@@ -195,7 +195,6 @@ class MisMatrices extends CI_Controller
 					$nuevaMatriz = $parametro;
 					$idEmpresas = $idEmpresa;
 					$periocidad = $idPeriocidad;
-					$infoModulo	      	   			= $this->logica->infoModulo($idModulo);
 					$infoUsuario		   			= $_SESSION['project']['info']['nombre'];
 					$idPersona						= $_SESSION['project']['info']['idPersona'];
 					$infoMatrizRecurrentes			= $this->logMatriz->infoMatrizRecurrentes($nuevaMatriz);
@@ -229,16 +228,14 @@ class MisMatrices extends CI_Controller
 					$salida["periocidad"] 			= $periocidad;
 					$this->load->view("app/index",$salida);
 				}else if($idPerfil > 3 && $idPerfil != 11 && $idPerfil != 8){
-					
 					$periocidad = $idPeriocidad;
 					$id =$parametro;
-					$infoModulo	      	   			= $this->logica->infoModulo($idModulo);
 					$infoUsuario		   			= $_SESSION['project']['info']['nombre'];
 					$idPersona						= $_SESSION['project']['info']['idPersona'];
 					$infoMatrizRecurrentes			= $this->logMatriz->infoMatrizRecurrentesDos($id,$idPerfil);
 					$infoMatrices		  			= $this->logMatriz->infoGeneralMatriz();
 					$idrecurrente					=$infoMatrizRecurrentes[0]["idMatrizRecurrente"];
-					$infoComentarios				= $this->logMatriz->infoComentarios($idrecurrente,$idPersona,$periocidad);
+					$infoComentarios				= $this->logMatriz->infoComentarios($id,$idPersona,$periocidad);
 					$opc 				   			= "home";
 					$salida['titulo']      			= "Información de check";
 					$salida['infoModulo']  			= $infoModulo[0];
@@ -344,7 +341,7 @@ class MisMatrices extends CI_Controller
 	//formulario de sugerir matriz
 	public function sugerirMatriz(){
 			$opc 				   		= "home";
-			$salida['titulo']      		= "Sugerir nuevo check";
+			$salida['titulo']      		= "Sugerir check";
 			echo $this->load->view("misMatrices/sugerir",$salida,true);
 	}
 	//sugerir matriz
@@ -443,7 +440,7 @@ class MisMatrices extends CI_Controller
 				$salida["periodicidad"] 	= $periocidades["datos"];
 				$salida["idEmpresa"] 		= $idEmpresa;
 				$this->load->view("app/index",$salida);
-			}if($_SESSION["project"]["info"]["idPerfil"] == 11){
+			}else if($_SESSION["project"]["info"]["idPerfil"] == 11){
 				$periocidades = $this->logicaMis->infoPeriocidades($idEmpresa);
 				$opc 				   		= "home";
 				$salida['titulo']      		= "Checks";
@@ -453,24 +450,25 @@ class MisMatrices extends CI_Controller
 				$salida["periodicidad"] 	= $periocidades["datos"];
 				$salida["idEmpresa"] 		= $idEmpresa;
 				$this->load->view("app/index",$salida);
-			}
-			if(getPrivilegios()[0]['ver'] == 1 && $_SESSION["project"]["info"]["idPerfil"] != 8 && $_SESSION["project"]["info"]["idPerfil"] != 11){
-				//cuando el perfil es diferente a oficial de cumplimiento
-				$idPersona = $_SESSION["project"]["info"]["idPersona"];
-				$periocidades = $this->logicaMis->periocidades($idPersona,$idEmpresa);
-				$opc 				   		= "home";
-				$salida['titulo']      		= "Checks";
-				$salida['centro'] 	   		= "misMatrices/periocidades";
-				$salida['infoModulo']  		= $infoModulo[0];
-				$salida['periocidades']  	= $periocidades;
-				$salida["periodicidad"] 	= $periocidades["datos"];
-				$salida["idEmpresa"] 		= $idEmpresa;
-				$this->load->view("app/index",$salida);
-			}else{
-				$opc 				   = "home";
-				$salida['titulo']      = lang("titulo")." - Área Restringida";
-				$salida['centro'] 	   = "error/areaRestringida";
-				$this->load->view("app/index",$salida);
+			}else if($_SESSION["project"]["info"]["idPerfil"] != 8 || $_SESSION["project"]["info"]["idPerfil"] != 11){ // valido perfiles que no necesitan permisos de ver
+				if(getPrivilegios()[0]['ver'] == 1){
+					//cuando el perfil es diferente a oficial de cumplimiento
+					$idPersona = $_SESSION["project"]["info"]["idPersona"];
+					$periocidades = $this->logicaMis->periocidades($idPersona,$idEmpresa);
+					$opc 				   		= "home";
+					$salida['titulo']      		= "Checks";
+					$salida['centro'] 	   		= "misMatrices/periocidades";
+					$salida['infoModulo']  		= $infoModulo[0];
+					$salida['periocidades']  	= $periocidades;
+					$salida["periodicidad"] 	= $periocidades["datos"];
+					$salida["idEmpresa"] 		= $idEmpresa;
+					$this->load->view("app/index",$salida);
+				}else{
+					$opc 				   = "home";
+					$salida['titulo']      = lang("titulo")." - Área Restringida";
+					$salida['centro'] 	   = "error/areaRestringida";
+					$this->load->view("app/index",$salida);
+				}
 			}
 		}else{
 			header('Location:'.base_url()."login");
@@ -520,6 +518,12 @@ class MisMatrices extends CI_Controller
 			header('Location:'.base_url()."login");
 		}
 	}
+	//formulario de solicitar check a la medida 
+	public function solicitarMatriz(){
+		$opc 				   		= "home";
+		$salida['titulo']      		= "Solicita nuevo check";
+		echo $this->load->view("misMatrices/solicita",$salida,true);
+}
 }
 ?>
 

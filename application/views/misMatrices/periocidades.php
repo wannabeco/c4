@@ -16,7 +16,7 @@
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <div class="row ml-2">
-        <h1 class="h3 mb-0 text-gray-800 text-dark">Periodos de checks</h1>
+        <h1 class="h3 mb-0 text-gray-800 text-dark">Periodicidad de checks</h1>
     </div>
     <?php if($_SESSION["project"]["info"]["idPerfil"] != 8 && $_SESSION["project"]["info"]["idPerfil"] != 11){?>  
         <a class="btn btn-sm btn-primary" ng-click="periocidad('',0)" style="cursor:pointer"><i class="fa fa-fw fa-plus"></i> Agregar Nuevo</a>
@@ -24,7 +24,7 @@
     </div>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-danger">Listado de periodos</h6>
+            <h6 class="m-0 font-weight-bold text-danger">Listado de Periodicidades</h6>
         </div>
         <div class="card-body">
             <table class="table table-striped">
