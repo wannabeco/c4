@@ -15,16 +15,25 @@
             </div>
         </div>
     </div>
+    <!-- solicitar check a la medidia -->
+    <div id="solicitarcheck" class="modal fade" role="dialog"  data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content" id="modalCreaNuevaSolicitud">
+                <!--Form de creación -->
+            </div>
+        </div>
+    </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800 text-dark"><?php echo $titulo;?></h1>
+        <h1 class="h3 mb-0 text-gray-800 text-dark pl-4"><?php echo $titulo;?></h1>
         <?php if($_SESSION['project']['info']['idPerfil'] == 11){?>
-            <button type="button" class="btn btn-primary float-right" ng-click="crearnueva()"><i class="fas fa-lightbulb"></i> Sugerir nuevos checks</button>
+            <button type="button" class="btn btn-primary float-right" style="margin-left: 650px;" ng-click="solicitar()"><i class="fas fa-comment-dots"></i> Solicitar checks a la medida</button>
+            <button type="button" class="btn btn-primary float-right" ng-click="crearnueva()"><i class="fas fa-lightbulb"></i> Sugerir checks</button>
         <?php }?>
     </div>
     <div ng-if="inforMiMatriz.continuar === 0">
         <div ng-if="Checks < 100" class="col-md-7">
             <div class="alert alert-success" role="alert">
-            <i class="fas fa-info-circle"></i> Recuerde que los checks adicionales a las <strong> {{ Checks }} </strong> que incluye el plan serán cobradas.
+            <i class="fas fa-info-circle"></i> Recuerde que los checks adicionales a los <strong> {{ Checks }} </strong> que incluye el plan serán cobradas.
             </div>
         </div>
         <div ng-if="Checks == 100" class="col-md-7">
@@ -36,7 +45,7 @@
     <div ng-if="inforMiMatriz.continuar === 1">
         <div ng-if="Checks < 100" class="col-md-7">
             <div class="alert alert-info" role="alert">
-            <i class="fas fa-exclamation-triangle"></i> Recuerde que los checks adicionales a las <strong> {{ Checks }} </strong> que incluye el plan, <strong> serán cobradas.</strong>
+            <i class="fas fa-exclamation-triangle"></i> Recuerde que los checks adicionales a los <strong> {{ Checks }} </strong> que incluye el plan, <strong> serán cobradas.</strong>
             </div>
         </div>
         <div ng-if="Checks == 100" class="col-md-7">
@@ -59,7 +68,7 @@
         <div class="card mb-3 col-md-6 float-left" style="width:600px; height:200px;" ng-repeat="matriz in infoMatrices | limitTo: pageSize: (currentPage - 1) * pageSize" ng-class="{'float-right': $index % 2 != 0}">
             <div class="row no-gutters">
                 <div class="col-md-4">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/1/16/SparkyLinux-logo-200px.png" class="imagencard" alt="...">
+                    <img src="<?php echo base_url();?>res/img/LogoDefinitivo.png" class="imagencard" alt="...">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
@@ -112,7 +121,7 @@
 <style>
     .imagencard{
         width:150px;
-        height:150px;
+        height:130px;
         margin-top: 20px;
         margin-left: 20px;
     }

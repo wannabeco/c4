@@ -21,16 +21,21 @@
         </div>
         <div class="col-md-12">
             <div class="form-group pl-4" style="margin-bottom: 0px;">
-            <label for="cargo"><strong>Cargo:</strong><?php echo $infoUsuario[0]['nombrePerfil']; ?></label>
+            <label for="cargo"><strong>Cargo: </strong><?php echo $infoUsuario[0]['nombrePerfil']; ?></label>
             </div>
         </div>
         <div class="col-md-12">
             <div class="form-group pl-4" style="margin-bottom: 0px;">
                 <?php if($_SESSION['project']['info']["idPerfil"] != 8){?>
-                    <label for="fecha"><strong>Fecha de Diligenciamiento de Formato:</strong> <?php echo formatoFechaEspanol($fecha); ?></label>
+                    <label for="fecha"><strong>Fecha de Diligenciamiento de Formato: </strong> <?php echo formatoFechaEspanol($fecha); ?></label>
                     <?php } if($_SESSION['project']['info']["idPerfil"] == 8){?>
-                        <label for="fecha"><strong>Fecha de Diligenciamiento de Formato:</strong> <?php echo formatoFechaEspanol($consulta["datos"][0]["fechaRespuesta"]); ?></label>
+                        <label for="fecha"><strong>Fecha de Diligenciamiento de Formato: </strong> <?php echo formatoFechaEspanol($consulta["datos"][0]["fechaRespuesta"]); ?></label>
                     <?php }?>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group pl-4" style="margin-bottom: 0px;">
+            <label for="cargo"><strong>Norma: </strong><?php echo $infoRecurrente["normatividad"];?></label>
             </div>
         </div>
     </div>
@@ -424,7 +429,8 @@
     <div class="row pl-4 pr-4">
       <div class="col-md-12">
         <div class="form-group">
-          <textarea class="form-control" rows="3" id="comentarios" ng-model="comentarios"><?php echo (isset($consulta["datos"][0]["comentario"]))?></textarea>
+          <!-- <textarea class="form-control" rows="3" id="comentarios"><?php echo (isset($consulta["datos"][0]["comentario"]))?></textarea> -->
+          <textarea class="form-control" rows="3" id="comentarios"><?php echo (isset($consulta["datos"][0]["comentario"])) ? $consulta["datos"][0]["comentario"] : ''; ?></textarea>
         </div>
       </div>
     </div>

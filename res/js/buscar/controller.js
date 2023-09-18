@@ -317,6 +317,18 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 	 		$scope.compileAngularElement("#formsugerir");
 	 	},'');
 	}
+	//solicitar check
+	$scope.solicitar =function(){
+		$('#solicitarcheck').modal("show");
+	 	var controlador = $scope.config.apiUrl+"MisMatrices/solicitarMatriz";
+	 	var parametros  = "";
+	 	constantes.consultaApi(controlador,parametros,function(json){
+				
+	 		$("#modalCreaNuevaSolicitud").html(json);
+	 		// actualiza el DOM
+	 		$scope.compileAngularElement("#formsugerir");
+	 	},'');
+	}
 	
 	$scope.sugerirMatriz = function(){
 		var descripcion = $("#descripcion").val();

@@ -463,20 +463,16 @@ class LogicaMatriz  {
         return $respuesta;
     }
     //informacion de comentarios
-    public function infoComentarios($idrecurrente,$idPersona,$periocidad){
+    public function infoComentarios($id,$idPersona,$periocidad){
         $where["idPersona"]          = $idPersona;
-        $where["idMatrizRecurrente"] = $idrecurrente;
+        $where["idNuevaMatriz"] = $id;
         $where["idRelPeriocidad"]   = $periocidad;
         $informacion            = $this->ci->dbMatriz->infoComentarios($where);
-        //var_dump($informacion);die();
-        $id ="";
-        if(isset($informacion[0]["idMatrizRecurrente"])){
-            $id = $informacion[0]["idMatrizRecurrente"];
-        }
-        if($idrecurrente == $id){
+        // var_dump($informacion);die();
+        if($informacion > 0){
             $respuesta = array("mensaje"=>"los comentarios se han consultado correctamente.",
-                        "continuar"=>1,
-                        "datos"=>$informacion);
+                            "continuar"=>1,
+                            "datos"=>$informacion);
         }else{
             $respuesta = array("mensaje"=>"los comentarios no se han consultado correctamente.",
                         "continuar"=>0,
@@ -547,5 +543,11 @@ class LogicaMatriz  {
         $where["idPersona"] = $idPersona;
         $actualiza            = $this->ci->dbMatriz->infoUsuario($where);
         return $actualiza;
+    }
+    //informacion solo de matriz recurrente
+    public function infoRecurrente($idrecurrente){
+        $where["idMatrizRecurrente"] = $idrecurrente;
+        $informacion            = $this->ci->dbMatriz->infoMatriz($where);
+        return $informacion;
     }
 }
