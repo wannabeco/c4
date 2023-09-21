@@ -16,7 +16,7 @@
         </div>
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800 text-dark"><?php echo $titulo;?></h1>
+        <h1 class="h3 mb-0 text-gray-800 text-dark pl-4"><?php echo $titulo;?></h1>
         <?php if($_SESSION['project']['info']['idPerfil'] == 11){?>
             <button type="button" class="btn btn-primary float-right" ng-click="crearnueva()"><i class="fas fa-lightbulb"></i> Sugerir nuevos checks</button>
         <?php }?>
@@ -59,7 +59,7 @@
         <div class="card mb-3 col-md-6 float-left" style="width:600px; height:200px;" ng-repeat="matriz in infoMatrices | limitTo: pageSize: (currentPage - 1) * pageSize" ng-class="{'float-right': $index % 2 != 0}">
             <div class="row no-gutters">
                 <div class="col-md-4">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/1/16/SparkyLinux-logo-200px.png" class="imagencard" alt="...">
+                    <img src="<?php echo base_url();?>res/img/LogoDefinitivo.png" class="imagencard" alt="...">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
@@ -112,7 +112,7 @@
 <style>
     .imagencard{
         width:150px;
-        height:150px;
+        height:130px;
         margin-top: 20px;
         margin-left: 20px;
     }

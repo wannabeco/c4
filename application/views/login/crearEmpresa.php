@@ -57,6 +57,12 @@
                                                 <input type="password" class="form-control form-control-user" id="rclave" name="rclave" placeholder="Repita contraseña">
                                             </div>
                                         </div>
+                                        <div class="ml-2">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" id="terminosEmpresa" name="terminosEmpresa">
+                                                <label class="custom-control-label" for="terminosEmpresa">Acepto los <a href="http://" target="_blank">términos, condiciones</a> y <a href="http://">la política de privacidad</a> para el uso de wabechek.</label>
+                                            </div>
+                                        </div>
                                         <button class="btn btn-primary btn-user btn-block">Continuar</button>
                                         <hr>
                                     </form>
@@ -95,6 +101,12 @@
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <input type="password" class="form-control form-control-user" id="rclave" name="rclave" placeholder="Repita contraseña">
+                                                </div>
+                                            </div>
+                                            <div class="ml-2">
+                                            <div class="custom-control custom-switch">
+                                                    <input type="checkbox" class="custom-control-input" id="terminoaOficial" name="terminoaOficial">
+                                                    <label class="custom-control-label" for="terminoaOficial">Acepto los <a href="http://" target="_blank">términos, condiciones</a> y <a href="http://">la política de privacidad</a> para el uso de wabechek.</label>
                                                 </div>
                                             </div>
                                             <input type="submit" class="btn btn-primary btn-user btn-block" value="Continuar">

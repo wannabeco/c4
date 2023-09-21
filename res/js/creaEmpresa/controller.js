@@ -22,26 +22,29 @@ project.controller('creaEmpresa', function($scope,$http,$q,constantes)
 		var email				=	$("#email").val();
 		var clave				=	$("#clave").val();
 		var rclave				=	$("#rclave").val();
+		var terminosEmpresa		=	$("#terminosEmpresa").prop('checked');
 		
 		//empiezo la validación de campos que será la misma si es editar que si es crear
 		if(nombre == ""){
-			constantes.alerta("Atención","Debe escribir el nombre de la empresa.","info",function(){})
+			constantes.alerta("Atención","Debe escribir el nombre de la empresa.","info",function(){});
 		}else if(tipoEmpresa <= 0){
-			constantes.alerta("Atención","Debe seleccionar el tipo de empresa.","info",function(){})
+			constantes.alerta("Atención","Debe seleccionar el tipo de empresa.","info",function(){});
 		}else if(nombreUsuario == ""){
-			constantes.alerta("Atención","Debe escribir el nombre del usuario.","info",function(){})
+			constantes.alerta("Atención","Debe escribir el nombre del usuario.","info",function(){});
 		}else if(apellido == ""){
-			constantes.alerta("Atención","Debe escribir el apellido del usuario.","info",function(){})
+			constantes.alerta("Atención","Debe escribir el apellido del usuario.","info",function(){});
 		}else if(email == ""){
-			constantes.alerta("Atención","Es importante escribir un correo electrónico valido ya que este será el usuario de acceso al sistema para el usuario.","info",function(){})
+			constantes.alerta("Atención","Es importante escribir un correo electrónico valido ya que este será el usuario de acceso al sistema para el usuario.","info",function(){});
 		}else if(email != "" && !constantes.validaMail(email)){
-			constantes.alerta("Atención","El correo electrónico ingresado no es correcto, por favor verifique.","info",function(){})
+			constantes.alerta("Atención","El correo electrónico ingresado no es correcto, por favor verifique.","info",function(){});
 		}else if(clave == ""){
-			constantes.alerta("Atención","La contraseña es requerica, por favor verifique.","info",function(){})
+			constantes.alerta("Atención","La contraseña es requerica, por favor verifique.","info",function(){});
 		}else if(rclave == ""){
-			constantes.alerta("Atención","Es necesario que repita la contraseña, por favor verifique.","info",function(){})
+			constantes.alerta("Atención","Es necesario que repita la contraseña, por favor verifique.","info",function(){});
 		}else if(rclave != clave){
-			constantes.alerta("Atención","Las contraseñas no coinsiden, por favor verifique.","info",function(){})
+			constantes.alerta("Atención","Las contraseñas no coinsiden, por favor verifique.","info",function(){});
+		}else if(terminosEmpresa == false){
+			constantes.alerta("Atención","Para poder continuar es necesario aceptar los términos y condiciones de uso del sistema.","info",function(){});
 		}else{
 			constantes.confirmacion("Confirmación","Esta apunto de crear una empresa, ¿Desea continuar?",'info',function(){
 				//$scope.cracion("Creando empresa",10000);
@@ -70,6 +73,7 @@ project.controller('creaEmpresa', function($scope,$http,$q,constantes)
 		var email				=	$("#email").val();
 		var clave				=	$("#clave").val();
 		var rclave				=	$("#rclave").val();
+		var terminoaOficial		=	$("#terminoaOficial").val();
 
 		if(nombreUsuarios == ""){
 			constantes.alerta("Atención","Debe escribir el nombre del usuario.","info",function(){});
@@ -93,6 +97,8 @@ project.controller('creaEmpresa', function($scope,$http,$q,constantes)
 			constantes.alerta("Atención","Es necesario que repita la contraseña, por favor verifique.","info",function(){});
 		}else if(rclave != clave){
 			constantes.alerta("Atención","Las contraseñas no coinsiden, por favor verifique.","info",function(){});
+		}else if(terminoaOficial == false){
+			constantes.alerta("Atención","Para poder continuar es necesario aceptar los términos y condiciones de uso del sistema.","info",function(){});
 		}else{
 			constantes.confirmacion("Confirmación","Esta apunto de registrarse como Oficial de cumplimiento, ¿Desea continuar?",'info',function(){
 				var controlador = $scope.config.apiUrl+"Registro/creaOficial";

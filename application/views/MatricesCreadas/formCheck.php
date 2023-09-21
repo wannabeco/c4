@@ -21,16 +21,21 @@
         </div>
         <div class="col-md-12">
             <div class="form-group pl-4" style="margin-bottom: 0px;">
-            <label for="cargo"><strong>Cargo:</strong><?php echo $infoUsuario[0]['nombrePerfil']; ?></label>
+            <label for="cargo"><strong>Cargo: </strong><?php echo $infoUsuario[0]['nombrePerfil']; ?></label>
             </div>
         </div>
         <div class="col-md-12">
             <div class="form-group pl-4" style="margin-bottom: 0px;">
                 <?php if($_SESSION['project']['info']["idPerfil"] != 8){?>
-                    <label for="fecha"><strong>Fecha de Diligenciamiento de Formato:</strong> <?php echo formatoFechaEspanol($fecha); ?></label>
+                    <label for="fecha"><strong>Fecha de Diligenciamiento de Formato: </strong> <?php echo formatoFechaEspanol($fecha); ?></label>
                     <?php } if($_SESSION['project']['info']["idPerfil"] == 8){?>
-                        <label for="fecha"><strong>Fecha de Diligenciamiento de Formato:</strong> <?php echo formatoFechaEspanol($consulta["datos"][0]["fechaRespuesta"]); ?></label>
+                        <label for="fecha"><strong>Fecha de Diligenciamiento de Formato: </strong> <?php echo formatoFechaEspanol($consulta["datos"][0]["fechaRespuesta"]); ?></label>
                     <?php }?>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group pl-4" style="margin-bottom: 0px;">
+            <label for="cargo"><strong>Norma: </strong><?php echo $infoRecurrente["normatividad"];?></label>
             </div>
         </div>
     </div>
@@ -44,10 +49,7 @@
         <div class="col-md-12">
         <?php if($_SESSION['project']['info']["idPerfil"] != 8){?>
             <div class="form-group col-md-8 float-left">
-        <?php }if($_SESSION['project']['info']["idPerfil"] == 8){?>
-            <div class="form-group col-md-7 float-left">
-        <?php }?>
-                <label>Preguntas:</label>
+                 <label>Preguntas:</label>
             </div>
             <div class="col-md-1 float-left">
                 <label for="">SI</label>
@@ -58,8 +60,14 @@
             <div class="col-md-1 float-left">
                 <label for="">N/A</label>
             </div>
-            <?php if($_SESSION['project']['info']["idPerfil"] == 8){?>
-                <div class="col-md-2 float-left">
+            <?php }if($_SESSION['project']['info']["idPerfil"] == 8){?>
+                <div class="form-group col-md-6 float-left">
+                    <label>Preguntas:</label>
+                </div>
+                <div class="col-md-2 float-left text-center">
+                    <label for="">Respuesta</label>
+                </div>
+                <div class="col-md-4 float-left text-center">
                     <label for="">Oficial</label>
                 </div>
             <?php }?>
@@ -67,10 +75,10 @@
         <!-- pregunta 1 -->
         <div class="col-md-12 bg-light">
             <div class="form-group">
-                <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="col-md-8 float-left text-justify"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-7 float-left text-justify"><?php }?>
+                <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="col-md-8 float-left text-justify"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-6 float-left text-justify"><?php }?>
                     <label>¿Se completó el procedimiento de acuerdo con los lineamientos establecidos en los manuales?</label>
                 </div>
-                <?php if($_SESSION['project']['info']["idPerfil"] != 8){?> <div class="col-md-4 float-left"> <?php }if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-3 float-left"><?php }?>
+                <?php if($_SESSION['project']['info']["idPerfil"] != 8){?> <div class="col-md-4 float-left"> <?php }if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-3 float-left" style="display:none;"><?php }?>
                     <div class="checkboxes pt-3">
                         <div class="form-check form-check-inline">
                             <input type="radio" class="form-check-input text-secondary" id="pregunta1" name="pregunta1" style="height: 22px; width:22px;" value="SI" ng-click="mostrarInput1()" ng-checked="respuestas[0] == 'SI'" ng-disabled="perfilUsuario == 8">
@@ -87,7 +95,10 @@
                     </div>
                 </div>
                 <?php if($_SESSION['project']['info']["idPerfil"] == 8){?>
-                <div class="col-md-2 float-left">
+                    <div class="col-md-2 float-left text-center pt-3">
+                        {{uno}}
+                    </div>
+                <div class="col-md-4 float-left pl-5">
                     <div class="checkboxes pt-3">
                         <div class="form-check form-check-inline">
                             <input type="radio" class="form-check-input text-secondary" id="pregunta1o" name="pregunta1o" style="height: 22px; width:22px;" value="SI">
@@ -123,10 +134,10 @@
         <!-- pregunta 2 -->
         <div class="col-md-12 pt-2">
             <div class="form-group">
-            <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="col-md-8 float-left text-justify"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-7 float-left text-justify"><?php }?>
+            <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="col-md-8 float-left text-justify"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-6 float-left text-justify"><?php }?>
                     <label>¿Se revisó que el procedimiento se haya realizado con apego a la normativa vigente?</label>
                 </div>
-                <?php if($_SESSION['project']['info']["idPerfil"] != 8){?> <div class="col-md-4 float-left"> <?php }if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-3 float-left"><?php }?>
+                <?php if($_SESSION['project']['info']["idPerfil"] != 8){?> <div class="col-md-4 float-left"> <?php }if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-3 float-left" style="display:none;"><?php }?>
                     <div class="checkboxes pt-3">
                         <div class="form-check form-check-inline">
                             <input type="radio" class="form-check-input text-secondary" id="pregunta2" name="pregunta2" style="height: 22px; width:22px;" value="SI" ng-click="mostrarInput2()" ng-checked="respuestas[1] == 'SI'">
@@ -143,7 +154,10 @@
                     </div>
                 </div>
                 <?php if($_SESSION['project']['info']["idPerfil"] == 8){?>
-                    <div class="col-md-2 float-left">
+                    <div class="col-md-2 float-left text-center pt-3">
+                        {{dos}}
+                    </div>
+                    <div class="col-md-4 float-left pl-5">
                         <div class="checkboxes pt-3">
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input text-secondary" id="pregunta2o" name="pregunta2o" style="height: 22px; width:22px;" value="SI">
@@ -179,10 +193,10 @@
         <!-- pregunta3 -->
         <div class="col-md-12 bg-light pt-2">
             <div class="form-group">
-                    <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="col-md-8 float-left text-justify"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-7 float-left text-justify"><?php }?>
+                    <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="col-md-8 float-left text-justify"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-6 float-left text-justify"><?php }?>
                     <label> ¿Se recibió el reporte de información pertinente de los analistas y/o responsables del procedimiento de acuerdo con el procedimiento?</label>
                 </div>
-                <?php if($_SESSION['project']['info']["idPerfil"] != 8){?> <div class="col-md-4 float-left"> <?php }if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-3 float-left"><?php }?>
+                <?php if($_SESSION['project']['info']["idPerfil"] != 8){?> <div class="col-md-4 float-left"> <?php }if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-3 float-left" style="display:none;"><?php }?>
                     <div class="checkboxes pt-3">
                         <div class="form-check form-check-inline">
                             <input type="radio" class="form-check-input text-secondary" id="pregunta3" name="pregunta3" style="height: 22px; width:22px;" value="SI" ng-click="mostrarInput3()" ng-checked="respuestas[2] == 'SI'">
@@ -199,7 +213,10 @@
                     </div>
                 </div>
                 <?php if($_SESSION['project']['info']["idPerfil"] == 8){?>
-                    <div class="col-md-2 float-left">
+                    <div class="col-md-2 float-left text-center pt-3">
+                        {{tres}}
+                    </div>
+                    <div class="col-md-4 float-left pl-5">
                         <div class="checkboxes pt-3">
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input text-secondary" id="pregunta3o" name="pregunta3o" style="height: 22px; width:22px;" value="SI">
@@ -234,10 +251,10 @@
         <!-- pregunta 4 -->
         <div class="col-md-12 pt-2">
             <div class="form-group">
-                    <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="col-md-8 float-left text-justify"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-7 float-left text-justify"><?php }?>
+                    <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="col-md-8 float-left text-justify"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-6 float-left text-justify"><?php }?>
                     <label> ¿Se rindió reporte de la gestión al Área de Cumplimiento?</label>
                 </div>
-                <?php if($_SESSION['project']['info']["idPerfil"] != 8){?> <div class="col-md-4 float-left"> <?php }if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-3 float-left"><?php }?>
+                <?php if($_SESSION['project']['info']["idPerfil"] != 8){?> <div class="col-md-4 float-left"> <?php }if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-3 float-left" style="display:none;"><?php }?>
                     <div class="checkboxes">
                         <div class="form-check form-check-inline">
                             <input type="radio" class="form-check-input text-secondary" id="pregunta4" name="pregunta4" style="height: 22px; width:22px;" value="SI" ng-click="mostrarInput4()" ng-checked="respuestas[3] == 'SI'">
@@ -254,7 +271,10 @@
                     </div>
                 </div>
                 <?php if($_SESSION['project']['info']["idPerfil"] == 8){?>
-                    <div class="col-md-2 float-left">
+                    <div class="col-md-2 float-left text-center pt-3">
+                        {{cuatro}}
+                    </div>
+                    <div class="col-md-4 float-left pl-5">
                         <div class="checkboxes pt-3">
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input text-secondary" id="pregunta4o" name="pregunta4o" style="height: 22px; width:22px;" value="SI">
@@ -289,10 +309,10 @@
         <!-- pregunta 5 -->
         <div class="col-md-12 bg-light pt-2">
             <div class="form-group">
-                    <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="col-md-8 float-left text-justify"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-7 float-left text-justify"><?php }?>
+                    <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="col-md-8 float-left text-justify"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-6 float-left text-justify"><?php }?>
                     <label>¿Se presentó alguna inconsistencia o falencia en el procedimiento?</label>
                 </div>
-                <?php if($_SESSION['project']['info']["idPerfil"] != 8){?> <div class="col-md-4 float-left"> <?php }if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-3 float-left"><?php }?>
+                <?php if($_SESSION['project']['info']["idPerfil"] != 8){?> <div class="col-md-4 float-left"> <?php }if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-3 float-left" style="display:none;"><?php }?>
                     <div class="checkboxes pt-3">
                         <div class="form-check form-check-inline">
                             <input type="radio" class="form-check-input text-secondary" id="pregunta5" name="pregunta5" style="height: 22px; width:22px;" value="SI" ng-click="mostrarInput5()" ng-checked="respuestas[4] == 'SI'">
@@ -309,7 +329,10 @@
                     </div>
                 </div>
                 <?php if($_SESSION['project']['info']["idPerfil"] == 8){?>
-                    <div class="col-md-2 float-left">
+                    <div class="col-md-2 float-left text-center pt-3">
+                        {{cinco}}
+                    </div>
+                    <div class="col-md-4 float-left pl-5">
                         <div class="checkboxes pt-3">
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input text-secondary" id="pregunta5o" name="pregunta5o" style="height: 22px; width:22px;" value="SI">
@@ -344,10 +367,10 @@
         <!-- pregunta 6 -->
         <div class="col-md-12 pt-2">
             <div class="form-group">
-                <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="col-md-8 float-left text-justify"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-7 float-left text-justify"><?php }?>
+                <?php if($_SESSION['project']['info']["idPerfil"] != 8){?><div class="col-md-8 float-left text-justify"><?php } if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-6 float-left text-justify"><?php }?>
                     <label>¿Se reportó la inconsistencia o falencia al Área de Cumplimiento?</label>
                 </div>
-                <?php if($_SESSION['project']['info']["idPerfil"] != 8){?> <div class="col-md-4 float-left"> <?php }if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-3 float-left"><?php }?>
+                <?php if($_SESSION['project']['info']["idPerfil"] != 8){?> <div class="col-md-4 float-left"> <?php }if($_SESSION['project']['info']["idPerfil"] == 8){?><div class="col-md-3 float-left" style="display:none;"><?php }?>
                     <div class="checkboxes pt-3">
                         <div class="form-radio form-check-inline">
                             <input type="radio" class="form-check-input text-secondary" id="pregunta6" name="pregunta6" style="height: 22px; width:22px;" value="SI" ng-click="mostrarInput6()" ng-checked="respuestas[5] == 'SI'">
@@ -364,7 +387,10 @@
                     </div>
                 </div>
                 <?php if($_SESSION['project']['info']["idPerfil"] == 8){?>
-                    <div class="col-md-2 float-left">
+                    <div class="col-md-2 float-left text-center pt-3">
+                        {{seis}}
+                    </div>
+                    <div class="col-md-4 float-left pl-5">
                         <div class="checkboxes pt-3">
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input text-secondary" id="pregunta6o" name="pregunta6o" style="height: 22px; width:22px;" value="SI">
@@ -424,7 +450,7 @@
     <div class="row pl-4 pr-4">
       <div class="col-md-12">
         <div class="form-group">
-          <textarea class="form-control" rows="3" id="comentarios" ng-model="comentarios"><?php echo (isset($consulta["datos"][0]["comentario"]))?></textarea>
+          <textarea class="form-control" rows="3" id="comentarios"><?php echo $consulta["datos"][0]["comentario"];?></textarea>
         </div>
       </div>
     </div>

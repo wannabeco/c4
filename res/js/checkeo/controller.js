@@ -231,11 +231,16 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 						document.querySelector('input[id=pregunta1][value="SI"]').checked = true;
 						$scope.mostrarInput1();
 						$scope.urlArchivo1 = $scope.archivos[0];
+						$scope.uno = "SI";
 						$scope.$apply();
 						document.querySelector('input[id=pregunta1][value="SI"]').checked = true;
 					} if($scope.respuestas[0] == "NO"){
+						$scope.uno = "NO";
+						$scope.$apply();
 						document.querySelector('input[id=pregunta1][value="NO"]').checked = true;
 					} if($scope.respuestas[0] == "NO/A"){
+						$scope.uno ="NO/A";
+						$scope.$apply();
 						document.querySelector('input[id=pregunta1][value="NO/A"]').checked = true;
 					} 
 					//pregunta2
@@ -243,11 +248,16 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 						document.querySelector('input[id=pregunta2][value="SI"]').checked = true;
 						$scope.mostrarInput2();
 						$scope.urlArchivo2 = $scope.archivos[1];
+						$scope.dos = "SI";
 						$scope.$apply();
 						document.querySelector('input[id=pregunta2][value="SI"]').checked = true;
 					} if($scope.respuestas[1] == "NO"){
+						$scope.dos = "NO";
+						$scope.$apply();
 						document.querySelector('input[id=pregunta2][value="NO"]').checked = true;
 					} if($scope.respuestas[1] == "NO/A"){
+						$scope.dos = "NO/A";
+						$scope.$apply();
 						document.querySelector('input[id=pregunta2][value="NO/A"]').checked = true;
 					} 
 					//pregunta3
@@ -255,11 +265,16 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 						document.querySelector('input[id=pregunta3][value="SI"]').checked = true;
 						$scope.mostrarInput3();
 						$scope.urlArchivo3 = $scope.archivos[2];
+						$scope.tres = "SI";
 						$scope.$apply();
 						document.querySelector('input[id=pregunta3][value="SI"]').checked = true;
 					} if($scope.respuestas[2] == "NO"){
+						$scope.tres = "NO";
+						$scope.$apply();
 						document.querySelector('input[id=pregunta3][value="NO"]').checked = true;
 					} if($scope.respuestas[2] == "NO/A"){
+						$scope.tres = "NO/A";
+						$scope.$apply();
 						document.querySelector('input[id=pregunta3][value="NO/A"]').checked = true;
 					}
 					//pregunta4
@@ -267,11 +282,16 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 						document.querySelector('input[id=pregunta4][value="SI"]').checked = true;
 						$scope.mostrarInput4();
 						$scope.urlArchivo4 = $scope.archivos[3];
+						$scope.cuatro = "SI";
 						$scope.$apply();
 						document.querySelector('input[id=pregunta4][value="SI"]').checked = true;
 					} if($scope.respuestas[3] == "NO"){
+						$scope.cuatro = "NO";
+						$scope.$apply();
 						document.querySelector('input[id=pregunta4][value="NO"]').checked = true;
 					} if($scope.respuestas[3] == "NO/A"){
+						$scope.cuatro = "NO/A";
+						$scope.$apply();
 						document.querySelector('input[id=pregunta4][value="NO/A"]').checked = true;
 					} 
 					//pregunta 5
@@ -279,11 +299,16 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 						document.querySelector('input[id=pregunta5][value="SI"]').checked = true;
 						$scope.mostrarInput5();
 						$scope.urlArchivo5 = $scope.archivos[4];
+						$scope.cinco = "SI";
 						$scope.$apply();
 						document.querySelector('input[id=pregunta5][value="SI"]').checked = true;
 					} if($scope.respuestas[4] == "NO"){
+						$scope.cinco = "NO";
+						$scope.$apply();
 						document.querySelector('input[id=pregunta5][value="NO"]').checked = true;
 					} if($scope.respuestas[4] == "NO/A"){
+						$scope.cinco = "NO/A";
+						$scope.$apply();
 						document.querySelector('input[id=pregunta5][value="NO/A"]').checked = true;
 					} 
 					//pregunta6
@@ -291,11 +316,16 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 						document.querySelector('input[id=pregunta6][value="SI"]').checked = true;
 						$scope.mostrarInput6();
 						$scope.urlArchivo6 = $scope.archivos[5];
+						$scope.seis = "SI";
 						$scope.$apply();
 						document.querySelector('input[id=pregunta6][value="SI"]').checked = true;
 					} if($scope.respuestas[5] == "NO"){
+						$scope.seis = "NO";
+						$scope.$apply();
 						document.querySelector('input[id=pregunta6][value="NO"]').checked = true;
 					} if($scope.respuestas[5] == "NO/A"){
+						$scope.seis = "NO/A";
+						$scope.$apply();
 						document.querySelector('input[id=pregunta6][value="NO/A"]').checked = true;
 					}
 
@@ -431,20 +461,18 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 			constantes.alerta("Atención","Debe de chekear la respuesta para la pregunta 5.","info",function(){});
 		} else if(pregunta6o == undefined){
 			constantes.alerta("Atención","Debe de chekear la respuesta para la pregunta 6.","info",function(){});
-		}
-		else{
+		}else{
 			resOficiales.push(pregunta1o,pregunta2o,pregunta3o,pregunta4o,pregunta5o,pregunta6o);
 			var respuestasOficiales =resOficiales;
 			constantes.confirmacion("Confirmación","Esta apunto de actualizar el formulario, ¿Desea continuar?",'info',function(){
 				var controlador = $scope.config.apiUrl+"MisMatrices/actualizaCheck";
-				var parametros  = 	"resOficial="+respuestasOficiales+"&idNuevaMatriz="+idNuevaMatriz+"&idPersona="+idPersona+"&idMatrizRecurrente="+idMatrizRecurrente+"&idEmpresa="+idEmpresa+"&idRelPeriocidad="+idRelPeriocidad;
+				var parametros  = "resOficial="+respuestasOficiales+"&idNuevaMatriz="+idNuevaMatriz+"&idPersona="+idPersona+"&idMatrizRecurrente="+idMatrizRecurrente+"&idEmpresa="+idEmpresa+"&idRelPeriocidad="+idRelPeriocidad;
 				constantes.consultaApi(controlador,parametros,function(json){
 					if(json.continuar == 1){
 						constantes.alerta("Atención",json.mensaje,"success",function(){
 							window.location = $scope.config.apiUrl+"Empresas/empresas/37/"+idEmpresa;
 						});
-					}
-					else{
+					} else{
 						constantes.alerta("Atención",json.mensaje,"warning",function(){});
 					}
 				});
@@ -520,8 +548,7 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 							constantes.alerta("Atención",json.mensaje,"success",function(){
 								window.location = $scope.config.apiUrl+"MisMatrices/home/43/"+idEmpresa;
 							});
-						}
-						else{
+						}else{
 							constantes.alerta("Atención",json.mensaje,"warning",function(){});
 						}
 					});

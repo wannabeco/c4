@@ -308,9 +308,10 @@ class LogicaMisMatrices  {
         $crea           = $this->ci->dbmisMatriz->insertaFotoTemp($dataInserta);
         return $crea;
     } 
-    public function consultaRcomentario($idRecurrente,$idPersona){
+    public function consultaRcomentario($idRecurrente,$idPersona,$idPeriocidad){
         $where['idMatrizRecurrente']    = $idRecurrente;
         $where['idPersona']             = $idPersona;
+        $where['idRelPeriocidad']       = $idPeriocidad;
         $consulta               = $this->ci->dbmisMatriz->consultaRcomentario($where);
         if(count($consulta) > 0){
             $respuesta = array("mensaje"=>"se realizo la consulta.",

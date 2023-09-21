@@ -429,7 +429,7 @@ class BaseDatosMatriz extends CI_Model {
         $this->db->where($where);
         $this->db->from($this->tableRespuestasComentario);
         $id = $this->db->get();
-        //print_r($this->db->last_query());die();
+        // print_r($this->db->last_query());die();
         return $id->result_array();
     }
     //informacion del chekeo por parte de usuario haca oficial de cumplimiento
