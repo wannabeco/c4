@@ -234,7 +234,7 @@ class MisMatrices extends CI_Controller
 					$idPersona						= $_SESSION['project']['info']['idPersona'];
 					$infoMatrizRecurrentes			= $this->logMatriz->infoMatrizRecurrentesDos($id,$idPerfil);
 					$infoMatrices		  			= $this->logMatriz->infoGeneralMatriz();
-					$idrecurrente					= $infoMatrizRecurrentes[0]["idMatrizRecurrente"];
+					$idrecurrente					=$infoMatrizRecurrentes[0]["idMatrizRecurrente"];
 					$infoComentarios				= $this->logMatriz->infoComentarios($id,$idPersona,$periocidad);
 					$opc 				   			= "home";
 					$salida['titulo']      			= "Información de check";
@@ -246,9 +246,9 @@ class MisMatrices extends CI_Controller
 					$salida["idPerfil"] 			= $idPerfil;
 					$salida["periocidad"] 			= $periocidad;
 					if($infoComentarios["continuar"] == 1){
-					 	$salida["infoComentarios"] 	= $infoComentarios;
+					 	$salida["infoComentarios"] 		= $infoComentarios;
 					}else if($infoComentarios["continuar"] == 0){
-						$salida["infoComentarios"] 	= $infoComentarios;
+						$salida["infoComentarios"] 		= $infoComentarios;
 					}
 					$salida['centro'] 	   			= "MatricesCreadas/infoMatriz";
 					$this->load->view("app/index",$salida);
@@ -341,7 +341,7 @@ class MisMatrices extends CI_Controller
 	//formulario de sugerir matriz
 	public function sugerirMatriz(){
 			$opc 				   		= "home";
-			$salida['titulo']      		= "Sugerir nuevo check";
+			$salida['titulo']      		= "Sugerir check";
 			echo $this->load->view("misMatrices/sugerir",$salida,true);
 	}
 	//sugerir matriz
@@ -518,7 +518,11 @@ class MisMatrices extends CI_Controller
 			header('Location:'.base_url()."login");
 		}
 	}
+	//formulario de solicitar check a la medida 
+	public function solicitarMatriz(){
+		$opc 				   		= "home";
+		$salida['titulo']      		= "Solicita nuevo check";
+		echo $this->load->view("misMatrices/solicita",$salida,true);
+	}
 }
 ?>
-
-
