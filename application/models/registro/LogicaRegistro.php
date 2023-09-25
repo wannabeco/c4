@@ -228,6 +228,9 @@ class LogicaRegistro  {
                     $dataInsert['pais']             =   057;
                     $hoy                            =   date("Y-m-d");
                     $dataInsert['fechaCaducidad']   =   date('Y-m-d', strtotime('-1 day', strtotime($hoy)));
+                    if($terminosEmpresa == "on"){
+                        $dataInsert['terminos']         =   1;
+                    }
 
                     //inserto los datos básicos de la empresa
                     $idEmpresa = $this->ci->dbRegistro->creaEmpresaNueva($dataInsert);
@@ -316,6 +319,9 @@ class LogicaRegistro  {
         $apellido       = $data["apellidos"];
         $idEmpresa      = "";
         $celular        = $data["celular"];
+        if($data["terminoaOficial"] == "on"){
+            $terminos =   1;
+        }
         //ahora verifico que el mail no este registrado como persona
         $verificoPersonaMail = $this->verificaEmpresa($email,"email","personas");
         if(count($verificoPersonaMail) > 0){  
@@ -340,6 +346,7 @@ class LogicaRegistro  {
                 $dataPerson['ciudad']           ="";
                 $dataPerson['departamento']     ="";
                 $dataPerson['idPerfil']         =8;
+                $dataPerson['terminos']         =$terminos;
                 $where["idLogin"]               =$idLogin;
                 $consultaLogin                  = $this->ci->dbRegistro->consultaLogin($where);
                 //inserto los datos básicos de la persona

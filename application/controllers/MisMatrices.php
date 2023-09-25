@@ -518,13 +518,5 @@ class MisMatrices extends CI_Controller
 			header('Location:'.base_url()."login");
 		}
 	}
-	//formulario de solicitar check a la medida 
-	public function solicitarMatriz(){
-		$opc 				   		= "home";
-		$salida['titulo']      		= "Solicita nuevo check";
-		echo $this->load->view("misMatrices/solicita",$salida,true);
-}
 }
 ?>
-
-
