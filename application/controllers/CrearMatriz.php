@@ -964,6 +964,7 @@ class crearMatriz extends CI_Controller
 		// var_dump($_POST);die();
 		$idRecurrente				= $_POST["idRecurrente"];	
 		$idPeriocidad				= $_POST["idPeriocidad"];
+		// var_dump($_POST);die();
 		if($edita == 1){
 			if($_SESSION['project']['info']['idPerfil'] == 8){
 				$idResponsable = $_POST["idResponsable"];

@@ -115,31 +115,17 @@
                                     <?php if(getPrivilegios()[0]['borrar'] == 1){ ?>
                                         <a ng-click="borraParametro(<?php echo $info['idMatrizRecurrente'];?>)" ng-if="<?php echo $_SESSION['project']['info']["idPerfil"]; ?> == 1 || <?php echo $_SESSION['project']['info']["idPerfil"]; ?> == 2  || <?php echo $_SESSION['project']['info']["idPerfil"]; ?> == 3 " title="Eliminar Matriz"  class="btn btn-danger btn-fab btn-fab-mini btn-xs"><i class="fas fa-trash"></i></a>
                                     <?php } ?>
-                                    <?php if ($_SESSION['project']['info']['idPerfil'] != 11 && $_SESSION['project']['info']['idPerfil'] > 3) {
-                                        $bloqueIfEjecutado = false;
-                                        if (!empty($infoComentarios["datos"]) && $_SESSION['project']['info']['idPerfil'] != 8) {
-                                            foreach ($infoComentarios["datos"] as $datos) {
-                                                if ($info['idMatrizRecurrente'] == $datos["idMatrizRecurrente"]) {
-                                                    ?>
-                                                    <a ng-click="check('<?php echo $info['idNuevaMatriz'];?>',<?php echo $info['idMatrizRecurrente'];?>,1,<?php echo $periocidad;?>)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn btn-dark btn-fab btn-fab-mini btn-xs ml-2"><i class="far fa-edit" style="cursor:pointer;"></i></a>
-                                                    <?php
-                                                    $bloqueIfEjecutado = true;
-                                                }
-                                            }
-                                        }
-                                        if (!$bloqueIfEjecutado && $_SESSION['project']['info']['idPerfil'] != 8) { ?>
-                                            <a ng-click="check('<?php echo $info['idNuevaMatriz'];?>',<?php echo $info['idMatrizRecurrente'];?>,0,<?php echo $periocidad;?>)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn btn-secondary btn-fab btn-fab-mini btn-xs float-left ml-2"><i class="fas fa-check-square"></i></a>
-                                    <?php } } if ($_SESSION['project']['info']['idPerfil'] == 8 && $informacionCheck > 0) { 
-                                        $bloqueIfEjecutado = false;
-                                        foreach ($infoComentarios["datos"] as $datos) {
-                                            if ($info['idMatrizRecurrente'] == $datos["idMatrizRecurrente"]) {
-                                                ?>
-                                                <a ng-click="checkCompleto('<?php echo $info["idMatrizRecurrente"];?>',<?php echo $idNuevaMatriz;?>,<?php echo $idEmpresas;?>,<?php echo $idResponsable;?>,1,<?php echo $periocidad;?>)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn btn-secondary btn-fab btn-fab-mini btn-xs float-left ml-2"><i class="far fa-edit" style="cursor:pointer;"></i></a>
-                                                <?php
-                                                $bloqueIfEjecutado = true;
-                                            }
-                                        }
-                                    }?>
+                                    <?php if($_SESSION['project']['info']['idPerfil'] < 4 ){?>
+                                        <!-- <a ng-click="verMatriz('<?php echo $info['idNuevaMatriz'];?>',0)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn btn-segundary btn-fab btn-fab-mini btn-xs text-secondary float-left"><i class="fas fa-eye" style="font-size: 30px; cursor:pointer;"></i></a> -->
+                                    <?php } ?>
+                                    <?php if( $_SESSION['project']['info']['idPerfil'] != 11 && $_SESSION['project']['info']['idPerfil'] > 3){
+                                        if($infoComentarios["datos"] != "" && $_SESSION['project']['info']['idPerfil'] != 8 ){ ?>
+                                            <a ng-click="check('<?php echo $info['idNuevaMatriz'];?>',<?php echo $info['idMatrizRecurrente'];?>,1,<?php echo $periocidad;?>)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-dark float-left"><i class="far fa-edit" style="font-size: 30px; cursor:pointer;"></i></a>        
+                                        <?php } else if($infoComentarios["datos"] == "" && $_SESSION['project']['info']['idPerfil'] != 8){?>
+                                            <a ng-click="check('<?php echo $info['idNuevaMatriz'];?>',<?php echo $info['idMatrizRecurrente'];?>,0,<?php echo $periocidad;?>)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-secondary float-left"><i class="fas fa-list" style="font-size: 30px; cursor:pointer;"></i></a>
+                                    <?php } } if($_SESSION['project']['info']['idPerfil'] == 8 && $informacionCheck > 0){?>
+                                        <a ng-click="checkCompleto('<?php echo $info["idMatrizRecurrente"];?>',<?php echo $idNuevaMatriz;?>,<?php echo $idEmpresas;?>,<?php echo $idResponsable;?>,1,<?php echo $periocidad;?>)" data-toggle="tooltip" data-placement="top" title="Listar Información" class="btn-fab btn-fab-mini btn-xs text-secondary float-left"><i class="fas fa-check-square" style="font-size: 30px; cursor:pointer;"></i></a>
+                                    <?php }?>    
                                 </td>
                             </tr>
                         <?php } ?>

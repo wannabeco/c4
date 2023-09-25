@@ -450,7 +450,7 @@
     <div class="row pl-4 pr-4">
       <div class="col-md-12">
         <div class="form-group">
-          <textarea class="form-control" rows="3" id="comentarios"><?php echo $consulta["datos"][0]["comentario"];?></textarea>
+          <textarea class="form-control" rows="3" id="comentarios" ng-model="comentarios"><?php echo (isset($consulta["datos"][0]["comentario"]))?></textarea>
         </div>
       </div>
     </div>
