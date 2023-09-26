@@ -396,15 +396,14 @@ class LogicaGeneral  {
             $email = "gabiel.ramirez@gmail.com";
             $asuntoMensaje  = "Sugerencia";
             if($tipoSolicitud == 0){
-                $mensajeenviar  = "<h2>Sugerencia de check</h2> <br>";
+                $mensajeenviar  = "<h2>Sugerencia de nuevo check</h2> <br>";
             }if($tipoSolicitud == 1){
-                $mensajeenviar  = "<h2>Solicitud de check</h2> <br>";
+                $mensajeenviar  = "<h2>Solicitud de check a la medida.</h2> <br>";
             }if($tipoSolicitud == 2){
                 $mensajeenviar  = "<h2>Solicitud item interno</h2> <br>";
             }
             $mensajeenviar  .= "<p>Email de usuario: ".$emailUsuario."</p> <br>";
             $mensajeenviar  .= "<p>Descripción: ".$descripcion."</p> <br>";
-            $mensajeenviar  .= "<p>Los datos de acceso son personales.</p> <br>";
             $mensaje        = plantillaMail($mensajeenviar);
             $envioMail      = sendMail($email,$asuntoMensaje,$mensaje);
 
