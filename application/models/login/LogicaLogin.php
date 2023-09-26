@@ -138,6 +138,15 @@ class LogicaLogin  {
                     //inserto auditoría
                     auditoria("RECORDACIONCLAVEUSUARIO","Se ha generado una clave de acceso a la persona la persona | ".$infoUsuario[0]['idGeneral']);
                     //envio mail
+                    $email = $usuario;
+                    $asuntoMensaje  = "Olvido de contraseña";
+                    $mensajeenviar  = "Se le ha generado una nueva clave de acceso ".lang("titulo")."<br><br>";
+                    $mensajeenviar  .= "Su nueva contraseña es: <br><h2>".$clave."</h2><br>";
+                    $mensajeenviar  .= "Recuerde que debe cambiar la contraseña una vez ingrese al sistema.<br>";
+                    $mensajeenviar  .= "<a href='https://www.wabecheck.com/' target='_blank'>https://www.wabecheck.com/</a>";
+                    $mensaje        = plantillaMail($mensajeenviar);
+                    $envioMail      = sendMail($email,$asuntoMensaje,$mensaje);
+
                     $mensaje                     =  "Se le ha generado una nueva clave de acceso ".lang("titulo")."<br><br>";
                     $mensaje                    .=  "Su nueva contraseña es: <br><h2>".$clave."</h2><br><br>";
                     $mensaje                    .=  "Recuerde que debe cambiar la contraseña una vez ingrese al sistema.";
@@ -147,24 +156,18 @@ class LogicaLogin  {
                     $respuesta = array("mensaje"=>"Se ha generado una nueva contraseña de acceso y se ha enviado a su correo electrónico, por favor verifique. Recuerde que debe cambiar esta contraseña al ingresar de nuevo al sistema.",
                                       "continuar"=>1,
                                       "datos"=>"");
-                }
-                else
-                {
+                } else {
                      $respuesta = array("mensaje"=>"La contraseña no ha podido ser generada, por favor intente de nuevo más tarde.",
                                         "continuar"=>0,
                                         "datos"=>"");
 
                 }
-            }
-            else
-            {
+            } else {
                  $respuesta = array("mensaje"=>"Este usuario no tiene aún una clave generada, debe comunicarse con el administrador para que genere la clave de primera vez.",
                                       "continuar"=>0,
                                       "datos"=>"");
             }
-        }
-        else
-        {
+        } else {
              $respuesta = array("mensaje"=>"El correo electrónico ingresado no existe en nuestra base de datos, por favor verifique.",
                                   "continuar"=>0,
                                   "datos"=>""); 

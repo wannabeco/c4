@@ -130,9 +130,15 @@ class LogicaUsuarios  {
             $whereCambio['usuario']         =   $_SESSION['project']['info']['email'];
             $cambioClaveProc                =   $this->ci->dbUsuarios->cambioClave($whereCambio,$dataActualiza);
             if($cambioClaveProc > 0){
-                $mensaje                     =  "Se ha realizado el cambio de contraseña para acceder al aplicativo de ".lang("titulo")."<br><br>";
-                $mensaje                    .=  "Su nueva contraseña es: <h2>".$rClave."</h2>";
-                sendMail($_SESSION['project']['info']['email'],"Cambio de contraseña - ".lang("titulo"),$mensaje);
+
+                    $email = $_SESSION['project']['info']['email'];
+                    $asuntoMensaje  = "Cambio de contraseña";
+                    $mensajeenviar  =  "Se ha realizado el cambio de contraseña para acceder al aplicativo de ".lang("titulo")."<br><br>";
+                    $mensajeenviar  .=  "Su nueva contraseña es: <h2>".$rClave."</h2>";
+                    $mensajeenviar  .= "<a href='https://www.wabecheck.com/' target='_blank'>https://www.wabecheck.com/</a>";
+                    $mensaje        = plantillaMail($mensajeenviar);
+                    $envioMail      = sendMail($email,$asuntoMensaje,$mensaje);
+                    
                 $respuesta = array("mensaje"=>"La contraseña se ha cambiado de manera exitosa.",
                                    "continuar"=>1,
                                    "datos"=>"");
