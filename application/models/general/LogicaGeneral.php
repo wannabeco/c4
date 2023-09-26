@@ -393,7 +393,7 @@ class LogicaGeneral  {
         $resultado          = $this->ci->dbGeneral->sugiereMatriz($dataInserta);
         //var_dump($resultado);
         if($resultado > 0){
-            $email = "gabiel.ramirez@gmail.com";
+            $email = "gabiel.ramirez@gmail.com, kyo20052@gmail.com";
             $asuntoMensaje  = "Sugerencia";
             if($tipoSolicitud == 0){
                 $mensajeenviar  = "<h2>Sugerencia de nuevo check</h2> <br>";
