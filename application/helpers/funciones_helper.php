@@ -81,8 +81,8 @@ function sendMail($para,$asunto,$mensaje)
     $ci->load->model("general/baseDatosGral","baseGeneral");
     $ci->email->initialize(array(
       'protocol' => 'smtp',
-      'smtp_host' => 'mail.wannabe.com.co',
-      'smtp_user' => 'desarrollo@wannabe.com.co',
+      'smtp_host' => 'mail.wabecheck.com',
+      'smtp_user' => 'no-noreply@wabecheck.com',
       'smtp_pass' => 'wannabeJg$E3D+u',
       'smtp_port' => 465,
       'crlf' => "\r\n",
@@ -90,7 +90,7 @@ function sendMail($para,$asunto,$mensaje)
       'newline' => "\r\n",
       'mailtype'=>"html"
     ));
-    $ci->email->from('noreply@wannabe.com.co', NOMBRE_APP);
+    $ci->email->from('no-noreply@wabecheck.com', NOMBRE_APP);
     $ci->email->to($para);
     //$ci->  email->cc('another@another-example.com');
     //$ci->  email->bcc('them@their-example.com');
