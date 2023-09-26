@@ -74,7 +74,7 @@ class Sugerencias extends CI_Controller
 					$infoModulo	      	   		= $this->logica->infoModulo($idModulo);
 					$salida["misSugerencias"]	= $misSugerencias;
 					$opc 				   		= "home";
-					$salida['titulo']      		= "Matrices";
+					$salida['titulo']      		= "Sugerencias";
 					$salida['centro'] 	   		= "sugerencias/home";
 					$salida['infoModulo']  		= $infoModulo[0];
 					$this->load->view("app/index",$salida);

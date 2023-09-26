@@ -382,7 +382,7 @@ class LogicaGeneral  {
         $dataInserta["idEmpresa"]       = $_SESSION['project']['info']['idEmpresa'];
         $dataInserta["emailUsuario"]    = $datos["email"];
         $dataInserta["descripcion"]     = $datos["descripcion"];
-        // var_dump($datos);die();
+        $dataInserta["solicitud"]       = $datos["solicitud"];
         if($datos["matriz"] != ""){
             $dataInserta["nombredeMatriz"]  = $datos["matriz"];
         }
@@ -390,6 +390,24 @@ class LogicaGeneral  {
         $resultado          = $this->ci->dbGeneral->sugiereMatriz($dataInserta);
         //var_dump($resultado);
         if($resultado > 0){
+            $asuntoMensaje  = "Sugerencia";
+            if($dataInserta["solicitud"] == 0){
+                $email = "desarrollo@wannabe.com.co, gabiel.ramirez@gmail.com";
+                $mensajeenviar  = "<h2>Sugerencia de check</h2> <br>";
+            }if($dataInserta["solicitud"] == 1){
+                $email = "desarrollo@wannabe.com.co, gabiel.ramirez@gmail.com";
+                $mensajeenviar  = "<h2>Solicitud de check</h2> <br>";
+            }if($dataInserta["solicitud"] == 2){
+                $email = "desarrollo@wannabe.com.co, gabiel.ramirez@gmail.com";
+                $mensajeenviar  = "<h2>Solicitud item interno</h2> <br>";
+            }
+            $mensajeenviar  = "<p>Email de usuario: ".$dataInserta["emailUsuario"]."</p> <br>";
+            $mensajeenviar  = "<p>Descripción: ".$dataInserta["descripcion"]."</p> <br>";
+            $mensajeenviar  = "<p>Los datos de acceso son personales.</p> <br>";
+            $mensaje        = plantillaMail($mensajeenviar);
+            $envioMail      = sendMail($email,$asuntoMensaje,$mensaje);
+
+
             $respuesta = array("mensaje"=>"La sugerencia, se ha creado correctamente.",
                     "continuar"=>1,
                     "datos"=>$resultado);

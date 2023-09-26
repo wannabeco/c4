@@ -25,10 +25,8 @@
                 <thead>
                     <tr class="text-dark">
                         <th scope="col">Fecha</th>
-                        <?php if($_SESSION['project']['info']['idPerfil'] < 4){?>
-                            <th scope="col">Cooresponde a matriz</th>
-                        <?php }?> 
-                        <th scope="col">Descripcion</th>
+                        <th scope="col">Corresponde</th>
+                        <th scope="col">Descripción</th>
                         <th scope="col">Respuestas</th>
                         <th scope="col">Acciones</th>
                     </tr>
@@ -39,17 +37,22 @@
                             <td>
                                 <p class="text-dark"><?php echo formatoFechaEspanol($info["fechaSugerencia"]); ?></p>
                             </td>
-                            <?php if($_SESSION['project']['info']['idPerfil'] < 4){?>
-                                <?php if($info["nombredeMatriz"] == ""){?>
-                                    <td>
-                                    <a class="badge badge-info">Solicita Nueva matriz</a>
-                                    </td>
+                            <?php if($info["nombredeMatriz"] == ""){?>
+                                <td>
+                                    <?php if($info["solicitud"] == 0){?>
+                                        <a class="badge badge-info">Sugerencia de check</a>
+                                    <?php } if($info["solicitud"] == 1){?>
+                                        <a class="badge badge-success">Solicita Nuevo check</a>
+                                    <?php }if($info["solicitud"] == 2){?>
+                                        <a class="badge badge-secondary">Solicita item interno</a>
+                                    <?php }?>
+                                </td>
                                 <?php }if($info["nombredeMatriz"] != ""){?>
                                 <td>
                                     <a class="badge badge-dark">Solicita item interno</a>
                                     <p class="text-dark"><?php echo $info["nombredeMatriz"]; ?></p>
                                 </td>
-                            <?php } }?> 
+                            <?php }?> 
                             <td>
                                 <p class="text-dark"><?php echo $info["descripcion"]; ?></p>
                             </td>

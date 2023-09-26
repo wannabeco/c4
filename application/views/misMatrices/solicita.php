@@ -1,4 +1,4 @@
-<form role="form"  ng-controller="buscar" ng-init="initbuscar()" id="formsugerir"  ng-submit="sugerirMatriz()">    
+<form role="form"  ng-controller="buscar" ng-init="initbuscar()" id="formsugerir"  ng-submit="solicitaMatriz()">    
   <div class="modal-header">
       <h5 class="modal-title pl-3"><?php echo $titulo ?></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">

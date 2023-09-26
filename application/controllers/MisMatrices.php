@@ -518,5 +518,11 @@ class MisMatrices extends CI_Controller
 			header('Location:'.base_url()."login");
 		}
 	}
+	//solicita matriz 
+	public function solicitarMatriz(){
+		$opc 				   		= "home";
+		$salida['titulo']      		= "Solicita tu check";
+		echo $this->load->view("misMatrices/solicita",$salida,true);
+	}
 }
 ?>

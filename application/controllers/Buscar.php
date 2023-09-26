@@ -126,7 +126,7 @@ class Buscar extends CI_Controller
 	//verificar si la empresa ya cuenta con las matrices.
 	public function sugiereMatriz(){
 		if(validaInApp("web")){
-			// var_dump($_POST);die();
+			//var_dump($_POST);die();
 			$proceso = $this->logica->sugiereMatriz($_POST);
 			echo json_encode($proceso); 
 		}

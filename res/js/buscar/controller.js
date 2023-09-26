@@ -336,16 +336,43 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 		var email 		= $("#email").val();
 		var matriz 		= "";
 		var idEmpresa 		= $("#idEmpresa").val();
+		var solicitud	= 0;
 		if(descripcion == ""){
 			constantes.alerta("Atención","Es necesario escribir una descipcion para sugerir un check.",'info',function(){});
 		}else{
 			constantes.confirmacion("Atención","Esta apunto de sugerir un check, ¿Desea continuar?.",'info',function(){
 				var controlador = 	$scope.config.apiUrl+"Buscar/sugiereMatriz";
-				var parametros  = "nombre="+nombre+"&email="+email+"&descripcion="+descripcion+"&matriz="+matriz;
+				var parametros  = "nombre="+nombre+"&email="+email+"&descripcion="+descripcion+"&matriz="+matriz+"&solicitud="+solicitud;
 				constantes.consultaApi(controlador,parametros,function(json){
 					if(json.continuar == 1){
 						constantes.alerta("Atención",json.mensaje,"success",function(){
-							window.location.assign($scope.config.apiUrl+"MisMatrices/matrices/43/"+idEmpresa); 
+							location.reload();
+						});
+					}
+					else{
+						constantes.alerta("Atención",json.mensaje,"warning",function(){});
+					}
+				});
+			});	
+		} 
+	}
+	$scope.solicitaMatriz = function(){
+		var descripcion = $("#descripcion").val();
+		var nombre 		= $("#nombre").val();
+		var email 		= $("#email").val();
+		var matriz 		= "";
+		var idEmpresa 	= $("#idEmpresa").val();
+		var solicitud	= 1;
+		if(descripcion == ""){
+			constantes.alerta("Atención","Es necesario escribir una descipcion para sugerir un check.",'info',function(){});
+		}else{
+			constantes.confirmacion("Atención","Esta apunto de sugerir un check, ¿Desea continuar?.",'info',function(){
+				var controlador = 	$scope.config.apiUrl+"Buscar/sugiereMatriz";
+				var parametros  = "nombre="+nombre+"&email="+email+"&descripcion="+descripcion+"&matriz="+matriz+"&solicitud="+solicitud;
+				constantes.consultaApi(controlador,parametros,function(json){
+					if(json.continuar == 1){
+						constantes.alerta("Atención",json.mensaje,"success",function(){
+							location.reload();
 						});
 					}
 					else{
