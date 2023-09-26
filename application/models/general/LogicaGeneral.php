@@ -383,6 +383,9 @@ class LogicaGeneral  {
         $dataInserta["emailUsuario"]    = $datos["email"];
         $dataInserta["descripcion"]     = $datos["descripcion"];
         $dataInserta["solicitud"]       = $datos["solicitud"];
+        $emailUsuario = $datos["email"];
+        $descripcion  = $datos["descripcion"];
+        $tipoSolicitud = $datos["solicitud"];
         if($datos["matriz"] != ""){
             $dataInserta["nombredeMatriz"]  = $datos["matriz"];
         }
@@ -392,15 +395,15 @@ class LogicaGeneral  {
         if($resultado > 0){
             $asuntoMensaje  = "Sugerencia";
             $email = "gabiel.ramirez@gmail.com";
-            if($dataInserta["solicitud"] == 0){
+            if($tipoSolicitud == 0){
                 $mensajeenviar  = "<h2>Sugerencia de check</h2> <br>";
-            }if($dataInserta["solicitud"] == 1){
+            }if($tipoSolicitud == 1){
                 $mensajeenviar  = "<h2>Solicitud de check</h2> <br>";
-            }if($dataInserta["solicitud"] == 2){
+            }if($tipoSolicitud == 2){
                 $mensajeenviar  = "<h2>Solicitud item interno</h2> <br>";
             }
-            $mensajeenviar  = "<p>Email de usuario: ".$dataInserta["emailUsuario"]."</p> <br>";
-            $mensajeenviar  = "<p>Descripción: ".$dataInserta["descripcion"]."</p> <br>";
+            $mensajeenviar  = "<p>Email de usuario: ".$emailUsuario."</p> <br>";
+            $mensajeenviar  = "<p>Descripción: ".$descripcion."</p> <br>";
             $mensajeenviar  = "<p>Los datos de acceso son personales.</p> <br>";
             $mensaje        = plantillaMail($mensajeenviar);
             $envioMail      = sendMail($email,$asuntoMensaje,$mensaje);
