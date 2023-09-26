@@ -392,13 +392,13 @@ class LogicaGeneral  {
         if($resultado > 0){
             $asuntoMensaje  = "Sugerencia";
             if($dataInserta["solicitud"] == 0){
-                $email = "desarrollo@wannabe.com.co, gabiel.ramirez@gmail.com";
+                $email = "gabiel.ramirez@gmail.com";
                 $mensajeenviar  = "<h2>Sugerencia de check</h2> <br>";
             }if($dataInserta["solicitud"] == 1){
-                $email = "desarrollo@wannabe.com.co, gabiel.ramirez@gmail.com";
+                $email = "gabiel.ramirez@gmail.com";
                 $mensajeenviar  = "<h2>Solicitud de check</h2> <br>";
             }if($dataInserta["solicitud"] == 2){
-                $email = "desarrollo@wannabe.com.co, gabiel.ramirez@gmail.com";
+                $email = "gabiel.ramirez@gmail.com";
                 $mensajeenviar  = "<h2>Solicitud item interno</h2> <br>";
             }
             $mensajeenviar  = "<p>Email de usuario: ".$dataInserta["emailUsuario"]."</p> <br>";
