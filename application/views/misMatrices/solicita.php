@@ -20,6 +20,13 @@
                 <p class="help-block"></p>
             </div> 
         </div>
+        <div class="col-md-12">
+            <blockquote class="blockquote text-center">
+                <p class="mb-0"></p>
+                <footer class="blockquote-footer">Creamos el check que necesites, cuéntanos el tema sobre el cual quieres que Wabecheck construya tu check.</footer>
+            </blockquote>
+            <p></p>
+        </div>
         <div class="form-group col-md-12 float-left">
             <label for="exampleInputEmail1">Descripción</label>
             <textarea class="form-control" id="descripcion" name="descripcion" rows="3" maxlength="250"></textarea>

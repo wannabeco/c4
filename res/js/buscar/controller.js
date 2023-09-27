@@ -382,6 +382,19 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 			});	
 		} 
 	}
+	// sugerimos check
+	$scope.sugerimosCheck =function(){
+		$('#segerimosCheck').modal("show");
+	 	var controlador = $scope.config.apiUrl+"MisMatrices/sugerimosCheck";
+	 	var parametros  = "";
+	 	constantes.consultaApi(controlador,parametros,function(json){
+				
+	 		$("#modalsegerimosCheck").html(json);
+	 		// actualiza el DOM
+	 		$scope.compileAngularElement("#formsugerir");
+	 	},'');
+	}
+
 
 	$scope.compileAngularElement = function(elSelector) {
 

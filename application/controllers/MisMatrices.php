@@ -341,7 +341,7 @@ class MisMatrices extends CI_Controller
 	//formulario de sugerir matriz
 	public function sugerirMatriz(){
 			$opc 				   		= "home";
-			$salida['titulo']      		= "Sugerir check";
+			$salida['titulo']      		= "Sugerir nuevo check";
 			echo $this->load->view("misMatrices/sugerir",$salida,true);
 	}
 	//sugerir matriz
@@ -349,7 +349,7 @@ class MisMatrices extends CI_Controller
 		$idMatriz 					= $_POST["idMatriz"];
 		$infoMatriz 				= $this->logicaMis->infoMatrize($idMatriz);
 		$opc 				   		= "home";
-		$salida['titulo']      		= "Sugerir Item";
+		$salida['titulo']      		= "Sugerir Item interno";
 		// var_dump($infoMatriz);die();
 		$salida['infoMatriz']      	= $infoMatriz;
 		echo $this->load->view("misMatrices/sugerirItem",$salida,true);
@@ -518,11 +518,20 @@ class MisMatrices extends CI_Controller
 			header('Location:'.base_url()."login");
 		}
 	}
-	//solicita matriz 
+	//solicita check a la medida 
 	public function solicitarMatriz(){
 		$opc 				   		= "home";
-		$salida['titulo']      		= "Solicita tu check";
+		$salida['titulo']      		= "Solicita tu check a la medida";
 		echo $this->load->view("misMatrices/solicita",$salida,true);
 	}
+	//te sugerimos check
+	public function sugerimosCheck(){
+		$infoMatrices = $this->logicaMis->infoMatrices();
+		//var_dump($infoMatrices);die();
+		$opc 				   		= "home";
+		$salida['titulo']      		= "Te sugerimos check";
+		$salida['infoMatrices']		= $infoMatrices;
+		echo $this->load->view("misMatrices/sugerimos",$salida,true);
+}
 }
 ?>

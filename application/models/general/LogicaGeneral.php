@@ -394,12 +394,14 @@ class LogicaGeneral  {
         //var_dump($resultado);
         if($resultado > 0){
             $email = "desarrollo@wannabe.com.co, kyo20052@gmail.com, msoto@pensiero.com.co, jternera@c4consultinghub.com, jcampo@c4consultinghub.com";
-            $asuntoMensaje  = "Sugerencia";
             if($tipoSolicitud == 0){
+                $asuntoMensaje  = "Sugerencia.";
                 $mensajeenviar  = "<h2>Sugerencia de nuevo check</h2> <br>";
             }if($tipoSolicitud == 1){
+                $asuntoMensaje  = "Check a la medida.";
                 $mensajeenviar  = "<h2>Solicitud de check a la medida.</h2> <br>";
             }if($tipoSolicitud == 2){
+                $asuntoMensaje  = "Soloicitud item interno.";
                 $mensajeenviar  = "<h2>Solicitud item interno</h2> <br>";
             }
             $mensajeenviar  .= "<p>Email de usuario: ".$emailUsuario."</p> <br>";
