@@ -423,7 +423,7 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 				constantes.consultaApi(controlador,parametros,function(json){
 					if(json.continuar == 1){
 						constantes.alerta("Atención",json.mensaje,"success",function(){
-							window.location = $scope.config.apiUrl+"MisMatrices/home/43/"+idEmpresa;
+							location.reload();
 						});
 					}
 					else{
@@ -470,7 +470,7 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 				constantes.consultaApi(controlador,parametros,function(json){
 					if(json.continuar == 1){
 						constantes.alerta("Atención",json.mensaje,"success",function(){
-							window.location = $scope.config.apiUrl+"Empresas/empresas/37/"+idEmpresa;
+							location.reload();
 						});
 					} else{
 						constantes.alerta("Atención",json.mensaje,"warning",function(){});
@@ -546,7 +546,7 @@ project.controller('checkeador', function($scope, $http, $q, constantes) {
 					constantes.consultaApi(controlador,parametros,function(json){
 						if(json.continuar == 1){
 							constantes.alerta("Atención",json.mensaje,"success",function(){
-								window.location = $scope.config.apiUrl+"MisMatrices/home/43/"+idEmpresa;
+								location.reload();
 							});
 						}else{
 							constantes.alerta("Atención",json.mensaje,"warning",function(){});

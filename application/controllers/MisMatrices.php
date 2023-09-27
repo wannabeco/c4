@@ -173,6 +173,11 @@ class MisMatrices extends CI_Controller
 					$infoMatrices		  			= $this->logMatriz->infoGeneralMatriz();
 					$idrecurrente					= $infoMatrizRecurrentes[0]["idMatrizRecurrente"];
 					$infoComentarios				= $this->logMatriz->infoComentarios($idrecurrente,$idPersona,$periocidad);
+					$acumuloRecurrentes = [];
+					foreach($infoMatrizRecurrentes as $infoRmatriz){
+						array_push($acumuloRecurrentes,$infoRmatriz["idMatrizRecurrente"]);
+					}
+					$consultoSi 					= $this->logMatriz->consultoSiDos($periocidad,$idEmpresas,$acumuloRecurrentes);
 					$opc 				   			= "home";
 					$salida['titulo']      			= "Información de Check";
 					$salida['centro'] 	   			= "MatricesCreadas/infoMatriz";
@@ -182,6 +187,7 @@ class MisMatrices extends CI_Controller
 					$salida['$idEmpresas'] 			= $idEmpresas;
 					$salida['infoMatrizRecurrentes']= $infoMatrizRecurrentes;
 					$salida["infoComentarios"] 		= $infoComentarios;
+					$salida['consultoSi'] 			= $consultoSi;
 					
 				 	if($infoComentarios["continuar"] == 1){
 				 		$salida["infoComentarios"] 		= $infoComentarios;
@@ -200,6 +206,11 @@ class MisMatrices extends CI_Controller
 					$infoMatrizRecurrentes			= $this->logMatriz->infoMatrizRecurrentes($nuevaMatriz);
 					$idResponsable 					= $infoMatrizRecurrentes[0]["idResponsable"];
 					$informacionCheck				= $this->logMatriz->informacionCheck($idResponsable,$nuevaMatriz,$idEmpresas,$periocidad);
+					$acumuloRecurrentes = [];
+					foreach($infoMatrizRecurrentes as $infoRmatriz){
+						array_push($acumuloRecurrentes,$infoRmatriz["idMatrizRecurrente"]);
+					}
+					$consultoSi 					= $this->logMatriz->consultoSiDos($periocidad,$idEmpresas,$acumuloRecurrentes);
 					if($informacionCheck["continuar"] == 1){
 						$idPersonaCheck 				= $informacionCheck["datos"][0]["idPersona"];
 						$informacionPersona				= $this->logMatriz->infoPersona($idPersonaCheck);
@@ -226,6 +237,7 @@ class MisMatrices extends CI_Controller
 					$salida['infoMatrizRecurrentes']= $infoMatrizRecurrentes;
 					$salida["idNuevaMatriz"] 		= $nuevaMatriz;
 					$salida["periocidad"] 			= $periocidad;
+					$salida['consultoSi'] 			= $consultoSi;
 					$this->load->view("app/index",$salida);
 				}else if($idPerfil > 3 && $idPerfil != 11 && $idPerfil != 8){
 					$periocidad = $idPeriocidad;
@@ -234,12 +246,18 @@ class MisMatrices extends CI_Controller
 					$idPersona						= $_SESSION['project']['info']['idPersona'];
 					$infoMatrizRecurrentes			= $this->logMatriz->infoMatrizRecurrentesDos($id,$idPerfil);
 					$infoMatrices		  			= $this->logMatriz->infoGeneralMatriz();
-					$idrecurrente					=$infoMatrizRecurrentes[0]["idMatrizRecurrente"];
+					$idrecurrente					= $infoMatrizRecurrentes[0]["idMatrizRecurrente"];
 					$infoComentarios				= $this->logMatriz->infoComentarios($id,$idPersona,$periocidad);
+					$acumuloRecurrentes = [];
+					foreach($infoMatrizRecurrentes as $infoRmatriz){
+						array_push($acumuloRecurrentes,$infoRmatriz["idMatrizRecurrente"]);
+					}
+					$consultoSi 					= $this->logMatriz->consultoSi($periocidad,$idPerfil,$acumuloRecurrentes);
+					// var_dump($consultoSi);die();
 					$opc 				   			= "home";
 					$salida['titulo']      			= "Información de check";
 					$salida['infoModulo']  			= $infoModulo[0];
-					$salida['infoUsuario'] 			= $infoUsuario[0];
+					$salida['consultoSi'] 			= $consultoSi;
 					$salida['infoMatrices'] 		= $infoMatrices;
 					$salida['infoMatrizRecurrentes']= $infoMatrizRecurrentes;
 					$salida["id"] 					= $id;

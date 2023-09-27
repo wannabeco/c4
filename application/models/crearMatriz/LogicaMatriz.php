@@ -550,4 +550,68 @@ class LogicaMatriz  {
         $informacion            = $this->ci->dbMatriz->infoMatriz($where);
         return $informacion;
     }
+    //se obtienen las respuestas
+    public function consultoSi($periocidad,$idPerfil,$acumuloRecurrentes){
+        
+        $respuestas = [];
+        $porcentajes = []; 
+        foreach($acumuloRecurrentes as $recurrente){
+            $where["idRelPeriocidad"]   = $periocidad;
+            $where["idPerfil"]          = $idPerfil;
+            $where["idMatrizRecurrente"] = $recurrente;
+            $informacion            = $this->ci->dbMatriz->informacionCheck($where);
+            $respuestas[$recurrente] = $informacion;
+        }
+        foreach ($respuestas as $recurrente => $respuesta) {
+            $contadorSi = 0;
+            $contadorTotal = 0;
+    
+            foreach ($respuesta as $item) {
+                if ($item["resOficial"] == "SI") {
+                    $contadorSi++;
+                }
+                $contadorTotal++; 
+            }
+            if ($contadorTotal > 0) {
+                $porcentajeSi = ($contadorSi / $contadorTotal) * 100;
+            } else {
+                $porcentajeSi = 0;
+            }
+            $porcentajes[$recurrente] = $porcentajeSi;
+        }
+        return $porcentajes;
+    }
+    
+    public function consultoSiDos($periocidad,$idEmpresa,$acumuloRecurrentes){
+        
+        $respuestas = [];
+        $porcentajes = []; 
+        foreach($acumuloRecurrentes as $recurrente){
+            $where["idRelPeriocidad"]   = $periocidad;
+            $where["idEmpresa"]          = $idEmpresa;
+            $where["idMatrizRecurrente"] = $recurrente;
+            $informacion            = $this->ci->dbMatriz->informacionCheck($where);
+            // array_push($respuestas,$informacion);
+            $respuestas[$recurrente] = $informacion;
+        }
+        foreach ($respuestas as $recurrente => $respuesta) {
+            $contadorSi = 0;
+            $contadorTotal = 0;
+    
+            foreach ($respuesta as $item) {
+                if ($item["resOficial"] == "SI") {
+                    $contadorSi++;
+                }
+                $contadorTotal++; 
+            }
+            if ($contadorTotal > 0) {
+                $porcentajeSi = ($contadorSi / $contadorTotal) * 100;
+            } else {
+                $porcentajeSi = 0;
+            }
+            $porcentajes[$recurrente] = $porcentajeSi;
+        }
+        // var_dump($porcentajes);die();
+        return $porcentajes;
+    }
 }
