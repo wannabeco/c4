@@ -32,11 +32,17 @@
         </div>
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800 text-dark pl-4"><?php echo $titulo;?></h1>
+        <div class="col-md-6">
+            <h1 class="h3 mb-0 text-gray-800 text-dark pl-4"><?php echo $titulo;?></h1>
+        </div>
         <?php if($_SESSION['project']['info']['idPerfil'] == 11){?>
-            <button type="button" class="btn btn-primary float-left" style="position: relative;left: 200px;" ng-click="sugerimosCheck()"><i class="fas fa-check-circle"></i> Check sugeridos</button>
-            <button type="button" class="btn btn-primary float-left" style="position: relative;left: 100px;" ng-click="solicitar()"><i class="fas fa-comment-dots"></i> Solicitar checks a la medida</button>
-            <button type="button" class="btn btn-primary float-right" ng-click="crearnueva()"><i class="fas fa-lightbulb"></i> Sugerir Nuevo checks</button>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-primary float-right" ng-click="sugerimosCheck()"><i class="fas fa-check-circle"></i> Checks sugeridos</button>
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-primary float-right" ng-click="solicitar()"><i class="fas fa-comment-dots"></i> Solicitar checks a la medida</button>
+            </div>
+            <!-- <button type="button" class="btn btn-primary float-right" ng-click="crearnueva()"><i class="fas fa-lightbulb"></i> Sugerir Nuevo checks</button> -->
         <?php }?>
     </div>
     <div ng-if="inforMiMatriz.continuar === 0">

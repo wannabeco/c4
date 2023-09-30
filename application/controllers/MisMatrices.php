@@ -104,7 +104,11 @@ class MisMatrices extends CI_Controller
 						$relacion					= $this->logicaMis->consultaRelacion($idEmpresa);
 						$inforMiMatriz				= $this->logicaMis->consultaMatricescompradas($idPersona,$idEmpresa);
 						$infoEmpresas 				= $this->logicaMis->infoEmpresa($idEmpresa);
-						// var_dump($inforMiMatriz["datos"]);die();
+						$matrices = [];
+						foreach($inforMiMatriz["datos"] as $matriz){
+							array_push($matrices, $matriz["idMatriz"]);
+						}
+						// var_dump($matrices);die();
 						$salida['inforMiMatriz']	= $inforMiMatriz;
 						$salida['infoEmpresas']		= $infoEmpresas[0];
 						$salida['infor']			= $inforMiMatriz["datos"];

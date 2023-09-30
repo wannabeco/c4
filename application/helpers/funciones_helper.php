@@ -609,4 +609,15 @@ function pre($data, $die=0)
     echo "<pre>";print_r($data);echo "</pre>";
     if( $die ) die();
 }
+
+function calculaPorcentaje($idMatriz, $idPeriodicidad, $idObligacion, $tipo){
+    
+    // if($tipo == "matriz"){
+    //     $consulta = $this->
+    // }
+    return 0;
+}
+
+
+
 ?>  

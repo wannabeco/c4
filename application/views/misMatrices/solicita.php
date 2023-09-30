@@ -27,6 +27,13 @@
             </blockquote>
             <p></p>
         </div>
+        <div class="col-md-12">
+            <blockquote class="blockquote text-center">
+                <p class="mb-0"></p>
+                <footer class="blockquote-footer">Adecuamos tus procedimientos internos en un check.</footer>
+            </blockquote>
+            <p></p>
+        </div>
         <div class="form-group col-md-12 float-left">
             <label for="exampleInputEmail1">Descripción</label>
             <textarea class="form-control" id="descripcion" name="descripcion" rows="3" maxlength="250"></textarea>

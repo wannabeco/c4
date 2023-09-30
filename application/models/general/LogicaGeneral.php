@@ -383,9 +383,15 @@ class LogicaGeneral  {
         $dataInserta["emailUsuario"]    = $datos["email"];
         $dataInserta["descripcion"]     = $datos["descripcion"];
         $dataInserta["solicitud"]       = $datos["solicitud"];
-        $emailUsuario = $datos["email"];
-        $descripcion  = $datos["descripcion"];
-        $tipoSolicitud = $datos["solicitud"];
+        $emailUsuario                   = $datos["email"];
+        $descripcion                    = $datos["descripcion"];
+        $tipoSolicitud                  = $datos["solicitud"];
+        $where["email"] = $_SESSION['project']['info']["email"];
+        $consultoDataEmpresa            = $this->ci->dbGeneral->getInfoEmpresa($where);
+        $telefono = $consultoDataEmpresa[0]["telefono"];
+        $nombreEncargado = $consultoDataEmpresa[0]["nombreEncargado"];
+        $nombre = $consultoDataEmpresa[0]["nombre"];
+        // var_dump($consultoDataEmpresa[0]);die();
         if($datos["matriz"] != ""){
             $dataInserta["nombredeMatriz"]  = $datos["matriz"];
         }
@@ -393,7 +399,8 @@ class LogicaGeneral  {
         $resultado          = $this->ci->dbGeneral->sugiereMatriz($dataInserta);
         //var_dump($resultado);
         if($resultado > 0){
-            $email = "desarrollo@wannabe.com.co, kyo20052@gmail.com, msoto@pensiero.com.co, jternera@c4consultinghub.com, jcampo@c4consultinghub.com";
+            // $email = "desarrollo@wannabe.com.co, kyo20052@gmail.com, msoto@pensiero.com.co, jternera@c4consultinghub.com, jcampo@c4consultinghub.com";
+            $email = "gabiel.ramirez@gmail.com, moreracamilo244@gmail.com";
             if($tipoSolicitud == 0){
                 $asuntoMensaje  = "Sugerencia.";
                 $mensajeenviar  = "<h2>Sugerencia de nuevo check</h2> <br>";
@@ -401,10 +408,13 @@ class LogicaGeneral  {
                 $asuntoMensaje  = "Check a la medida.";
                 $mensajeenviar  = "<h2>Solicitud de check a la medida.</h2> <br>";
             }if($tipoSolicitud == 2){
-                $asuntoMensaje  = "Soloicitud item interno.";
-                $mensajeenviar  = "<h2>Solicitud item interno</h2> <br>";
+                $asuntoMensaje  = "Soloicitud de cumplimiento.";
+                $mensajeenviar  = "<h2>Solicitud de cumplimiento.</h2> <br>";
             }
-            $mensajeenviar  .= "<p>Email de usuario: ".$emailUsuario."</p> <br>";
+            $mensajeenviar  .= "<p>Nombre de empresa: ".$nombre."</p> <br>";
+            $mensajeenviar  .= "<p>Nombre administrador: ".$nombreEncargado."</p> <br>";
+            $mensajeenviar  .= "<p>Teléfono: ".$telefono."</p> <br>";
+            $mensajeenviar  .= "<p>Email: ".$emailUsuario."</p> <br>";
             $mensajeenviar  .= "<p>Descripción: ".$descripcion."</p> <br>";
             $mensaje        = plantillaMail($mensajeenviar);
             $envioMail      = sendMail($email,$asuntoMensaje,$mensaje);

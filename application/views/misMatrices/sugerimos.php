@@ -9,7 +9,7 @@
         <div class="col-md-12">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-danger">Dejanos sugerirnos check para tu empresa.</h6>
+                    <h6 class="m-0 font-weight-bold text-danger">Te sugerimos check a la medida de tu empresa.</h6>
                 </div>
                 <div class="card-body">
                     <table class="table table-striped">
@@ -18,6 +18,7 @@
                                 <th scope="col">Nombre check</th>
                                 <th scope="col">Descripción</th>
                                 <th scope="col" style="width: 124px;">Precio</th>
+                                <th scope="col" style="width: 124px;">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -26,6 +27,7 @@
                                     <td><p class="text-dark"><?php echo $info["nombreNuevaMatriz"];?></p></td>
                                     <td><p class="text-dark"><?php echo $info["descripcion"];?></p></td>
                                     <td><p class="text-dark"><?php echo "$ ".number_format($info["precio"]);?></p></td>
+                                    <td><button type="button" class="btn btn-danger">Adquirir</button></td>
                                 </tr>
                             <?php  }?>
                         </tbody>

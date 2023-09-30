@@ -52,6 +52,7 @@
                             <th scope="col">Fecha</th>
                         <?php } ?>
                         <!-- <th scope="col">Pago</th> -->
+                        <th scope="col">%</th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
@@ -67,6 +68,9 @@
                                     <p class="text-dark"><?php echo formatoFechaEspanol($info["fechaPago"]); ?></p>
                                 </td>
                             <?php } ?>
+                            <td>
+                                <?php echo calculaPorcentaje($info['idNuevaMatriz'], $periocidad, "", "");?>%
+                            </td>
                             <td>
                                 <?php //if(getPrivilegios()[0]['ver'] == 1){ ?>
                                     <?php if($_SESSION["project"]["info"]["idPerfil"] == 8){?>
