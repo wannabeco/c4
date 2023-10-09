@@ -16,6 +16,7 @@ class LogicaGeneral  {
     {
         $this->ci = &get_instance();
         $this->ci->load->model("general/BaseDatosGral","dbGeneral");
+        $this->ci->load->model("crearMatriz/BaseDatosMatriz","dbMatriz");
     } 
     public function getCiudades($where)
     {
@@ -399,8 +400,8 @@ class LogicaGeneral  {
         $resultado          = $this->ci->dbGeneral->sugiereMatriz($dataInserta);
         //var_dump($resultado);
         if($resultado > 0){
-            // $email = "desarrollo@wannabe.com.co, kyo20052@gmail.com, msoto@pensiero.com.co, jternera@c4consultinghub.com, jcampo@c4consultinghub.com";
-            $email = "gabiel.ramirez@gmail.com, moreracamilo244@gmail.com";
+            $email = "desarrollo@wannabe.com.co, kyo20052@gmail.com, msoto@pensiero.com.co, jternera@c4consultinghub.com, jcampo@c4consultinghub.com";
+            // $email = "gabiel.ramirez@gmail.com, moreracamilo244@gmail.com";
             if($tipoSolicitud == 0){
                 $asuntoMensaje  = "Sugerencia.";
                 $mensajeenviar  = "<h2>Sugerencia de nuevo check</h2> <br>";
@@ -916,6 +917,21 @@ class LogicaGeneral  {
                         "datos"=>$resultado);
         }else{
             $respuesta = array("mensaje"=>"algo salio mal.",
+                        "continuar"=>0,
+                        "datos"=>"");
+        }
+        return $respuesta;
+    }
+    //consulto inforcacion de item interno
+    public function infoInterno($idNuevaMatriz){
+        $where["r.idNuevaMatriz"]= $idNuevaMatriz;
+        $resultado          = $this->ci->dbMatriz->infoMatrizRecurrentes($where);
+        if(count($resultado) > 0){
+                $respuesta = array("mensaje"=>"se realizo consulta.",
+                        "continuar"=>1,
+                        "datos"=>$resultado);
+        }else{
+            $respuesta = array("mensaje"=>"El check se encuentra en construcción",
                         "continuar"=>0,
                         "datos"=>"");
         }

@@ -96,6 +96,7 @@ class MisMatrices extends CI_Controller
 							$salida['inforMiMatriz']	= $inforMiMatriz;
 							$salida['infor']			= $inforMiMatriz["datos"];
 							$salida['periocidad']	    = $periocidad;
+							$salida['idEmpresa']	    = $idEmpresa;
 						}
 						
 					}else if($idPerfil == 8){
@@ -113,6 +114,7 @@ class MisMatrices extends CI_Controller
 						$salida['infoEmpresas']		= $infoEmpresas[0];
 						$salida['infor']			= $inforMiMatriz["datos"];
 						$salida['periocidad']	    = $periocidad;
+						$salida['idEmpresa']	    = $idEmpresa;
 					}
 					else if($idPerfil > 3 || $idPerfil != 11){
 						$periocidad = $idPeriocidad;
@@ -122,6 +124,7 @@ class MisMatrices extends CI_Controller
 						$salida['inforMiMatriz']	= $inforMiMatriz;
 						$salida['infor']			= $inforMiMatriz["datos"];
 						$salida['periocidad']	    = $periocidad;
+						$salida['idEmpresa']	    = $idEmpresa;
 
 					}
 						$opc 				   		= "home";
@@ -130,14 +133,15 @@ class MisMatrices extends CI_Controller
 						$salida['infoModulo']  		= $infoModulo[0];
 						$this->load->view("app/index",$salida);
 			}else{
-				$opc 				   = "home";
-				$salida['titulo']      = lang("titulo")." - Área Restringida";
-				$salida['centro'] 	   = "error/areaRestringida";
-				$this->load->view("app/index",$salida);
+				// $opc 				   = "home";
+				// $salida['titulo']      = lang("titulo")." - Área Restringida";
+				// $salida['centro'] 	   = "error/areaRestringida";
+				// $this->load->view("app/index",$salida);
+				header('Location:'.base_url()."login");
 			}
-		//}
+		// }
 		// else{
-		// 	header('Location:'.base_url()."login");
+		//  	header('Location:'.base_url()."login");
 		// }
 	}
 	//modal informacion de matriz asignada
@@ -549,10 +553,12 @@ class MisMatrices extends CI_Controller
 	//te sugerimos check
 	public function sugerimosCheck(){
 		$infoMatrices = $this->logicaMis->infoMatrices();
+		$idEmpresa = $_SESSION["project"]["info"]["idEmpresa"];
 		//var_dump($infoMatrices);die();
 		$opc 				   		= "home";
 		$salida['titulo']      		= "Te sugerimos check";
 		$salida['infoMatrices']		= $infoMatrices;
+		$salida['idEmpresa'] 	= $idEmpresa;
 		echo $this->load->view("misMatrices/sugerimos",$salida,true);
 }
 }

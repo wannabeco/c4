@@ -101,14 +101,13 @@
                                         $idMatrizRecurrente = $info['idMatrizRecurrente'];
                                         $porcentaje = isset($consultoSi[$idMatrizRecurrente]) ? $consultoSi[$idMatrizRecurrente] : 0;
                                         $porcentajeFormateado = number_format($porcentaje, 2);
-                                        $badgeClass = 'badge badge-secondary'; // Clase por defecto
-
+                                        $badgeClass = 'badge badge-secondary';
                                         if ($porcentaje < 50) {
-                                            $badgeClass = 'badge badge-danger'; // Rojo si es menor al 50%
+                                            $badgeClass = 'badge badge-danger';
                                         } elseif ($porcentaje >= 50 && $porcentaje <= 90) {
-                                            $badgeClass = 'badge badge-warning'; // Amarillo si está entre 50% y 90%
+                                            $badgeClass = 'badge badge-warning';
                                         } elseif ($porcentaje > 90) {
-                                            $badgeClass = 'badge badge-success'; // Verde si es mayor al 90%
+                                            $badgeClass = 'badge badge-success';
                                         }
                                     ?>
                                         <span class="<?php echo $badgeClass; ?>"><?php echo $porcentajeFormateado; ?>%</span>

@@ -34,82 +34,89 @@ class Buscar extends CI_Controller
     * Tenga en cuenta que cada llamado ajax que haga a una plantilla gráfica que incluya botones de ver,editar, crear, borrar debe siempre llamar la función getPrivilegios.
     */
 	public function consultaMatrices(){
-		$idPersona = $_SESSION["project"]["info"]["idPersona"];
-		$idEmpresa = $_SESSION["project"]["info"]["idEmpresa"];
-		$inforMiMatriz = $this->logicaMis->consultaMatricescompradas($idPersona, $idEmpresa);
-		$infoPlanesrel = $this->logica->infoPlanesrel($idEmpresa);
-		// var_dump($infoPlanesrel);die();
-		$infoMatrices = $this->logicaMis->infoMatrices();
-		$opc = "home";
-		$salida['titulo'] = "Check's Creados";
-		$salida['inforMiMatriz']= $inforMiMatriz;
-		$salida['infoMatrices']	= $infoMatrices;
-		$salida['centro'] 		= "misMatrices/creadas";
-		$salida['idEmpresa'] 	= $idEmpresa;
-		//$this->load->view("app/index",$salida);
-		echo $this->load->view("app/index",$salida,true);
-	}
-	//consulta matrices creadas
-	public function matricesCreadas() {
-		$infoMatriceslike = "";
-		if (isset($_POST["buscar"])) {
-				$buscar = $_POST["buscar"];
-				$infoMatriceslike = $this->logicaMis->infoMatriceslike($buscar);
-			}
+		if(validaInApp("web")){
 			$idPersona = $_SESSION["project"]["info"]["idPersona"];
 			$idEmpresa = $_SESSION["project"]["info"]["idEmpresa"];
 			$inforMiMatriz = $this->logicaMis->consultaMatricescompradas($idPersona, $idEmpresa);
-			// var_dump($inforMiMatriz);die();
-			$matricesCompradas= 0;
-			if($inforMiMatriz["datos"] >0){
-				$matricesCompradas = count($inforMiMatriz["datos"]);
-			}
-			$relacionEmpresaPlan = $this->logica->infoPlanesrel($idEmpresa);
-			if($relacionEmpresaPlan["datos"] >0){
-				$checkcomprar =  $relacionEmpresaPlan["datos"][0]["canChecks"];
-			}
-			if($checkcomprar > $matricesCompradas){
-				$infoMatrices = $this->logicaMis->infoMatrices();
-				$inforMiMatriz = array("mensaje"=>"las matrices no fueron consultadas.",
-									"continuar"=>0,
-									"datos"=>"");
-				$response =array(
-					"infoMatrices" =>$infoMatrices,
-					"inforMiMatriz" =>$inforMiMatriz,
-				);
-			}else{
-				if ($infoMatriceslike > 0){
-					$infoMatrices = $infoMatriceslike;
-					$response =array(
-						"infoMatrices" =>$infoMatrices,
-						"inforMiMatriz" =>$inforMiMatriz,
-					);
-				} else {
-					$infoMatrices = [];
-					$infoMatrices = $this->logicaMis->infoMatrices();
-					$response =array(
-						"infoMatrices" =>$infoMatrices,
-						"inforMiMatriz" =>$inforMiMatriz,
-					);
+			$infoPlanesrel = $this->logica->infoPlanesrel($idEmpresa);
+			// var_dump($infoPlanesrel);die();
+			$infoMatrices = $this->logicaMis->infoMatrices();
+			$opc = "home";
+			$salida['titulo'] = "Check's Creados";
+			$salida['inforMiMatriz']= $inforMiMatriz;
+			$salida['infoMatrices']	= $infoMatrices;
+			$salida['centro'] 		= "misMatrices/creadas";
+			$salida['idEmpresa'] 	= $idEmpresa;
+			//$this->load->view("app/index",$salida);
+			echo $this->load->view("app/index",$salida,true);
+		}else{
+			header('Location:'.base_url()."login");
+		}
+	}
+	//consulta matrices creadas
+	public function matricesCreadas() {
+		if(validaInApp("web")){
+			$infoMatriceslike = "";
+			if (isset($_POST["buscar"])) {
+					$buscar = $_POST["buscar"];
+					$infoMatriceslike = $this->logicaMis->infoMatriceslike($buscar);
 				}
-			}
-			//var_dump($response);die();
-			echo json_encode($response); 
+				$idPersona = $_SESSION["project"]["info"]["idPersona"];
+				$idEmpresa = $_SESSION["project"]["info"]["idEmpresa"];
+				$inforMiMatriz = $this->logicaMis->consultaMatricescompradas($idPersona, $idEmpresa);
+				// var_dump($inforMiMatriz);die();
+				$matricesCompradas= 0;
+				if($inforMiMatriz["datos"] >0){
+					$matricesCompradas = count($inforMiMatriz["datos"]);
+				}
+				$relacionEmpresaPlan = $this->logica->infoPlanesrel($idEmpresa);
+				if($relacionEmpresaPlan["datos"] >0){
+					$checkcomprar =  $relacionEmpresaPlan["datos"][0]["canChecks"];
+				}
+				if($checkcomprar > $matricesCompradas){
+					$infoMatrices = $this->logicaMis->infoMatrices();
+					$inforMiMatriz = array("mensaje"=>"las matrices no fueron consultadas.",
+										"continuar"=>0,
+										"datos"=>"");
+					$response =array(
+						"infoMatrices" =>$infoMatrices,
+						"inforMiMatriz" =>$inforMiMatriz,
+					);
+				}else{
+					if ($infoMatriceslike > 0){
+						$infoMatrices = $infoMatriceslike;
+						$response =array(
+							"infoMatrices" =>$infoMatrices,
+							"inforMiMatriz" =>$inforMiMatriz,
+						);
+					} else {
+						$infoMatrices = [];
+						$infoMatrices = $this->logicaMis->infoMatrices();
+						$response =array(
+							"infoMatrices" =>$infoMatrices,
+							"inforMiMatriz" =>$inforMiMatriz,
+						);
+					}
+				}
+				//var_dump($response);die();
+				echo json_encode($response); 
+		}else{
+			header('Location:'.base_url()."login");
+		}
 	}
 
 	//crea las primeras 3 matrices
 	public function creaGratis() {
-		if(validaInApp("web")){//esta validación me hará consultas más seguras
+		if(validaInApp("web")){
 			$proceso = $this->logicaMis->creaGratis($_POST);
 			echo json_encode($proceso); 
-		}
-		else{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
 	//verificar si la empresa ya cuenta con las matrices.
 	public function getMatricesEmpresa(){
-		if(validaInApp("web")){//esta validación me hará consultas más seguras
+		if(validaInApp("web")){
 			$proceso = $this->logicaMis->getMatricesEmpresa($_POST);
 			echo json_encode($proceso); 
 		}
@@ -119,18 +126,20 @@ class Buscar extends CI_Controller
 	}
 	//formulario de sugerir matriz
 	public function sugerirMatriz(){
+		if(validaInApp("web")){
 			$opc 				   		= "home";
 			$salida['titulo']      		= "Sugerir nueva matriz";
 			echo $this->load->view("misMatrices/sugerir",$salida,true);
+		}else{
+			header('Location:'.base_url()."login");
+		}
 	}
 	//verificar si la empresa ya cuenta con las matrices.
 	public function sugiereMatriz(){
 		if(validaInApp("web")){
-			//var_dump($_POST);die();
 			$proceso = $this->logica->sugiereMatriz($_POST);
 			echo json_encode($proceso); 
-		}
-		else{
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}
@@ -140,8 +149,17 @@ class Buscar extends CI_Controller
 			$idEmpresa = $_SESSION["project"]["info"]["idEmpresa"];
 			$proceso = $this->logica->infoPlanesrel($idEmpresa);
 			echo json_encode($proceso); 
+		}else{
+			header('Location:'.base_url()."login");
 		}
-		else{
+	}
+	// busco informacion de item
+	public function infoInterno(){
+		if(validaInApp("web")){
+			$idEmpresa = $_SESSION["project"]["info"]["idEmpresa"];
+			$proceso = $this->logica->infoPlanesrel($idEmpresa);
+			echo json_encode($proceso); 
+		}else{
 			header('Location:'.base_url()."login");
 		}
 	}

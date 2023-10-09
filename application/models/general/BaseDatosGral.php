@@ -57,6 +57,8 @@ class BaseDatosGral extends CI_Model {
     private $tablePagoMesOficial         =   "";
     private $tableMembresiaOficial       =   "";
     private $tablerelPlanEmpresa         =   "";
+    private $tableRecurrentes            =   "";
+    private $tableRespuestasCheck        =   "";
     
     public function __construct() 
     {
@@ -105,6 +107,8 @@ class BaseDatosGral extends CI_Model {
         $this->tablePagoMesOficial       = "app_pago_mensualidad_oficial";
         $this->tableMembresiaOficial     = "app_membresia_oficial";
         $this->tablerelPlanEmpresa       = "app_rel_empresa_plan";
+        $this->tableRecurrentes          = "app_matriz_recurrente";
+        $this->tableRespuestasCheck      = "app_respuestas_check";
     }
     public function getVariablesGlobales(){
         $this->db->select("*");
@@ -727,6 +731,25 @@ class BaseDatosGral extends CI_Model {
         $this->db->update($this->tablerelPlanEmpresa,$data);
         // print_r($this->db->last_query());die();
         return $this->db->affected_rows();
+    }
+    //consulto relacion de matrices con recurrente
+    public function consultoRecurrentes($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tableRecurrentes);
+        // $this->db->from($this->tableNuevaMatriz." n");
+        // $this->db->join($this->tableRecurrentes." r","r.idNuevaMatriz=n.idNuevaMatriz","LEFT");
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    public function consultoRespuestas($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tableRespuestasCheck);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
     }
 }
 

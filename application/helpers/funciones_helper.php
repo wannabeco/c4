@@ -610,12 +610,38 @@ function pre($data, $die=0)
     if( $die ) die();
 }
 
-function calculaPorcentaje($idMatriz, $idPeriodicidad, $idObligacion, $tipo){
+function calculaPorcentaje($idMatriz, $idPeriodicidad, $idObligacion, $tipo, $idEmpresa){
+    $ci = get_instance();
+    $ci->load->model("general/baseDatosGral","baseGeneral");
     
-    // if($tipo == "matriz"){
-    //     $consulta = $this->
-    // }
-    return 0;
+    if($tipo == "matriz"){
+        $where["idNuevaMatriz"] = $idMatriz;
+        $consulta = $ci->baseGeneral->consultoRecurrentes($where);
+        $cantidad = count($consulta);
+        $totalPreguntas = $cantidad*6;
+        $whereconsulta["idNuevaMatriz"] = $idMatriz;
+        $whereconsulta["idRelPeriocidad"] = $idPeriodicidad;
+        $whereconsulta["idEmpresa"] = $idEmpresa;
+        $respuesta = $ci->baseGeneral->consultoRespuestas($whereconsulta);
+        $cantidadRespuestasSI = 0;
+        foreach ($respuesta as $respuesta) {
+            if ($respuesta["resOficial"] === "SI") {
+                $cantidadRespuestasSI++;
+            }
+        }
+
+        $porcentajeFinal = ($cantidadRespuestasSI/$totalPreguntas)*100;
+        $porcentajeRedondeado = round($porcentajeFinal, 2);
+        $claseBadge = '';
+        if ($porcentajeRedondeado < 50) {
+            $claseBadge = 'badge-danger';
+        } elseif ($porcentajeRedondeado >= 50 && $porcentajeRedondeado < 90) {
+            $claseBadge = 'badge-warning';
+        } else {
+            $claseBadge = 'badge-success';
+        }
+    }
+    return '<span class="badge ' . $claseBadge . '">' . $porcentajeRedondeado . '%</span>';
 }
 
 

@@ -13,6 +13,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 	$scope.infoMatrices		= "";
 	$scope.inforMiMatriz	= "";
 	$scope.Checks  			= "";
+	$continuar  = "";
 
 	//plantilla informacion de matriz
 	$scope.cargaPlantillaInfo = function(idNuevaMatriz,edita){	
@@ -31,17 +32,15 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 		var controlador = $scope.config.apiUrl+"Buscar/busquedaRelEmpresaPalan";
 		var parametros = "";
 		$.ajax({
-		  url: controlador,
-		  type: "GET",
-		  data: parametros,
-		  dataType: "json",
-		  success: function(response) {
-			$scope.canMatrices = response.datos;
-			// $scope.che = response.datos[0].canChecks;
-			$scope.Checks = response.datos[0].canChecks;
-			console.log($scope.Checks);
-			$scope.$apply();
-		  }
+			url: controlador,
+			type: "GET",
+			data: parametros,
+			dataType: "json",
+			success: function(response) {
+				$scope.canMatrices = response.datos;
+				$scope.Checks = response.datos[0].canChecks;
+				$scope.$apply();
+			}
 		});
 	};
 	//busqueda de todas las matrices
@@ -49,15 +48,22 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 		var controlador = $scope.config.apiUrl+"Buscar/matricesCreadas";
 		var parametros = "";
 		$.ajax({
-		  url: controlador,
-		  type: "GET",
-		  data: parametros,
-		  dataType: "json",
-		  success: function(response) {
-			$scope.infoMatrices = response.infoMatrices;
-			$scope.inforMiMatriz = response.inforMiMatriz;
-			$scope.$apply();
-		  }
+			url: controlador,
+			type: "GET",
+			data: parametros,
+			dataType: "json",
+			success: function(response) {
+				$scope.infoMatrices = response.infoMatrices;
+				$scope.inforMiMatriz = response.inforMiMatriz;
+				if($scope.inforMiMatriz.continuar == 0){
+					$(".agregaGratisDos").css("display", "block");
+					$(".PagaraButton").css("display", "none");
+				}else{
+					$(".agregaGratisDos").css("display", "none");
+					$(".PagaraButton").css("display", "block");
+				}
+				$scope.$apply();
+			}
 		});
 	};
 	//buscador
@@ -71,7 +77,6 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 			data: parametros,
 			dataType: "json",
 			success: function(response) {
-			console.log(response);
 			$scope.infoMatrices = response.infoMatrices;
 			$scope.inforMiMatriz = response.inforMiMatriz;
 			$scope.$apply();
@@ -382,6 +387,8 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 			});	
 		} 
 	}
+	
+
 	// sugerimos check
 	$scope.sugerimosCheck =function(){
 		$('#segerimosCheck').modal("show");
@@ -393,7 +400,160 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 	 		// actualiza el DOM
 	 		$scope.compileAngularElement("#formsugerir");
 	 	},'');
+		$scope.busquedaMatrices();
 	}
+	//consulto item interno
+	$(document).on('click', '.infoInterno', function() {
+		var idMatriz = $(this).data('idnuevamatriz');
+		var controlador = $scope.config.apiUrl + "Buscar/infoInterno";
+		var parametros = "idNuevaMatriz=" + idMatriz;
+		constantes.consultaApi(controlador, parametros, function(json) {
+			if (json.continuar == 1) {
+				var registros = json.datos;
+				var registrosAleatorios = [];
+				var indicesAleatorios = [];
+				while (indicesAleatorios.length < 3) {
+					var indiceAleatorio = Math.floor(Math.random() * registros.length);
+					if (indicesAleatorios.indexOf(indiceAleatorio) === -1) {
+						indicesAleatorios.push(indiceAleatorio);
+					}
+				}
+				for (var i = 0; i < indicesAleatorios.length; i++) {
+					registrosAleatorios.push(registros[indicesAleatorios[i]]);
+				}
+				$('#modal1').modal('show');
+				$scope.Array = registrosAleatorios;
+				$scope.nombreCheck= $scope.Array[0].nombreNuevaMatriz;
+				
+			} else {
+				constantes.alerta("Atención", json.mensaje, "warning", function() {});
+			}
+		});
+	});
+
+
+	//click boton pagar de modal
+	$(document).on('click', '.PagaraButton', function() {
+		var idEmpresa = $(this).data('idempresa');
+		var nombreMatriz = $(this).data('nombrenuevamatriz');
+		var idMatriz = $(this).data('idnuevamatriz');
+		var precio = $(this).data('precio');
+		
+		var nuevaMatriz = {
+			id: idMatriz,
+			nombre: nombreMatriz,
+			precio: precio
+		};
+		var indice = tipos.findIndex(function(elemento) {
+			return elemento.id === nuevaMatriz.id;
+		});
+		if (indice === -1) {
+			tipos.push(nuevaMatriz);
+			total += parseInt(nuevaMatriz.precio);
+			idss.push(idMatriz);
+		}
+		$(".tiposDos").html(
+			tipos.map(function(elemento) {
+				var palabra = elemento.nombre.trim();
+				return (
+					'<div class="float-left col-md-8"><span class="badge bg-success" style="font-size:16px; color:white; margin-left:10px;">' +
+					palabra +
+					' <a href="#" class="eliminarDos text-danger" data-palabra="' +
+					palabra +
+					'"> X </a></span></div>'
+				);
+			}).join('') +
+			(total !== 0 ? '<div class="float-left col-md-2"> Total: <strong>' + total + '</strong></div>'+
+			'<input type="text" id="idEmpresa" name="idEmpresa" value='+idEmpresa+' hidden>'+'<div class="float-left col-md-2" style="padding-right: 0px;top:-10px;"><button class="btn btn-primary float-righ" id="Pagar" type="button">Pagar</button></div>': '')
+		);
+		return false;
+	});
+	$(document).on('click', '.agregaGratisDos', function() {
+		var idEmpresa = $(this).data('idempresa');
+		var nombreMatriz = $(this).data('nombrenuevamatriz');
+		var idMatriz = $(this).data('idnuevamatriz');
+		var nuevaMatriz = {
+			id: idMatriz,
+			nombre: nombreMatriz
+		};
+		var indice = tiposGratis.findIndex(function(elemento) {
+			return elemento.id === nuevaMatriz.id;
+		});
+		if (indice === -1) {
+			tiposGratis.push(nuevaMatriz);
+			ids.push(idMatriz);
+		}
+		$(".tiposDos").html(
+			tiposGratis.map(function(elemento) {
+			var palabra = elemento.nombre.trim();
+			return (
+				'<span class="badge bg-success" style="font-size:16px; color:white; margin-left:10px;">' +
+				palabra +
+				' <a href="#" class="eliminarDos text-danger" data-palabra="' +
+				palabra +
+				'"> X </a></span>'
+			);
+			}).join('')+
+			(tiposGratis != 0 ?'<input type="text" id="idEmpresa" name="idEmpresa" value='+idEmpresa+' hidden>'+'<button class="btn btn-primary" id="btnAgregar" style="margin-left: 20px;" type="button">Agregar</button>': '')
+		);
+		
+		$(document).on('click', '.eliminarDos', function() {
+			var palabraEliminar = $(this).data('palabra');
+			var indice = tiposGratis.findIndex(function(elemento) {
+				return elemento.nombre.trim() === palabraEliminar;
+			});
+			if (indice !== -1) {
+				tiposGratis.splice(indice, 1);
+				var idEliminar = ids[indice];
+				ids.splice(indice, 1);
+			
+				$(".tiposDos").html(
+					tiposGratis.map(function(elemento) {
+					var palabra = elemento.nombre.trim();
+					return (
+					'<span class="badge bg-success" style="font-size:16px; color:white; margin-left:10px;">' +
+					palabra +
+					' <a href="#" class="eliminarDos text-danger" data-palabra="' +
+					palabra +
+					'"> X </a></span>'
+					);
+				}).join('')+
+				(tiposGratis != 0 ?'<input type="text" id="idEmpresa" name="idEmpresa" value='+idEmpresa+' hidden>'+'<button class="btn btn-primary" id="btnAgregar" style="margin-left: 20px;" type="button">Agregar</button>': '')
+				);
+			}
+		});
+		return false;
+	});
+	$(document).on('click', '.eliminarDos', function() {
+		event.preventDefault();
+		var palabraEliminar = $(this).data('palabra');
+		var indice = tipos.findIndex(function(elemento) {
+			return elemento.nombre.trim() === palabraEliminar;
+		});
+		if (indice !== -1) {
+			var matrizEliminada = tipos[indice];
+			tipos.splice(indice, 1);
+			total -= matrizEliminada.precio;
+			var idEliminar = idss[indice];
+        	idss.splice(indice, 1);
+	
+			$(".tiposDos").html(
+				tipos.map(function(elemento) {
+					var palabra = elemento.nombre.trim();
+					return (
+						'<div class="float-left col-md-8"><span class="badge bg-success" style="font-size:16px; color:white; margin-left:10px;">' +
+					palabra +
+					' <a href="#" class="eliminarDos text-danger" data-palabra="' +
+					palabra +
+					'"> X </a></span></div>'
+					);
+				}).join('')+
+				(total !== 0 ? '<div class="float-left col-md-2"> Total: <strong>' + total + '</strong></div>'+
+				'<input type="text" id="idEmpresa" name="idEmpresa" value='+idEmpresa+' hidden>'+'<div class="float-left col-md-2" style="padding-right: 0px;top:-10px;"><button class="btn btn-primary float-righ" id="Pagar" type="button">Pagar</button></div>': '')
+			);
+		}
+	});
+	
 
 
 	$scope.compileAngularElement = function(elSelector) {

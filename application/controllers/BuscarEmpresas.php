@@ -34,44 +34,48 @@ class BuscarEmpresas extends CI_Controller
     * Tenga en cuenta que cada llamado ajax que haga a una plantilla gráfica que incluya botones de ver,editar, crear, borrar debe siempre llamar la función getPrivilegios.
     */
 	public function consultaEmpresas(){
-		$idPersona = $_SESSION["project"]["info"]["idPersona"];
-		$infoMisEmpresas = $this->logicaMis->ConsultaEmpresasCompradas($idPersona);
-		$infoEmpresas = $this->logicaMis->infoEmpresas();
-		$opc = "home";
-		$salida['titulo'] = "Empresas Registradas";
-		$salida['infoMisEmpresas'] = $infoMisEmpresas;
-		$salida['infoEmpresas'] = $infoEmpresas;
-		// $salida['precio'] = _PRECIO_EMPRESA;
-		$salida['centro'] = "empresas/creadas";
-		//$this->load->view("app/index",$salida);
-		echo $this->load->view("app/index",$salida,true);
+		if(validaInApp("web")){
+			$idPersona = $_SESSION["project"]["info"]["idPersona"];
+			$infoMisEmpresas = $this->logicaMis->ConsultaEmpresasCompradas($idPersona);
+			$infoEmpresas = $this->logicaMis->infoEmpresas();
+			$opc = "home";
+			$salida['titulo'] = "Empresas Registradas";
+			$salida['infoMisEmpresas'] = $infoMisEmpresas;
+			$salida['infoEmpresas'] = $infoEmpresas;
+			$salida['centro'] = "empresas/creadas";
+			echo $this->load->view("app/index",$salida,true);
+		}else{
+			header('Location:'.base_url()."login");
+		}
 	}
 	//consulta matrices creadas
 	public function empresasCreadas(){
-		$infoEmpresasLike = "";
-		if (isset($_POST["buscar"])) {
-				$buscar = $_POST["buscar"];
-				$infoEmpresasLike = $this->logicaMis->infoEmpresasLike($buscar);
-			}
-			$idPersona = $_SESSION["project"]["info"]["idPersona"];
-			$infoMisEmpresas = $this->logicaMis->ConsultaEmpresasCompradas($idPersona);
-			$infoEmpresas = [];
-			if ($infoEmpresasLike > 0){
-				$infoEmpresas = $infoEmpresasLike;
-				$response =array(
-					"infoEmpresas" =>$infoEmpresas,
-					"infoMisEmpresas" =>$infoMisEmpresas,
-				);
-				//var_dump($response);die();
-			} else {
-				$infoEmpresas = $this->logicaMis->infoEmpresas();
-				$response =array(
-					"infoEmpresas" =>$infoEmpresas,
-					"infoMisEmpresas" =>$infoMisEmpresas,
-				);
-			}
-			//var_dump($response);die();
-			echo json_encode($response); 
+		if(validaInApp("web")){
+			$infoEmpresasLike = "";
+			if (isset($_POST["buscar"])) {
+					$buscar = $_POST["buscar"];
+					$infoEmpresasLike = $this->logicaMis->infoEmpresasLike($buscar);
+				}
+				$idPersona = $_SESSION["project"]["info"]["idPersona"];
+				$infoMisEmpresas = $this->logicaMis->ConsultaEmpresasCompradas($idPersona);
+				$infoEmpresas = [];
+				if ($infoEmpresasLike > 0){
+					$infoEmpresas = $infoEmpresasLike;
+					$response =array(
+						"infoEmpresas" =>$infoEmpresas,
+						"infoMisEmpresas" =>$infoMisEmpresas,
+					);
+				} else {
+					$infoEmpresas = $this->logicaMis->infoEmpresas();
+					$response =array(
+						"infoEmpresas" =>$infoEmpresas,
+						"infoMisEmpresas" =>$infoMisEmpresas,
+					);
+				}
+				echo json_encode($response); 
+		}else{
+			header('Location:'.base_url()."login");
+		}
 	}
 	//crea relacion de las empresas con el oficial de cumplimiento
 	public function creaGratisrel() {
