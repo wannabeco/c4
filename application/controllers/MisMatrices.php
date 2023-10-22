@@ -560,6 +560,68 @@ class MisMatrices extends CI_Controller
 		$salida['infoMatrices']		= $infoMatrices;
 		$salida['idEmpresa'] 	= $idEmpresa;
 		echo $this->load->view("misMatrices/sugerimos",$salida,true);
-}
+	}
+	//los check creados por empresa
+	public function misCreados(){
+		if(validaInApp("web")){
+			$idEmpresa = $_SESSION["project"]["info"]["idEmpresa"];
+			$misMatricesCreadas = $this->logMatriz->misCreados();
+			// var_dump($misMatricesCreadas);die();
+			$opc 				   		= "home";
+			$salida['titulo']      		= "Mis Check Creados";
+			$salida['inforMiMatriz']	= $misMatricesCreadas;
+			$salida['idEmpresa'] 		= $idEmpresa;
+			$salida['centro'] 	   		= "misMatrices/creadosEmpresa";
+			$this->load->view("app/index",$salida);
+		}else{
+			header('Location:'.base_url()."login");
+		}
+	}
+	//la empresa crea su propio check
+	public function creoMiCheck(){
+		extract($_POST);
+		$editar 			= $_POST["edita"];
+		if($editar == 1){
+			$idNuevaMatriz =$_POST["idNuevaMatriz"];
+			$consultoCheck = $this->logicaMis->consultoMiMatrizId($idNuevaMatriz);
+			// var_dump($consultoCheck[0]["idNuevaMatriz"]);die();
+			$opc 				   		= "home";
+			$salida['titulo']      		= "Actualiza check";
+			$salida['consultoCheck']    = $consultoCheck;
+			$salida['idNuevaMatriz']    = $consultoCheck[0]["idNuevaMatriz"];
+			$salida['editar']      		= 1;
+		}else{
+			$opc 				   		= "home";
+			$salida['titulo']      		= "Crear nuevo check";
+			$salida['editar']      		= 0;
+		}
+		echo $this->load->view("misMatrices/creoMiCheck",$salida,true);
+	}
+	//elimina matriz creada por empresa
+	public function borraMatrizCreada(){
+		if(validaInApp("web")){
+			$proceso = $this->logicaMis->borraMatrizCreada($_POST);
+			echo json_encode($proceso); 
+		}else{
+			header('Location:'.base_url()."login");
+		}
+	}
+	// actualizar matriz creada por empresa
+	public function actualizoMiCheck(){
+		if(validaInApp("web")){
+			$proceso = $this->logicaMis->actualizoMiCheck($_POST);
+			echo json_encode($proceso); 
+		}else{
+			header('Location:'.base_url()."login");
+		}
+	}
+	public function duplicarMatrizCreada(){
+		if(validaInApp("web")){
+			$proceso = $this->logicaMis->duplicarMatrizCreada($_POST);
+			echo json_encode($proceso); 
+		}else{
+			header('Location:'.base_url()."login");
+		}
+	}
 }
 ?>

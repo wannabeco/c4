@@ -42,6 +42,6 @@
     <input type="text" id="idEmpresa" name="idEmpresa" value="<?php echo $_SESSION["project"]["info"]["idEmpresa"];?>" hidden>
   <div class="modal-footer">
     <button type="button"  data-dismiss="modal" class="btn  btn-default"><?php echo lang('reg_btn_cancelar') ?></button>
-    <button type="submit" class="btn btn-raised btn-primary">Guardar</button>
+    <button type="submit" class="btn btn-raised btn-primary">Enviar</button>
   </div>
 </form>

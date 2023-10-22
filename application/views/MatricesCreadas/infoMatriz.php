@@ -33,7 +33,21 @@
             <h1 class="h3 mb-0 text-gray-800 text-dark"><?php echo $titulo ?></h1>
         </div>  
         <?php if($_SESSION["project"]["info"]["idPerfil"] == 11){?>
-            <button type="button" class="btn btn-primary float-right" ng-click="crearnuevaItem(<?php echo $infoMatrizRecurrentes[0]['idNuevaMatriz']; ?>)"><i class="fas fa-lightbulb"></i> Sugerir item</button>
+            <div class="col-md-6">
+                <?php if(consultoNuevaMatriz($idNuevaMatriz)){//funcion el helper?>
+                    <button type="button" class="btn btn-primary float-right" ng-click="crearnuevaItem(<?php echo $infoMatrizRecurrentes[0]['idNuevaMatriz']; ?>)"><i class="fas fa-lightbulb"></i> Sugerir item</button>
+                <?php }else{?>
+                    <div class="dropdown float-right">
+                        <a class="d-sm-inline-block btn btn-sm btn-primary shadow-sm dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-plus"></i> <?php echo lang("lblRelacion") ?> <span class="caret"></span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <h6 class="dropdown-header"><?php echo lang("lblSeleccioneOpc") ?></h6>
+                            <a class="dropdown-item" ng-click="cargaPlantillaparametros('<?php echo $idNuevaMatriz; ?>',0)" style="cursor:pointer"><i class="fa fa-fw fa-plus"></i> Nuevo Parametro</a>
+                        </div>
+                    </div>
+                <?php }?>
+            </div>
         <?php }if(getPrivilegios()[0]['crear'] == 1){ ?>
             <div class="dropdown">
                 <a class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -153,8 +167,12 @@
                                                 $bloqueIfEjecutado = true;
                                             }
                                         }
-                                    }?>
-                                    
+                                    }if($_SESSION["project"]["info"]["idPerfil"] == 11){
+                                        if(consultoitemPermisos($idNuevaMatriz,$info['idMatrizRecurrente'],$_SESSION['project']['info']['idEmpresa'])){    
+                                    ?>
+                                        <a ng-click="cargaPlantillaparametros('<?php echo $info['idMatrizRecurrente'];?>',1)" data-toggle="tooltip" data-placement="top" title="Actualizar matriz" class="btn btn-dark btn-fab btn-fab-mini btn-xs" style="width:40px;"><i class="far fa-edit"></i></a>
+                                        <a ng-click="borraParametro(<?php echo $info['idMatrizRecurrente'];?>)" title="Eliminar Matriz"  class="btn btn-danger btn-fab btn-fab-mini btn-xs"><i class="fas fa-trash"></i></a>
+                                    <?php } }?>
                                     <!-- finaliza codigo -->
                                 </td>
                             </tr>

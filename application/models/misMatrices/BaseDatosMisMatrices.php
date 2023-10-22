@@ -283,6 +283,13 @@ class BaseDatosMisMatrices extends CI_Model {
         // print_r($this->db->last_query());die();
         return $id->result_array();
     }
+    //actualizo tabla nueva matriz
+    public function actualizoTablaMatriz($data,$where){
+        $this->db->where($where);
+        $this->db->update($this->tableMatrices,$data);
+        // print_r($this->db->last_query());die();
+        return $this->db->affected_rows();
+    }
     
 }
 

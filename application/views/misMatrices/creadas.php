@@ -31,18 +31,25 @@
             </div>
         </div>
     </div>
+    <!-- creo mi propio check -->
+    <div id="miNuevocheck" class="modal fade" role="dialog"  data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content" id="modalmiNuevocheck">
+                <!--Form de creación -->
+            </div>
+        </div>
+    </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <h1 class="h3 mb-0 text-gray-800 text-dark pl-4"><?php echo $titulo;?></h1>
         </div>
         <?php if($_SESSION['project']['info']['idPerfil'] == 11){?>
-            <div class="col-md-3">
-                <button type="button" class="btn btn-primary float-right" ng-click="sugerimosCheck()"><i class="fas fa-check-circle"></i> Checks sugeridos</button>
-            </div>
-            <div class="col-md-3">
+            <div class="col-md-8">
                 <button type="button" class="btn btn-primary float-right" ng-click="solicitar()"><i class="fas fa-comment-dots"></i> Solicitar checks a la medida</button>
+                <button type="button" class="btn btn-primary float-right" style="margin-right: 20px;" ng-click="sugerimosCheck()"><i class="fas fa-check-circle"></i> Checks sugeridos</button>
+                <button type="button" class="btn btn-primary float-right" style="margin-right: 20px;" ng-click="creoMiCheck()"><i class="fas fa-plus"></i> Creo mi check</button>
+                <!-- <button type="button" class="btn btn-primary float-right" ng-click="crearnueva()"><i class="fas fa-lightbulb"></i> Sugerir Nuevo checks</button> -->
             </div>
-            <!-- <button type="button" class="btn btn-primary float-right" ng-click="crearnueva()"><i class="fas fa-lightbulb"></i> Sugerir Nuevo checks</button> -->
         <?php }?>
     </div>
     <div ng-if="inforMiMatriz.continuar === 0">
@@ -98,7 +105,8 @@
                         </div>
                         <div ng-if="inforMiMatriz.continuar === 1">
                             <p class="card-text col-md-4 float-left"><small class="text-muted">$ {{ matriz.precio| number }} </small></p>
-                            <form ng-submit="agrega(matriz.nombreNuevaMatriz, matriz.idNuevaMatriz, matriz.precio)" class="flat-left">
+                            <button class="btn btn-primary float-right" type="button" ng-click="duplicar(matriz.idNuevaMatriz,matriz.nombreNuevaMatriz)"><i class="fas fa-folder-open"></i> Duplicar</button>
+                            <form ng-submit="agrega(matriz.nombreNuevaMatriz, matriz.idNuevaMatriz, matriz.precio)" class="flat-left" style="margin-right: 10px;">
                                 <input type="text" id="idEmpresa" name="idEmpresa" value="<?php echo $idEmpresa;?>" hidden>
                                 <button class="btn btn-primary float-right" type="submit"><i class="fas fa-plus"></i> Agregar</button>
                             </form>

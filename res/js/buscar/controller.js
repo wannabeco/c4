@@ -9,6 +9,9 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 		$scope.config = configLogin; // configuración global
 		$scope.busquedaMatrices();
 		$scope.busquedaRelEmpresaPalan();
+		$(function(){
+			$('[data-toggle="tooltip"]').tooltip();
+		});
 	};
 	$scope.infoMatrices		= "";
 	$scope.inforMiMatriz	= "";
@@ -122,6 +125,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 			nombre: nombreMatriz,
 			precio: precio
 		};
+		alert(precio);
 		var indice = tipos.findIndex(function(elemento) {
 			return elemento.id === nuevaMatriz.id;
 		});
@@ -553,28 +557,149 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 			);
 		}
 	});
-	
-
+	//la empresa crea su propio check
+	$scope.creoMiCheck =function(){
+		$('#miNuevocheck').modal("show");
+	 	var controlador = $scope.config.apiUrl+"MisMatrices/creoMiCheck";
+	 	var parametros  = "edita="+0;
+	 	constantes.consultaApi(controlador,parametros,function(json){
+				
+	 		$("#modalmiNuevocheck").html(json);
+	 		// actualiza el DOM
+	 		$scope.compileAngularElement("#agregaNuevaMatriz");
+	 	},'');
+	}
+	//cuadno la emrpesa va a crear su propia matriz
+	$scope.crearMiMatriz = function(){
+		var nombreNuevaMatriz 	= $('#nombreNuevaMatriz').val();
+		var Precio			  	= $("#Precio").val();
+		var descripcion		  	= $("#descripcion").val();
+		var editar		  		= $("#editar").val();
+		console.log(editar);		
+		if(nombreNuevaMatriz == ""){
+			constantes.alerta("Atención","Debe escribir un nombre del check.","info",function(){});
+		}else if(Precio ==""){
+			constantes.alerta("Atención","Debe escribir un precio para el check, de no tener ningun valor, por favor agregr 0.","info",function(){});
+		}else if(descripcion == ""){
+			constantes.alerta("Atención","Debe escribir una breve descripción para el check, así podrá ser identificada correctamente.","info",function(){});
+		}else{
+			if(editar == 0){
+				constantes.confirmacion("Confirmación","Esta apunto de crear un check, ¿Desea continuar?",'info',function(){
+					var controlador = $scope.config.apiUrl+"CrearMatriz/crearMiNuevaMatriz";
+					var parametros  = 	$("#agregaNuevaMatriz").serialize();
+					constantes.consultaApi(controlador,parametros,function(json){
+						if(json.continuar == 1){
+							constantes.alerta("Atención",json.mensaje,"success",function(){
+								window.location = $scope.config.apiUrl+"MisMatrices/misCreados/47";
+							});
+						}
+						else{
+							constantes.alerta("Atención",json.mensaje,"warning",function(){});
+						}
+					});
+				});
+			}else{
+				constantes.confirmacion("Confirmación","Esta apunto de actualizar el check, ¿Desea continuar?",'info',function(){
+					var controlador = $scope.config.apiUrl+"MisMatrices/actualizoMiCheck";
+					var parametros  = 	$("#agregaNuevaMatriz").serialize();
+					constantes.consultaApi(controlador,parametros,function(json){
+						if(json.continuar == 1){
+							constantes.alerta("Atención",json.mensaje,"success",function(){
+								window.location = $scope.config.apiUrl+"MisMatrices/misCreados/47";
+							});
+						}else{
+							constantes.alerta("Atención",json.mensaje,"warning",function(){});
+						}
+					});
+				});
+			}
+		}
+	}
+	$scope.matricesDisponibles = function(){
+		window.location = $scope.config.apiUrl+"Buscar/consultaMatrices";
+	}
+	$scope.creoMiCheck =function(){
+		$('#miNuevocheck').modal("show");
+	 	var controlador = $scope.config.apiUrl+"MisMatrices/creoMiCheck";
+	 	var parametros  = "edita="+0;
+	 	constantes.consultaApi(controlador,parametros,function(json){
+	 		$("#modalmiNuevocheck").html(json);
+	 		// actualiza el DOM
+	 		$scope.compileAngularElement("#agregaNuevaMatriz");
+	 	},'');
+	}
+	//actualizo la matriz recien creada por la empresa
+	$scope.actualizoCheck = function(idNuevaMatriz,edita){
+		$('#miNuevocheck').modal("show");
+		var controlador = 	$scope.config.apiUrl+"MisMatrices/creoMiCheck";
+		var parametros  = 	"edita="+edita+"&idNuevaMatriz="+idNuevaMatriz;
+		constantes.consultaApi(controlador,parametros,function(json){
+			$("#modalmiNuevocheck").html(json);
+			$scope.compileAngularElement("#agregaNuevaMatriz");
+		},'');
+	}
+	//borro la matriz creada por la emrpesa
+	$scope.borraMatrizCreada = function($id){
+		constantes.confirmacion("Confirmación","Esta apunto de eliminar un check, ¿Desea continuar?",'info',function(){
+		var controlador = $scope.config.apiUrl+"MisMatrices/borraMatrizCreada";
+			var parametros  = {idNuevaMatriz:$id}
+			constantes.consultaApi(controlador,parametros,function(json){
+				if(json.continuar == 1){
+					constantes.alerta("Atención",json.mensaje,"success",function(){
+						location.reload();
+					});
+				}
+				else{
+					constantes.alerta("Atención",json.mensaje,"warning",function(){});
+				}
+			});
+		});
+	}
+	// creo item interno de la matriz creada
+	$scope.cargaPlantillaparametros = function(idNuevaMatriz,edita){	
+		$('#modalParametros').modal("show");
+		var controlador = 	$scope.config.apiUrl+"CrearMatriz/parametrizaciones";
+		var parametros  = 	"edita="+edita+"&idNuevaMatriz="+idNuevaMatriz;
+		constantes.consultaApi(controlador,parametros,function(json){
+			$("#modalCrea").html(json);
+			$scope.compileAngularElement("#formAgregaParametros");
+		},'');
+	}
+	//ver matriz
+	$scope.verMatriz = function($id){
+		window.location = $scope.config.apiUrl+"InfomarcionMatriz/informacion/42/"+$id;
+	}
+	//duplicar matriz
+	$scope.duplicar = function($idNuevaMatriz,$nombreNuevaMatriz){
+		constantes.confirmacion("Confirmación","Esta apunto de duplicar el check "+$nombreNuevaMatriz+", el cual quedara en mis check's creados, ¿Desea continuar?",'info',function(){
+			var controlador = $scope.config.apiUrl+"MisMatrices/duplicarMatrizCreada";
+				var parametros  = {idNuevaMatriz:$idNuevaMatriz}
+				constantes.consultaApi(controlador,parametros,function(json){
+					if(json.continuar == 1){
+						constantes.alerta("Atención",json.mensaje,"success",function(){
+							window.location = $scope.config.apiUrl+"MisMatrices/misCreados/47";
+						});
+					}
+					else{
+						constantes.alerta("Atención",json.mensaje,"warning",function(){});
+					}
+				});
+			});
+	}
 
 	$scope.compileAngularElement = function(elSelector) {
-
         var elSelector = (typeof elSelector == 'string') ? elSelector : null ;  
              // The new element to be added
-         if (elSelector != null ) {
-             var $div = $( elSelector );
-
+         	if (elSelector != null ) {
+             	var $div = $( elSelector );
                  // The parent of the new element
-                 var $target = $("[ng-app]");
-
-               angular.element($target).injector().invoke(['$compile', function ($compile) {
+                var $target = $("[ng-app]");
+               	angular.element($target).injector().invoke(['$compile', function ($compile) {
                          var $scope = angular.element($target).scope();
                          $compile($div)($scope);
                          // Finally, refresh the watch expressions in the new element
                          $scope.$apply();
-                     }]);
-             }
-
+                }]);
+            }
         }
-
-
 });

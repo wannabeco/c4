@@ -50,11 +50,11 @@ class InfomarcionMatriz extends CI_Controller
 				$infoMatrices		  			= $this->logMatriz->infoGeneralMatriz();
 				$opc 				   			= "home";
 				$salida['titulo']      			= "Información Check";
-				$salida['centro'] 	   			= "MatricesCreadas/infoMatriz";
 				$salida['infoModulo']  			= $infoModulo[0];
 				$salida['infoUsuario'] 			= $infoUsuario[0];
 				$salida['infoMatrices'] 		= $infoMatrices;
 				$salida['infoMatrizRecurrentes']= $infoMatrizRecurrentes;
+				$salida['centro'] 	   			= "MatricesCreadas/infoMatriz";
 				$salida["idNuevaMatriz"] =$id;
 				$this->load->view("app/index",$salida);
 			}else{
