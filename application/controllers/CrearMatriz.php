@@ -1141,5 +1141,17 @@ class crearMatriz extends CI_Controller
 		$consultacheck	= $this->logicaMis->consultacheckRealizado($idRecurrente,$idPersona,$idEmpresa,$idRelPeriocidad);
 		echo json_encode($consultacheck);	
 	}
+	//se crea nueva matriz para las empresas
+	public function crearMiNuevaMatriz(){
+		if(validaInApp("web")){//esta validación me hará consultas más segura	
+			$preocesaNuevaMatriz = $this->logMatriz->crearMiNuevaMatriz($_POST);
+			echo json_encode($preocesaNuevaMatriz);
+		}else{
+			$respuesta = array("mensaje"=>"Acceso no admitido.",
+                              "continuar"=>0,
+                              "datos"=>""); 
+            echo json_encode($respuesta); 
+		}
+	}
 }
 ?>

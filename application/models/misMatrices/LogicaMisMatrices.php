@@ -18,6 +18,7 @@ class LogicaMisMatrices  {
         $this->ci = &get_instance();
         $this->ci->load->model("general/BaseDatosGral","dbGeneral");
         $this->ci->load->model("misMatrices/BaseDatosMisMatrices","dbmisMatriz");
+        $this->ci->load->model("crearMatriz/BaseDatosMatriz","dbMatriz");
     } 
     //informacion del moodulo
     public function consultaMiMatriz($dato,$tipoEmpresa){
@@ -89,6 +90,7 @@ class LogicaMisMatrices  {
     public function infoMatrices(){
         $where['estado']        = 1;
         $where['eliminado']     = 0;
+        $where['idEmpresa']     = 0;
         $infoMatrices               = $this->ci->dbMatriz->infoNuevaMatriz($where);
         return $infoMatrices;
     }
@@ -530,4 +532,96 @@ class LogicaMisMatrices  {
         $consulta                   = $this->ci->dbmisMatriz->infoPeriodicidad($where);
         return $consulta;
     }
+    // borra matriz creada por la empresa
+    public function borraMatrizCreada($datos){
+        // var_dump($datos);die();
+        $dataActualiza["estado"]    = 0;
+        $dataActualiza["eliminado"] = 1;
+        $where['idNuevaMatriz']      = $datos["idNuevaMatriz"];
+        $where['idEmpresa']         = $_SESSION["project"]["info"]["idEmpresa"];
+        $elimina               = $this->ci->dbmisMatriz->actualizoTablaMatriz($dataActualiza,$where);
+        if($elimina > 0){
+            $respuesta = array("mensaje"=>"Se elimino coorectamente.",
+            "continuar"=>1,
+            "datos"=>$elimina);
+        }else{
+            $respuesta = array("mensaje"=>"No pudo ser eliminada.",
+            "continuar"=>0,
+            "datos"=>"");
+        }
+        return $respuesta;
+    }
+    //consulto matriz, para actualizar
+    public function consultoMiMatrizId($idNuevaMatriz){
+        $where['idNuevaMatriz']        = $idNuevaMatriz;
+        $infoMatrices               = $this->ci->dbmisMatriz->infoNuevaMatriz($where);
+        return $infoMatrices;
+    }
+    public function actualizoMiCheck($datos){
+        // var_dump($datos);die();
+        $dataActualiza["nombreNuevaMatriz"] = $datos["nombreNuevaMatriz"];
+        $dataActualiza["descripcion"]       = $datos["descripcion"];
+        $where['idNuevaMatriz']             = $datos["idNuevaMatriz"];
+        $where['idEmpresa']                 = $_SESSION["project"]["info"]["idEmpresa"];
+        $actualizar                         = $this->ci->dbmisMatriz->actualizoTablaMatriz($dataActualiza,$where);
+        if($actualizar > 0){
+            $respuesta = array("mensaje"=>"Se actualizo coorectamente.",
+            "continuar"=>1,
+            "datos"=>$actualizar);
+        }else{
+            $respuesta = array("mensaje"=>"No pudo actualizo.",
+            "continuar"=>0,
+            "datos"=>"");
+        }
+        return $respuesta;
+    }
+    //Duplico check y agrego a la a mis creados
+    public function duplicarMatrizCreada($datos){
+        $where['idNuevaMatriz'] = $datos["idNuevaMatriz"];
+        $infoMatrices           = $this->ci->dbmisMatriz->infoMatrize($where);
+        $infoRecurrentes        = $this->ci->dbGeneral->consultoRecurrentes($where);
+        $dataRecurrente = $infoRecurrentes[0];
+        $newDataRecurrente = [];
+        foreach($infoRecurrentes as $sdata){
+            unset($sdata["idMatrizRecurrente"]);
+            unset($sdata["idNuevaMatriz"]);
+            $newDataRecurrente[] = $sdata;
+        }
+        //procedo a crear nueva infoMatrize 
+        $datosNewMatriz["nombreNuevaMatriz"] = $infoMatrices[0]["nombreNuevaMatriz"]." Duplicado";
+        $datosNewMatriz["descripcion"]       = $infoMatrices[0]["descripcion"];
+        $datosNewMatriz["precio"]            = $infoMatrices[0]["precio"];
+        $datosNewMatriz["idEmpresa"]         = $_SESSION["project"]["info"]["idEmpresa"];
+        $datosNewMatriz["tipoEmpresa"]       = 0;
+        $datosNewMatriz["dirigida"]          = 0;
+        $creaMatriz = $this->ci->dbMatriz->creaNuevaMatriz($datosNewMatriz);
+        if($creaMatriz > 0){
+            $totalCount = count($newDataRecurrente);
+            $processedCount = 0;
+            foreach ($newDataRecurrente as $new) {
+                $dataCrea["idNuevaMatriz"] = $creaMatriz;
+                $dataCrea["obligacion"] = $new["obligacion"];
+                $dataCrea["idEntidad"] = $new["idEntidad"];
+                $dataCrea["normatividad"] = $new["normatividad"];
+                $dataCrea["idcuandoAplique"] = $new["idcuandoAplique"];
+                $dataCrea["idResponsable"] = $new["idResponsable"];
+                $dataCrea["idccsm"] = $new["idccsm"];
+                $dataCrea["idMetodoControl"] = $new["idMetodoControl"];
+                $dataCrea["idperiodicidad"] = $new["idperiodicidad"];
+                $creoNewRecurrente = $this->ci->dbGeneral->crearNewRecurrente($dataCrea);
+                $processedCount++;
+            }
+            if($processedCount === $totalCount){
+                $respuesta = array("mensaje"=>"Se duplico coorectamente el check.",
+                "continuar"=>1,
+                "datos"=>"");
+            }else{
+                $respuesta = array("mensaje"=>"No se duplico en su totalidad.",
+                "continuar"=>0,
+                "datos"=>"");
+            }
+        }
+        return $respuesta;
+    }
+
 }

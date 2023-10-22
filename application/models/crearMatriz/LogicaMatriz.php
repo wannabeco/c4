@@ -614,4 +614,34 @@ class LogicaMatriz  {
         // var_dump($porcentajes);die();
         return $porcentajes;
     }
+    //matrices credas por empresas
+    public function misCreados(){
+        $where['estado']        = 1;
+        $where['eliminado']     = 0;
+        $where['idEmpresa']     = $_SESSION["project"]["info"]["idEmpresa"];
+        $infoMatrices               = $this->ci->dbMatriz->infoNuevaMatriz($where);
+        return $infoMatrices;
+    }
+    //creo matriz para emrpesa
+    public function crearMiNuevaMatriz($data){
+        extract($data);
+        $datos["nombreNuevaMatriz"] = $data["nombreNuevaMatriz"];
+        $datos["descripcion"]       = $data["descripcion"];
+        $datos["Precio"]            = $data["Precio"];
+        $datos["idEmpresa"]         = $data["idEmpresa"];
+        $datos["tipoEmpresa"]       = 0;
+        $datos["dirigida"]          = 0;
+        $creaMatriz = $this->ci->dbMatriz->creaNuevaMatriz($datos);
+        if($creaMatriz > 0){
+            $respuesta = array("mensaje"=>"El check se ha creado correctamente.",
+            "continuar"=>1,
+            "datos"=>"");
+        }
+        else{
+            $respuesta = array("mensaje"=>"El check no se ha creado por favor comuniquese con el administrador.",
+            "continuar"=>1,
+            "datos"=>"");
+        }
+        return $respuesta;
+    }        
 }

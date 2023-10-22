@@ -643,7 +643,65 @@ function calculaPorcentaje($idMatriz, $idPeriodicidad, $idObligacion, $tipo, $id
     }
     return '<span class="badge ' . $claseBadge . '">' . $porcentajeRedondeado . '%</span>';
 }
-
+//funcion de verificacion si existe relacion entre matriz creada por empresa.
+function consultoRelacionComprada($idEmpresa,$idNuevaMatriz){
+    $ci = get_instance();
+    $ci->load->model("general/baseDatosGral","baseGeneral");
+    $where["idEmpresa"] = $idEmpresa;
+    $where["idMatriz"] = $idNuevaMatriz;
+    $consulta = $ci->baseGeneral->consultoNuevaMatrizComprada($where);
+    if ($consulta) {
+        return true; 
+    } else {
+        return false;
+    }
+}
+//permisos de crear item interno
+function consultoRecurrentes($idNuevaMatriz){
+    $ci = get_instance();
+    $ci->load->model("general/baseDatosGral","baseGeneral");
+    $where["idNuevaMatriz"] = $idNuevaMatriz;
+    $consulta = $ci->baseGeneral->consultoRecurrentes($where);
+    if ($consulta) {
+        return true; 
+    } else {
+        return false;
+    }
+}
+//permisos de eliminar y editar item internos
+function consultoitemPermisos($idNuevaMatriz,$idMatrizRecurrente,$idEmpresas){
+    $ci = get_instance();
+    $ci->load->model("general/baseDatosGral","baseGeneral");
+    $where["idMatrizRecurrente"] = $idMatrizRecurrente;
+    $consulta = $ci->baseGeneral->consultoitemPermisos($where);
+    $idMatriz = $consulta[0]["idNuevaMatriz"];
+    if($idNuevaMatriz == $idMatriz){
+        $dataConsulta["idNuevaMatriz"] = $idNuevaMatriz;
+        $dataConsulta["idEmpresa"] = $idEmpresas;
+        $consultaMatriz = $ci->baseGeneral->consultoitemNuevaMatriz($dataConsulta);
+        if ($consultaMatriz){
+            return true; 
+        }else{
+            return false;
+        }
+    }else{
+        return false;
+    }
+        
+}
+//consulto id de nueva matriz
+function consultoNuevaMatriz($idNuevaMatriz){
+    $ci = get_instance();
+    $ci->load->model("general/baseDatosGral","baseGeneral");
+    $dataConsulta["idNuevaMatriz"] = $idNuevaMatriz;
+    $consultaMatriz = $ci->baseGeneral->consultoitemNuevaMatriz($dataConsulta);
+    if (intval($consultaMatriz[0]["idEmpresa"]) > 0){
+        return false;
+    }else{
+        return true; 
+    }
+        
+}
 
 
 ?>  

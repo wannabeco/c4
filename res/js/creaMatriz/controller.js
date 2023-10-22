@@ -57,7 +57,7 @@ project.controller('crearMatriz', function($scope,$http,$q,constantes)
 	});
 	//fin de funcion tipos de empresa
 
-
+	//crea matriz los administrativos
 	$scope.agregaNuevaMatriz = function(){
 		var nombreNuevaMatriz 	= $('#nombreNuevaMatriz').val();
 		var dirigida 			= $('input[name="dirigida"]:checked').val();
@@ -264,6 +264,7 @@ project.controller('crearMatriz', function($scope,$http,$q,constantes)
 
 });	
 
+//nuevo controlador
 project.controller('crearParametrosMatriz', function($scope,$http,$q,constantes)
 {	
 

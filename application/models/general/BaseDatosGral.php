@@ -751,6 +751,42 @@ class BaseDatosGral extends CI_Model {
         // print_r($this->db->last_query());die();
         return $id->result_array();
     }
+    //consulto si app_matriz_comprada
+    public function consultoNuevaMatrizComprada($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tableMatricesCompradas);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //consulto relaciones para ejecucion de editado y eliminado.
+    public function consultoitemPermisos($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tableRecurrentes);
+        // $this->db->from($this->tableNuevaMatriz." n");
+        // $this->db->join($this->tableRecurrentes." r","r.idMatrizRecurrente=n.idMatrizRecurrente","LEFT");
+        $id = $this->db->get();
+        //print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //consulto nueva matriz por id
+    public function consultoitemNuevaMatriz($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tableNuevaMatriz);
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //creo matriz recurrente
+    public function crearNewRecurrente($dataInserta){
+        $this->db->insert($this->tableRecurrentes,$dataInserta);
+        //print_r($this->db->last_query());die();
+        return $this->db->insert_id();
+
+    }
 }
 
 ?>
