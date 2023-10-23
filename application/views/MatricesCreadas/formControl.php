@@ -63,15 +63,21 @@
                         <?php foreach($responsable as $respons){ ?>
                           <option value="<?php echo $respons['idPerfil'] ?>" <?php echo (isset($infoMatriz[0]['idResponsable']) && $respons['idPerfil'] == $infoMatriz[0]['idResponsable'])?'selected':''; ?>><?php echo $respons['nombrePerfil'] ?></option>
                         <?php } }?>
-                        <?php if($_SESSION['project']['info']['idPerfil'] == 3) { ?>
-                          <?php 
+                        <?php if($_SESSION['project']['info']['idPerfil'] == 3) { 
                             $contador = 0;
                             foreach($responsable as $respons){
                                 $contador++;
                                 if($contador > 2){
                           ?>
                           <option value="<?php echo $respons['idPerfil'] ?>" <?php echo (isset($infoMatriz[0]['idResponsable']) && $respons['idPerfil'] == $infoMatriz[0]['idResponsable'])?'selected':''; ?>><?php echo $respons['nombrePerfil'] ?></option>
-                    <?php } } }?>
+                    <?php } } } if($_SESSION['project']['info']['idPerfil'] > 3 ||$_SESSION['project']['info']['idPerfil'] != 11){
+                      $contador = 0;
+                      foreach($responsable as $respons){
+                          $contador++;
+                          if($contador > 3 && $contador < 10 && $contador > 10){
+                    ?>
+                    <option value="<?php echo $respons['idPerfil'] ?>" <?php echo (isset($infoMatriz[0]['idResponsable']) && $respons['idPerfil'] == $infoMatriz[0]['idResponsable'])?'selected':''; ?>><?php echo $respons['nombrePerfil'] ?></option>
+                      <?php }}}?>
                   </select>
                 </div> 
             </div>

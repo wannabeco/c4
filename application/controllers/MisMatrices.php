@@ -98,9 +98,7 @@ class MisMatrices extends CI_Controller
 							$salida['periocidad']	    = $periocidad;
 							$salida['idEmpresa']	    = $idEmpresa;
 						}
-						
 					}else if($idPerfil == 8){
-						// var_dump($idEmpresa);die();
 						$periocidad 				= $idPeriocidad;
 						$relacion					= $this->logicaMis->consultaRelacion($idEmpresa);
 						$inforMiMatriz				= $this->logicaMis->consultaMatricescompradas($idPersona,$idEmpresa);
@@ -109,23 +107,21 @@ class MisMatrices extends CI_Controller
 						foreach($inforMiMatriz["datos"] as $matriz){
 							array_push($matrices, $matriz["idMatriz"]);
 						}
-						// var_dump($matrices);die();
 						$salida['inforMiMatriz']	= $inforMiMatriz;
 						$salida['infoEmpresas']		= $infoEmpresas[0];
 						$salida['infor']			= $inforMiMatriz["datos"];
 						$salida['periocidad']	    = $periocidad;
 						$salida['idEmpresa']	    = $idEmpresa;
-					}
-					else if($idPerfil > 3 || $idPerfil != 11){
+					} else if($idPerfil > 3 || $idPerfil != 11){
 						$periocidad = $idPeriocidad;
+						$idEmpresa = $_SESSION["project"]["info"]["idEmpresa"];
 						$relacion					= $this->logicaMis->consultaRelacion($idEmpresa);
 						$tipoEmpresa 				= $relacion[0]["tipoEmpresa"];
-						$inforMiMatriz				= $this->logicaMis->consultaMatriz($idPerfil,$tipoEmpresa);
+						$inforMiMatriz				= $this->logicaMis->consultaMatricecomprada($idEmpresa);
 						$salida['inforMiMatriz']	= $inforMiMatriz;
 						$salida['infor']			= $inforMiMatriz["datos"];
 						$salida['periocidad']	    = $periocidad;
 						$salida['idEmpresa']	    = $idEmpresa;
-
 					}
 						$opc 				   		= "home";
 						$salida['titulo']      		= "Checks";
@@ -459,7 +455,7 @@ class MisMatrices extends CI_Controller
 			if($_SESSION["project"]["info"]["idPerfil"] == 8){
 				$periocidades = $this->logicaMis->infoPeriocidades($idEmpresa);
 				$opc 				   		= "home";
-				$salida['titulo']      		= "Checks";
+				$salida['titulo']      		= "Periodicidad de checks";
 				$salida['centro'] 	   		= "misMatrices/periocidades";
 				$salida['infoModulo']  		= $infoModulo[0];
 				$salida['periocidades']  	= $periocidades;
@@ -469,7 +465,7 @@ class MisMatrices extends CI_Controller
 			}else if($_SESSION["project"]["info"]["idPerfil"] == 11){
 				$periocidades = $this->logicaMis->infoPeriocidades($idEmpresa);
 				$opc 				   		= "home";
-				$salida['titulo']      		= "Checks";
+				$salida['titulo']      		= "Periodicidad de checks";
 				$salida['centro'] 	   		= "misMatrices/periocidades";
 				$salida['infoModulo']  		= $infoModulo[0];
 				$salida['periocidades']  	= $periocidades;
@@ -482,7 +478,7 @@ class MisMatrices extends CI_Controller
 					$idPersona = $_SESSION["project"]["info"]["idPersona"];
 					$periocidades = $this->logicaMis->periocidades($idPersona,$idEmpresa);
 					$opc 				   		= "home";
-					$salida['titulo']      		= "Checks";
+					$salida['titulo']      		= "Periodicidad de checks";
 					$salida['centro'] 	   		= "misMatrices/periocidades";
 					$salida['infoModulo']  		= $infoModulo[0];
 					$salida['periocidades']  	= $periocidades;
