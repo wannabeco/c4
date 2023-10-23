@@ -53,6 +53,7 @@ class LogicaMisMatrices  {
         }
         return $respuesta;
     }
+    //consulta para matrices compradas general
     public function consultaMatricescompradas($idPersona,$idEmpresa){
         if($_SESSION["project"]["info"]["idPerfil"] != 8){
             $where["c.estado"]      = 1;
@@ -619,6 +620,25 @@ class LogicaMisMatrices  {
                 $respuesta = array("mensaje"=>"No se duplico en su totalidad.",
                 "continuar"=>0,
                 "datos"=>"");
+            }
+        }
+        return $respuesta;
+    }
+    //consulta de matrices compradas
+    public function consultaMatricecomprada($idEmpresa){
+        if($_SESSION["project"]["info"]["idPerfil"] != 8){
+            $where["c.estado"]      = 1;
+            $where["c.eliminado"]   = 0;
+            $where["c.idEmpresa"]   = $idEmpresa;
+            $infoMatriz                 = $this->ci->dbmisMatriz->consultaMatricescompradas($where);
+            if(count($infoMatriz) > 0){
+                $respuesta = array("mensaje"=>"las matrices fueron consultadas.",
+                            "continuar"=>1,
+                            "datos"=>$infoMatriz);
+            }else{
+                $respuesta = array("mensaje"=>"las matrices no fueron consultadas.",
+                            "continuar"=>0,
+                            "datos"=>"");
             }
         }
         return $respuesta;

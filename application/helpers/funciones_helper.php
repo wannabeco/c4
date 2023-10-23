@@ -619,26 +619,30 @@ function calculaPorcentaje($idMatriz, $idPeriodicidad, $idObligacion, $tipo, $id
         $consulta = $ci->baseGeneral->consultoRecurrentes($where);
         $cantidad = count($consulta);
         $totalPreguntas = $cantidad*6;
-        $whereconsulta["idNuevaMatriz"] = $idMatriz;
-        $whereconsulta["idRelPeriocidad"] = $idPeriodicidad;
-        $whereconsulta["idEmpresa"] = $idEmpresa;
-        $respuesta = $ci->baseGeneral->consultoRespuestas($whereconsulta);
-        $cantidadRespuestasSI = 0;
-        foreach ($respuesta as $respuesta) {
-            if ($respuesta["resOficial"] === "SI") {
-                $cantidadRespuestasSI++;
+        if ($cantidad != 0) {
+            $whereconsulta["idNuevaMatriz"] = $idMatriz;
+            $whereconsulta["idRelPeriocidad"] = $idPeriodicidad;
+            $whereconsulta["idEmpresa"] = $idEmpresa;
+            $respuesta = $ci->baseGeneral->consultoRespuestas($whereconsulta);
+            $cantidadRespuestasSI = 0;
+            foreach ($respuesta as $respuesta) {
+                if ($respuesta["resOficial"] === "SI") {
+                    $cantidadRespuestasSI++;
+                }
             }
-        }
-
-        $porcentajeFinal = ($cantidadRespuestasSI/$totalPreguntas)*100;
-        $porcentajeRedondeado = round($porcentajeFinal, 2);
-        $claseBadge = '';
-        if ($porcentajeRedondeado < 50) {
+            $porcentajeFinal = ($cantidadRespuestasSI/$totalPreguntas)*100;
+            $porcentajeRedondeado = round($porcentajeFinal, 2);
+            $claseBadge = '';
+            if ($porcentajeRedondeado < 50) {
+                $claseBadge = 'badge-danger';
+            } elseif ($porcentajeRedondeado >= 50 && $porcentajeRedondeado < 90) {
+                $claseBadge = 'badge-warning';
+            } else {
+                $claseBadge = 'badge-success';
+            }
+        }else{
+            $porcentajeRedondeado = 0;
             $claseBadge = 'badge-danger';
-        } elseif ($porcentajeRedondeado >= 50 && $porcentajeRedondeado < 90) {
-            $claseBadge = 'badge-warning';
-        } else {
-            $claseBadge = 'badge-success';
         }
     }
     return '<span class="badge ' . $claseBadge . '">' . $porcentajeRedondeado . '%</span>';

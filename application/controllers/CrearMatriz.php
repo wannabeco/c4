@@ -978,8 +978,7 @@ class crearMatriz extends CI_Controller
 				$consulta					= $this->logicaMis->consultaRcomentario($idRecurrente,$idPersonaCheck,$idPeriocidad);
 				$consultacheck				= $this->logicaMis->consultacheck($idRecurrente,$idPersonaCheck,$idPeriocidad);
 				$infoRecurrente    			= $this->logMatriz->infoRecurrente($idRecurrente);
-			}
-			if($_SESSION['project']['info']['idPerfil'] != 8){
+			}if($_SESSION['project']['info']['idPerfil'] != 8){
 
 				$idPersona = $_SESSION['project']['info']['idPersona'];
 				$idEmpresas = $_SESSION['project']['info']['idEmpresa'];
@@ -1035,7 +1034,6 @@ class crearMatriz extends CI_Controller
 			$salida["labelBtn"]  		= "Guardar";
 			$salida['informacion']		= $id;
 		}
-		
 		$salida["infoRecurrente"]	= $infoRecurrente[0];
 		echo $this->load->view("MatricesCreadas/formCheck",$salida,true);
 	}
@@ -1051,8 +1049,6 @@ class crearMatriz extends CI_Controller
             echo json_encode($respuesta); 
 		}
 	}
-
-
 	//crea parametros en la matriz
 	public function crearParametros(){
 		if(validaInApp("web")){//esta validación me hará consultas más seguras
@@ -1074,7 +1070,6 @@ class crearMatriz extends CI_Controller
 	//se asignan Tipos de empresas
 	public function asigTiposEmpresa(){
 		if(validaInApp("web")){//esta validación me hará consultas más seguras
-
 				$proceso = $this->logMatriz->asigTiposEmpresa($_POST);
 				echo json_encode($proceso);
 
@@ -1090,7 +1085,6 @@ class crearMatriz extends CI_Controller
 		if(validaInApp("web")){
 			$proceso = $this->logMatriz->actualizaMatrizGeneral($_POST);
 			echo json_encode($proceso);
-
 		}else{
 			$respuesta = array("mensaje"=>"Acceso no admitido.",
 							"continuar"=>0,
@@ -1103,7 +1097,6 @@ class crearMatriz extends CI_Controller
 		if(validaInApp("web")){
 			$proceso = $this->logMatriz->eliminaRelacion($_POST);
 			echo json_encode($proceso);
-
 		}else{
 			$respuesta = array("mensaje"=>"Acceso no admitido.",
 							"continuar"=>0,
@@ -1115,7 +1108,6 @@ class crearMatriz extends CI_Controller
 		if(validaInApp("web")){//esta validación me hará consultas más seguras
 				$proceso = $this->logMatriz->asigTiposEmpresa($_POST);
 				echo json_encode($proceso);
-
 		}else{
 			$respuesta = array("mensaje"=>"Acceso no admitido.",
                               "continuar"=>0,
@@ -1130,7 +1122,6 @@ class crearMatriz extends CI_Controller
 		$idRelPeriocidad 	= $_POST["idRelPeriocidad"];	
 		$consultacheck	= $this->logicaMis->consultacheck($idRecurrente,$idPersona,$idRelPeriocidad);
 		echo json_encode($consultacheck);
-			
 	}
 	// consulta check realizado
 	public Function consultaCheckRealizado(){
