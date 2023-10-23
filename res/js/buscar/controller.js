@@ -24,7 +24,6 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 		var controlador = 	$scope.config.apiUrl+"MisMatrices/miMatriz";
 		var parametros  = 	"edita="+edita+"&idNuevaMatriz="+idNuevaMatriz;
 		constantes.consultaApi(controlador,parametros,function(json){
-				
 			$("#modalCrea").html(json);
 			//actualiza el DOM
 			$scope.compileAngularElement("#formAgregaParametros");
@@ -91,18 +90,16 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 	$scope.pageSize = 6;
 
 	$scope.setCurrentPage = function(page) {
-	$scope.currentPage = page;
+		$scope.currentPage = page;
 	};
 
 	$scope.getPagesArray = function() {
-	var totalPages = Math.ceil($scope.infoMatrices.length / $scope.pageSize);
-	var pagesArray = [];
-
-	for (var i = 1; i <= totalPages; i++) {
-		pagesArray.push(i);
-	}
-
-	return pagesArray;
+		var totalPages = Math.ceil($scope.infoMatrices.length / $scope.pageSize);
+		var pagesArray = [];
+		for (var i = 1; i <= totalPages; i++) {
+			pagesArray.push(i);
+		}
+		return pagesArray;
 	};
 	$scope.setCurrentPage = function(page) {
 		if (page < 1) {
@@ -125,7 +122,6 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 			nombre: nombreMatriz,
 			precio: precio
 		};
-		alert(precio);
 		var indice = tipos.findIndex(function(elemento) {
 			return elemento.id === nuevaMatriz.id;
 		});
@@ -140,9 +136,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 				return (
 					'<div class="float-left col-md-8"><span class="badge bg-success" style="font-size:16px; color:white; margin-left:10px;">' +
 					palabra +
-					' <a href="#" class="eliminar text-danger" data-palabra="' +
-					palabra +
-					'"> X </a></span></div>'
+					' <a href="#" class="eliminar text-danger" data-palabra="' + palabra + '"> X </a></span></div>'
 				);
 			}).join('') +
 			(total !== 0 ? '<div class="float-left col-md-2"> Total: <strong>' + total + '</strong></div>'+
@@ -168,9 +162,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 					return (
 						'<div class="float-left col-md-8"><span class="badge bg-success" style="font-size:16px; color:white; margin-left:10px;">' +
 					palabra +
-					' <a href="#" class="eliminar text-danger" data-palabra="' +
-					palabra +
-					'"> X </a></span></div>'
+					' <a href="#" class="eliminar text-danger" data-palabra="' + palabra + '"> X </a></span></div>'
 					);
 				}).join('')+
 				(total !== 0 ? '<div class="float-left col-md-2"> Total: <strong>' + total + '</strong></div>'+
@@ -205,9 +197,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 		  return (
 			'<span class="badge bg-success" style="font-size:16px; color:white; margin-left:10px;">' +
 			palabra +
-			' <a href="#" class="eliminar text-danger" data-palabra="' +
-			palabra +
-			'"> X </a></span>'
+			' <a href="#" class="eliminar text-danger" data-palabra="' + palabra + '"> X </a></span>'
 		  );
 		}).join('')+
 		(tiposGratis != 0 ?'<input type="text" id="idEmpresa" name="idEmpresa" value='+idEmpresa+' hidden>'+'<button class="btn btn-primary" id="btnAgregar" style="margin-left: 20px;" type="button">Agregar</button>': '')
@@ -230,9 +220,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 			return (
 			  '<span class="badge bg-success" style="font-size:16px; color:white; margin-left:10px;">' +
 			  palabra +
-			  ' <a href="#" class="eliminar text-danger" data-palabra="' +
-			  palabra +
-			  '"> X </a></span>'
+			  ' <a href="#" class="eliminar text-danger" data-palabra="' + palabra + '"> X </a></span>'
 			);
 		  }).join('')+
 		  (tiposGratis != 0 ?'<input type="text" id="idEmpresa" name="idEmpresa" value='+idEmpresa+' hidden>'+'<button class="btn btn-primary" id="btnAgregar" style="margin-left: 20px;" type="button">Agregar</button>': '')
@@ -320,7 +308,6 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 	 	var controlador = $scope.config.apiUrl+"MisMatrices/sugerirMatriz";
 	 	var parametros  = "";
 	 	constantes.consultaApi(controlador,parametros,function(json){
-				
 	 		$("#modalCreaNueva").html(json);
 	 		// actualiza el DOM
 	 		$scope.compileAngularElement("#formsugerir");
@@ -332,7 +319,6 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 	 	var controlador = $scope.config.apiUrl+"MisMatrices/solicitarMatriz";
 	 	var parametros  = "";
 	 	constantes.consultaApi(controlador,parametros,function(json){
-				
 	 		$("#modalCreaNuevaSolicitud").html(json);
 	 		// actualiza el DOM
 	 		$scope.compileAngularElement("#formsugerir");
@@ -399,7 +385,6 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 	 	var controlador = $scope.config.apiUrl+"MisMatrices/sugerimosCheck";
 	 	var parametros  = "";
 	 	constantes.consultaApi(controlador,parametros,function(json){
-				
 	 		$("#modalsegerimosCheck").html(json);
 	 		// actualiza el DOM
 	 		$scope.compileAngularElement("#formsugerir");
@@ -462,9 +447,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 				return (
 					'<div class="float-left col-md-8"><span class="badge bg-success" style="font-size:16px; color:white; margin-left:10px;">' +
 					palabra +
-					' <a href="#" class="eliminarDos text-danger" data-palabra="' +
-					palabra +
-					'"> X </a></span></div>'
+					' <a href="#" class="eliminarDos text-danger" data-palabra="' + palabra + '"> X </a></span></div>'
 				);
 			}).join('') +
 			(total !== 0 ? '<div class="float-left col-md-2"> Total: <strong>' + total + '</strong></div>'+
@@ -490,12 +473,9 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 		$(".tiposDos").html(
 			tiposGratis.map(function(elemento) {
 			var palabra = elemento.nombre.trim();
-			return (
-				'<span class="badge bg-success" style="font-size:16px; color:white; margin-left:10px;">' +
+			return ( '<span class="badge bg-success" style="font-size:16px; color:white; margin-left:10px;">' +
 				palabra +
-				' <a href="#" class="eliminarDos text-danger" data-palabra="' +
-				palabra +
-				'"> X </a></span>'
+				' <a href="#" class="eliminarDos text-danger" data-palabra="' + palabra +'"> X </a></span>'
 			);
 			}).join('')+
 			(tiposGratis != 0 ?'<input type="text" id="idEmpresa" name="idEmpresa" value='+idEmpresa+' hidden>'+'<button class="btn btn-primary" id="btnAgregar" style="margin-left: 20px;" type="button">Agregar</button>': '')
@@ -510,16 +490,13 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 				tiposGratis.splice(indice, 1);
 				var idEliminar = ids[indice];
 				ids.splice(indice, 1);
-			
 				$(".tiposDos").html(
 					tiposGratis.map(function(elemento) {
 					var palabra = elemento.nombre.trim();
 					return (
 					'<span class="badge bg-success" style="font-size:16px; color:white; margin-left:10px;">' +
 					palabra +
-					' <a href="#" class="eliminarDos text-danger" data-palabra="' +
-					palabra +
-					'"> X </a></span>'
+					' <a href="#" class="eliminarDos text-danger" data-palabra="' + palabra + '"> X </a></span>'
 					);
 				}).join('')+
 				(tiposGratis != 0 ?'<input type="text" id="idEmpresa" name="idEmpresa" value='+idEmpresa+' hidden>'+'<button class="btn btn-primary" id="btnAgregar" style="margin-left: 20px;" type="button">Agregar</button>': '')
@@ -540,16 +517,13 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 			total -= matrizEliminada.precio;
 			var idEliminar = idss[indice];
         	idss.splice(indice, 1);
-	
 			$(".tiposDos").html(
 				tipos.map(function(elemento) {
 					var palabra = elemento.nombre.trim();
 					return (
 						'<div class="float-left col-md-8"><span class="badge bg-success" style="font-size:16px; color:white; margin-left:10px;">' +
 					palabra +
-					' <a href="#" class="eliminarDos text-danger" data-palabra="' +
-					palabra +
-					'"> X </a></span></div>'
+					' <a href="#" class="eliminarDos text-danger" data-palabra="' + palabra + '"> X </a></span></div>'
 					);
 				}).join('')+
 				(total !== 0 ? '<div class="float-left col-md-2"> Total: <strong>' + total + '</strong></div>'+
@@ -563,7 +537,6 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 	 	var controlador = $scope.config.apiUrl+"MisMatrices/creoMiCheck";
 	 	var parametros  = "edita="+0;
 	 	constantes.consultaApi(controlador,parametros,function(json){
-				
 	 		$("#modalmiNuevocheck").html(json);
 	 		// actualiza el DOM
 	 		$scope.compileAngularElement("#agregaNuevaMatriz");
@@ -648,8 +621,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 					constantes.alerta("Atención",json.mensaje,"success",function(){
 						location.reload();
 					});
-				}
-				else{
+				}else{
 					constantes.alerta("Atención",json.mensaje,"warning",function(){});
 				}
 			});
@@ -679,8 +651,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 						constantes.alerta("Atención",json.mensaje,"success",function(){
 							window.location = $scope.config.apiUrl+"MisMatrices/misCreados/47";
 						});
-					}
-					else{
+					}else{
 						constantes.alerta("Atención",json.mensaje,"warning",function(){});
 					}
 				});
