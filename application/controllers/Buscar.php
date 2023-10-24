@@ -156,8 +156,7 @@ class Buscar extends CI_Controller
 	// busco informacion de item
 	public function infoInterno(){
 		if(validaInApp("web")){
-			$idEmpresa = $_SESSION["project"]["info"]["idEmpresa"];
-			$proceso = $this->logica->infoPlanesrel($idEmpresa);
+			$proceso = $this->logica->infoInternoaca($_POST);
 			echo json_encode($proceso); 
 		}else{
 			header('Location:'.base_url()."login");
