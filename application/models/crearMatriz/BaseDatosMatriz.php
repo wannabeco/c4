@@ -449,6 +449,25 @@ class BaseDatosMatriz extends CI_Model {
         // print_r($this->db->last_query());die();
         return $id->result_array();
     }
+    //consulto recurrentes o cumplimientos al azar
+    public function infoMatrizRecurrentesAzar($where){   
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tablerecurrentes." r");
+        $this->db->join($this->tableEntidades." e"," e.idEntidad=r.idEntidad","INNER");
+        $this->db->join($this->tableCuandoAplique." c"," c.idCuandoAplique=r.idcuandoAplique","INNER");
+        $this->db->join($this->tableresponsable." p"," p.idPerfil=r.idResponsable","INNER");
+        $this->db->join($this->tableccsm." x"," x.idccsm=r.idccsm","INNER");
+        $this->db->join($this->tableMetodoControl." M"," M.idMetodoControl=r.idMetodoControl","INNER");
+        $this->db->join($this->tablePeriodicidad." l"," l.idperiodicidad=r.idperiodicidad","INNER");
+        $this->db->join($this->tableEstados." k"," k.idEstado=r.estado","INNER");
+        $this->db->join($this->tableNuevaMatriz." n"," n.idNuevaMatriz=r.idNuevaMatriz","INNER");
+        $this->db->order_by('RAND()'); // Ordenar al azar
+        $this->db->limit(3); // Obtener solo 3 registros
+        $id = $this->db->get();
+        // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
     
 }
 

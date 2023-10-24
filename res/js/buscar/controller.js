@@ -398,28 +398,79 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 		var parametros = "idNuevaMatriz=" + idMatriz;
 		constantes.consultaApi(controlador, parametros, function(json) {
 			if (json.continuar == 1) {
-				var registros = json.datos;
-				var registrosAleatorios = [];
-				var indicesAleatorios = [];
-				while (indicesAleatorios.length < 3) {
-					var indiceAleatorio = Math.floor(Math.random() * registros.length);
-					if (indicesAleatorios.indexOf(indiceAleatorio) === -1) {
-						indicesAleatorios.push(indiceAleatorio);
-					}
-				}
-				for (var i = 0; i < indicesAleatorios.length; i++) {
-					registrosAleatorios.push(registros[indicesAleatorios[i]]);
-				}
-				$('#modal1').modal('show');
-				$scope.Array = registrosAleatorios;
-				$scope.nombreCheck= $scope.Array[0].nombreNuevaMatriz;
+				$('#listaInfo').empty();
+		const datos = json.datos; // Suponiendo que tu variable se llame datos
+		var botonOcultar = document.createElement('button');
+		botonOcultar.textContent = "X";
+		botonOcultar.setAttribute("id", "ocultarTabla");
+		botonOcultar.setAttribute("type", "button");
+		botonOcultar.classList.add("btn", "btn-primary", "float-right"); // Agrega la clase de Bootstrap al botón
+		document.querySelector('#listaInfo').appendChild(botonOcultar);
+// Crear la tabla y sus elementos
+var table = document.createElement('table');
+table.classList.add('table', 'table-striped');
+
+// Crear el encabezado de la tabla (thead)
+var thead = document.createElement('thead');
+var headerRow = document.createElement('tr');
+['Obligación', 'Entidad', 'Norma Aplicable', 'Periodicidad', 'Frecuencia Check', 'Responsable'].forEach(function(headerText) {
+    var th = document.createElement('th');
+    th.setAttribute('scope', 'col');
+    th.textContent = headerText;
+    headerRow.appendChild(th);
+});
+thead.appendChild(headerRow);
+table.appendChild(thead);
+
+// Crear el cuerpo de la tabla (tbody)
+var tbody = document.createElement('tbody');
+
+// Añadir filas a la tabla
+datos.forEach(function(item) {
+    var tr = document.createElement('tr');
+    ['obligacion', 'nombreEntidades', 'normatividad', 'nombrePeriodicidad', 'frecuencia', 'nombrePerfil'].forEach(function(key) {
+        var td = document.createElement('td');
+        var p = document.createElement('p');
+        p.classList.add('text-dark');
+        var text = item[key];
+        if (text.length > 40) {
+            text = text.substring(0, 40) + "...";
+        }
+        p.textContent = text;
+        td.appendChild(p);
+        tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+});
+
+table.appendChild(tbody);
+
+// Agregar la tabla al contenedor #listaInfo
+var listaInfo = document.querySelector('#listaInfo table');
+if (!listaInfo) {
+    listaInfo = document.createElement('div');
+    listaInfo.classList.add('table-responsive');
+    listaInfo.appendChild(table);
+    document.querySelector('#listaInfo').appendChild(listaInfo);
+} else {
+    listaInfo.appendChild(table);
+}
+
+
+// Agrega un manejador de eventos para ocultar la tabla cuando se hace clic en el botón
+$('#ocultarTabla').on('click', function() {
+    $('#listaInfo').slideUp(); // Oculta la tabla al hacer clic en el botón
+});
+
+// Mostrar la tabla
+$('#listaInfo').slideDown();
+
 				
 			} else {
 				constantes.alerta("Atención", json.mensaje, "warning", function() {});
 			}
 		});
 	});
-
 
 	//click boton pagar de modal
 	$(document).on('click', '.PagaraButton', function() {

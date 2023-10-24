@@ -25,7 +25,7 @@
     </div>
     <!-- te sugerimos check -->
     <div id="segerimosCheck" class="modal fade" role="dialog"  data-keyboard="false" data-backdrop="static">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content" id="modalsegerimosCheck">
                 <!--Form de creación -->
             </div>

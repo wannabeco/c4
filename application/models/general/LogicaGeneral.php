@@ -923,9 +923,9 @@ class LogicaGeneral  {
         return $respuesta;
     }
     //consulto inforcacion de item interno
-    public function infoInterno($idNuevaMatriz){
-        $where["r.idNuevaMatriz"]= $idNuevaMatriz;
-        $resultado          = $this->ci->dbMatriz->infoMatrizRecurrentes($where);
+    public function infoInternoaca($idNuevaMatriz){
+        $where["r.idNuevaMatriz"]= $idNuevaMatriz["idNuevaMatriz"];
+        $resultado          = $this->ci->dbMatriz->infoMatrizRecurrentesAzar($where);
         if(count($resultado) > 0){
                 $respuesta = array("mensaje"=>"se realizo consulta.",
                         "continuar"=>1,
