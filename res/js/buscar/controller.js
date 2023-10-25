@@ -391,79 +391,99 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 	 	},'');
 		$scope.busquedaMatrices();
 	}
-	//consulto item interno
+	// codigo inicio tabla de los item internos
 	$(document).on('click', '.infoInterno', function() {
 		var idMatriz = $(this).data('idnuevamatriz');
 		var controlador = $scope.config.apiUrl + "Buscar/infoInterno";
 		var parametros = "idNuevaMatriz=" + idMatriz;
 		constantes.consultaApi(controlador, parametros, function(json) {
 			if (json.continuar == 1) {
-				$('#listaInfo').empty();
-		const datos = json.datos; // Suponiendo que tu variable se llame datos
-		var botonOcultar = document.createElement('button');
-		botonOcultar.textContent = "X";
-		botonOcultar.setAttribute("id", "ocultarTabla");
-		botonOcultar.setAttribute("type", "button");
-		botonOcultar.classList.add("btn", "btn-primary", "float-right"); // Agrega la clase de Bootstrap al botón
-		document.querySelector('#listaInfo').appendChild(botonOcultar);
-// Crear la tabla y sus elementos
-var table = document.createElement('table');
-table.classList.add('table', 'table-striped');
+				$('#listaInfo'+idMatriz).empty();
+				const datos = json.datos["resultado"];//varible donde tengo el arreglo
+				const catidad = json.datos["resultadoDos"];
+				const TotalIntero = catidad.length - 3;
+				console.log(json.datos);
+				var container = document.createElement('div');
+				container.classList.add('table-container');
+				
+				var alertDiv = document.createElement('div');
+				alertDiv.classList.add('alert', 'alert-info');
+				alertDiv.setAttribute('role', 'alert');
+				var infoIcon = document.createElement('i');
+				infoIcon.classList.add('fas', 'fa-info-circle');
+				alertDiv.appendChild(infoIcon);
+				alertDiv.innerHTML += ' Si adquieres este check, tendrás acceso a estas y <strong>' + TotalIntero + '</strong> más.';
 
-// Crear el encabezado de la tabla (thead)
-var thead = document.createElement('thead');
-var headerRow = document.createElement('tr');
-['Obligación', 'Entidad', 'Norma Aplicable', 'Periodicidad', 'Frecuencia Check', 'Responsable'].forEach(function(headerText) {
-    var th = document.createElement('th');
-    th.setAttribute('scope', 'col');
-    th.textContent = headerText;
-    headerRow.appendChild(th);
-});
-thead.appendChild(headerRow);
-table.appendChild(thead);
+				// Crear botón para ocultar tabla
+				var botonOcultarTabla = document.createElement('button');
+				botonOcultarTabla.textContent = "X";
+				botonOcultarTabla.setAttribute("id", "ocultarTabla" + idMatriz); // Asignar un id único para cada botón
+				botonOcultarTabla.setAttribute("type", "button");
+				botonOcultarTabla.classList.add("btn", "btn-primary", "float-right");
 
-// Crear el cuerpo de la tabla (tbody)
-var tbody = document.createElement('tbody');
+				// Agregar evento de clic al botón para ocultar la tabla
+				botonOcultarTabla.addEventListener('click', function() {
+					var idMatriz = this.id.replace('ocultarTabla', ''); // Obtener el idMatriz del id del botón
+					document.querySelector('#listas' + idMatriz).style.display = 'none'; // Ocultar la fila correspondiente
+					document.querySelector('#listaInfo' + idMatriz).style.display = 'none'; // Ocultar la información correspondiente
+					this.remove(); // Eliminar el botón actual al hacer clic
+				});
+				var botonesAnteriores = document.querySelectorAll('[id^="ocultarTabla"]');
+				botonesAnteriores.forEach(function(boton) {
+					boton.remove();
+				});
+				document.querySelector('#listaInfo' + idMatriz).appendChild(alertDiv);
+				document.querySelector('#listas' + idMatriz).appendChild(botonOcultarTabla);
 
-// Añadir filas a la tabla
-datos.forEach(function(item) {
-    var tr = document.createElement('tr');
-    ['obligacion', 'nombreEntidades', 'normatividad', 'nombrePeriodicidad', 'frecuencia', 'nombrePerfil'].forEach(function(key) {
-        var td = document.createElement('td');
-        var p = document.createElement('p');
-        p.classList.add('text-dark');
-        var text = item[key];
-        if (text.length > 40) {
-            text = text.substring(0, 40) + "...";
-        }
-        p.textContent = text;
-        td.appendChild(p);
-        tr.appendChild(td);
-    });
-    tbody.appendChild(tr);
-});
+				// Crear la tabla y sus elementos
+				var table = document.createElement('table');
+				table.classList.add('table', 'table-striped');
 
-table.appendChild(tbody);
+				// Crear el encabezado de la tabla (thead)
+				var thead = document.createElement('thead');
+				var headerRow = document.createElement('tr');
+				['Obligación', 'Entidad', 'Norma Aplicable', 'Periodicidad', 'Frecuencia Check', 'Responsable'].forEach(function(headerText) {
+					var th = document.createElement('th');
+					th.setAttribute('scope', 'col');
+					th.textContent = headerText;
+					headerRow.appendChild(th);
+				});
+				thead.appendChild(headerRow);
+				table.appendChild(thead);
+				var tbody = document.createElement('tbody');// Crear el cuerpo de la tabla (tbody)
+				datos.forEach(function(item) { // Añadir filas a la tabla
+					var tr = document.createElement('tr');
+					['obligacion', 'nombreEntidades', 'normatividad', 'nombrePeriodicidad', 'frecuencia', 'nombrePerfil'].forEach(function(key) {
+						var td = document.createElement('td');
+						var p = document.createElement('p');
+						p.classList.add('text-dark');
+						var text = item[key];
+						if (text.length > 40) {
+							text = text.substring(0, 40) + "...";
+						}
+						p.textContent = text;
+						td.appendChild(p);
+						tr.appendChild(td);
+					});
+					tbody.appendChild(tr);
+				});
+				table.appendChild(tbody);
 
-// Agregar la tabla al contenedor #listaInfo
-var listaInfo = document.querySelector('#listaInfo table');
-if (!listaInfo) {
-    listaInfo = document.createElement('div');
-    listaInfo.classList.add('table-responsive');
-    listaInfo.appendChild(table);
-    document.querySelector('#listaInfo').appendChild(listaInfo);
-} else {
-    listaInfo.appendChild(table);
-}
+				// Agregar la tabla al contenedor #listaInfo
+				var listaInfo = document.querySelector('#listaInfo table');
+				if (!listaInfo) {
+					listaInfo = document.createElement('div');
+					listaInfo.classList.add('table-responsive');
+					listaInfo.appendChild(table);
+					document.querySelector('#listaInfo'+idMatriz).appendChild(listaInfo);
+				} else {
+					listaInfo.appendChild(table);
+				}
 
-
-// Agrega un manejador de eventos para ocultar la tabla cuando se hace clic en el botón
-$('#ocultarTabla').on('click', function() {
-    $('#listaInfo').slideUp(); // Oculta la tabla al hacer clic en el botón
-});
-
-// Mostrar la tabla
-$('#listaInfo').slideDown();
+				// Mostrar la tabla
+				$('#listas'+idMatriz).slideDown();
+				$('#listaInfo'+idMatriz).slideDown();
+				$('#alert'+idMatriz).slideDown();
 
 				
 			} else {

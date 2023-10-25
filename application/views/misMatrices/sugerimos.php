@@ -35,11 +35,14 @@
                                         <button type="button" id="btnMostrarLista" class="btn btn-primary infoInterno" data-toggle="tooltip" data-placement="top" title="Información" data-idNuevaMatriz="<?php echo $info["idNuevaMatriz"];?>"><i class="fas fa-check-double"></i></button>
                                     </td>
                                 </tr>
+                                <tr id="listas<?php echo $info["idNuevaMatriz"];?>" style="display: none;">
+                                    abro aca
+                                    <td colspan="4" id="listaInfo<?php echo $info["idNuevaMatriz"];?>" style="display: none;"></td>
+                                </tr>
                             <?php  }?>
                         </tbody>
                     </table>
                     <!-- datos -->
-                    <div id="listaInfo" style="display: none;"></div>
                 </div>
             </div>
         </div>
@@ -53,3 +56,6 @@
         $('[data-toggle="tooltip"]').tooltip();
     });
 </script>
+<!-- <div class="alert alert-info" role="alert" id="listaInfo<?php echo $info["idNuevaMatriz"];?>" style="display: none;">
+                                            <i class="fas fa-info-circle"></i> Si adquieres este check, tendrás acceso a estas y <strong> {{ cuanto }} </strong> más.
+                                        </div> -->

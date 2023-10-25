@@ -925,15 +925,27 @@ class LogicaGeneral  {
     //consulto inforcacion de item interno
     public function infoInternoaca($idNuevaMatriz){
         $where["r.idNuevaMatriz"]= $idNuevaMatriz["idNuevaMatriz"];
-        $resultado          = $this->ci->dbMatriz->infoMatrizRecurrentesAzar($where);
+        $resultado = $this->ci->dbMatriz->infoMatrizRecurrentesAzar($where);
+        $datowhere["idNuevaMatriz"] = $idNuevaMatriz["idNuevaMatriz"];
+        $resultadoDos = $this->ci->dbGeneral->consultoitemPermisos($datowhere);
+    
+        $array = array(
+            'resultado' => $resultado,
+            'resultadoDos' => $resultadoDos
+        );
+    
         if(count($resultado) > 0){
-                $respuesta = array("mensaje"=>"se realizo consulta.",
-                        "continuar"=>1,
-                        "datos"=>$resultado);
-        }else{
-            $respuesta = array("mensaje"=>"El check se encuentra en construcción",
-                        "continuar"=>0,
-                        "datos"=>"");
+            $respuesta = array(
+                "mensaje" => "se realizo consulta.",
+                "continuar" => 1,
+                "datos" => $array
+            );
+        } else {
+            $respuesta = array(
+                "mensaje" => "El check se encuentra en construcción",
+                "continuar" => 0,
+                "datos" => ""
+            );
         }
         return $respuesta;
     }

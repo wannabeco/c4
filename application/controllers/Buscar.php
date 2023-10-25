@@ -162,6 +162,14 @@ class Buscar extends CI_Controller
 			header('Location:'.base_url()."login");
 		}
 	}
+	public function cantidadInternos(){
+		if(validaInApp("web")){
+			$proceso = $this->logica->cantidadInternos($_POST);
+			echo json_encode($proceso); 
+		}else{
+			header('Location:'.base_url()."login");
+		}
+	}
 }
 ?>
 
