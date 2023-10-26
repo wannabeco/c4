@@ -412,7 +412,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 				var infoIcon = document.createElement('i');
 				infoIcon.classList.add('fas', 'fa-info-circle');
 				alertDiv.appendChild(infoIcon);
-				alertDiv.innerHTML += ' Si adquieres este check, tendrás acceso a estas y <strong>' + TotalIntero + '</strong> más.';
+				alertDiv.innerHTML += ' Si adquieres este check, tendrás acceso a estas obligaciones  y <strong>' + TotalIntero + '</strong> obligaciones  más.';
 
 				// Crear botón para ocultar tabla
 				var botonOcultarTabla = document.createElement('button');

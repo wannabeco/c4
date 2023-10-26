@@ -36,7 +36,6 @@
                                     </td>
                                 </tr>
                                 <tr id="listas<?php echo $info["idNuevaMatriz"];?>" style="display: none;">
-                                    abro aca
                                     <td colspan="4" id="listaInfo<?php echo $info["idNuevaMatriz"];?>" style="display: none;"></td>
                                 </tr>
                             <?php  }?>
@@ -56,6 +55,3 @@
         $('[data-toggle="tooltip"]').tooltip();
     });
 </script>
-<!-- <div class="alert alert-info" role="alert" id="listaInfo<?php echo $info["idNuevaMatriz"];?>" style="display: none;">
-                                            <i class="fas fa-info-circle"></i> Si adquieres este check, tendrás acceso a estas y <strong> {{ cuanto }} </strong> más.
-                                        </div> -->
