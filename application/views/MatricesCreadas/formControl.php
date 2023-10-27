@@ -70,11 +70,11 @@
                                 if($contador > 2){
                           ?>
                           <option value="<?php echo $respons['idPerfil'] ?>" <?php echo (isset($infoMatriz[0]['idResponsable']) && $respons['idPerfil'] == $infoMatriz[0]['idResponsable'])?'selected':''; ?>><?php echo $respons['nombrePerfil'] ?></option>
-                    <?php } } } if($_SESSION['project']['info']['idPerfil'] > 3 ||$_SESSION['project']['info']['idPerfil'] != 11){
+                    <?php } } } if($_SESSION['project']['info']['idPerfil'] >= 4){
                       $contador = 0;
                       foreach($responsable as $respons){
                           $contador++;
-                          if($contador > 3 && $contador < 10 && $contador > 10){
+                          if($contador > 3){
                     ?>
                     <option value="<?php echo $respons['idPerfil'] ?>" <?php echo (isset($infoMatriz[0]['idResponsable']) && $respons['idPerfil'] == $infoMatriz[0]['idResponsable'])?'selected':''; ?>><?php echo $respons['nombrePerfil'] ?></option>
                       <?php }}}?>
