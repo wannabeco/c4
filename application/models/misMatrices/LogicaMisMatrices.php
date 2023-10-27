@@ -589,7 +589,7 @@ class LogicaMisMatrices  {
             $newDataRecurrente[] = $sdata;
         }
         //procedo a crear nueva infoMatrize 
-        $datosNewMatriz["nombreNuevaMatriz"] = $infoMatrices[0]["nombreNuevaMatriz"]." Duplicado";
+        $datosNewMatriz["nombreNuevaMatriz"] = $infoMatrices[0]["nombreNuevaMatriz"]." Copia";
         $datosNewMatriz["descripcion"]       = $infoMatrices[0]["descripcion"];
         $datosNewMatriz["precio"]            = $infoMatrices[0]["precio"];
         $datosNewMatriz["idEmpresa"]         = $_SESSION["project"]["info"]["idEmpresa"];

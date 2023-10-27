@@ -414,19 +414,19 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 				alertDiv.appendChild(infoIcon);
 				alertDiv.innerHTML += ' Si adquieres este check, tendrás acceso a estas obligaciones  y <strong>' + TotalIntero + '</strong> obligaciones  más.';
 
-				// Crear botón para ocultar tabla
+				// boton para ocultar tabla
 				var botonOcultarTabla = document.createElement('button');
 				botonOcultarTabla.textContent = "X";
-				botonOcultarTabla.setAttribute("id", "ocultarTabla" + idMatriz); // Asignar un id único para cada botón
+				botonOcultarTabla.setAttribute("id", "ocultarTabla" + idMatriz); // Asignar un id para cada tabla
 				botonOcultarTabla.setAttribute("type", "button");
 				botonOcultarTabla.classList.add("btn", "btn-primary", "float-right");
 
-				// Agregar evento de clic al botón para ocultar la tabla
+				//ocultar la tabla
 				botonOcultarTabla.addEventListener('click', function() {
-					var idMatriz = this.id.replace('ocultarTabla', ''); // Obtener el idMatriz del id del botón
-					document.querySelector('#listas' + idMatriz).style.display = 'none'; // Ocultar la fila correspondiente
-					document.querySelector('#listaInfo' + idMatriz).style.display = 'none'; // Ocultar la información correspondiente
-					this.remove(); // Eliminar el botón actual al hacer clic
+					var idMatriz = this.id.replace('ocultarTabla', ''); // Obtener el idMatriz
+					document.querySelector('#listas' + idMatriz).style.display = 'none'; // Ocultar la fila
+					document.querySelector('#listaInfo' + idMatriz).style.display = 'none'; // Ocultar la información
+					this.remove(); // Eliminar el botón actual al hacer click
 				});
 				var botonesAnteriores = document.querySelectorAll('[id^="ocultarTabla"]');
 				botonesAnteriores.forEach(function(boton) {
@@ -435,11 +435,11 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 				document.querySelector('#listaInfo' + idMatriz).appendChild(alertDiv);
 				document.querySelector('#listas' + idMatriz).appendChild(botonOcultarTabla);
 
-				// Crear la tabla y sus elementos
+				// se creala tabla y sus elementos
 				var table = document.createElement('table');
 				table.classList.add('table', 'table-striped');
 
-				// Crear el encabezado de la tabla (thead)
+				// se crea el encabezado de la tabla
 				var thead = document.createElement('thead');
 				var headerRow = document.createElement('tr');
 				['Obligación', 'Entidad', 'Norma Aplicable', 'Periodicidad', 'Frecuencia Check', 'Responsable'].forEach(function(headerText) {
@@ -450,7 +450,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 				});
 				thead.appendChild(headerRow);
 				table.appendChild(thead);
-				var tbody = document.createElement('tbody');// Crear el cuerpo de la tabla (tbody)
+				var tbody = document.createElement('tbody');// se crea el cuerpo de la tabla
 				datos.forEach(function(item) { // Añadir filas a la tabla
 					var tr = document.createElement('tr');
 					['obligacion', 'nombreEntidades', 'normatividad', 'nombrePeriodicidad', 'frecuencia', 'nombrePerfil'].forEach(function(key) {
