@@ -35,7 +35,8 @@ class Planes extends CI_Controller
     * Tenga en cuenta que cada llamado ajax que haga a una plantilla gráfica que incluya botones de ver,editar, crear, borrar debe siempre llamar la función getPrivilegios.
     */
 	public function planes(){
-		$infoPlanes = $this->logica->infoPlanes();
+		$idEmpresa=0;
+		$infoPlanes = $this->logica->infoPlanes($idEmpresa);
 		// var_dump($infoPlanes);die();
 		$opc = "home";
 		$salida['titulo'] = "Planes Creados";
