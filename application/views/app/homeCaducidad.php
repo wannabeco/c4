@@ -20,7 +20,7 @@
                           $cantidad++;
               ?>
               <!-- cuadno el perfil es administrador de empresa -->
-                <div class="col col-lg-4 col-md-4 float-left">
+                <div class="col col-lg-3 col-md-3 float-left">
                     <div class="card box-shadow">
                       <div class="card-header">
                         <h3 class="my-0 font-weight-normal"><?php echo ucfirst($info["tituloPlan"]);?></h3>
@@ -30,8 +30,8 @@
                           <option value="mes">Mes</option>
                           <option value="year">Año</option>
                       </select><br><br>
-                        <h2 ng-if="membresiaPlan == 'mes'" class="card-title pricing-card-title"><?php echo "$ ".number_format($info["precio"],0, ',', '.'); ?><small class="text-muted">/ Mensual</small></h2>
-                        <h2 ng-if="membresiaPlan == 'year'" class="card-title pricing-card-title"><?php echo "$ ".number_format(($info["precio"]*$info["mesCobraYear"]),0, ',', '.'); ?><small class="text-muted">/ Anual</small></h2>
+                        <h4 ng-if="membresiaPlan == 'mes'" class="card-title pricing-card-title"><?php echo "$ ".number_format($info["precio"],0, ',', '.'); ?><small class="text-muted">/ Mensual</small></h4>
+                        <h4 ng-if="membresiaPlan == 'year'" class="card-title pricing-card-title"><?php echo "$ ".number_format(($info["precio"]*$info["mesCobraYear"]),0, ',', '.'); ?><small class="text-muted">/ Anual</small></h4>
                         <span style="position:relative; float:center;"> <?php echo ucfirst($info["descripcion"]); ?> </span><br>
                         <hr>
                           <div class="mb-4" style="height:auto;">
@@ -42,14 +42,14 @@
                                     <?php if($cantidad != 3){?>
                                       <p class="text-left">Usuarios <span style="float: right;"><?php echo $info["canUsuarios"];?></span></p> 
                                     <?php }if($cantidad == 3){?>
-                                      <p class="text-left">Usuarios <span style="float: right;">Limitados</span></p> 
+                                      <p class="text-left">Usuarios <span style="float: right;"><?php echo $info["canUsuarios"];?></span></p> 
                                     <?php }?>
                                   </li>
                                   <li>
                                     <?php if($cantidad != 3){?>
                                       <p class="text-left">Checks <span style="float: right;"><?php echo $info["canMatrices"];?></span></p> 
                                       <?php }if($cantidad == 3){?>
-                                        <p class="text-left">Checks <span style="float: right;">Limitados</span></p> 
+                                        <p class="text-left">Checks <span style="float: right;"><?php echo $info["canMatrices"];?></span></p> 
                                     <?php }?>
                                   </li>
                                 </ul>
@@ -65,36 +65,36 @@
                               <div class="col-md-12">
                                 <div class="col-md-4 float-left text-left">Usuarios</div>
                                 <div class="col-md-4 float-left"><?php echo $cantPerfiles;?></div>
-                                <div class="col-md-4 float-left text-right"><?php echo "$ ".number_format($totalPerfil,0, ',', '.');?></div>
+                                <div class="col-md-4 float-left text-right"><small><?php echo "$ ".number_format($totalPerfil,0, ',', '.');?></small></div>
                               </div>
                               <div class="col-md-12">
                                 <div class="col-md-4 float-left text-left">Checks</div>
                                 <div class="col-md-4 float-left"><?php echo $cantMatrices;?></div>
-                                <div class="col-md-4 float-left text-right"><?php echo "$ ".number_format($totalMatrices,0, ',', '.');?></div>
+                                <div class="col-md-4 float-left text-right"><small><?php echo "$ ".number_format($totalMatrices,0, ',', '.');?></small></div>
                               </div><br>
                               <div class="col-md-12" style="top:50px;">
                                 <hr>
                                 <h5>TOTALES</h5>
                                 <div class="col-md-12">
-                                  <div class="col-md-7 float-left text-left"><strong>TOTAL ADICIONALES</strong></div>
-                                  <div class="col-md-5 float-left text-right" style="padding-right:0px;"><?php echo "$ ".number_format($adicionales,0,',', '.'); ?></div>
+                                  <div class="col-md-7 float-left text-left"><strong><small>TOTAL ADICIONALES</small></strong></div>
+                                  <div class="col-md-5 float-left text-right" style="padding-right:0px;"><small><?php echo "$ ".number_format($adicionales,0,',', '.'); ?></small></div>
                                 </div>
                                 <div class="col-md-12">
-                                  <div class="col-md-7 float-left text-left"><strong>TOTAL PLAN</strong></div>
-                                  <div ng-if="membresiaPlan == 'mes'" class="col-md-5 float-left text-right" style="padding-right:0px;"><?php echo "$ ".number_format($info["precio"],0, ',', '.'); ?></div>
-                                  <div ng-if="membresiaPlan == 'year'" class="col-md-5 float-left text-right" style="padding-right:0px;"><?php echo "$ ".number_format($info["precio"]*$info["mesCobraYear"],0, ',', '.'); ?></div>
+                                  <div class="col-md-7 float-left text-left"><strong><small>TOTAL PLAN</small></strong></div>
+                                  <div ng-if="membresiaPlan == 'mes'" class="col-md-5 float-left text-right" style="padding-right:0px;"><small><?php echo "$ ".number_format($info["precio"],0, ',', '.'); ?></small></div>
+                                  <div ng-if="membresiaPlan == 'year'" class="col-md-5 float-left text-right" style="padding-right:0px;"><small><?php echo "$ ".number_format($info["precio"]*$info["mesCobraYear"],0, ',', '.'); ?></small></div>
                                 </div><br>
                               </div>
                               <div class="col-md-12" style="top:80px;">
                                 <hr>
                                 <div class="col-md-7 float-left">
-                                  <h5>TOTAL A PAGAR </h5>
+                                  <h5><small> TOTAL A PAGAR </small></h5>
                                 </div>
                                 <div ng-if="membresiaPlan == 'mes'"class="col-md-5 float-left text-right">
-                                  <?php echo "$ ".number_format($info["precio"]+$totalPerfil+$totalMatrices,0,',', '.'); ?>
+                                  <small> <?php echo "$ ".number_format($info["precio"]+$totalPerfil+$totalMatrices,0,',', '.'); ?></small>
                                 </div>
                                 <div ng-if="membresiaPlan == 'year'"class="col-md-5 float-left text-right">
-                                  <?php echo "$ ".number_format(($info["precio"]*$info["mesCobraYear"])+$totalPerfil+$totalMatrices,0,',', '.'); ?>
+                                  <small><?php echo "$ ".number_format(($info["precio"]*$info["mesCobraYear"])+$totalPerfil+$totalMatrices,0,',', '.'); ?></small>
                                 </div>
                               </div><br>
                               <br><br>
@@ -106,19 +106,19 @@
                                     <i class="fa fa-shopping-cart" aria-hidden="true" style="margin-right:5px;"></i> Pagar Ahora
                                   </button>
                                   <br>
-                                  <span>Todos los valores expresados en este resumen son mensuales</span>
-                              <?php } ?>
-                              <?php } else{?>
+                                  <span ng-if="membresiaPlan == 'mes'">Todos los valores expresados en este resumen son mensuales</span>
+                                  <span ng-if="membresiaPlan == 'year'">Todos los valores expresados en este resumen son anuales</span>
+                              <?php } } else{ ?>
                                   <div class="col-md-12">
                                     <hr>
                                     <div class="col-md-7 float-left">
-                                        <h5>TOTAL A PAGAR </h5>
+                                        <h5><small> TOTAL A PAGAR </small></h5>
                                     </div>
                                     <div ng-if="membresiaPlan == 'mes'"  class="col-md-5 float-left text-right">
-                                        <?php echo "$ ".number_format($info["precio"],0,',', '.'); ?>
+                                        <small><?php echo "$ ".number_format($info["precio"],0,',', '.'); ?></small>
                                     </div>
                                     <div ng-if="membresiaPlan == 'year'"  class="col-md-5 float-left text-right">
-                                        <?php echo "$ ".number_format(($info["precio"]*$info["mesCobraYear"]),0,',', '.'); ?>
+                                        <small><?php echo "$ ".number_format(($info["precio"]*$info["mesCobraYear"]),0,',', '.'); ?></small>
                                     </div>
                                   </div><br>
                                 <br><br>
@@ -128,7 +128,9 @@
                                     </button>
                                     <button ng-if="membresiaPlan == 'year'" type="button" class="btn btn-lg btn-block btn-primary" ng-click="pagoEmpresa(<?php echo $_SESSION["project"]["info"]["idEmpresa"];?>,<?php echo $info["idPlan"];?>,'year')">
                                       <i class="fa fa-shopping-cart" aria-hidden="true" style="margin-right:5px;"></i> Pagar Ahora
-                                    </button>
+                                    </button><br>
+                                    <span ng-if="membresiaPlan == 'mes'">Todos los valores expresados en este resumen son mensuales</span>
+                                  <span ng-if="membresiaPlan == 'year'">Todos los valores expresados en este resumen son anuales</span>
                               <?php } }?>
                           </div>                        
                       </div>

@@ -469,9 +469,18 @@ class LogicaGeneral  {
         return $respuesta;
     }
     //consulta planes
-    public function infoPlanes(){
-        $where["elimina"] = 0;
-        $resultado         = $this->ci->dbGeneral->infoPlanes($where); 
+    public function infoPlanes($idEmpresa){
+        $whereAll["elimina"] = 0;
+        $allPlanes = $this->ci->dbGeneral->infoPlanes($whereAll);
+        $whereEmpresa["idEmpresa"] = $idEmpresa;
+        $whereEmpresa["elimina"] = 0;
+        $planesEmpresa = $this->ci->dbGeneral->infoPlanes($whereEmpresa); 
+        // Combino los resultados
+        $planesCombinados = array_merge($allPlanes, $planesEmpresa);
+        // Filtrar por el idEmpresa
+        $resultado = array_filter($planesCombinados, function($plan) use ($idEmpresa) {
+            return $plan["idEmpresa"] == $idEmpresa || $plan["idEmpresa"] == 0;
+        });
         return $resultado;
     }
     //consultoPlanes id
