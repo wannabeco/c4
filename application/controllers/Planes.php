@@ -48,8 +48,6 @@ class Planes extends CI_Controller
 	public function creaPlan(){
 		extract($_POST);
 		$infoEmpresas		  	= $this->lgEmpresas->infoEmpresas();
-		// var_dump($infoEmpresas);die();
-		// var_dump($_POST);die();
 		if($_POST["idPlan"] == "0"){
 			$salida["titulo"] 	 		= "Crear nuevo plan";
 			$salida["labelBtn"]  		= "Crear plan";
@@ -65,7 +63,7 @@ class Planes extends CI_Controller
 			$salida["edita"]  		= 1;
 			$salida["idPlan"]		= $infoPlanes[0]["idPlan"];
 			$salida["infoEmpresas"]	= $infoEmpresas;
-			// var_dump($infoPlanes);die();
+			// var_dump($infoPlanes[0]);die();
 			echo $this->load->view("planes/formCrearPlanes",$salida,true);
 		}
 	}

@@ -40,7 +40,7 @@
                 <select ng-model="dirige" class="form-control" id="dirigido" name="dirigido">
                     <option selected>Seleccione...</option>
                     <option <?php if(isset($infoPlanes['dirigido']) && $infoPlanes['dirigido'] == 0){ ?> selected <?php } ?> value="0">Empresas</option>
-                    <option <?php if(isset($infoTienda['dirigido']) && $infoTienda['dirigido'] == 1){ ?> selected<?php } ?> value="1">Oficial de cumplimiento</option>
+                    <option <?php if(isset($infoPlanes['dirigido']) && $infoPlanes['dirigido'] == 1){ ?> selected<?php } ?> value="1">Oficial de cumplimiento</option>
                 </select>
                 <p class="help-block"></p>
             </div> 
@@ -49,12 +49,13 @@
             <div class="col col-lg-12">
                 <div class="form-group  label-floating">
                     <label class="control-label" for="dirigido"><strong>Empresa Específica</strong></label>
-                    <select ng-model="idEmpresa" class="form-control" id="idEmpresa" name="idEmpresa">
-                        <option selected>Seleccione...</option>
-                        <?php foreach($infoEmpresas as $infoEmpresa){ ?> 
-                            <option <?php if(isset($infoEmpresa['idEmpresa']) && $infoEmpresa['idEmpresa'] == $infoEmpresa['idEmpresa']){ ?> selected<?php } ?> value="<?php echo $infoEmpresa['idEmpresa']; ?>"><?php echo $infoEmpresa['nombre']; ?></option>
+                    <select class="form-control" id="idEmpresa" name="idEmpresa">
+                        <option selected >Seleccione...</option>
+                        <?php foreach($infoEmpresas as $infoEmpresa){ ?>
+                            <option <?php if(isset($infoPlanes['idEmpresa']) && $infoPlanes['idEmpresa'] == $infoEmpresa['idEmpresa']){ ?> selected<?php } ?> value="<?php echo $infoEmpresa['idEmpresa'] ?>"><?php echo $infoEmpresa['nombre'] ?></option>
                         <?php } ?>
                     </select>
+
                     <p class="help-block"></p>
                 </div> 
             </div>
@@ -84,8 +85,8 @@
             <div class="form-group  label-floating">
                 <label class="control-label" for="promocion"><strong>Promoción</strong></label>
                 <select ng-model="Promocion" class="form-control" id="promocion" name="promocion">
-                <option <?php if(isset($infoPlanes['promocion']) && $infoPlanes['promocion'] == 0){ ?> selected<?php } ?> value="0">No</option>
-                <option <?php if(isset($infoTienda['promocion']) && $infoTienda['promocion'] == 1){ ?> selected<?php } ?> value="1">Si</option>
+                    <option <?php if(isset($infoPlanes['promocion']) && $infoPlanes['promocion'] == 0){ ?> selected<?php } ?> value="0">No</option>
+                    <option <?php if(isset($infoPlanes['promocion']) && $infoPlanes['promocion'] == 1){ ?> selected<?php } ?> value="1">Si</option>
                 </select>
             </div> 
         </div>
@@ -107,7 +108,7 @@
                 <select class="form-control" id="estado" name="estado">
                     <option selected>Seleccione...</option>
                     <option <?php if(isset($infoPlanes['estado']) && $infoPlanes['estado'] == 0){ ?> selected<?php } ?> value="0">Inactivo</option>
-                    <option <?php if(isset($infoTienda['estado']) && $infoTienda['estado'] == 1){ ?> selected<?php } ?> value="1">Activo</option>
+                    <option <?php if(isset($infoPlanes['estado']) && $infoPlanes['estado'] == 1){ ?> selected<?php } ?> value="1">Activo</option>
                 </select>
                 <p class="help-block"></p>
             </div> 
