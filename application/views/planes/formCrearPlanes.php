@@ -56,7 +56,7 @@
                         <?php } ?>
                     </select>
 
-                    <p class="help-block"></p>
+                    <p class="help-block">no es obligatrorio</p>
                 </div> 
             </div>
             <div class="col col-lg-12">

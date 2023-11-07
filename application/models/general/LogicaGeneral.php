@@ -527,12 +527,13 @@ class LogicaGeneral  {
         $dataActualiza["precio"]  = $datos["precio"];
         $dataActualiza["dirigido"]  = $datos["dirigido"];
         $dataActualiza["promocion"]  = $datos["promocion"];
-        $dataActualiza["fechaInicio"]  = $datos["fechaInicio"];
+        $dataActualiza["fechaInicio"]   = $datos["fechaInicio"];
         $dataActualiza["fechaFinaliza"]  = $datos["fechaFinaliza"];
         $dataActualiza["estado"]  = $datos["estado"];
         $dataActualiza["canMatrices"]  = $datos["canMatrices"];
         $dataActualiza["canUsuarios"]  = $datos["canUsuarios"];
         $dataActualiza["mesCobraYear"]  = $datos["mesCobraYear"];
+        $dataActualiza["idEmpresa"]  = $datos["idEmpresa"];
         $where['idPlan']           = $datos["idPlan"];
         $empresas                  = $this->ci->dbGeneral->actualizaPlan($dataActualiza, $where);
         if($empresas > 0){
