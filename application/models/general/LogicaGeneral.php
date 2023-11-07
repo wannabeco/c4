@@ -471,7 +471,6 @@ class LogicaGeneral  {
     //consulta planes
     public function infoPlanes($idEmpresa){
         if($idEmpresa == 0){
-            $where["idEmpresa"] = $idEmpresa;
             $where["elimina"]   = 0;
             $resultado          = $this->ci->dbGeneral->infoPlanes($where); 
         }
