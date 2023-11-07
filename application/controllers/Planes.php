@@ -21,6 +21,7 @@ class Planes extends CI_Controller
         $this->load->model("general/LogicaGeneral", "logica");//la idea es que este archivo siempre esté ya que aquí se consultan cosas que son muy globales.
         $this->load->model("misMatrices/LogicaMisMatrices", "logicaMis");//aquí se debe llamar la lógica correspondiente al módulo que se esté haciendo.
 		$this->load->model("crearMatriz/LogicaMatriz","logMatriz");
+		$this->load->model("empresas/LogicaEmpresas","lgEmpresas");//logica
 		$this->load->helper('language');//mantener siempre.
     	$this->lang->load('spanish');//mantener siempre.
     }
@@ -45,24 +46,27 @@ class Planes extends CI_Controller
 	//modal crea plan
 	public function creaPlan(){
 		extract($_POST);
+		$infoEmpresas		  	= $this->lgEmpresas->infoEmpresas();
+		// var_dump($infoEmpresas);die();
 		// var_dump($_POST);die();
 		if($_POST["idPlan"] == "0"){
 			$salida["titulo"] 	 		= "Crear nuevo plan";
 			$salida["labelBtn"]  		= "Crear plan";
-			$salida["edita"]  		= 0;
-			$salida["idPlan"]		= 0;
+			$salida["edita"]  			= 0;
+			$salida["idPlan"]			= 0;
+			$salida["infoEmpresas"]		= $infoEmpresas;
 			echo $this->load->view("planes/formCrearPlanes",$salida,true);
 		}
 		if($_POST["idPlan"] > 0){
 			$infoPlanes = $this->logica->infoPlanesid($_POST);
-			$salida['titulo'] = "Editar plan";
-			$salida['infoPlanes'] = $infoPlanes[0];
+			$salida['titulo'] 		= "Editar plan";
+			$salida['infoPlanes'] 	= $infoPlanes[0];
 			$salida["edita"]  		= 1;
 			$salida["idPlan"]		= $infoPlanes[0]["idPlan"];
+			$salida["infoEmpresas"]	= $infoEmpresas;
 			// var_dump($infoPlanes);die();
 			echo $this->load->view("planes/formCrearPlanes",$salida,true);
 		}
-		
 	}
 	//funcion para crear el plan
 	public function creaPlanes(){

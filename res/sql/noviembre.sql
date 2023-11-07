@@ -1,0 +1,1 @@
+ALTER TABLE `app_planes` ADD `idEmpresa` INT NOT NULL DEFAULT '0' AFTER `mesCobraYear`;

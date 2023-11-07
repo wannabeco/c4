@@ -8,35 +8,35 @@
     <div class="modal-body" id="datosPlan">
         <div class="col col-lg-12">
             <div class="form-group  label-floating">
-                <label class="control-label" for="nombrePlan"><strong>Nombre de plan</strong></label>
+                <label class="control-label" for="nombrePlan"><strong>Nombre de plan*</strong></label>
                 <input tabindex="5" autocomplete="off" id="nombrePlan" name="nombrePlan"  class="form-control" value="<?php echo (isset($infoPlanes['nombrePlan']))?$infoPlanes['nombrePlan']:'';?>">
                 <p class="help-block"></p>
             </div> 
         </div>
         <div class="col col-lg-12">
             <div class="form-group  label-floating">
-                <label class="control-label" for="tituloPLan"><strong>Titulo</strong></label>
+                <label class="control-label" for="tituloPLan"><strong>Titulo*</strong></label>
                 <input tabindex="5" autocomplete="off" id="tituloPlan" name="tituloPlan"  class="form-control" value="<?php echo (isset($infoPlanes['tituloPlan']))?$infoPlanes['tituloPlan']:'';?>">
                 <p class="help-block"></p>
             </div> 
         </div>
         <div class="col col-lg-12">
             <div class="form-group  label-floating">
-                <label class="control-label" for="descripcion"><strong>Descripción</strong></label>
+                <label class="control-label" for="descripcion"><strong>Descripción*</strong></label>
                 <input tabindex="5" autocomplete="off" id="descripcion" name="descripcion"  class="form-control" value="<?php echo (isset($infoPlanes['descripcion']))?$infoPlanes['descripcion']:'';?>">
                 <p class="help-block"></p>
             </div> 
         </div>
         <div class="col col-lg-12">
             <div class="form-group  label-floating">
-                <label class="control-label" for="precio"><strong>Precio</strong></label>
+                <label class="control-label" for="precio"><strong>Precio*</strong></label>
                 <input type="number" tabindex="5" autocomplete="off" id="precio" name="precio" maxlength="10" class="form-control" value="<?php echo (isset($infoPlanes['precio']))?$infoPlanes['precio']:'';?>">
                 <p class="help-block"></p>
             </div> 
         </div>
         <div class="col col-lg-12">
             <div class="form-group  label-floating">
-                <label class="control-label" for="dirigido"><strong>Dirigido</strong></label>
+                <label class="control-label" for="dirigido"><strong>Dirigido*</strong></label>
                 <select ng-model="dirige" class="form-control" id="dirigido" name="dirigido">
                     <option selected>Seleccione...</option>
                     <option <?php if(isset($infoPlanes['dirigido']) && $infoPlanes['dirigido'] == 0){ ?> selected <?php } ?> value="0">Empresas</option>
@@ -48,21 +48,33 @@
         <div ng-if="dirige== 0">
             <div class="col col-lg-12">
                 <div class="form-group  label-floating">
-                    <label class="control-label" for="canMatrices"><strong>Cantidad de checks</strong></label>
+                    <label class="control-label" for="dirigido"><strong>Empresa Específica</strong></label>
+                    <select ng-model="idEmpresa" class="form-control" id="idEmpresa" name="idEmpresa">
+                        <option selected>Seleccione...</option>
+                        <?php foreach($infoEmpresas as $infoEmpresa){ ?> 
+                            <option <?php if(isset($infoEmpresa['idEmpresa']) && $infoEmpresa['idEmpresa'] == $infoEmpresa['idEmpresa']){ ?> selected<?php } ?> value="<?php echo $infoEmpresa['idEmpresa']; ?>"><?php echo $infoEmpresa['nombre']; ?></option>
+                        <?php } ?>
+                    </select>
+                    <p class="help-block"></p>
+                </div> 
+            </div>
+            <div class="col col-lg-12">
+                <div class="form-group  label-floating">
+                    <label class="control-label" for="canMatrices"><strong>Cantidad de checks*</strong></label>
                     <input type="number" tabindex="5" autocomplete="off" id="canMatrices" name="canMatrices" maxlength="10" class="form-control" value="<?php echo (isset($infoPlanes['canMatrices']))?$infoPlanes['canMatrices']:'';?>">
                     <p class="help-block"></p>
                 </div> 
             </div>
             <div class="col col-lg-12">
                 <div class="form-group  label-floating">
-                    <label class="control-label" for="canUsuarios"><strong>Cantidad de usuarios</strong></label>
+                    <label class="control-label" for="canUsuarios"><strong>Cantidad de usuarios*</strong></label>
                     <input type="number" tabindex="5" autocomplete="off" id="canUsuarios" name="canUsuarios" maxlength="10" class="form-control" value="<?php echo (isset($infoPlanes['canUsuarios']))?$infoPlanes['canUsuarios']:'';?>">
                     <p class="help-block"></p>
                 </div> 
             </div>
             <div class="col col-lg-12">
                 <div class="form-group  label-floating">
-                    <label class="control-label" for="mesCobraYear"><strong>Meses a cobrar Anual</strong></label>
+                    <label class="control-label" for="mesCobraYear"><strong>Meses a cobrar Anual*</strong></label>
                     <input type="number" tabindex="5" autocomplete="off" id="mesCobraYear" name="mesCobraYear" maxlength="10" class="form-control" value="<?php echo (isset($infoPlanes['mesCobraYear']))?$infoPlanes['mesCobraYear']:'';?>">
                     <p class="help-block"></p>
                 </div> 
@@ -91,7 +103,7 @@
         </div>
         <div class="col col-lg-12">
             <div class="form-group  label-floating">
-                <label class="control-label" for="estado"><strong>Estado</strong></label>
+                <label class="control-label" for="estado"><strong>Estado*</strong></label>
                 <select class="form-control" id="estado" name="estado">
                     <option selected>Seleccione...</option>
                     <option <?php if(isset($infoPlanes['estado']) && $infoPlanes['estado'] == 0){ ?> selected<?php } ?> value="0">Inactivo</option>

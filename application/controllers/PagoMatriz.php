@@ -37,7 +37,7 @@ class PagoMatriz extends CI_Controller
 		if(validaIngreso()){
 				$idEmpresa = $_SESSION["project"]["info"]["idEmpresa"];
 				$infoEmpresa = $this->logicaMis->infoEmpresa($idEmpresa);
-				$infoPlanes	= $this->logica->infoPlanes();
+				$infoPlanes	= $this->logica->infoPlanes($idEmpresa);
 				$infoUsuarios = $this->logica->getUsuarioEmpresa($idEmpresa);
 				$infoMatrices = $this->logica->getMatricesEmpresas($idEmpresa);
 				$relacionPlan = $this->logica->relPlan($idEmpresa);
