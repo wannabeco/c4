@@ -476,23 +476,14 @@ class LogicaGeneral  {
         }
         if($idEmpresa > 0){
             $whereAll["elimina"] = 0;
-            $allPlanes = $this->ci->dbGeneral->infoPlanes($whereAll);
-
+            $whereAll["idEmpresa"] = 0;
+            $allPlanes = $this->ci->dbGeneral->infoPlanes($whereAll);//cosnulto los planes con idEmpresa == 0
+        
             $whereEmpresa["idEmpresa"] = $idEmpresa;
             $whereEmpresa["elimina"] = 0;
-            $planesEmpresa = $this->ci->dbGeneral->infoPlanes($whereEmpresa); 
-
-            $planesFiltrados = array_filter($allPlanes, function($plan) use ($planesEmpresa) {
-                $idPlan = $plan["idPlan"];
-                foreach ($planesEmpresa as $planEmpresa) {
-                    if ($planEmpresa["idPlan"] == $idPlan) {
-                        return false;
-                    }
-                }
-                return true;
-            });
-
-            $resultado = array_merge($planesFiltrados, $planesEmpresa);
+            $planesEmpresa = $this->ci->dbGeneral->infoPlanes($whereEmpresa); //cosnulto los planes con idEmpresa > 0
+            
+            $resultado = array_merge($allPlanes, $planesEmpresa);
         }
         return $resultado;
     }
