@@ -199,6 +199,17 @@ project.controller('misMatrices', function($scope,$http,$q,constantes)
 	$scope.verMatrices = function($id,$idEmpresa){
 		window.location = $scope.config.apiUrl+"MisMatrices/matrices/43/"+$idEmpresa+"/"+$id;
 	}
+	//modal de creo mi propio check
+	$scope.creoMiCheck =function(){
+		$('#miNuevocheck').modal("show");
+	 	var controlador = $scope.config.apiUrl+"MisMatrices/creoMiCheck";
+	 	var parametros  = "edita="+0;
+	 	constantes.consultaApi(controlador,parametros,function(json){
+	 		$("#modalmiNuevocheck").html(json);
+	 		// actualiza el DOM
+	 		$scope.compileAngularElement("#agregaNuevaMatriz");
+	 	},'');
+	}
 
 	$scope.compileAngularElement = function(elSelector) {
         var elSelector = (typeof elSelector == 'string') ? elSelector : null ;  
