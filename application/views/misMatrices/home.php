@@ -14,6 +14,14 @@
             </div>
         </div>
     </div>
+    <!-- creo mi propio check -->
+    <div id="miNuevocheck" class="modal fade" role="dialog"  data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content" id="modalmiNuevocheck">
+                <!--Form de creación -->
+            </div>
+        </div>
+    </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div class="row ml-2">
             <h1 class="h3 mb-0 text-gray-800 text-dark">Checks de obligaciones</h1>
@@ -25,7 +33,8 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <h6 class="dropdown-header"><?php echo lang("lblSeleccioneOpc") ?></h6>
-                    <a class="dropdown-item" ng-click="agregarMatriz()" style="cursor:pointer"><i class="fa fa-fw fa-plus"></i> Agregar Checks</a>
+                    <a class="dropdown-item" ng-click="creoMiCheck()" style="cursor:pointer"><i class="fa fa-fw fa-plus"></i> Creo mi check</a>
+                    <a class="dropdown-item" ng-click="agregarMatriz()" style="cursor:pointer"><i class="fa fa-fw fa-plus"></i> Usar Plantillas</a>
                 </div>
             </div>
         <?php }?>
