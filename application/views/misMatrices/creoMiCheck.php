@@ -6,14 +6,16 @@
             </button>
     </div>
     <div class="modal-body">
-        <div class="p-2">
-            <select ng-model="creador" ng-change="plantilla(creador)" class="col col-lg-12 form-control form-control-lg">
-                <option selected disabled value="">Seleccione...</option>
-                <option value="0">Crear mi propio check</option>
-                <option value="1">Utilizar Plantilla</option>
-            </select>
-        </div>
-
+        <?php if($editar == 0){?>
+            <div class="p-2">
+                <select ng-model="creador" ng-change="plantilla(creador)" class="col col-lg-12 form-control form-control-lg">
+                    <option selected disabled value="">Seleccione...</option>
+                    <option value="0">Crear mi propio check</option>
+                    <option value="1">Utilizar Plantilla</option>
+                </select>
+            </div>
+        <?php }?>
+        <?php if($editar == 0){?>
         <div ng-if="creador == 0">
             <div class="col col-lg-12">
                 <div class="form-group  label-floating">
@@ -27,6 +29,19 @@
                 <span id="caracteres-utilizados"></span>
             </div>
         </div>
+        <?php }if($editar ==1){?>
+            <div class="col col-lg-12">
+                <div class="form-group  label-floating">
+                    <label for="exampleInputEmail1">Nombre de matriz</label>
+                    <input type="text" class="form-control" id="nombreNuevaMatriz" name="nombreNuevaMatriz" value="<?php echo (isset($consultoCheck[0]['nombreNuevaMatriz'])) ? $consultoCheck[0]['nombreNuevaMatriz'] : ''; ?>">
+                </div> 
+            </div>
+            <div class="form-group col-md-12 float-left">
+                <label for="exampleInputEmail1">Descripción</label>
+                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" maxlength="250"><?php echo (isset($consultoCheck[0]['descripcion'])) ? $consultoCheck[0]['descripcion'] : ''; ?></textarea>
+                <span id="caracteres-utilizados"></span>
+            </div>
+        <?php }?>
     </div>
         <input type="number" class="form-control" id="Precio" name="Precio" value="80000" hidden/>
         <input type="text" id="idEmpresa" name="idEmpresa" value="<?php echo $_SESSION["project"]["info"]["idEmpresa"];?>" hidden>
