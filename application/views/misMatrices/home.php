@@ -22,6 +22,14 @@
             </div>
         </div>
     </div>
+    <!-- te sugerimos check -->
+    <div id="segerimosCheck" class="modal fade" role="dialog"  data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content" id="modalsegerimosCheck">
+                <!--Form de creación -->
+            </div>
+        </div>
+    </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div class="row ml-2">
             <h1 class="h3 mb-0 text-gray-800 text-dark">Checks de obligaciones</h1>
