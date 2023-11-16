@@ -39,7 +39,6 @@ class Buscar extends CI_Controller
 			$idEmpresa = $_SESSION["project"]["info"]["idEmpresa"];
 			$inforMiMatriz = $this->logicaMis->consultaMatricescompradas($idPersona, $idEmpresa);
 			$infoPlanesrel = $this->logica->infoPlanesrel($idEmpresa);
-			// var_dump($infoPlanesrel);die();
 			$infoMatrices = $this->logicaMis->infoMatrices();
 			$opc = "home";
 			$salida['titulo'] = "Check's Creados";
@@ -47,7 +46,6 @@ class Buscar extends CI_Controller
 			$salida['infoMatrices']	= $infoMatrices;
 			$salida['centro'] 		= "misMatrices/creadas";
 			$salida['idEmpresa'] 	= $idEmpresa;
-			//$this->load->view("app/index",$salida);
 			echo $this->load->view("app/index",$salida,true);
 		}else{
 			header('Location:'.base_url()."login");

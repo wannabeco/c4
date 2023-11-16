@@ -15,14 +15,34 @@
             </div>
         </div>
     </div>
+    <!-- te sugerimos check -->
+    <div id="segerimosCheck" class="modal fade" role="dialog"  data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content" id="modalsegerimosCheck">
+                <!--Form de creación -->
+            </div>
+        </div>
+    </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div class="row col-md-12">
             <div class="col-md-6">
                 <h1 class="h3 mb-0 text-gray-800 text-dark float-left">Mis check's creados</h1>
             </div>
             <div class="col-md-6">
-                <button type="button" class="btn btn-primary float-right" data-toggle="tooltip" data-placement="top" title="Crear Nuevo Check" ng-click="creoMiCheck()"><i class="fas fa-plus"></i> Creo mi check</button>
-                <button type="button" class="btn btn-primary float-right"  data-toggle="tooltip" data-placement="top" title="Ver checks sugeridos" style="margin-right: 20px;" ng-click="matricesDisponibles()"><i class="fas fa-check-circle"></i> Check Sugeridos</button>
+                <?php if($_SESSION['project']['info']['idPerfil'] == 11){ ?>
+                    <div class="dropdown float-right">
+                        <a class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-cog"></i> <?php echo lang("lblRelacion") ?> <span class="caret"></span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <h6 class="dropdown-header"><?php echo lang("lblSeleccioneOpc") ?></h6>
+                            <a class="dropdown-item" ng-click="creoMiCheck()" style="cursor:pointer"><i class="fa fa-fw fa-plus"></i> Creo mi check</a>
+                            <!-- <a class="dropdown-item" ng-click="agregarMatriz()" style="cursor:pointer"><i class="fa fa-fw fa-plus"></i> Usar Plantillas</a> -->
+                        </div>
+                    </div>
+                <?php }?>
+                <!-- <button type="button" class="btn btn-primary float-right" data-toggle="tooltip" data-placement="top" title="Crear Nuevo Check" ng-click="creoMiCheck()"><i class="fas fa-plus"></i> Creo mi check</button>
+                <button type="button" class="btn btn-primary float-right"  data-toggle="tooltip" data-placement="top" title="Ver checks sugeridos" style="margin-right: 20px;" ng-click="matricesDisponibles()"><i class="fas fa-check-circle"></i> Check Sugeridos</button> -->
             </div>
         </div><br>
     </div>
@@ -82,15 +102,15 @@
                                         <?php }?>   
                                     <?php } else { ?>
                                         <div ng-if="inforMiMatriz.continuar === 0">
-                                        <button type="button" class="btn btn-secondary float-left ml-2 agregaGratisDos" data-toggle="tooltip" data-placement="top" title="Activar" data-idEmpresa="<?php echo $idEmpresa;?>" data-nombreNuevaMatriz="<?php echo $info["nombreNuevaMatriz"];?>" data-idNuevaMatriz="<?php echo $info["idNuevaMatriz"];?>">Activar</button>
+                                            <button type="button" class="btn btn-secondary float-left ml-2 agregaGratisDos" data-toggle="tooltip" data-placement="top" title="Activar" data-idEmpresa="<?php echo $idEmpresa;?>" data-nombreNuevaMatriz="<?php echo $info["nombreNuevaMatriz"];?>" data-idNuevaMatriz="<?php echo $info["idNuevaMatriz"];?>">Activar</button>
                                         </div>
                                         <div ng-if="inforMiMatriz.continuar === 1">
-                                        <button type="button" class="btn btn-secondary float-left ml-2 PagaraButton" data-toggle="tooltip" data-placement="top" title="Activar" data-idEmpresa="<?php echo $idEmpresa;?>" data-nombreNuevaMatriz="<?php echo $info["nombreNuevaMatriz"];?>" data-idNuevaMatriz="<?php echo $info["idNuevaMatriz"];?>" data-precio="<?php echo $info["precio"];?>">Activar</button>
+                                            <button type="button" class="btn btn-secondary float-left ml-2 PagaraButton" data-toggle="tooltip" data-placement="top" title="Activar" data-idEmpresa="<?php echo $idEmpresa;?>" data-nombreNuevaMatriz="<?php echo $info["nombreNuevaMatriz"];?>" data-idNuevaMatriz="<?php echo $info["idNuevaMatriz"];?>" data-precio="<?php echo $info["precio"];?>">Activar</button>
                                         </div> 
                                     <?php } ?>
                                         <a ng-click="actualizoCheck(<?php echo $info["idNuevaMatriz"];?>,1)"  data-toggle="tooltip" data-placement="top" title="Editar"  class="btn btn-dark btn-fab btn-fab-mini btn-xs ml-2"><i class="fas fa-edit"></i></a>
                                         <a ng-click="borraMatrizCreada(<?php echo $info["idNuevaMatriz"];?>)"  data-toggle="tooltip" data-placement="top" title="Eliminar"  class="btn btn-danger btn-fab btn-fab-mini btn-xs ml-2"><i class="fas fa-trash"></i></a>
-                                <?php }?>
+                                    <?php }?>
                             </td>
                         </tr>
                     <?php }?>

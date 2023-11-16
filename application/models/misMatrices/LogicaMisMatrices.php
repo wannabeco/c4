@@ -32,8 +32,8 @@ class LogicaMisMatrices  {
     //consulta relaciones de matriz
     public function consultaRelacion($dato){
         $where["p.idEmpresa"]         = $dato;
-        $where["p.eliminado"]         = 0;
         $where["p.estado"]            = 1;
+        $where["p.eliminado"]         = 0;
         $infoMatriz                 = $this->ci->dbmisMatriz->consultaRelacion($where);
         return $infoMatriz;
     }
@@ -92,7 +92,7 @@ class LogicaMisMatrices  {
         $where['estado']        = 1;
         $where['eliminado']     = 0;
         $where['idEmpresa']     = 0;
-        $infoMatrices               = $this->ci->dbMatriz->infoNuevaMatriz($where);
+        $infoMatrices           = $this->ci->dbMatriz->infoNuevaMatriz($where);
         return $infoMatrices;
     }
     //crea relacion de las matrices gratis, apenas se registra la empresa.
@@ -107,8 +107,7 @@ class LogicaMisMatrices  {
             $dataIns["pago"]        = "NO";
             $dataIns["fechaPago"]   = date("Y-m-d H:i:s");
             $crea           = $this->ci->dbmisMatriz->creaGratis($dataIns);
-        }
-        if($crea > 0){
+        }if($crea > 0){
             $respuesta = array("mensaje"=>"Las matrices se han agregado correctamente.",
                     "continuar"=>1,
                     "datos"=>"");
@@ -139,14 +138,12 @@ class LogicaMisMatrices  {
             $respuesta = array(
                 "mensaje" => "No hay matrices relacionadas.",
                 "continuar" => 0,
-                "datos" => $resultados
-            );
+                "datos" => $resultados);
         } else {
             $respuesta = array(
                 "mensaje" => "Hay matrices que ya se encuentran agregadas. Por favor verifique e intente nuevamente.",
                 "continuar" => 1,
-                "datos" => $resultados
-            );
+                "datos" => $resultados);
         }
         return $respuesta;
     }
@@ -195,15 +192,14 @@ class LogicaMisMatrices  {
             $dataIns["idEmpresa"]   = $id;
             $dataIns["fecha"]       = date("Y-m-d H:i:s");
             $crea           = $this->ci->dbmisMatriz->creaGratisrel($dataIns);
-        }
-        if($crea > 0){
+        }if($crea > 0){
             $respuesta = array("mensaje"=>"Se han agregado correctamente.",
-                    "continuar"=>1,
-                    "datos"=>"");
+                        "continuar"=>1,
+                        "datos"=>"");
         }else{
             $respuesta = array("mensaje"=>"las matrices no fueron agregadas.",
-                    "continuar"=>0,
-                    "datos"=>"");
+                        "continuar"=>0,
+                        "datos"=>"");
         }
         return $respuesta;
     }
@@ -223,8 +219,7 @@ class LogicaMisMatrices  {
             if (!empty($infoMatrices)) {
                 $resultados[] = $infoMatrices;
             }
-        }
-        if (empty($resultados)) {
+        }if (empty($resultados)) {
             $respuesta = array(
                 "mensaje" => "No hay empresas relacionadas.",
                 "continuar" => 0,
@@ -261,12 +256,12 @@ class LogicaMisMatrices  {
         $elimina               = $this->ci->dbmisMatriz->eliminaMatrizComprada($dataActualiza,$where);
         if($elimina > 0){
             $respuesta = array("mensaje"=>"La matriz, se elimino Correctamente.",
-            "continuar"=>1,
-            "datos"=>$elimina);
+                        "continuar"=>1,
+                        "datos"=>$elimina);
         }else{
             $respuesta = array("mensaje"=>"La Matriz no pudo ser eliminada.",
-            "continuar"=>0,
-            "datos"=>"");
+                        "continuar"=>0,
+                        "datos"=>"");
         }
         return $respuesta;
     }
@@ -277,8 +272,8 @@ class LogicaMisMatrices  {
         $consulta               = $this->ci->dbmisMatriz->relEmpresaPerfiles($where);
         if(count($consulta) > 0){
             $respuesta = array("mensaje"=>"La empresa ya cuenta con oficial de cumplimiento, por favor comuniquese con le empresa.",
-            "continuar"=>1,
-            "datos"=>$consulta);
+                        "continuar"=>1,
+                        "datos"=>$consulta);
         }else{
             $datas["idEmpresa"] = $datos["id"];
             $datas["estado"]    = 1;
@@ -286,12 +281,12 @@ class LogicaMisMatrices  {
             $verifica     = $this->ci->dbmisMatriz->relOficialEmpresa($datas);
             if(count($verifica) > 0){
                 $respuesta = array("mensaje"=>"La empresa ya cuenta con oficial de cumplimiento independiente, por favor comuniquese con le empresa.",
-                "continuar"=>1,
-                "datos"=>$consulta);
+                            "continuar"=>1,
+                            "datos"=>$consulta);
             }else{
                 $respuesta = array("mensaje"=>"La empresa no cuenta con oficial de cumplimiento.",
-                "continuar"=>0,
-                "datos"=>"");
+                            "continuar"=>0,
+                            "datos"=>"");
             }
         }
         return $respuesta;
@@ -318,14 +313,14 @@ class LogicaMisMatrices  {
         $consulta               = $this->ci->dbmisMatriz->consultaRcomentario($where);
         if(count($consulta) > 0){
             $respuesta = array("mensaje"=>"se realizo la consulta.",
-            "continuar"=>1,
-            "datos"=>$consulta);
+                        "continuar"=>1,
+                        "datos"=>$consulta);
         }else{
             $respuesta = array("mensaje"=>"no se ejecuto la consulta.",
-            "continuar"=>0,
-            "datos"=>"");
+                        "continuar"=>0,
+                        "datos"=>"");
         }
-    return $respuesta;
+        return $respuesta;
     } 
     //consulta de respuestas de check realizados 
     public function consultacheck($idRecurrente,$idPersona,$idRelPeriocidad){
@@ -350,10 +345,10 @@ class LogicaMisMatrices  {
             );
         }else{
             $respuesta = array("mensaje"=>"no se ejecuto la consulta.",
-            "continuar"=>0,
-            "datos"=>"");
+                        "continuar"=>0,
+                        "datos"=>"");
         }
-    return $respuesta;
+        return $respuesta;
     } 
     //actualiza check
     public function actualizaCheck($data){
@@ -374,8 +369,8 @@ class LogicaMisMatrices  {
                 $pregunta++;
             }
                 $respuesta = array("mensaje"=>"El formulario se ha actualizado exitosamente.",
-                                    "continuar"=>1,
-                                    "datos"=>"");
+                            "continuar"=>1,
+                            "datos"=>"");
             return $respuesta;
         } else {
             $archivo        = $data["archivos"];
@@ -396,8 +391,8 @@ class LogicaMisMatrices  {
                     $pregunta++;
                 }
                 $respuesta = array("mensaje"=>"El formulario se ha actualizado exitosamente.",
-                        "continuar"=>1,
-                        "datos"=>"");
+                            "continuar"=>1,
+                            "datos"=>"");
             }
             return $respuesta;
         }
@@ -409,7 +404,6 @@ class LogicaMisMatrices  {
         $where['idEmpresa']             = $idEmpresa;
         $where['idRelPeriocidad']       = $idRelPeriocidad;
         $consulta               = $this->ci->dbmisMatriz->consultacheckRealizado($where);
-        // var_dump($consulta);die();
         $valorArray = array();
         foreach($consulta as $item){
             $valorArray[] = $item["valor"];
@@ -431,10 +425,10 @@ class LogicaMisMatrices  {
             );
         }else{
             $respuesta = array("mensaje"=>"no se ejecuto la consulta.",
-            "continuar"=>0,
-            "datos"=>"");
+                        "continuar"=>0,
+                        "datos"=>"");
         }
-    return $respuesta;
+        return $respuesta;
     }
     //consulto periocidades
     public function periocidades($idPersona,$idEmpresa){
@@ -445,14 +439,14 @@ class LogicaMisMatrices  {
         $consulta              = $this->ci->dbmisMatriz->periocidades($where);
         if(count($consulta) > 0){
             $respuesta = array("mensaje"=>"se realizo la consulta.",
-            "continuar"=>1,
-            "datos"=>$consulta);
+                        "continuar"=>1,
+                        "datos"=>$consulta);
         }else{
             $respuesta = array("mensaje"=>"no se ejecuto la consulta.",
-            "continuar"=>0,
-            "datos"=>"");
+                        "continuar"=>0,
+                        "datos"=>"");
         }
-    return $respuesta;
+        return $respuesta;
     }
     //crear periocidad
     public function crearRelPeriocidad($data){
@@ -463,12 +457,12 @@ class LogicaMisMatrices  {
             $actualiza                            = $this->ci->dbmisMatriz->updatePeriocidad($dataActualiza,$where);
             if($actualiza > 0){
                 $respuesta = array("mensaje"=>"Se Actualizo correctamente.",
-                "continuar"=>1,
-                "datos"=>$actualiza);
+                            "continuar"=>1,
+                            "datos"=>$actualiza);
             }else{
                 $respuesta = array("mensaje"=>"No pudo ser Actualizado, por favor comuniquese con el administrador.",
-                "continuar"=>0,
-                "datos"=>"");
+                            "continuar"=>0,
+                            "datos"=>"");
             }
             return $respuesta;
         }if($data["edita"] == 0){
@@ -480,12 +474,12 @@ class LogicaMisMatrices  {
             $crea           = $this->ci->dbmisMatriz->crearRelPeriocidad($dataInserta);
             if($crea > 0){
                 $respuesta = array("mensaje"=>"Se ha creado correctamente.",
-                "continuar"=>1,
-                "datos"=>$crea);
+                            "continuar"=>1,
+                            "datos"=>$crea);
             }else{
                 $respuesta = array("mensaje"=>"No se ha creado",
-                "continuar"=>0,
-                "datos"=>"");
+                            "continuar"=>0,
+                            "datos"=>"");
             }
             return $respuesta;
         }
@@ -499,13 +493,13 @@ class LogicaMisMatrices  {
         $where['idEmpresa']         = $_SESSION["project"]["info"]["idEmpresa"];
         $elimina               = $this->ci->dbmisMatriz->updatePeriocidad($dataActualiza,$where);
         if($elimina > 0){
-            $respuesta = array("mensaje"=>"Se elimino coorectamente.",
-            "continuar"=>1,
-            "datos"=>$elimina);
+            $respuesta = array("mensaje"=>"Se elimino correctamente.",
+                        "continuar"=>1,
+                        "datos"=>$elimina);
         }else{
             $respuesta = array("mensaje"=>"No pudo ser eliminada.",
-            "continuar"=>0,
-            "datos"=>"");
+                        "continuar"=>0,
+                        "datos"=>"");
         }
         return $respuesta;
     }
@@ -515,17 +509,16 @@ class LogicaMisMatrices  {
         $where['r.estado']       = 1;
         $where['r.eliminado']    = 0;
         $consulta              = $this->ci->dbmisMatriz->periocidades($where);
-        // var_dump($consulta);die();
         if(count($consulta) > 0){
             $respuesta = array("mensaje"=>"se realizo la consulta.",
-            "continuar"=>1,
-            "datos"=>$consulta);
+                        "continuar"=>1,
+                        "datos"=>$consulta);
         }else{
             $respuesta = array("mensaje"=>"no se ejecuto la consulta.",
-            "continuar"=>0,
-            "datos"=>"");
+                        "continuar"=>0,
+                        "datos"=>"");
         }
-    return $respuesta;
+        return $respuesta;
     }
     //datos para editar
     public function infoPeriodicidad($idRelPeriocidad){
@@ -535,20 +528,28 @@ class LogicaMisMatrices  {
     }
     // borra matriz creada por la empresa
     public function borraMatrizCreada($datos){
-        // var_dump($datos);die();
         $dataActualiza["estado"]    = 0;
         $dataActualiza["eliminado"] = 1;
         $where['idNuevaMatriz']      = $datos["idNuevaMatriz"];
         $where['idEmpresa']         = $_SESSION["project"]["info"]["idEmpresa"];
         $elimina               = $this->ci->dbmisMatriz->actualizoTablaMatriz($dataActualiza,$where);
         if($elimina > 0){
-            $respuesta = array("mensaje"=>"Se elimino coorectamente.",
-            "continuar"=>1,
-            "datos"=>$elimina);
-        }else{
-            $respuesta = array("mensaje"=>"No pudo ser eliminada.",
-            "continuar"=>0,
-            "datos"=>"");
+                $wherer['idMatriz']     = $datos["idNuevaMatriz"];
+                $wherer['idEmpresa']    = $_SESSION["project"]["info"]["idEmpresa"];
+                $eliminaMatrizComprada  = $this->ci->dbmisMatriz->eliminaMatrizComprada($dataActualiza,$wherer);//elimino de la relacion de compradas
+                if($eliminaMatrizComprada > 0){
+                    $respuesta = array("mensaje"=>"Se elimino correctamente.",
+                    "continuar"=>1,
+                    "datos"=>$elimina);
+                }else{
+                    $respuesta = array("mensaje"=>"No pudo ser eliminada.",
+                    "continuar"=>0,
+                    "datos"=>"");
+                }
+
+            $respuesta = array("mensaje"=>"Se elimino correctamente.",
+                "continuar"=>1,
+                "datos"=>$elimina);
         }
         return $respuesta;
     }
@@ -559,14 +560,13 @@ class LogicaMisMatrices  {
         return $infoMatrices;
     }
     public function actualizoMiCheck($datos){
-        // var_dump($datos);die();
         $dataActualiza["nombreNuevaMatriz"] = $datos["nombreNuevaMatriz"];
         $dataActualiza["descripcion"]       = $datos["descripcion"];
         $where['idNuevaMatriz']             = $datos["idNuevaMatriz"];
         $where['idEmpresa']                 = $_SESSION["project"]["info"]["idEmpresa"];
         $actualizar                         = $this->ci->dbmisMatriz->actualizoTablaMatriz($dataActualiza,$where);
         if($actualizar > 0){
-            $respuesta = array("mensaje"=>"Se actualizo coorectamente.",
+            $respuesta = array("mensaje"=>"Se actualizo correctamente.",
             "continuar"=>1,
             "datos"=>$actualizar);
         }else{
@@ -589,7 +589,7 @@ class LogicaMisMatrices  {
             $newDataRecurrente[] = $sdata;
         }
         //procedo a crear nueva infoMatrize 
-        $datosNewMatriz["nombreNuevaMatriz"] = $infoMatrices[0]["nombreNuevaMatriz"]." Copia";
+        $datosNewMatriz["nombreNuevaMatriz"] = $infoMatrices[0]["nombreNuevaMatriz"]." Agregada";
         $datosNewMatriz["descripcion"]       = $infoMatrices[0]["descripcion"];
         $datosNewMatriz["precio"]            = $infoMatrices[0]["precio"];
         $datosNewMatriz["idEmpresa"]         = $_SESSION["project"]["info"]["idEmpresa"];
@@ -613,11 +613,11 @@ class LogicaMisMatrices  {
                 $processedCount++;
             }
             if($processedCount === $totalCount){
-                $respuesta = array("mensaje"=>"Se duplico coorectamente el check.",
+                $respuesta = array("mensaje"=>"Se ha agregado correctamente el check.",
                 "continuar"=>1,
                 "datos"=>"");
             }else{
-                $respuesta = array("mensaje"=>"No se duplico en su totalidad.",
+                $respuesta = array("mensaje"=>"No se agrego en su totalidad.",
                 "continuar"=>0,
                 "datos"=>"");
             }
@@ -643,5 +643,4 @@ class LogicaMisMatrices  {
         }
         return $respuesta;
     }
-
 }
