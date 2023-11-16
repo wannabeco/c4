@@ -8,7 +8,7 @@
     <div class="modal-body">
         <div class="p-2">
             <select ng-model="creador" ng-change="plantilla(creador)" class="col col-lg-12 form-control form-control-lg">
-                <option selected>Seleccione...</option>
+                <option selected disabled value="">Seleccione...</option>
                 <option value="0">Crear mi propio check</option>
                 <option value="1">Utilizar Plantilla</option>
             </select>
