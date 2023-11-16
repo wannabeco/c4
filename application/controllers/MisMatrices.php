@@ -64,7 +64,6 @@ class MisMatrices extends CI_Controller
 									$opc 				   = "home";
 									$salida['titulo']      = "Pago Empresa";
 									$salida['centro'] 	   = "error/areaRestringida";
-									
 									$this->load->view("app/index",$salida);
 								}
 							}

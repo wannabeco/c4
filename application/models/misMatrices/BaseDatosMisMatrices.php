@@ -92,7 +92,7 @@ class BaseDatosMisMatrices extends CI_Model {
         $this->db->from($this->tablematrizComprada." c");
         $this->db->join($this->tableMatrices." n", "n.idNuevaMatriz = c.idMatriz", "INNER");
         $id = $this->db->get();
-        //print_r($this->db->last_query());die();
+        // print_r($this->db->last_query());die();
         return $id->result_array();
     }
      //se obtienen todas las nuevas matrices

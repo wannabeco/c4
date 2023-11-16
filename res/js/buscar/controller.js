@@ -233,13 +233,14 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 			constantes.alerta("Atención","Por favor verifique que las matrices esten completas, recuerde que con su plan, puede agregar 3.",'info',function(){});
 		}
 		else{
-			constantes.confirmacion("Confirmación","Esta apunto de agregar l0s chacks, ¿desea continuar?",'info',function(){
+			constantes.confirmacion("Confirmación","Esta apunto de agregar los chacks, ¿desea continuar?",'info',function(){
 				var controlador = $scope.config.apiUrl+"MisMatrices/creaGratis";
 				var parametros  = 	"id="+ids;
 				constantes.consultaApi(controlador,parametros,function(json){
 					if(json.continuar == 1){
 						constantes.alerta("Atención",json.mensaje,"success",function(){
-							window.location = $scope.config.apiUrl+"MisMatrices/matrices/43/"+idEmpresa;
+							// window.clearInterval(interval);
+							window.location.assign($scope.config.apiUrl+"MisMatrices/matrices/43/"+idEmpresa+"/0");
 						});
 					}
 					else{
@@ -283,7 +284,7 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 										var tiempo= 0;
 										var interval = setInterval(function(){
 											if(ventana.closed !== false) {
-												window.clearInterval(interval);
+												// window.clearInterval(interval);
 												window.location.assign($scope.config.apiUrl+"MisMatrices/matrices/43/"+idEmpresa+"/0"); 
 											} else {
 												tiempo +=1;
@@ -712,36 +713,72 @@ project.controller('buscar', function($scope,$http,$q,constantes)
 	$scope.verMatriz = function($id){
 		window.location = $scope.config.apiUrl+"InfomarcionMatriz/informacion/42/"+$id;
 	}
-	//duplicar matriz
-	$scope.duplicar = function($idNuevaMatriz,$nombreNuevaMatriz){
-		constantes.confirmacion("Confirmación","Esta apunto de duplicar el check "+$nombreNuevaMatriz+", el cual quedara en mis check's creados, ¿Desea continuar?",'info',function(){
+	//duplicar matriz original
+	// $scope.duplicar = function($idNuevaMatriz,$nombreNuevaMatriz){
+	// 	constantes.confirmacion("Confirmación","Esta apunto de agregar el check "+$nombreNuevaMatriz+", el cual quedara en mis check's creados, ¿Desea continuar?",'info',function(){
+	// 		var controlador = $scope.config.apiUrl+"MisMatrices/duplicarMatrizCreada";
+	// 		var parametros  = {idNuevaMatriz:$idNuevaMatriz}
+	// 		constantes.consultaApi(controlador,parametros,function(json){
+	// 			if(json.continuar == 1){
+	// 				constantes.alerta("Atención",json.mensaje,"success",function(){
+	// 					window.location = $scope.config.apiUrl+"MisMatrices/misCreados/47";
+	// 				});
+	// 			}else{
+	// 				constantes.alerta("Atención",json.mensaje,"warning",function(){});
+	// 			}
+	// 		});
+	// 	});
+	// }
+
+	//Nuevo duplicado de matriz
+	$(document).on('click', '.duplicar', function() {
+		var nombreMatriz = $(this).data('nombrenuevamatriz');
+		var idMatriz = $(this).data('idnuevamatriz');
+		constantes.confirmacion("Confirmación","Esta apunto de agregar el check "+nombreMatriz+", el cual quedara en mis check's creados, ¿Desea continuar?",'info',function(){
 			var controlador = $scope.config.apiUrl+"MisMatrices/duplicarMatrizCreada";
-				var parametros  = {idNuevaMatriz:$idNuevaMatriz}
-				constantes.consultaApi(controlador,parametros,function(json){
-					if(json.continuar == 1){
-						constantes.alerta("Atención",json.mensaje,"success",function(){
-							window.location = $scope.config.apiUrl+"MisMatrices/misCreados/47";
-						});
-					}else{
-						constantes.alerta("Atención",json.mensaje,"warning",function(){});
-					}
-				});
+			var parametros  = {idNuevaMatriz:idMatriz}
+			constantes.consultaApi(controlador,parametros,function(json){
+				if(json.continuar == 1){
+					constantes.alerta("Atención",json.mensaje,"success",function(){
+						window.location = $scope.config.apiUrl+"MisMatrices/misCreados/47";
+					});
+				}else{
+					constantes.alerta("Atención",json.mensaje,"warning",function(){});
+				}
 			});
+		});
+	});
+
+
+
+
+	//Redirecciona
+	$scope.agregarMatriz =function(){
+		window.location = $scope.config.apiUrl+"Buscar/consultaMatrices";
+	} 
+	//cierro pop y abro pop plantillas
+	$scope.plantilla = function(creador){
+		if(creador== 1){
+			$('#miNuevocheck').modal("hide");
+			setTimeout(function(){
+				$scope.sugerimosCheck();
+			},500);
+		}
 	}
 
 	$scope.compileAngularElement = function(elSelector) {
         var elSelector = (typeof elSelector == 'string') ? elSelector : null ;  
-             // The new element to be added
-         	if (elSelector != null ) {
-             	var $div = $( elSelector );
-                 // The parent of the new element
-                var $target = $("[ng-app]");
-               	angular.element($target).injector().invoke(['$compile', function ($compile) {
-                         var $scope = angular.element($target).scope();
-                         $compile($div)($scope);
-                         // Finally, refresh the watch expressions in the new element
-                         $scope.$apply();
-                }]);
-            }
-        }
+		// The new element to be added
+		if (elSelector != null ) {
+			var $div = $( elSelector );
+				// The parent of the new element
+			var $target = $("[ng-app]");
+			angular.element($target).injector().invoke(['$compile', function ($compile) {
+						var $scope = angular.element($target).scope();
+						$compile($div)($scope);
+						// Finally, refresh the watch expressions in the new element
+						$scope.$apply();
+			}]);
+		}
+    }
 });
