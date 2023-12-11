@@ -40,6 +40,7 @@ class BaseDatosMatriz extends CI_Model {
     private $tablePersonas                      =   "";
     private $tableRespuestasCheck               =   "";
     private $tableRespuestasComentario          =   "";
+    private $tableRellPeriodicidad              =   "";
 
 
     public function __construct() {
@@ -72,6 +73,7 @@ class BaseDatosMatriz extends CI_Model {
         $this->tablePersonas                    = "app_personas";
         $this->tableRespuestasCheck             = "app_respuestas_check";
         $this->tableRespuestasComentario        = "app_respuesta_comentarios";
+        $this->tableRellPeriodicidad            = "app_rel_periocidad";
 
     }
     //se obtienen todos los procesos
@@ -466,6 +468,15 @@ class BaseDatosMatriz extends CI_Model {
         $this->db->limit(3); // Obtener solo 3 registros
         $id = $this->db->get();
         // print_r($this->db->last_query());die();
+        return $id->result_array();
+    }
+    //consulto rell periodicidad
+    public function rellPeriodicidad($where){
+        $this->db->select("*");
+        $this->db->where($where);
+        $this->db->from($this->tableRellPeriodicidad);
+        $id = $this->db->get();
+        //print_r($this->db->last_query());die();
         return $id->result_array();
     }
     

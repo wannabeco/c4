@@ -222,8 +222,7 @@ project.controller('crearMatriz', function($scope,$http,$q,constantes)
 		var solicitud	= 2;
 		if(descripcion == ""){
 			constantes.alerta("Atención","Es necesario escribir una descipcion para sugerir un check.",'info',function(){});
-		}
-		else{
+		}else{
 			constantes.confirmacion("Atención","Esta apunto de sugerir un check, ¿Desea continuar?.",'info',function(){
 				var controlador = 	$scope.config.apiUrl+"Buscar/sugiereMatriz";
 				var parametros  = "nombre="+nombre+"&email="+email+"&descripcion="+descripcion+"&matriz="+matriz+"&solicitud="+solicitud;
@@ -232,8 +231,7 @@ project.controller('crearMatriz', function($scope,$http,$q,constantes)
 						constantes.alerta("Atención",json.mensaje,"success",function(){
 							location.reload();
 						});
-					}
-					else{
+					}else{
 						constantes.alerta("Atención",json.mensaje,"warning",function(){});
 					}
 				});
@@ -262,6 +260,22 @@ project.controller('crearMatriz', function($scope,$http,$q,constantes)
             }
        }
 
+	//envio 
+	$scope.generarPDF = function($nuevaMatriz, $idPeriocididad, $idPerfil, $idEmpresa){
+			var nuevaMatriz = $nuevaMatriz // Asegúrate de codificar los valores
+			var idPeriocididad = $idPeriocididad;
+			var idPerfil = $idPerfil;
+			var idEmpresa = $idEmpresa;
+			
+			console.log("aca");
+			var url = $scope.config.apiUrl + "Pdf/generarPDF" +
+					  "?nuevaMatriz=" + nuevaMatriz +
+					  "&idPeriocididad=" + idPeriocididad +
+					  "&idPerfil=" + idPerfil +
+					  "&idEmpresa=" + idEmpresa;
+	
+			window.open(url, '_blank');
+	}
 });	
 
 //nuevo controlador

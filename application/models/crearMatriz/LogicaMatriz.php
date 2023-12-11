@@ -114,8 +114,8 @@ class LogicaMatriz  {
         $where['idNuevaMatriz'] = $id;
         $where['estado']        = 1;
         $where['eliminado']     = 0;
-        $cuadnoAplique          = $this->ci->dbMatriz->infoNuevaMatriz($where);
-        return $cuadnoAplique;
+        $nuevaMatriz          = $this->ci->dbMatriz->infoNuevaMatriz($where);
+        return $nuevaMatriz;
     }
     public function cuandoAplique(){
         $where['estado']        = 1;
@@ -579,6 +579,7 @@ class LogicaMatriz  {
             }
             $porcentajes[$recurrente] = $porcentajeSi;
         }
+        // var_dump($porcentajes);die();
         return $porcentajes;
     }
     
@@ -643,5 +644,12 @@ class LogicaMatriz  {
             "datos"=>"");
         }
         return $respuesta;
+    }
+    public function rellPeriodicidad($id){
+        $where['idperiodicidad']= $id;
+        $where['estado']        = 1;
+        $where['eliminado']     = 0;
+        $periodicidad          = $this->ci->dbMatriz->rellPeriodicidad($where);
+        return $periodicidad;
     }        
 }
