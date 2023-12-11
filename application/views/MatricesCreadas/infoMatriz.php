@@ -36,6 +36,7 @@
             <div class="col-md-6">
                 <?php if(consultoNuevaMatriz($idNuevaMatriz)){//funcion el helper?>
                     <button type="button" class="btn btn-primary float-right" ng-click="crearnuevaItem(<?php echo $infoMatrizRecurrentes[0]['idNuevaMatriz']; ?>)"><i class="fas fa-lightbulb"></i> Sugerir item</button>
+                    <button type="button" class="btn btn-primary float-right" ng-click="generarPDF(<?php echo $infoMatrizRecurrentes[0]['idNuevaMatriz'];?>,<?php echo $idPeriocidad;?>,<?php echo $infoMatrizRecurrentes[0]['idPerfil'];?>,<?php echo $idEmpresas;?>)"style="margin-right:20px;"><i class="fas fa-file-pdf" style="margin-right: 5px;"></i>Generar PDF</button>
                 <?php }else{?>
                     <div class="dropdown float-right">
                         <a class="d-sm-inline-block btn btn-sm btn-primary shadow-sm dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

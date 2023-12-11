@@ -173,6 +173,7 @@ class MisMatrices extends CI_Controller
 					$infoUsuario		   			= $_SESSION['project']['info']['nombre'];
 					$idPersona						= $_SESSION['project']['info']['idPersona'];
 					$infoMatrizRecurrentes			= $this->logMatriz->infoMatrizRecurrentes($id);
+					// var_dump($infoMatrizRecurrentes);die();
 					$infoMatrices		  			= $this->logMatriz->infoGeneralMatriz();
 					$idrecurrente					= $infoMatrizRecurrentes[0]["idMatrizRecurrente"];
 					$infoComentarios				= $this->logMatriz->infoComentarios($idrecurrente,$idPersona,$periocidad);
@@ -187,10 +188,11 @@ class MisMatrices extends CI_Controller
 					$salida['infoModulo']  			= $infoModulo[0];
 					$salida['infoUsuario'] 			= $infoUsuario[0];
 					$salida['infoMatrices'] 		= $infoMatrices[0];
-					$salida['$idEmpresas'] 			= $idEmpresas;
+					$salida['idEmpresas'] 			= $idEmpresas;
 					$salida['infoMatrizRecurrentes']= $infoMatrizRecurrentes;
 					$salida["infoComentarios"] 		= $infoComentarios;
 					$salida['consultoSi'] 			= $consultoSi;
+					$salida['idPeriocidad'] 		= $idPeriocidad;
 					
 				 	if($infoComentarios["continuar"] == 1){
 				 		$salida["infoComentarios"] 		= $infoComentarios;

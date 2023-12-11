@@ -635,9 +635,9 @@ function calculaPorcentaje($idMatriz, $idPeriodicidad, $idObligacion, $tipo, $id
             $claseBadge = '';
             if ($porcentajeRedondeado < 50) {
                 $claseBadge = 'badge-danger';
-            } elseif ($porcentajeRedondeado >= 50 && $porcentajeRedondeado < 90) {
+            }else if($porcentajeRedondeado >= 50 && $porcentajeRedondeado < 80) {
                 $claseBadge = 'badge-warning';
-            } else {
+            }else{
                 $claseBadge = 'badge-success';
             }
         }else{
@@ -705,6 +705,25 @@ function consultoNuevaMatriz($idNuevaMatriz){
         return true; 
     }
         
+}
+
+function getColorPorcentaje($porcentaje) {
+    if ($porcentaje < 50) {
+        return 'red'; // Color rojo
+    } elseif ($porcentaje >= 50 && $porcentaje < 85) {
+        return 'yellow'; // Color amarillo
+    } else {
+        return 'green'; // Color verde
+    }
+}
+//nueva fecha a español
+function formatoFecha($fechaDb) 
+{
+    $dateUnix = strtotime($fechaDb);
+    $anoDoc = date("Y", $dateUnix);
+    $perDoc = date("m", $dateUnix);
+    $dia = date("d", $dateUnix);
+    return $dia . " de " . TraducirMes($perDoc) . " del " . $anoDoc;
 }
 
 
