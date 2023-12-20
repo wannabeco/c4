@@ -276,6 +276,21 @@ project.controller('crearMatriz', function($scope,$http,$q,constantes)
 	
 			window.open(url, '_blank');
 	}
+	$scope.generarExcel = function($nuevaMatriz, $idPeriocididad, $idPerfil, $idEmpresa){
+			var nuevaMatriz = $nuevaMatriz // Asegúrate de codificar los valores
+			var idPeriocididad = $idPeriocididad;
+			var idPerfil = $idPerfil;
+			var idEmpresa = $idEmpresa;
+			
+			console.log("aca");
+			var url = $scope.config.apiUrl + "Excel/generarExcel" +
+					  "?nuevaMatriz=" + nuevaMatriz +
+					  "&idPeriocididad=" + idPeriocididad +
+					  "&idPerfil=" + idPerfil +
+					  "&idEmpresa=" + idEmpresa;
+	
+			window.open(url, '_blank');
+	}
 });	
 
 //nuevo controlador
