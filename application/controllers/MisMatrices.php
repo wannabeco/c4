@@ -223,11 +223,15 @@ class MisMatrices extends CI_Controller
 						$salida['informacionCheck'] 	= $informacionCheck;
 						$salida['informacionPersona'] 	= $informacionPersona[0];
 						$salida["infoComentarios"] 		= $infoComentarios;
+						$salida["idPeriocidad"] 		= $periocidad;
+						$salida["periocidad"] 			= $periocidad;
 					}else{
 						$infoComentarios["datos"] = "";
 						$informacionCheck ="";
 				 	   $salida["infoComentarios"] 		= $infoComentarios;
 						$salida['informacionCheck'] 	= $informacionCheck;
+						$salida["idPeriocidad"] 		= $periocidad;
+						$salida["periocidad"] 			= $periocidad;
 				    }
 					
 					$infoMatrices		  			= $this->logMatriz->infoGeneralMatriz();
@@ -243,6 +247,8 @@ class MisMatrices extends CI_Controller
 					$salida["idNuevaMatriz"] 		= $nuevaMatriz;
 					$salida["periocidad"] 			= $periocidad;
 					$salida['consultoSi'] 			= $consultoSi;
+					$salida["idPeriocidad"] 		= $periocidad;
+					$salida["periocidad"] 			= $periocidad;
 					$this->load->view("app/index",$salida);
 				}else if($idPerfil > 3 && $idPerfil != 11 && $idPerfil != 8){
 					$periocidad = $idPeriocidad;
