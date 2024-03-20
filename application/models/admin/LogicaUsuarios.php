@@ -43,7 +43,7 @@ class LogicaUsuarios  {
         return $respuesta;
     }
     public function generaDatosAcceso($post){
-        extract($post);
+        $idUsuario = $post['idUsuario'];
         $where1['u.idPersona']   = $idUsuario;
         $dataUsuario            = $this->ci->dbUsuarios->infoUsuario($where1);
         $clave                  =   generacodigo(5);
@@ -52,6 +52,7 @@ class LogicaUsuarios  {
         $data['estado']         = 1;
         $where['idGeneral']     = $idUsuario;
         $proceso                = $this->ci->dbUsuarios->generaDatosAcceso($where,$data);
+        // var_dump($proceso);die();
         if($proceso > 0){
             auditoria("GENDATOSACCESOPERSONA","Se ha generado una clave de acceso a la persona la persona | ".$idUsuario);
             //debo de enviar un correo electrónico al usuario al cuál le han generado una clave de acceso al sistema
