@@ -96,11 +96,15 @@
                             <th>Periodicidad</th>
                             <th>Frecuencia Check</th>
                             <th>Responsable</th>
+                            <?php if($idPeriocidad > 0){ ?>
                             <th>Cumplimiento</th>
+                            <?php }?>
                             <?php if($_SESSION['project']['info']["idPerfil"] < 4){?>
                                 <th>Estado</th>
                             <?php }?>
+                            <?php if($idPeriocidad > 0 && $_SESSION['project']['info']["idPerfil"] != 11){ ?>
                             <th>Acciones</th>
+                            <?php }?>
                         </tr>
                     </thead>
                     <tbody>
@@ -114,21 +118,24 @@
                                 <td><?php echo $info["nombrePerfil"]; ?></td>
                                 <td> 
                                     <?php
-                                        $idMatrizRecurrente = $info['idMatrizRecurrente'];
-                                        $porcentaje = isset($consultoSi[$idMatrizRecurrente]) ? $consultoSi[$idMatrizRecurrente] : 0;
-                                        $porcentajeFormateado = number_format($porcentaje, 2);
-                                        $badgeClass = 'badge badge-secondary';
-                                        if ($porcentaje < 50) {
-                                            $badgeClass = 'badge badge-danger';
-                                        } elseif ($porcentaje >= 50 && $porcentaje <= 90) {
-                                            $badgeClass = 'badge badge-warning';
-                                        } elseif ($porcentaje > 90) {
-                                            $badgeClass = 'badge badge-success';
-                                        }
+                                        if($idPeriocidad > 0){ 
+                                            $idMatrizRecurrente = $info['idMatrizRecurrente'];
+                                            $porcentaje = isset($consultoSi[$idMatrizRecurrente]) ? $consultoSi[$idMatrizRecurrente] : 0;
+                                            $porcentajeFormateado = number_format($porcentaje, 2);
+                                            $badgeClass = 'badge badge-secondary';
+                                            if ($porcentaje < 50) {
+                                                $badgeClass = 'badge badge-danger';
+                                            } elseif ($porcentaje >= 50 && $porcentaje <= 90) {
+                                                $badgeClass = 'badge badge-warning';
+                                            } elseif ($porcentaje > 90) {
+                                                $badgeClass = 'badge badge-success';
+                                            }
                                     ?>
                                         <span class="<?php echo $badgeClass; ?>"><?php echo $porcentajeFormateado; ?>%</span>
+                                
+                                    <?php }?>
                                 </td>
-                                <?php if($_SESSION['project']['info']["idPerfil"] < 4){?>
+                                <?php  if($_SESSION['project']['info']["idPerfil"] < 4){?>
                                     <td>
                                         <?php if($info["estado"] == 1){ ?>
                                         <span class="badge badge-success" value="1" >ACTIVO</span>

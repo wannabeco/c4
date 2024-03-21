@@ -274,6 +274,7 @@ class MisMatrices extends CI_Controller
 					$salida["id"] 					= $id;
 					$salida["idPerfil"] 			= $idPerfil;
 					$salida["periocidad"] 			= $periocidad;
+					$salida["idPeriocidad"] 			= $periocidad;
 					if($infoComentarios["continuar"] == 1){
 					 	$salida["infoComentarios"] 		= $infoComentarios;
 					}else if($infoComentarios["continuar"] == 0){
