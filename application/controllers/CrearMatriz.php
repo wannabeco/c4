@@ -964,6 +964,7 @@ class crearMatriz extends CI_Controller
 		// var_dump($_POST);die();
 		$idRecurrente				= $_POST["idRecurrente"];	
 		$idPeriocidad				= $_POST["idPeriocidad"];
+		$idEmpresas					= $_POST["idEmpresa"];
 		// var_dump($_POST);die();
 		if($edita == 1){
 			if($_SESSION['project']['info']['idPerfil'] == 8){
@@ -978,6 +979,7 @@ class crearMatriz extends CI_Controller
 				$consulta					= $this->logicaMis->consultaRcomentario($idRecurrente,$idPersonaCheck,$idPeriocidad);
 				$consultacheck				= $this->logicaMis->consultacheck($idRecurrente,$idPersonaCheck,$idPeriocidad);
 				$infoRecurrente    			= $this->logMatriz->infoRecurrente($idRecurrente);
+				$salida['idEmpresas'] 			= $idEmpresas;
 			}if($_SESSION['project']['info']['idPerfil'] != 8){
 
 				$idPersona = $_SESSION['project']['info']['idPersona'];

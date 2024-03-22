@@ -225,12 +225,14 @@ class MisMatrices extends CI_Controller
 						$salida["infoComentarios"] 		= $infoComentarios;
 						$salida["idPeriocidad"] 		= $periocidad;
 						$salida["periocidad"] 			= $periocidad;
+						$salida['idEmpresas'] 			= $idEmpresas;
 					}else{
 						$infoComentarios["datos"] = "";
 						$informacionCheck ="";
-				 	   $salida["infoComentarios"] 		= $infoComentarios;
+				 	   	$salida["infoComentarios"] 		= $infoComentarios;
 						$salida['informacionCheck'] 	= $informacionCheck;
 						$salida["idPeriocidad"] 		= $periocidad;
+						$salida['idEmpresas'] 			= $idEmpresas;
 						$salida["periocidad"] 			= $periocidad;
 				    }
 					

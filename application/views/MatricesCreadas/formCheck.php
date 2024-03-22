@@ -121,8 +121,9 @@
                                     <button type="button" class="btn btn-raised btn-primary"><i class="fas fa-download"></i></button>
                                 </a>
                         <?php } if($_SESSION['project']['info']["idPerfil"] == 8){?>
+                            aca
                             <input type="hidden" name="archivo1" id="archivo1" value="{{ urlArchivo1}}">
-                            <a href="<?php echo base_url()."assets/uploads/files/".$_SESSION['project']['info']['idEmpresa']; ?>/{{ urlArchivo1 }}" target="_blank" title="Documento actual">
+                            <a href="<?php echo base_url().'assets/uploads/files/'.$idEmpresas; ?>/{{ urlArchivo1 }}" target="_blank" title="Documento actual">
                                 <button type="button" class="btn btn-raised btn-primary"><i class="fas fa-file-pdf"></i></button>
                             </a>
                         <?php }?>
@@ -182,7 +183,7 @@
                             </a>
                         <?php } if($_SESSION['project']['info']["idPerfil"] == 8){?>
                             <input type="hidden" name="archivo1" id="archivo1" value="{{ urlArchivo2}}">
-                            <a href="<?php echo base_url()."assets/uploads/files/".$_SESSION['project']['info']['idEmpresa']; ?>/{{ urlArchivo2 }}" target="_blank" title="Documento actual">
+                            <a href="<?php echo base_url()."assets/uploads/files/".$idEmpresas; ?>/{{ urlArchivo2 }}" target="_blank" title="Documento actual">
                                 <button type="button" class="btn btn-raised btn-primary"><i class="fas fa-file-pdf"></i></button>
                             </a>
                         <?php }?>
@@ -240,7 +241,7 @@
                             </a>
                         <?php } if($_SESSION['project']['info']["idPerfil"] == 8){?>
                             <input type="hidden" name="archivo1" id="archivo1" value="{{ urlArchivo3}}">
-                            <a href="<?php echo base_url()."assets/uploads/files/".$_SESSION['project']['info']['idEmpresa']; ?>/{{ urlArchivo3 }}" target="_blank" title="Documento actual">
+                            <a href="<?php echo base_url()."assets/uploads/files/".$idEmpresas; ?>/{{ urlArchivo3 }}" target="_blank" title="Documento actual">
                                 <button type="button" class="btn btn-raised btn-primary"><i class="fas fa-file-pdf"></i></button>
                             </a>
                         <?php }?>
@@ -298,7 +299,7 @@
                             </a>
                         <?php } if($_SESSION['project']['info']["idPerfil"] == 8){?>
                             <input type="hidden" name="archivo1" id="archivo1" value="{{ urlArchivo4}}">
-                            <a href="<?php echo base_url()."assets/uploads/files/".$_SESSION['project']['info']['idEmpresa']; ?>/{{ urlArchivo4 }}" target="_blank" title="Documento actual">
+                            <a href="<?php echo base_url()."assets/uploads/files/".$idEmpresas; ?>/{{ urlArchivo4 }}" target="_blank" title="Documento actual">
                                 <button type="button" class="btn btn-raised btn-primary"><i class="fas fa-file-pdf"></i></button>
                             </a>
                         <?php }?>
@@ -356,7 +357,7 @@
                             </a>
                         <?php } if($_SESSION['project']['info']["idPerfil"] == 8){?>
                             <input type="hidden" name="archivo1" id="archivo1" value="{{ urlArchivo5}}">
-                            <a href="<?php echo base_url()."assets/uploads/files/".$_SESSION['project']['info']['idEmpresa']; ?>/{{ urlArchivo5 }}" target="_blank" title="Documento actual">
+                            <a href="<?php echo base_url()."assets/uploads/files/".$idEmpresas; ?>/{{ urlArchivo5 }}" target="_blank" title="Documento actual">
                                 <button type="button" class="btn btn-raised btn-primary"><i class="fas fa-file-pdf"></i></button>
                             </a>
                         <?php }?>
@@ -414,7 +415,7 @@
                             </a>
                         <?php } if($_SESSION['project']['info']["idPerfil"] == 8){?>
                             <input type="hidden" name="archivo1" id="archivo1" value="{{ urlArchivo6}}">
-                            <a href="<?php echo base_url()."assets/uploads/files/".$_SESSION['project']['info']['idEmpresa']; ?>/{{ urlArchivo6 }}" target="_blank" title="Documento actual">
+                            <a href="<?php echo base_url()."assets/uploads/files/".$idEmpresas; ?>/{{ urlArchivo6 }}" target="_blank" title="Documento actual">
                                 <button type="button" class="btn btn-raised btn-primary"><i class="fas fa-file-pdf"></i></button>
                             </a>
                         <?php }?>
@@ -435,7 +436,7 @@
         <input id="idMatrizRecurrente" name="idMatrizRecurrente" value="<?php echo $idRecurrente;?>" type="hidden"/>
         <input id="idNuevaMatriz" name="idNuevaMatriz" value="<?php echo $informacion; ?>" type="hidden" />
         <input id="idPersona" name="idPersona" value="<?php echo $infoUsuario[0]["idPersona"]; ?>" type="hidden" />
-        <input id="idEmpresa" name="idEmpresa" value="<?php echo $infoUsuario[0]["idEmpresa"]; ?>" type="hidden"/>
+        <input id="idEmpresa" name="idEmpresa" value="<?php echo $idEmpresas; ?>" type="hidden"/>
         <input id="idPerfil" value="<?php echo $_SESSION['project']['info']["idPerfil"]; ?>" type="hidden"/>
         <input id="idRelPeriocidad" value="<?php echo $periocidad; ?>" type="hidden"/>
         <input id="edita" value="<?php echo $edita; ?>" type="hidden"/>
